@@ -1,5 +1,5 @@
 #! /bin/sh
-#cd /Users/nuno/Documents/RD/PHD/Tese/PhDThesis-NMB[Lyx]/LaTeXDocument
+cd ..
 echo "LOG: Generate Plantuml Diagrams"
 exportFormat="svg"
 #monochrome="true"
