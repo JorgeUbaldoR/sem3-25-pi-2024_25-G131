@@ -38,7 +38,7 @@ activate CTRL
             SESSAO --> CTRL: email
         deactivate SESSAO
 
-        CTRL -> PLAT: getOrganizationRepository(email)
+        CTRL -> PLAT: getOrganizationRepository()
         activate PLAT
 
             PLAT --> CTRL: organizationRepository
