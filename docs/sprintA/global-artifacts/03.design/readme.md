@@ -28,8 +28,6 @@ Documentation regarding this component is available [here](docs/auth/README.md).
 
 ## Class Diagram
 
-**Insert below the Class Diagram in a SVG format**
-
 ![Class Diagram](svg/class-diagram.svg)
 
 
