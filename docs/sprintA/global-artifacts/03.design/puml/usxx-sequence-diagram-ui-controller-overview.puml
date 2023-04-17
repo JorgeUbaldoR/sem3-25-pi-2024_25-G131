@@ -1,0 +1,75 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "User" as USER
+participant ":{MenuX}UI" as MENU
+participant ":{NameOfUC}UI" as UCNAMEUI
+participant ":{NameOfUC}Controller" as CTRL
+participant "ApplicationSession" as APPSESSIONC
+participant "appSession\n:ApplicationSession" as APPSESSIONI
+participant "currentSession\n:UserSession" as CURSESSION
+
+activate USER
+
+    USER -> MENU : selects an option
+    activate MENU
+        MENU --> UCNAMEUI** : create
+        activate UCNAMEUI
+
+            UCNAMEUI --> CTRL** : create
+        deactivate UCNAMEUI
+
+        activate CTRL
+            CTRL -> APPSESSIONC : getinstance()
+            note right
+                static method
+                (Singleton pattern)
+            end note
+            activate APPSESSIONC
+                APPSESSIONC --> CTRL : appSession 
+            deactivate APPSESSIONC
+
+            CTRL -> APPSESSIONI : getCurrentSession()
+            activate APPSESSIONI
+                APPSESSIONI --> CTRL : currentSession
+            deactivate APPSESSIONI
+        deactivate CTRL
+
+        MENU -> UCNAMEUI : run()
+        activate UCNAMEUI
+    deactivate MENU
+
+            UCNAMEUI --> USER : requests something
+            |||
+        deactivate UCNAMEUI
+
+    loop
+        USER -> UCNAMEUI : does something
+        activate UCNAMEUI
+            UCNAMEUI -> CTRL : methodX(...)
+            activate CTRL
+                CTRL -> APPSESSIONC : methodY(...)
+                activate APPSESSIONC
+                    ref over APPSESSIONC,APPSESSIONI,CURSESSION
+
+
+                    end ref
+                    APPSESSIONC --> CTRL : answer
+                deactivate APPSESSIONC
+
+                CTRL --> UCNAMEUI : answer
+            deactivate CTRL
+
+            UCNAMEUI --> USER : answers/requests another thing
+            |||
+        deactivate UCNAMEUI
+    end loop
+
+deactivate USER
+
+@enduml
