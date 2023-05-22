@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class ApplicationSession {
     private AuthenticationRepository authenticationRepository=null;
-    private static final String CONFIGURATION_FILENAME = "config.properties";
+    private static final String CONFIGURATION_FILENAME = "src/main/resources/config.properties";
     private static final String COMPANY_DESIGNATION = "Company.Designation";
 
     public ApplicationSession() {
