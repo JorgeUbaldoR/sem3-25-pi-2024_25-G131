@@ -89,6 +89,50 @@ mvn test javadoc:javadoc jacoco:report org.pitest:pitest-maven:mutationCoverage 
   - https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
     - required to work with JUnit5
 
+# How to generate a Jar package for the project
+
+Place the following plugin on the appropriate place of the pom.xml file.
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-assembly-plugin</artifactId>
+    <version>3.6.0</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>single</goal>
+            </goals>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>pt.ipp.isep.dei.esoft.project.ui.Main</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+Run the following command on the project root folder. You can use IntelliJ to run the command or the command line of your computer if you hav Maven installed.
+
+```
+mvn package
+```
+
+# How to run the project from the generated Jar Package
+
+Run the following command on the project root folder. You can use IntelliJ to run the command or the command line of your computer if you hav Maven installed.
+
+```
+java -jar target/project-template-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
 # Who do I talk to about this project
 
 Nuno Bettencourt
