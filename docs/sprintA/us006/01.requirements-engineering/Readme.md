@@ -40,15 +40,15 @@ As an organization employee, I want to create a new task in order to be further 
 **Input Data:**
 
 * Typed data:
-  * a reference
-  * a designation 
-  * an informal description
-  * a technical description
-  * an estimated duration
-  * an estimated cost
+    * a reference
+    * a designation 
+    * an informal description
+    * a technical description
+    * an estimated duration
+    * an estimated cost
 	
 * Selected data:
-  * a task category 
+    * a task category 
 
 **Output Data:**
 

@@ -1,6 +1,6 @@
 # US006 - Create a Task 
 
-# 4. Tests 
+## 4. Tests 
 
 **Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
 
@@ -22,9 +22,9 @@
 _It is also recommended to organize this content by subsections._ 
 
 
-# 5. Construction (Implementation)
+## 5. Construction (Implementation)
 
-## Class CreateTaskController 
+### Class CreateTaskController 
 
 ```java
 public Task createTask(String reference, String description, String informalDescription, String technicalDescription,
@@ -42,7 +42,7 @@ public Task createTask(String reference, String description, String informalDesc
 }
 ```
 
-## Class Organization
+### Class Organization
 
 ```java
 public Optional<Task> createTask(String reference, String description, String informalDescription,
@@ -58,15 +58,14 @@ public Optional<Task> createTask(String reference, String description, String in
 }
 ```
 
-# 6. Integration and Demo 
+
+## 6. Integration and Demo 
 
 * A new option on the Employee menu options was added.
 
 * For demo purposes some tasks are bootstrapped while system starts.
 
 
-# 7. Observations
+## 7. Observations
 
-Platform and Organization classes are getting too many responsibilities due to IE pattern and, therefore, they are becoming huge and harder to maintain. 
-
-Is there any way to avoid this to happen?
+n/a

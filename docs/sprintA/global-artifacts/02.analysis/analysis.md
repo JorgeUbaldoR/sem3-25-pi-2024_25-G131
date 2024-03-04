@@ -10,103 +10,103 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Business Transactions**
 
-*
+* 
 
 ---
 
 **Transaction Line Itemss**
 
-*
+* 
 
 ---
 
 **Product/Service related to a Transaction or Transaction Line Item**
 
-*
+* 
 
 ---
 
 **Transaction Records**
 
-*
+* 
 
 ---  
 
 **Roles of People or Organizations**
 
-*
+* 
 
 ---
 
 **Places**
 
-*
+* 
 
 ---
 
 **Noteworthy Events**
 
-*
+* 
 
 ---
 
 **Physical Objects**
 
-*
+* 
 
 ---
 
 **Descriptions of Things**
 
-*
+* 
 
 ---
 
 **Catalogs**
 
-*
+* 
 
 ---
 
 **Containers**
 
-*
+* 
 
 ---
 
 **Elements of Containers**
 
-*
+* 
 
 ---
 
 **Organizations**
 
-*
+* 
 
 ---
 
 **Other External/Collaborating Systems**
 
-*
+* 
 
 ---
 
 **Records of finance, work, contracts, legal matters**
 
-*
+* 
 
 ---
 
 **Financial Instruments**
 
-*
+* 
 
 ---
 
 **Documents mentioned/used to perform some work/**
 
-*
+* 
 
 ---
 
