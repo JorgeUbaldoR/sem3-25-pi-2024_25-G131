@@ -4,18 +4,18 @@ import java.util.Objects;
 
 public class Task {
     private final String reference;
-    private final String description;
-    private final String informalDescription;
-    private final String technicalDescription;
-    private final Integer duration;
-    private final Double cost;
+    private String description;
+    private String informalDescription;
+    private String technicalDescription;
+    private int duration;
+    private double cost;
 
-    private final TaskCategory taskCategory;
+    private TaskCategory taskCategory;
 
-    private final Employee employee;
+    private Employee employee;
 
     public Task(String reference, String description, String informalDescription, String technicalDescription,
-                Integer duration, Double cost, TaskCategory taskCategory, Employee employee) {
+                int duration, double cost, TaskCategory taskCategory, Employee employee) {
 
         validateReference(reference);
         this.reference = reference;
@@ -62,5 +62,4 @@ public class Task {
         return new Task(this.reference, this.description, this.informalDescription, this.technicalDescription,
                 this.duration, this.cost, this.taskCategory, this.employee);
     }
-
 }

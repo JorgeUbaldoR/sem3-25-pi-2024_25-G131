@@ -33,7 +33,6 @@ class OrganizationTest {
         assertEquals(organization, organization1);
     }
 
-
     @Test
     void testHashCodeSameObject() {
         Organization organization = new Organization("123456789");
@@ -144,8 +143,6 @@ class OrganizationTest {
         Employee employee = new Employee("john.doe@this.company.com");
         organization.addEmployee(employee);
         assertFalse(organization.anyEmployeeHasEmail("jane.doe@this.company.com"));
-
-
     }
 
     @Test

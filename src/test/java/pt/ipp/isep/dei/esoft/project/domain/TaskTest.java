@@ -34,7 +34,6 @@ class TaskTest {
                 taskCategory, employee);
 
         assertEquals(task, task);
-
     }
 
     @Test
@@ -101,7 +100,6 @@ class TaskTest {
                 taskCategory, employee);
 
         assertEquals(task.hashCode(), task.hashCode());
-
     }
 
     @Test
@@ -114,9 +112,7 @@ class TaskTest {
                 taskCategory, employee);
 
         assertNotEquals(task.hashCode(), task1.hashCode());
-
     }
-
 
     @Test
     void ensureCloneWorks() {

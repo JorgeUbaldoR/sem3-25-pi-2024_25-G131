@@ -1,4 +1,4 @@
-# US 006 - To create a Task 
+# US006 - Create a Task 
 
 ## 2. Analysis
 

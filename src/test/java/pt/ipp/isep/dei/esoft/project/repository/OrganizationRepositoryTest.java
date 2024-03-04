@@ -91,8 +91,5 @@ class OrganizationRepositoryTest {
         Optional<Organization> result = organizationRepository.add(organization);
 
         assertTrue(result.isEmpty());
-
     }
-
-
 }

@@ -1,21 +1,18 @@
 # Project Template
 
-This is the project template for LEI's second semester project 2022/2023.
+This is the project template for LEI's second semester 2023/2024 Integrative Project.
 
-It contains didactic artifacts relevant to the integrative project to be developed during the second semester of the academic year of 2021-2022 in the [Degree in Informatics Engineering (LEI)](http://www.isep.ipp.pt/Course/Course/26) from [Instituto Superior de Engenharia do Porto (ISEP)](http://www.isep.ipp.pt).
+It contains didactic artifacts relevant to the Integrative Project to be developed during the second semester of the academic year of 2023-2024 in the [Degree in Informatics Engineering (LEI)](https://www.isep.ipp.pt/Course/Course/26) from [Instituto Superior de Engenharia do Porto (ISEP)](https://www.isep.ipp.pt).
 
 In particular, it has:
 
-* [The team members and task assignment during Sprints](docs/Readme.md)
-* A template to capture and systematize evidence of applying properly the Software Development Process, namely regarding the activities of Engineering Requirements, Analysis and Design
+* [The team members and task assignment during Sprints](docs/Readme)
+* A [Template](docs/template) to capture and systematize evidence of appropriate application of the Software Development Process, namely regarding the activities of Requirements Engineering, Analysis and Design
 * Source code available to students as a starting point
 * General description of how the provided application works (and it is structured).
 
-## Application Overview
 
-WIP
-
-# How to generate the svg files
+## How to generate the svg files
 
 On project root folder, run the following script:
 
@@ -25,9 +22,10 @@ Remarks: it works for Linux and MacOS. For Windows, you have to adapt the script
 $ bin/generate-plantuml-diagrams.sh
 ```
 
-# How the project is organised
 
-This project used Java and Maven.
+## How the project is organized
+
+This project uses Java and Maven.
 
 We have to declare the maven-surefire-plugin in the pom.xml file and configure the dependencies of this plugin. 
 
@@ -44,6 +42,7 @@ If we want to run tests that use JUnit 5, we have to declare the junit-jupiter-e
 
 
 ## Maven goals
+
 ### Run the unit tests
 ```
 mvn clean test
@@ -89,7 +88,7 @@ mvn test javadoc:javadoc jacoco:report org.pitest:pitest-maven:mutationCoverage 
   - https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
     - required to work with JUnit5
 
-# How to generate a Jar package for the project
+## How to generate a Jar package for the project
 
 Place the following plugin on the appropriate place of the pom.xml file.
 
@@ -125,15 +124,10 @@ Run the following command on the project root folder. You can use IntelliJ to ru
 mvn package
 ```
 
-# How to run the project from the generated Jar Package
+## How to run the project from the generated Jar Package
 
 Run the following command on the project root folder. You can use IntelliJ to run the command or the command line of your computer if you hav Maven installed.
 
 ```
 java -jar target/project-template-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
-
-# Who do I talk to about this project
-
-Nuno Bettencourt
-

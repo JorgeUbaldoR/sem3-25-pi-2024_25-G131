@@ -13,22 +13,26 @@ import java.util.Scanner;
  */
 public class CreateTaskUI implements Runnable {
 
-    private final CreateTaskController controller = new CreateTaskController();
+    private final CreateTaskController controller;
     private String taskReference;
     private String taskDescription;
     private String taskInformalDescription;
     private String taskTechnicalDescription;
-    private Integer taskDuration;
-    private Double taskCost;
+    private int taskDuration;
+    private double taskCost;
     private String taskCategoryDescription;
     private String empployeeEmail;
+
+    public CreateTaskUI() {
+        controller = new CreateTaskController();
+    }
 
     private CreateTaskController getController() {
         return controller;
     }
 
     public void run() {
-        System.out.println("Create Task");
+        System.out.println("\n\n--- Create Task ------------------------");
 
         taskCategoryDescription = displayAndSelectTaskCategory();
 
@@ -42,9 +46,9 @@ public class CreateTaskUI implements Runnable {
                 taskTechnicalDescription, taskDuration, taskCost, taskCategoryDescription);
 
         if (task.isPresent()) {
-            System.out.println("Task successfully created!");
+            System.out.println("\nTask successfully created!");
         } else {
-            System.out.println("Task not created!");
+            System.out.println("\nTask not created!");
         }
     }
 
@@ -69,40 +73,39 @@ public class CreateTaskUI implements Runnable {
         taskCost = requestTaskCost();
     }
 
-    private Double requestTaskCost() {
+    private double requestTaskCost() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Cost:");
+        System.out.print("Task Cost: ");
         return input.nextDouble();
-
     }
 
-    private Integer requestTaskDuration() {
+    private int requestTaskDuration() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Duration:");
+        System.out.print("Task Duration: ");
         return input.nextInt();
     }
 
     private String requestTaskTechnicalDescription() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Technical Description:");
+        System.out.print("Task Technical Description: ");
         return input.nextLine();
     }
 
     private String requestTaskInformalDescription() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Informal Description:");
+        System.out.print("Task Informal Description: ");
         return input.nextLine();
     }
 
     private String requestTaskDescription() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Description:");
+        System.out.print("Task Description: ");
         return input.nextLine();
     }
 
     private String requestTaskReference() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Task Reference:");
+        System.out.print("Task Reference: ");
         return input.nextLine();
     }
 
@@ -117,20 +120,19 @@ public class CreateTaskUI implements Runnable {
 
         while (answer < 1 || answer > listSize) {
             displayTaskCategoryOptions(taskCategories);
-            System.out.println("Select a task category:");
+            System.out.print("Select a task category: ");
             answer = input.nextInt();
         }
 
         String description = taskCategories.get(answer - 1).getDescription();
         return description;
-
     }
 
     private void displayTaskCategoryOptions(List<TaskCategory> taskCategories) {
         //display the task categories as a menu with number options to select
         int i = 1;
         for (TaskCategory taskCategory : taskCategories) {
-            System.out.println(i + " - " + taskCategory.getDescription());
+            System.out.println("  " + i + " - " + taskCategory.getDescription());
             i++;
         }
     }

@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import pt.ipp.isep.dei.esoft.project.domain.Task;
 import pt.ipp.isep.dei.esoft.project.domain.TaskCategory;
 
 import java.util.ArrayList;
@@ -8,7 +9,10 @@ import java.util.Optional;
 
 public class TaskCategoryRepository {
 
-    private final List<TaskCategory> taskCategories = new ArrayList<>();
+    private final List<TaskCategory> taskCategories;
+    public TaskCategoryRepository() {
+        taskCategories = new ArrayList<>();
+    }
 
     /**
      * This method returns an exsiting Task Category by its description.

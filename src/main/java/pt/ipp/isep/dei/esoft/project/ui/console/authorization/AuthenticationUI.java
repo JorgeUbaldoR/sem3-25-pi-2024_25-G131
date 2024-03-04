@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.authorization;
 
-
 import pt.ipp.isep.dei.esoft.project.application.controller.authorization.AuthenticationController;
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.AdminUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.MenuItem;
@@ -52,7 +51,7 @@ public class AuthenticationUI implements Runnable {
     }
 
     private boolean doLogin() {
-        System.out.println("\nLogin UI:");
+        System.out.println("\n\n--- LOGIN UI ---------------------------");
 
         int maxAttempts = 3;
         boolean success = false;
@@ -96,5 +95,4 @@ public class AuthenticationUI implements Runnable {
             return (UserRoleDTO) Utils.showAndSelectOne(roles, "Select the role you want to adopt in this session:");
         }
     }
-
 }

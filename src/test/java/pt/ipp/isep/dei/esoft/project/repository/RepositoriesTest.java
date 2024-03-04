@@ -23,6 +23,4 @@ class RepositoriesTest {
         Repositories instance = Repositories.getInstance();
         assertNotNull(instance.getTaskCategoryRepository());
     }
-
-
 }

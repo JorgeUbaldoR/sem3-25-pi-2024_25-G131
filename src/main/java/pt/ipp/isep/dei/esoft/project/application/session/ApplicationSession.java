@@ -9,55 +9,45 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ApplicationSession {
-    private AuthenticationRepository authenticationRepository=null;
+    private final AuthenticationRepository authenticationRepository;
     private static final String CONFIGURATION_FILENAME = "src/main/resources/config.properties";
     private static final String COMPANY_DESIGNATION = "Company.Designation";
 
-    public ApplicationSession() {
+    private ApplicationSession() {
         this.authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
         Properties props = getProperties();
     }
 
-    public UserSession getCurrentSession(){
+    public UserSession getCurrentSession() {
         pt.isep.lei.esoft.auth.UserSession userSession = this.authenticationRepository.getCurrentUserSession();
         return new UserSession(userSession);
     }
 
-    private Properties getProperties()
-    {
+    private Properties getProperties() {
         Properties props = new Properties();
 
         // Add default properties and values
-        props.setProperty(COMPANY_DESIGNATION, "Real Estate USA");
-
+        props.setProperty(COMPANY_DESIGNATION, "MusgoSublime");
 
         // Read configured values
-        try
-        {
+        try {
             InputStream in = new FileInputStream(CONFIGURATION_FILENAME);
             props.load(in);
             in.close();
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
         return props;
     }
 
-    // Extracted from https://www.javaworld.com/article/2073352/core-java/core-java-simply-singleton.html?page=2
     private static ApplicationSession singleton = null;
-    public static ApplicationSession getInstance()
-    {
-        if(singleton == null)
-        {
-            synchronized(ApplicationSession.class)
-            {
+
+    public static ApplicationSession getInstance() {
+        if (singleton == null) {
+            synchronized (ApplicationSession.class) {
                 singleton = new ApplicationSession();
             }
         }
         return singleton;
     }
-
-
 }

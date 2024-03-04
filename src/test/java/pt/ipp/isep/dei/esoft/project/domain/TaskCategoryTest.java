@@ -86,13 +86,10 @@ class TaskCategoryTest {
         assertEquals("Task Category Description", taskCategory.getDescription());
     }
 
-
     @Test
     void ensureCloneWorks() {
         TaskCategory taskCategory = new TaskCategory("Task Category Description");
         TaskCategory clone = taskCategory.clone();
         assertEquals(taskCategory, clone);
     }
-
-
 }

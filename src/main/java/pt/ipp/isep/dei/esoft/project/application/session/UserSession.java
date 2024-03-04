@@ -12,15 +12,15 @@ public class UserSession {
         this.userSession = userSession;
     }
 
-    public String getUserEmail(){
+    public String getUserEmail() {
         return userSession.getUserId().getEmail();
     }
 
-    public String getUserName(){
+    public String getUserName() {
         return this.userSession.getUserName();
     }
 
-    public List<UserRoleDTO> getUserRoles(){
+    public List<UserRoleDTO> getUserRoles() {
         return this.userSession.getUserRoles();
     }
 
@@ -35,5 +35,4 @@ public class UserSession {
     public boolean isLoggedInWithRole(String roleId) {
         return this.userSession.isLoggedInWithRole(roleId);
     }
-
 }

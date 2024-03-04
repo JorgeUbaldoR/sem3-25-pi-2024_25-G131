@@ -9,7 +9,11 @@ import java.util.Optional;
 
 public class OrganizationRepository {
 
-    List<Organization> organizations = new ArrayList<>();
+    private final List<Organization> organizations;
+
+    public OrganizationRepository() {
+        organizations = new ArrayList<>();
+    }
 
     public Optional<Organization> getOrganizationByEmployee(Employee employee) {
 

@@ -16,7 +16,7 @@ public class Utils {
 
     static public String readLineFromConsole(String prompt) {
         try {
-            System.out.println("\n" + prompt);
+            System.out.print("\n" + prompt);
 
             InputStreamReader converter = new InputStreamReader(System.in);
             BufferedReader in = new BufferedReader(converter);
@@ -98,15 +98,15 @@ public class Utils {
         for (Object o : list) {
             index++;
 
-            System.out.println(index + ". " + o.toString());
+            System.out.println("  " + index + " - " + o.toString());
         }
-        System.out.println();
-        System.out.println("0 - Cancel");
+        //System.out.println();
+        System.out.println("  0 - Cancel");
     }
 
     static public Object selectsObject(List list) {
         String input;
-        Integer value;
+        int value;
         do {
             input = Utils.readLineFromConsole("Type your option: ");
             value = Integer.valueOf(input);
@@ -121,7 +121,7 @@ public class Utils {
 
     static public int selectsIndex(List list) {
         String input;
-        Integer value;
+        int value;
         do {
             input = Utils.readLineFromConsole("Type your option: ");
             try {

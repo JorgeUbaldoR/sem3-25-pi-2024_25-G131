@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class Organization {
     private final String vatNumber;
-    List<Employee> employees = new ArrayList<>();
-    List<Task> tasks = new ArrayList<>();
+    private final List<Employee> employees;
+    private final List<Task> tasks;
     private String name;
     private String website;
     private String phone;
@@ -22,6 +22,8 @@ public class Organization {
      */
     public Organization(String vatNumber) {
         this.vatNumber = vatNumber;
+        employees = new ArrayList<>();
+        tasks = new ArrayList<>();
     }
 
     /**
@@ -48,7 +50,7 @@ public class Organization {
      * @return
      */
     public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
+                                     String technicalDescription, int duration, double cost,
                                      TaskCategory taskCategory, Employee employee) {
 
         //TODO: we could also check if the employee works for the organization before proceeding
@@ -169,7 +171,6 @@ public class Organization {
         for (Task in : this.tasks) {
             clone.tasks.add(in.clone());
         }
-
 
         return clone;
     }

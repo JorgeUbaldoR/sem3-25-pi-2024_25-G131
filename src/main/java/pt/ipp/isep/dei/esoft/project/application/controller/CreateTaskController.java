@@ -15,10 +15,9 @@ import java.util.Optional;
 
 public class CreateTaskController {
 
-    private OrganizationRepository organizationRepository = null;
-    private TaskCategoryRepository taskCategoryRepository = null;
-
-    private AuthenticationRepository authenticationRepository = null;
+    private OrganizationRepository organizationRepository;
+    private TaskCategoryRepository taskCategoryRepository;
+    private AuthenticationRepository authenticationRepository;
 
 
     //Repository instances are obtained from the Repositories class
@@ -34,7 +33,7 @@ public class CreateTaskController {
                                 AuthenticationRepository authenticationRepository) {
         this.organizationRepository = organizationRepository;
         this.taskCategoryRepository = taskCategoryRepository;
-        this.authenticationRepository = this.authenticationRepository;
+        this.authenticationRepository = authenticationRepository;
     }
 
     private TaskCategoryRepository getTaskCategoryRepository() {
@@ -46,7 +45,6 @@ public class CreateTaskController {
         }
         return taskCategoryRepository;
     }
-
 
     private OrganizationRepository getOrganizationRepository() {
         if (organizationRepository == null) {
@@ -67,9 +65,8 @@ public class CreateTaskController {
         return authenticationRepository;
     }
 
-
     public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                     String technicalDescription, Integer duration, Double cost,
+                                     String technicalDescription, int duration, double cost,
                                      String taskCategoryDescription) {
 
         TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
@@ -101,7 +98,6 @@ public class CreateTaskController {
         return taskCategoryByDescription;
 
     }
-
 
     //return the list of task categories
     public List<TaskCategory> getTaskCategories() {
