@@ -6,8 +6,8 @@ It contains didactic artifacts relevant to the Integrative Project to be develop
 
 In particular, it has:
 
-* [The team members and task assignment during Sprints](docs/Readme)
-* A [Template](docs/template) to capture and systematize evidence of appropriate application of the Software Development Process, namely regarding the activities of Requirements Engineering, Analysis and Design
+* [The team members and task assignment during Sprints](docs/Readme.md)
+* A [template](docs/template) to capture and systematize evidence of appropriate application of the Software Development Process, namely regarding the activities of Requirements Engineering, Analysis and Design
 * Source code available to students as a starting point
 * General description of how the provided application works (and it is structured).
 

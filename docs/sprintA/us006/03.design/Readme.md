@@ -4,7 +4,7 @@
 
 ### 3.1. Rationale
 
-_Note that SSD - Alternative One is adopted._
+_**Note that SSD - Alternative One is adopted.**_
 
 | Interaction ID | Question: Which class is responsible for... | Answer               | Justification (with patterns)                                                                                 |
 |:-------------  |:--------------------- |:---------------------|:--------------------------------------------------------------------------------------------------------------|
@@ -28,18 +28,18 @@ _Note that SSD - Alternative One is adopted._
 
 According to the taken rationale, the conceptual classes promoted to software classes are: 
 
-- Organization
-- Task
+* Organization
+* Task
 
 Other software classes (i.e. Pure Fabrication) identified: 
 
-- CreateTaskUI  
-- CreateTaskController
+* CreateTaskUI  
+* CreateTaskController
 
 
 ## 3.2. Sequence Diagram (SD)
 
-_Note that SSD - Alternative Two is adopted._
+_**Note that SSD - Alternative Two is adopted.**_
 
 ### Full Diagram
 
@@ -47,9 +47,9 @@ This diagram shows the full sequence of interactions between the classes involve
 
 ![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
 
-### Split Diagram
+### Split Diagrams
 
-This diagram shows the same sequence of interactions between the classes involved in the realization of this user story, but it is split in partial diagrams to better illustrate the interactions between the classes.
+The following diagram shows the same sequence of interactions between the classes involved in the realization of this user story, but it is split in partial diagrams to better illustrate the interactions between the classes.
 
 It uses Interaction Occurrence (a.k.a. Interaction Use).
 

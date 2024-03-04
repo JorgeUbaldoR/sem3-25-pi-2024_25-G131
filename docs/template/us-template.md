@@ -31,7 +31,7 @@ _Identify here the data to be inputted by the system actor as well as the output
 
 _Insert here a SSD depicting the envisioned Actor-System interactions and throughout which data is inputted and outputted to fulfill the requirement. All interactions must be numbered._
 
-![USXXX-SSD](USXXX-SSD.svg)
+![USXXX-SSD](svg/usXXX-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
@@ -46,7 +46,7 @@ _Use this section to capture other relevant information that is related with thi
 ### 2.1. Relevant Domain Model Excerpt 
 _In this section, it is suggested to present an excerpt of the domain model that is seen as relevant to fulfill this requirement._ 
 
-![USXXX-MD](USXXX-MD.svg)
+![USXXX-DM](svg/usXXX-domain-model.svg)
 
 ### 2.2. Other Remarks
 
@@ -74,27 +74,28 @@ _Use this section to capture some aditional notes/remarks that must be taken int
 
 ### Systematization ##
 
-According to the taken rationale, the conceptual classes promoted to software classes are: 
+According to the taken rationale, the conceptual classes promoted to software classes are:
 
-- Class1
-- Class2
-- Class3
+* Class1
+* Class2
+* Class3
 
-Other software classes (i.e. Pure Fabrication) identified: 
-- xxxxUI  
-- xxxxController
+Other software classes (i.e. Pure Fabrication) identified:
+
+* xxxxUI  
+* xxxxController
 
 ## 3.2. Sequence Diagram (SD)
 
 _In this section, it is suggested to present an UML dynamic view representing the sequence of interactions between software objects that allows to fulfill the requirements._
 
-![USXXX-SD](USXXX-SD.svg)
+![USXXX-SD](svg/usXXX-sequence-diagram.svg)
 
 ## 3.3. Class Diagram (CD)
 
 _In this section, it is suggested to present an UML static view representing the main related software classes that are involved in fulfilling the requirements as well as their relations, attributes and methods._
 
-![USXXX-CD](USXXX-CD.svg)
+![USXXX-CD](svg/usXXX-class-diagram.svg)
 
 
 # 4. Tests 

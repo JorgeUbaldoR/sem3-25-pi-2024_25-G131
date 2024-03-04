@@ -60,9 +60,9 @@ public Optional<Task> createTask(String reference, String description, String in
 
 # 6. Integration and Demo 
 
-- A new option on the Employee menu options was added.
+* A new option on the Employee menu options was added.
 
-- For demo purposes some tasks are bootstrapped while system starts.
+* For demo purposes some tasks are bootstrapped while system starts.
 
 
 # 7. Observations

@@ -10,103 +10,103 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 **Business Transactions**
 
--
+*
 
 ---
 
 **Transaction Line Itemss**
 
--
+*
 
 ---
 
 **Product/Service related to a Transaction or Transaction Line Item**
 
--
+*
 
 ---
 
 **Transaction Records**
 
--
+*
 
 ---  
 
 **Roles of People or Organizations**
 
--
+*
 
 ---
 
 **Places**
 
--
+*
 
 ---
 
 **Noteworthy Events**
 
--
+*
 
 ---
 
 **Physical Objects**
 
--
+*
 
 ---
 
 **Descriptions of Things**
 
--
+*
 
 ---
 
 **Catalogs**
 
--
+*
 
 ---
 
 **Containers**
 
--
+*
 
 ---
 
 **Elements of Containers**
 
--
+*
 
 ---
 
 **Organizations**
 
--
+*
 
 ---
 
 **Other External/Collaborating Systems**
 
--
+*
 
 ---
 
 **Records of finance, work, contracts, legal matters**
 
--
+*
 
 ---
 
 **Financial Instruments**
 
--
+*
 
 ---
 
-**Documents mentioned/used to perform some work/**
+**Documents mentioned/used to perform some work**
 
--
+*
 
 ---
 
@@ -115,13 +115,13 @@ To identify domain conceptual classes, start by making a list of candidate conce
 
 An association is a relationship between instances of objects that indicates a relevant connection and that is worth of remembering, or it is derivable from the List of Common Associations: 
 
-- **_A_** is physically or logically part of **_B_**
-- **_A_** is physically or logically contained in/on **_B_**
-- **_A_** is a description for **_B_**
-- **_A_** known/logged/recorded/reported/captured in **_B_**
-- **_A_** uses or manages or owns **_B_**
-- **_A_** is related with a transaction (item) of **_B_**
-- etc.
+* **_A_** is physically or logically part of **_B_**
+* **_A_** is physically or logically contained in/on **_B_**
+* **_A_** is a description for **_B_**
+* **_A_** known/logged/recorded/reported/captured in **_B_**
+* **_A_** uses or manages or owns **_B_**
+* **_A_** is related with a transaction (item) of **_B_**
+* etc.
 
 
 | Concept (A) 		|  Association   	|  Concept (B) |
@@ -135,6 +135,6 @@ An association is a relationship between instances of objects that indicates a r
 
 **Do NOT forget to identify concept atributes too.**
 
-**Insert below the Domain Model Diagram in a SVG format**
+**Insert the Domain Model diagram in SVG format below.**
 
 ![Domain Model](domain-model.svg)
