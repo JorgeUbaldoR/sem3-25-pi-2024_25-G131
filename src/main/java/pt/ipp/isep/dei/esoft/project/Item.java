@@ -1,15 +1,13 @@
 package pt.ipp.isep.dei.esoft.project;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Item {
     private static final Priority DEFAULT_PRIORITY = Priority.LOW;
 
     private ID id_item;
     private Priority priority;
-    private List<Operation> operationList;
+    private Queue<Operation> operationList;
 
     public enum Priority{
         HIGH{
@@ -34,17 +32,12 @@ public class Item {
 
 
 
-    public Item(ID id_item, Priority priority, List<Operation> operationList) {
+    public Item(ID id_item, Priority priority, Queue<Operation> operationList) {
         this.id_item = id_item;
         this.priority = priority;
         this.operationList = operationList;
     }
 
-    public Item(ID id_item) {
-        this.id_item = id_item;
-        this.priority = DEFAULT_PRIORITY;
-        this.operationList = new ArrayList<>();
-    }
 
 
     public void setId_item(ID id_item) {
@@ -55,10 +48,6 @@ public class Item {
         this.priority = priority;
     }
 
-    public void setOperationList(List<Operation> operationList) {
-        this.operationList = operationList;
-    }
-
     public ID getId_item() {
         return id_item;
     }
@@ -67,7 +56,7 @@ public class Item {
         return priority;
     }
 
-    public List<Operation> getOperationList() {
+    public Queue<Operation> getOperationList() {
         return operationList;
     }
 
