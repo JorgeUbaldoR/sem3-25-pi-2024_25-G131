@@ -14,7 +14,6 @@ public class ItemRepository {
         itemList = new HashMap<>();
     }
 
-
     //------------ Add Item ---------------
     public Optional<Item> addItem(Item item) {
         Optional newItem = Optional.empty();
