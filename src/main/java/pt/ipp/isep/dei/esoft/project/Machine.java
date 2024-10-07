@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Machine {
 
-
     private ID id_machine;
     private Operation operation;
     private float time;
+
 
     public Machine(ID id_machine, Operation operation, float time) {
         this.id_machine = id_machine;
@@ -47,6 +47,8 @@ public class Machine {
     }
 
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,11 +58,13 @@ public class Machine {
         return Float.compare(time, machine.time) == 0 && Objects.equals(id_machine, machine.id_machine) && Objects.equals(operation, machine.operation);
     }
 
-
     @Override
     public int hashCode() {
         return id_machine.hashCode();
     }
 
+    public Machine clone(){
+        return new Machine(id_machine, operation, time);
+    }
 
 }

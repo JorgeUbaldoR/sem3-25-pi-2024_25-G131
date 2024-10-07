@@ -59,6 +59,9 @@ public class Item {
     public Queue<Operation> getOperationList() {
         return operationList;
     }
+    public Operation getNextOperation() {
+        return operationList.peek();
+    }
 
     public boolean addOperation(Operation operation) {
         return operationList.add(operation);
