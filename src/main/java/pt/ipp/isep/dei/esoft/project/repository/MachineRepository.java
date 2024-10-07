@@ -1,8 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.ID;
-import pt.ipp.isep.dei.esoft.project.Machine;
-import pt.ipp.isep.dei.esoft.project.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.Machine;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
 import java.util.*;
 
