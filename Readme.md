@@ -1,8 +1,22 @@
 # Project Template
 
-This is the project template for LEI's second semester 2023/2024 Integrative Project.
+Template Repository for Integrative Project LEI-ISEP 3.Semester
 
-It contains didactic artifacts relevant to the Integrative Project to be developed during the second semester of the academic year of 2023-2024 in the [Degree in Informatics Engineering (LEI)](https://www.isep.ipp.pt/Course/Course/26) from [Instituto Superior de Engenharia do Porto (ISEP)](https://www.isep.ipp.pt).
+plantFloorManager - application to manage Plant Floor - PL/SQL scripts for Oracle
+
+machineSupervisor - application to supervise and operate machines on Plant Floor - C and Assembly
+
+prodPlanSimulator - Prodution Planner Simulator - JAVA application
+
+projectManager - Manager for Projects using PERT/CPM methodology - JAVA application
+
+
+
+
+
+This is the project template for LEI's second semester 2024/2025 Integrative Project.
+
+It contains didactic artifacts relevant to the Integrative Project to be developed during the second semester of the academic year of 2024-2025 in the [Degree in Informatics Engineering (LEI)](https://www.isep.ipp.pt/Course/Course/26) from [Instituto Superior de Engenharia do Porto (ISEP)](https://www.isep.ipp.pt).
 
 In particular, it has:
 
