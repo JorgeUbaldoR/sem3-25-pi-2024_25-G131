@@ -8,11 +8,15 @@ public class Repositories {
     private final OrganizationRepository organizationRepository;
     private final TaskCategoryRepository taskCategoryRepository;
     private final AuthenticationRepository authenticationRepository;
+    private final MachineRepository machineRepository;
+    private final ItemRepository itemRepository;
 
     private Repositories() {
         organizationRepository = new OrganizationRepository();
         taskCategoryRepository = new TaskCategoryRepository();
         authenticationRepository = new AuthenticationRepository();
+        machineRepository = new MachineRepository();
+        itemRepository = new ItemRepository();
     }
 
     public static Repositories getInstance() {
@@ -34,5 +38,13 @@ public class Repositories {
 
     public AuthenticationRepository getAuthenticationRepository() {
         return authenticationRepository;
+    }
+
+    public MachineRepository getMachineRepository() {
+        return machineRepository;
+    }
+
+    public ItemRepository getItemRepository() {
+        return itemRepository;
     }
 }

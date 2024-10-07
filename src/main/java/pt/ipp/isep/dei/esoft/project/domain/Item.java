@@ -3,8 +3,6 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import java.util.*;
 
 public class Item {
-    private static final Priority DEFAULT_PRIORITY = Priority.LOW;
-
     private ID id_item;
     private Priority priority;
     private Queue<Operation> operationList;
@@ -31,7 +29,6 @@ public class Item {
     }
 
 
-
     public Item(ID id_item, Priority priority, Queue<Operation> operationList) {
         this.id_item = id_item;
         this.priority = priority;
@@ -39,23 +36,21 @@ public class Item {
     }
 
 
-
+    //-- Set
     public void setId_item(ID id_item) {
         this.id_item = id_item;
     }
-
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
+    //-- Gets
     public ID getId_item() {
         return id_item;
     }
-
     public Priority getPriority() {
         return priority;
     }
-
     public Queue<Operation> getOperationList() {
         return operationList;
     }
@@ -63,10 +58,8 @@ public class Item {
         return operationList.peek();
     }
 
-    public boolean addOperation(Operation operation) {
-        return operationList.add(operation);
-    }
 
+    //-- Methods of class Machine
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,5 +74,7 @@ public class Item {
         return id_item.hashCode();
     }
 
-
+    public Item clone(){
+        return new Item(id_item, priority, operationList);
+    }
 }

@@ -16,14 +16,14 @@ public class MachineRepository {
 
     //------------ Add Machine ---------------
     public Optional<Machine> addMachine(Machine machine) {
-        Optional<Machine> newMachine;
+        Optional<Machine> newMachine = Optional.empty();
         boolean operationSuccess = noFoundMachine(machine);
 
         if(operationSuccess){
         newMachine = Optional.of(machine.clone());
         machineList.put(machine.getOperation(), getMap(machine)).put(machine.getId_machine(),machine);
         }else{
-            return Optional.empty();
+            return newMachine;
         }
         return newMachine;
     }
