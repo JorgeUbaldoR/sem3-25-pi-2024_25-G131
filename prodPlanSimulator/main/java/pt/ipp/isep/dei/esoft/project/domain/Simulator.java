@@ -4,47 +4,59 @@ import java.util.*;
 
 public class Simulator {
 
-    private ID id_simulator;
-    private Map<Operation, Queue<Item>> preliminarQueue;
-    private List<Machine> machineList;
-
-    public Simulator(List<Item> itemList) {
-       if (itemList == null || itemList.isEmpty())
-           throw new IllegalArgumentException("The passed item list can't be null or empty");
-
-       /* TODO
-        *  - ID Simludor gerado automaticamente?
-        *  - Lista de items/Machines vai-se buscar a um repository ou passamos por parametros?
-        */
-
-       organizeQueues(itemList);
-       machineList = new ArrayList<>();
-       id_simulator = new ID();
-
-       startSimulation();
-    }
-
-    private void startSimulation() {
+    private final ID simulatorID;
+    private Map<Operation, Queue<Item>> itemList;
+    private Map<Operation, Queue<Machine>> machineList;
 
 
+    public Simulator(List<Item> itemList, List<Machine> machineList) {
+        checkInformation(itemList, machineList);
+
+        organizeItems(itemList);
+        organizeMachines(machineList);
+        simulatorID = new ID();
     }
 
 
-    private void organizeQueues(List<Item> itemList){
-        preliminarQueue = new HashMap<>();
 
-        for(Item item : itemList) {
-            if(preliminarQueue.containsKey(item.getNextOperation())) {
-                preliminarQueue.get(item.getNextOperation()).add(item);
+
+    public boolean startSimulation() {
+
+        return false;
+    }
+
+
+    private void organizeItems(List<Item> itemList) {
+        this.itemList = new HashMap<>();
+
+        for (Item item : itemList) {
+            if (this.itemList.containsKey(item.showNextOperation())) {
+                this.itemList.get(item.showNextOperation()).add(item);
+            } else {
+                this.itemList.put(item.showNextOperation(), new LinkedList<>());
+                this.itemList.get(item.showNextOperation()).add(item);
+            }
+        }
+    }
+    private void organizeMachines(List<Machine> machineList) {
+        this.machineList = new HashMap<>();
+
+        for(Machine machine : machineList) {
+            if(this.machineList.containsKey(machine.getOperation())){
+               this.machineList.get(machine.getOperation()).add(machine);
             }else{
-                preliminarQueue.put(item.getNextOperation(), new LinkedList<>());
-                preliminarQueue.get(item.getNextOperation()).offer(item);
+                this.machineList.put(machine.getOperation(), new PriorityQueue<>());
+                this.machineList.get(machine.getOperation()).add(machine);
             }
         }
     }
 
 
+    private void checkInformation(List<Item> itemList, List<Machine> machineList) {
+        if (itemList == null || itemList.isEmpty())
+            throw new IllegalArgumentException("The passed item list can't be null or empty");
 
-
-
+        if (machineList == null || machineList.isEmpty())
+            throw new IllegalArgumentException("The passed machine list can't be null or empty");
+    }
 }

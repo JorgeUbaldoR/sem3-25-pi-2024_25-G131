@@ -54,7 +54,8 @@ public class Item {
     public Queue<Operation> getOperationList() {
         return operationList;
     }
-    public Operation getNextOperation() {
+
+    public Operation showNextOperation() {
         return operationList.peek();
     }
 

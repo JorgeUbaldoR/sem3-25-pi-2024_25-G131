@@ -32,6 +32,14 @@ public class MachineRepository {
         return machineList.get(machine.getOperation());
     }
 
+    public List<Machine> getMachineList() {
+        List<Machine> list = new ArrayList<>();
+        for (Map<ID,Machine> mapMachine : machineList.values()) {
+            list.addAll(mapMachine.values());
+        }
+        return list;
+    }
+
     private boolean noFoundMachine(Machine machine) {
         if(machineList.get(machine.getOperation()) == null){
             machineList.put(machine.getOperation(),new HashMap<>());
