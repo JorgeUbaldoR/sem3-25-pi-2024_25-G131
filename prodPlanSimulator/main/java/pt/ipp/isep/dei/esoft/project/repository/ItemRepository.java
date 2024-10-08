@@ -3,9 +3,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ItemRepository {
     private Map<ID, Item> itemList;
@@ -30,4 +28,8 @@ public class ItemRepository {
     }
     //---------------------------------------------
 
+
+    public List<Item> getItemList() {
+        return new ArrayList<>(itemList.values());
+    }
 }
