@@ -16,5 +16,5 @@ However, be aware, this is a pedagogical simplification. On further projects and
 |:------|:----------------------------------------------|
 | US001 | [Short name for US001](../../us001/Readme.md) |
 | ...   | ...                                           |
-| US006 | [Create a Task](../../ESINF/us006/Readme.md)        |
+| US006 | [Create a Task](../../ESINF/usei06/Readme.md)        |
 | ...   | ...                                           |

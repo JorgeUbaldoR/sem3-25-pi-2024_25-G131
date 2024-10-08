@@ -1,4 +1,4 @@
-# US006 - Create a Task 
+# US002 - Implement a simulator that processes all the items
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
