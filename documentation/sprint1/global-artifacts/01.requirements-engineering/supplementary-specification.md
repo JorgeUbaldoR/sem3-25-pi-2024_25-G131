@@ -44,19 +44,20 @@ configurability, installability, scalability and more._
 _Specifies or constraints the system design process. Examples may include: programming languages, software process, mandatory standards/patterns, use of development tools, class library, etc._
 
 - The system shall comply with recognized coding standards(e.g., CamelCase), ensuring readability and maintainability of the code structure.
+- The information should be persisted in a remote DBMS (Database Management System)
 - Unit tests shall be implemented using the JUnit 5 framework and JaCoCo plugin should be used to generate the coverage report.
+- Javadoc to generate useful documentation for Java code.
 - The system shall use object serialization for data persistence between runs.
 - All images/figures produced during the development process shall be recorded in SVG format.
 - Java
-- Java FX
-- Python
-- Latex
+- PL/SQL
+- C/Assembly
+
 
 
 ### Implementation Constraints
 
-_Specifies or constraints the code or construction of a system such
-such as: mandatory standards/patterns, implementation languages,
+_Specifies or constraints the code or construction of a system such as: mandatory standards/patterns, implementation languages,
 database integrity, resource limits, operating system._
 
 - The application documentation must be in English language.
