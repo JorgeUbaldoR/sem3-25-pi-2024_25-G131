@@ -10,7 +10,7 @@ public class FileDataReader {
     private static final int NUMBER_OF_DETAILS = 3;
 
 
-    public List<String[]> getMachinesDetails() throws IOException {
+    public static List<String[]> getMachinesDetails() throws IOException {
         Scanner scanner = new Scanner(new File("maquinas.csv"));
         List<String[]> machineDetails = new ArrayList<>();
 

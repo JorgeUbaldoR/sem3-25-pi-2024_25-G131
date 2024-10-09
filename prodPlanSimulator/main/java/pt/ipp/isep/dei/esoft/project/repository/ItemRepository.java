@@ -15,6 +15,7 @@ public class ItemRepository {
 
     public ItemRepository() {
         itemList = new HashMap<>();
+        fillInventory();
     }
 
     //------------ Add Item ---------------
@@ -29,18 +30,24 @@ public class ItemRepository {
         return newItem;
     }
 
-    private void fillInventory() throws IOException {
-        List<String[]> importedItems = FileDataReader.getItemsDetails();
-        for (String[] importedItem : importedItems) {
-            ID newId = new ID(Integer.parseInt(importedItem[0]), TypeID.MACHINE);
-            Priority priority = Priority.fromString(importedItem[1]);
-            for (int i = 2; i < importedItem.length; i++) {
-                Queue<Operation> operationQueue = new LinkedList<>();
-                Operation operation = new Operation(importedItem[i]);
-                operationQueue.add(operation);
-                itemList.put(newId, new Item(newId, priority, operationQueue));
+    private void fillInventory() {
+        try {
 
+            List<String[]> importedItems = FileDataReader.getItemsDetails();
+            for (String[] importedItem : importedItems) {
+                ID newId = new ID(Integer.parseInt(importedItem[0]), TypeID.MACHINE);
+                Priority priority = Priority.fromString(importedItem[1]);
+                for (int i = 2; i < importedItem.length; i++) {
+                    Queue<Operation> operationQueue = new LinkedList<>();
+                    Operation operation = new Operation(importedItem[i]);
+                    operationQueue.add(operation);
+                    itemList.put(newId, new Item(newId, priority, operationQueue));
+
+                }
             }
+
+        } catch (IOException e) {
+            System.out.println("Error reading items details");
         }
     }
 
