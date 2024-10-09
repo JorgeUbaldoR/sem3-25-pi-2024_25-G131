@@ -5,7 +5,7 @@
 
 ### 1.1. User Story Description
 
-As an user, I want to create a list representing the flow dependency between machines.
+As a user of the system, I want to create a list representing the flow dependency between machines.
 
 ### 1.2. Customer Specifications and Clarifications 
 
