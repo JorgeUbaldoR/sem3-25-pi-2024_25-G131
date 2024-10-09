@@ -26,7 +26,7 @@ As a user of the system, I want to calculate the execution time of each operatio
 
 ### 1.4. Found out Dependencies
 
-* There is a dependency on "USEI02 - Implement a simulator that processes all the items according" as there must be an simulator
+* There is a dependency on "USEI02 - Implement a simulator that processes all the items according" as there must be a simulator
 
 ### 1.5 Input and Output Data
 
