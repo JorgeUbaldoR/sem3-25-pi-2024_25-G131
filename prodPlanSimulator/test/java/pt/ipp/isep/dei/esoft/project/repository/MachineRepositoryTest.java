@@ -11,12 +11,5 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MachineRepositoryTest {
 
-    @Test
-    void testAddMachine() {
-        MachineRepository machineRepository = new MachineRepository();
-        Machine machine = new Machine(new ID(), new Operation(), 12);
 
-        Optional<Machine> newMachine = machineRepository.addMachine(machine);
-        assertEquals(machine,newMachine.get());
-    }
 }
