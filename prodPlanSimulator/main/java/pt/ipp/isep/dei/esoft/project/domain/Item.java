@@ -18,7 +18,7 @@ public class Item {
         this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
-        this.currentOperation = operationList.poll();
+        this.currentOperation = null;
     }
 
 
@@ -41,9 +41,14 @@ public class Item {
         return operationList;
     }
 
-    public Operation showNextOperation() {
-        return operationList.peek();
+    public Operation getNextOperation() {
+        if(!operationList.isEmpty()){
+            this.currentOperation = operationList.poll();
+            return this.currentOperation;
+        }
+        return null;
     }
+
 
 
     //-- Methods of class Machine

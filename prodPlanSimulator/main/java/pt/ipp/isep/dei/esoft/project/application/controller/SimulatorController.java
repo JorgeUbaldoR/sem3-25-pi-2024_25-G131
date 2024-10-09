@@ -41,8 +41,8 @@ public class SimulatorController {
         return machineRepository;
     }
 
-    public void startSimulation(ID id) {
-        Simulator simulator = new Simulator(itemList,machineList,id);
+    public void startSimulation() {
+        Simulator simulator = new Simulator(machineList,itemList);
         simulator.startSimulation();
     }
 
