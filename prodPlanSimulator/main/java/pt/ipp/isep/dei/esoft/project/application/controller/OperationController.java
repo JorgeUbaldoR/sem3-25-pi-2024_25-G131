@@ -16,6 +16,8 @@ public class OperationController {
 
     public OperationController() {
         getOperationRepository();
+        getMachineRepository();
+
     }
 
     private OperationRepository getOperationRepository() {
@@ -39,7 +41,6 @@ public class OperationController {
     }
 
     public List<Machine> getAllMachines() {
-        MachineRepository machineRepository = getMachineRepository();
         return machineRepository.getMachineList();
     }
 }

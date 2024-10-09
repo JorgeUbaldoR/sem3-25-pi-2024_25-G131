@@ -66,6 +66,11 @@ public class Item {
         return itemID.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s -> %s -> %s ",itemID, priority, operationList.peek());
+    }
+
     public Item clone(){
         return new Item(itemID, priority, operationList);
     }

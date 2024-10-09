@@ -35,15 +35,17 @@ public class ItemRepository {
 
             List<String[]> importedItems = FileDataReader.getItemsDetails();
             for (String[] importedItem : importedItems) {
-                ID newId = new ID(Integer.parseInt(importedItem[0]), TypeID.MACHINE);
+                ID newId = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
                 Priority priority = Priority.fromString(importedItem[1]);
+                Queue<Operation> operationQueue = new LinkedList<>();
+
                 for (int i = 2; i < importedItem.length; i++) {
-                    Queue<Operation> operationQueue = new LinkedList<>();
                     Operation operation = new Operation(importedItem[i]);
                     operationQueue.add(operation);
-                    itemList.put(newId, new Item(newId, priority, operationQueue));
 
                 }
+
+                itemList.put(newId, new Item(newId, priority, operationQueue));
             }
 
         } catch (IOException e) {

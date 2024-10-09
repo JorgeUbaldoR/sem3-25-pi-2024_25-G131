@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain.more;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Operation {
@@ -9,16 +7,16 @@ public class Operation {
 
     private String operationName;
     private String operationDescription;
-    private LocalTime duration;
+    private float duration;
 
-    public Operation(String operationName, String operationDescription, LocalTime duration) {
+    public Operation(String operationName, String operationDescription, float duration) {
         this.operationName = operationName;
         this.operationDescription = operationDescription;
         this.duration = duration;
     }
 
 
-    public Operation(String operationName, LocalTime duration) {
+    public Operation(String operationName, float duration) {
         this.operationName = operationName;
         this.duration = duration;
     }
@@ -45,11 +43,11 @@ public class Operation {
     }
 
 
-    public LocalTime getDuration() {
+    public float getDuration() {
         return duration;
     }
 
-    public void setDuration(LocalTime duration) {
+    public void setDuration(float duration) {
         this.duration = duration;
     }
 
@@ -66,14 +64,11 @@ public class Operation {
         return operationName.hashCode();
     }
 
-    private String convertTimeToString(LocalTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return time.format(formatter);
-    }
+
 
     @Override
     public String toString() {
-        return String.format("%s took %s", operationName, convertTimeToString(duration));
+        return String.format("%s%n", operationName);
     }
 
     public Operation clone() {

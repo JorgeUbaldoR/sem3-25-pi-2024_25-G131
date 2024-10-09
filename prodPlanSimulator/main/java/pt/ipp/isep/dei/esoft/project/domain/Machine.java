@@ -73,4 +73,8 @@ public class Machine {
         return new Machine(id_machine, operation, processingSpeed);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s: %s", id_machine, operation);
+    }
 }
