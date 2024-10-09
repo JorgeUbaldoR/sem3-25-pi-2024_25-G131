@@ -42,8 +42,6 @@ public class SimulatorController {
     }
 
     public void startSimulation() {
-        Simulator simulator = new Simulator(machineList,itemList);
-        simulator.startSimulation();
     }
 
 
