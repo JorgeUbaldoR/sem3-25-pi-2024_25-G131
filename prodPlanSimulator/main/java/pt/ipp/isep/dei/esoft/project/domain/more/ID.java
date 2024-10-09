@@ -45,6 +45,10 @@ public class ID implements Comparable<ID> {
         return Objects.hash(keyID);
     }
 
+    public ID clone(){
+        return new ID(serial, typeID);
+    }
+
     public int compareTo(ID otherID) {
         if(!this.typeID.toString().equals(otherID.typeID.toString()))
             throw new IllegalArgumentException("Can't compare two different types of key.");

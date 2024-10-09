@@ -14,16 +14,13 @@ public class ItemRepository {
 
     //------------ Add Item ---------------
     public Optional<Item> addItem(Item item) {
-        Optional newItem = Optional.empty();
+        Optional<Item> newItem = Optional.empty();
 
-        boolean operationSucess = !itemList.containsKey(item.getItemID());
-
-        if(operationSucess) {
+        if(!this.itemList.containsKey(item.getItemID())) {
+            this.itemList.put(item.getItemID(), item);
             newItem = Optional.of(item.clone());
-            itemList.put(item.getItemID(), item);
-        }else{
-            return newItem;
         }
+
         return newItem;
     }
     //---------------------------------------------
