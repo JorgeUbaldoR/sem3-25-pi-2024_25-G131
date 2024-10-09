@@ -11,7 +11,7 @@ public class FileDataReader {
 
 
     public static List<String[]> getMachinesDetails() throws IOException {
-        Scanner scanner = new Scanner(new File("maquinas.csv"));
+        Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs"));
         List<String[]> machineDetails = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
@@ -27,7 +27,12 @@ public class FileDataReader {
     }
 
     public static List<String[]> getItemsDetails() throws IOException {
-        Scanner scanner = new Scanner(new File("artigos.csv"));
+        File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs");
+        if (!file.exists()) {
+            throw new IOException("File not found: " + file.getAbsolutePath());
+        }
+
+        Scanner scanner = new Scanner(file);
         List<String[]> itemsDetails = new ArrayList<>();
 
         while (scanner.hasNextLine()) {

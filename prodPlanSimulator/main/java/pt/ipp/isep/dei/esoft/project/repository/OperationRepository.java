@@ -39,4 +39,8 @@ public class OperationRepository {
             operations.add(machine.getOperation());
         }
     }
+
+    public Set<Operation> getOperations() {
+        return operations;
+    }
 }
