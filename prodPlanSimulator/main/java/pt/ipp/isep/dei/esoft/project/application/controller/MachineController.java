@@ -1,9 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
+import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class MachineController {
@@ -14,7 +16,7 @@ public class MachineController {
     }
 
     private MachineRepository getMachineRepository() {
-        if(machineRepository == null) {
+        if (machineRepository == null) {
             Repositories repositories = Repositories.getInstance();
             machineRepository = repositories.getMachineRepository();
         }
@@ -25,3 +27,5 @@ public class MachineController {
         return getMachineRepository().addMachine(machine);
     }
 }
+
+

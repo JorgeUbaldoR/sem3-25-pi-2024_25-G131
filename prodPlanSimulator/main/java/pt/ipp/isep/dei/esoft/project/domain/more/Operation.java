@@ -75,4 +75,8 @@ public class Operation {
     public String toString() {
         return String.format("%s took %s", operationName, convertTimeToString(duration));
     }
+
+    public Operation clone() {
+        return new Operation(operationName, operationDescription, duration);
+    }
 }

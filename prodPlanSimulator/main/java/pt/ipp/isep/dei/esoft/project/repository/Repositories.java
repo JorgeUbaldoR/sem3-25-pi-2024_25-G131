@@ -9,12 +9,14 @@ public class Repositories {
     private final MachineRepository machineRepository;
     private final ItemRepository itemRepository;
     private final IDRepository idRepository;
+    private final OperationRepository operationRepository;
 
     private Repositories() {
         authenticationRepository = new AuthenticationRepository();
         machineRepository = new MachineRepository();
         itemRepository = new ItemRepository();
         idRepository = new IDRepository();
+        operationRepository = new OperationRepository();
     }
 
     public static Repositories getInstance() {
@@ -25,7 +27,6 @@ public class Repositories {
         }
         return instance;
     }
-
 
 
     public AuthenticationRepository getAuthenticationRepository() {
@@ -42,5 +43,9 @@ public class Repositories {
 
     public IDRepository getIDRepository() {
         return idRepository;
+    }
+
+    public OperationRepository getOperationRepository() {
+        return operationRepository;
     }
 }

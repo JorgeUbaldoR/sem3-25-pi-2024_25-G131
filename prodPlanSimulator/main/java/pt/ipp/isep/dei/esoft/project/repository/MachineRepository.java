@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.FileDataReader;
+import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
@@ -25,7 +26,7 @@ public class MachineRepository {
 
         if (!machineList.containsKey(machine.getId_machine())) {
             newMachine = Optional.of(machine.clone());
-            machineList.put(machine.getId_machine(), machine );
+            machineList.put(machine.getId_machine(), machine);
         } else {
             return newMachine;
         }
@@ -46,9 +47,7 @@ public class MachineRepository {
 
                 Machine machine = new Machine(machineID, operation, duration);
 
-                Map<ID, Machine> machineMap = new HashMap<>();
-                machineMap.put(machineID, machine);
-                machineList.put(operation, machineMap);
+                machineList.put(machineID, machine);
 
             }
 
@@ -56,6 +55,10 @@ public class MachineRepository {
             System.out.println("Error reading machines from file");
         }
 
+    }
+
+    public List<Machine> getMachineList() {
+        return new ArrayList<>(machineList.values());
     }
 
 }
