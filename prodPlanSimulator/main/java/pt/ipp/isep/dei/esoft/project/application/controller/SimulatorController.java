@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Simulator;

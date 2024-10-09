@@ -5,13 +5,11 @@ import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
 public class Repositories {
 
     private static Repositories instance;
-    private final TaskCategoryRepository taskCategoryRepository;
     private final AuthenticationRepository authenticationRepository;
     private final MachineRepository machineRepository;
     private final ItemRepository itemRepository;
 
     private Repositories() {
-        taskCategoryRepository = new TaskCategoryRepository();
         authenticationRepository = new AuthenticationRepository();
         machineRepository = new MachineRepository();
         itemRepository = new ItemRepository();
@@ -27,9 +25,6 @@ public class Repositories {
     }
 
 
-    public TaskCategoryRepository getTaskCategoryRepository() {
-        return taskCategoryRepository;
-    }
 
     public AuthenticationRepository getAuthenticationRepository() {
         return authenticationRepository;

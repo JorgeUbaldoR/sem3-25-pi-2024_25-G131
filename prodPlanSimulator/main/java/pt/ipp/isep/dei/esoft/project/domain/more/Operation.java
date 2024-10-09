@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.domain;
+package pt.ipp.isep.dei.esoft.project.domain.more;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 
 import java.util.*;
