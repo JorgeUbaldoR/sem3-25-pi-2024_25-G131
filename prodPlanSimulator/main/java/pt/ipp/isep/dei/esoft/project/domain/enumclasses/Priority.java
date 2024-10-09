@@ -1,22 +1,31 @@
 package pt.ipp.isep.dei.esoft.project.domain.enumclasses;
 
-public enum Priority{
-    HIGH{
-        @Override
-        public String toString() {
-            return "High";
+public enum Priority {
+    HIGH("High"),
+    MEDIUM("Medium"),
+    LOW("Low");
+
+    private final String displayName;
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
+
+    Priority(String displayName) {
+        this.displayName = displayName;
+    }
+
+
+    public static Priority fromString(String priority) {
+        if (priority == null) {
+            return null;
         }
-    },
-    MEDIUM{
-        @Override
-        public String toString() {
-            return "Medium";
+        for (Priority p : Priority.values()) {
+            if (p.displayName.equalsIgnoreCase(priority)) {
+                return p;
+            }
         }
-    },
-    LOW{
-        @Override
-        public String toString() {
-            return "Low";
-        }
+        return null;
     }
 }

@@ -26,7 +26,7 @@ public class FileDataReader {
         return machineDetails;
     }
 
-    public List<String[]> getItemsDetails() throws IOException {
+    public static List<String[]> getItemsDetails() throws IOException {
         Scanner scanner = new Scanner(new File("artigos.csv"));
         List<String[]> itemsDetails = new ArrayList<>();
 
