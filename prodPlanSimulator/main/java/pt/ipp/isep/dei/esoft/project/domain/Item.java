@@ -18,7 +18,7 @@ public class Item {
         this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
-        this.currentOperation = null;
+        this.currentOperation = operationList.peek();
     }
 
 
@@ -39,6 +39,9 @@ public class Item {
     }
     public Queue<Operation> getOperationList() {
         return operationList;
+    }
+    public Operation getCurrentOperation() {
+        return currentOperation;
     }
 
     public Operation getNextOperation() {

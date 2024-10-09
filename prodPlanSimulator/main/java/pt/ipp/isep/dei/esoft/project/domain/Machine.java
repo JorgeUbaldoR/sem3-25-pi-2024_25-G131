@@ -5,15 +5,16 @@ import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
 
 import java.util.Objects;
 
-public class Machine {
+public class Machine implements Comparable<Machine> {
     private final Boolean DEFAULT_STATUS = true;
-    private final int DEFAULT_TIMELEFT = 0;
+    private final float DEFAULT_TIME_LEFT = 0;
+    private final Item DEFAULT_ITEM = null;
 
     private ID id_machine;
     private Operation operation;
     private float processingSpeed;
     private boolean available;
-    private int timeLeftToFinish;
+    private float timeLeftToFinish;
     private Item currentProcessingItem;
 
 
@@ -23,22 +24,53 @@ public class Machine {
         this.operation = operation;
         this.processingSpeed = processingSpeed;
         this.available = DEFAULT_STATUS;
-        this.timeLeftToFinish = DEFAULT_TIMELEFT;
-        this.currentProcessingItem = null;
+        this.timeLeftToFinish = DEFAULT_TIME_LEFT;
+        this.currentProcessingItem = DEFAULT_ITEM;
     }
 
+    public void processItem(Item item) {
+        Operation processingOperation = item.getCurrentOperation();
+        if(processingOperation.equals(this.operation)) {
+            setCurrentProcessingItem(item);
+            setNotAvailable();
+            setTimeToFinish();
+            System.out.println("🔄 Machine " + id_machine + " Processing: 🟡 " + item.getItemID() + " [Operation: " + this.operation.getOperationName() + "]");
+        }
+    }
+
+
+
+    public void updateMachine(){
+        if(!available){
+            this.timeLeftToFinish --;
+            if(timeLeftToFinish <= 0){
+                System.out.println("✅ Machine " + this.id_machine + " finished: " + this.currentProcessingItem.getItemID() + " [Operation: " + this.operation.getOperationName() + "]");
+                this.timeLeftToFinish = DEFAULT_TIME_LEFT;
+                this.available = DEFAULT_STATUS;
+                this.currentProcessingItem.getNextOperation();
+                this.currentProcessingItem = DEFAULT_ITEM;
+
+            }
+        }
+
+    }
+
+    public void printStatus() {
+        if(available){
+            System.out.println("🟢 Machine " + this.id_machine + " is AVAILABLE");
+        }else{
+            System.out.println("🟡 Machine " + this.id_machine + " is processing: 🟠 " + currentProcessingItem.getItemID() + " [Operation: " + this.operation.getOperationName() + "]");
+        }
+    }
 
     // Set
-    public void setId_machine(ID id_machine) {
-        this.id_machine = id_machine;
+    public void setCurrentProcessingItem(Item item) {
+        this.currentProcessingItem = item;
     }
-    public void setProcessingSpeed(float processingSpeed) {
-        this.processingSpeed = processingSpeed;
+    public void setNotAvailable() {this.available = false;}
+    private void setTimeToFinish() {
+        this.timeLeftToFinish = processingSpeed;
     }
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
-
 
     //-- Gets
     public Operation getOperation() {
@@ -61,7 +93,7 @@ public class Machine {
         if (o == null || getClass() != o.getClass()) return false;
 
         Machine machine = (Machine) o;
-        return Float.compare(processingSpeed, machine.processingSpeed) == 0 && Objects.equals(id_machine, machine.id_machine) && Objects.equals(operation, machine.operation);
+        return Objects.equals(id_machine, machine.id_machine) ;
     }
 
     @Override
@@ -73,8 +105,15 @@ public class Machine {
         return new Machine(id_machine, operation, processingSpeed);
     }
 
+
     @Override
-    public String toString() {
-        return String.format("%s: %s", id_machine, operation);
+    public int compareTo(Machine o) {
+        int speedComparison = Float.compare(this.processingSpeed, o.getProcessingSpeed());
+        if (speedComparison != 0) {
+            return speedComparison;
+        }
+        return this.id_machine.compareTo(o.getId_machine());
     }
+
+
 }

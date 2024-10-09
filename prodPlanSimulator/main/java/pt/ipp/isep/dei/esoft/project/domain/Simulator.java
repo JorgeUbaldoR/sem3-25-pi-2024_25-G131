@@ -6,23 +6,17 @@ import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
 import java.util.*;
 
 public class Simulator {
-    private final float DEFAULT_MINIMUM_TIME = -1;
-
-    private Map<Operation,Queue<Machine>> machineList;
-    private List<Item> itemList;
-    private List<OperationQueue> operationQueueList;
+    private final Map<Operation,Queue<Machine>> machineList;
+    private final List<OperationQueue> operationQueueList;
 
 
-    public Simulator(Map<Operation,Queue<Machine>> machines,List<Item> items,List<Operation> operations) {
+    public Simulator(Map<Operation,Queue<Machine>> machines, List<Item> items, List<Operation> operations) {
         checkInformation(machines, operations, items);
         this.machineList = machines;
-        this.itemList = items;
         this.operationQueueList = new ArrayList<>();
-
         for (Operation operation : operations) {
             operationQueueList.add(new OperationQueue(operation));
         }
-
         createQueues(items);
     }
 
@@ -30,7 +24,7 @@ public class Simulator {
         for(OperationQueue operationQueue : operationQueueList) {
             Operation currentOperation = operationQueue.getOperation();
             for (Item item : items) {
-                if(currentOperation.equals(item.getNextOperation())){
+                if(currentOperation.equals(item.getCurrentOperation())){
                     operationQueue.addItemToQueue(item);
                 }
             }
@@ -38,21 +32,68 @@ public class Simulator {
     }
 
     public void startSimulation() {
-        boolean moreItemsToProcess = true;
         int time = 0;
-        do{
-            System.out.println("========================================");
-            System.out.println("    INICIO SIMULAÇÃO - Tempo: " + time );
-            System.out.println("========================================");
+        while(checkOperationQueue()){
+            System.out.println("----------------------------------------");
+            System.out.println("| INICIO SIMULAÇÃO - Tempo: " + time +"|");
+            System.out.println("----------------------------------------");
             for (OperationQueue operationQueue : operationQueueList) {
-
+                if (!operationQueue.isEmpty())
+                    assingItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
             }
+            updateMachines();
+            printMachineStatus();
+            System.out.println("----------------------------------------");
             time++;
-        }while(moreItemsToProcess);
-
+            sleep(1000);
+        }
+        System.out.println("✅ All operations completed!");
     }
 
 
+    private void assingItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
+        if(!machineList.isEmpty()){
+            for (Machine currentMachine : machineList) {
+                if(currentMachine.isAvailable()){
+                    currentMachine.processItem(operationQueue.getNextItem());
+                }
+            }
+        }
+    }
+
+    private void updateMachines() {
+        for (Operation operation : machineList.keySet() ) {
+            for (Machine machine : machineList.get(operation)) {
+                machine.updateMachine();
+            }
+        }
+    }
+
+
+    private void printMachineStatus() {
+        for (Operation operation : machineList.keySet() ) {
+            for (Machine machine : machineList.get(operation)) {
+                machine.printStatus();
+            }
+        }
+    }
+
+    private boolean checkOperationQueue() {
+        for (OperationQueue operationQueue : operationQueueList) {
+            if(!operationQueue.isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds); // Pausa a execução por x milissegundos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     //-------------
     private void checkInformation(Map<Operation,Queue<Machine>> machines, List<Operation> operations,List<Item> items) {
