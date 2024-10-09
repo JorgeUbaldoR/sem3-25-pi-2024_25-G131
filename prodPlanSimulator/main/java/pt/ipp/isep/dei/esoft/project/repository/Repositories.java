@@ -8,11 +8,13 @@ public class Repositories {
     private final AuthenticationRepository authenticationRepository;
     private final MachineRepository machineRepository;
     private final ItemRepository itemRepository;
+    private final IDRepository idRepository;
 
     private Repositories() {
         authenticationRepository = new AuthenticationRepository();
         machineRepository = new MachineRepository();
         itemRepository = new ItemRepository();
+        idRepository = new IDRepository();
     }
 
     public static Repositories getInstance() {
@@ -36,5 +38,9 @@ public class Repositories {
 
     public ItemRepository getItemRepository() {
         return itemRepository;
+    }
+
+    public IDRepository getIDRepository() {
+        return idRepository;
     }
 }
