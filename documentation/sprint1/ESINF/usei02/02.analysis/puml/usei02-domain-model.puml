@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+'hide methods
+
+title Domain Model USEI02
+
+
+class Simulator {
+    itemList
+    machineList
+    createQueues()
+    assignItemsToMachines()
+}
+
+class Item {
+    itemID : ID
+    operationList : Qeueu<Operation>
+    currentOperation: Operation
+    showNextOperation()
+}
+
+class PriorityEnum{
+    high
+    medium
+    low
+}
+
+
+
+class Operation {
+
+}
+
+class Machine{
+}
+
+class Queue{
+}
+
+Item "1" -- "0..*" Operation : has >
+Machine "1" - "         1" Operation: execute >
+Item "1" -- "1" PriorityEnum : has >
+'Simulator "1" -- "*" Operation : do >
+Simulator "1..*" -- "1" Queue: has >
+Simulator "1" -- "1..*" Machine : has >
+Queue "1" -- "1..*" Item
+@enduml

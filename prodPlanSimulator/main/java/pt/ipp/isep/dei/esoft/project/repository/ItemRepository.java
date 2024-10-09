@@ -16,11 +16,11 @@ public class ItemRepository {
     public Optional<Item> addItem(Item item) {
         Optional newItem = Optional.empty();
 
-        boolean operationSucess = !itemList.containsKey(item.getId_item());
+        boolean operationSucess = !itemList.containsKey(item.getItemID());
 
         if(operationSucess) {
             newItem = Optional.of(item.clone());
-            itemList.put(item.getId_item(), item);
+            itemList.put(item.getItemID(), item);
         }else{
             return newItem;
         }

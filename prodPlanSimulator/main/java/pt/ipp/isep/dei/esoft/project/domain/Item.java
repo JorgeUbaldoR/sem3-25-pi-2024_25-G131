@@ -3,9 +3,10 @@ package pt.ipp.isep.dei.esoft.project.domain;
 import java.util.*;
 
 public class Item {
-    private ID id_item;
+    private ID itemID;
     private Priority priority;
     private Queue<Operation> operationList;
+    private Operation currentOperation;
 
     public enum Priority{
         HIGH{
@@ -29,24 +30,25 @@ public class Item {
     }
 
 
-    public Item(ID id_item, Priority priority, Queue<Operation> operationList) {
-        this.id_item = id_item;
+    public Item(ID itemID, Priority priority, Queue<Operation> operationList) {
+        this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
+        this.currentOperation = operationList.poll();
     }
 
 
     //-- Set
-    public void setId_item(ID id_item) {
-        this.id_item = id_item;
+    public void setItemID(ID itemID) {
+        this.itemID = itemID;
     }
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
     //-- Gets
-    public ID getId_item() {
-        return id_item;
+    public ID getItemID() {
+        return itemID;
     }
     public Priority getPriority() {
         return priority;
@@ -67,15 +69,15 @@ public class Item {
         if (o == null || getClass() != o.getClass()) return false;
 
         Item item = (Item) o;
-        return Objects.equals(id_item, item.id_item) && priority == item.priority && Objects.equals(operationList, item.operationList);
+        return Objects.equals(itemID, item.itemID) && priority == item.priority && Objects.equals(operationList, item.operationList);
     }
 
     @Override
     public int hashCode() {
-        return id_item.hashCode();
+        return itemID.hashCode();
     }
 
     public Item clone(){
-        return new Item(id_item, priority, operationList);
+        return new Item(itemID, priority, operationList);
     }
 }
