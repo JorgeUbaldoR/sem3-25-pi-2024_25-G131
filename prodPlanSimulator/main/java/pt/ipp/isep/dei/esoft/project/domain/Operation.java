@@ -18,12 +18,6 @@ public class Operation {
         this.duration = duration;
     }
 
-    public Operation() {
-        operationId = new ID();
-        operationName = "";
-        operationDescription = "";
-        duration = LocalTime.MIN;
-    }
 
     public Operation(String operationName, ID operationId, LocalTime duration) {
         this.operationName = operationName;

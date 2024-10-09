@@ -9,12 +9,12 @@ public class Simulator {
     private Map<Operation, Queue<Machine>> machineList;
 
 
-    public Simulator(List<Item> itemList, List<Machine> machineList) {
+    public Simulator(List<Item> itemList, List<Machine> machineList, ID id) {
         checkInformation(itemList, machineList);
 
         organizeItems(itemList);
         organizeMachines(machineList);
-        simulatorID = new ID();
+        simulatorID = id;
     }
 
 

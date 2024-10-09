@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Simulator;
@@ -40,8 +41,8 @@ public class SimulatorController {
         return machineRepository;
     }
 
-    public void startSimulation() {
-        Simulator simulator = new Simulator(itemList,machineList);
+    public void startSimulation(ID id) {
+        Simulator simulator = new Simulator(itemList,machineList,id);
         simulator.startSimulation();
     }
 

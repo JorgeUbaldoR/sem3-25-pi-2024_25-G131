@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
+
 import java.util.*;
 
 public class Item {
@@ -8,26 +10,6 @@ public class Item {
     private Queue<Operation> operationList;
     private Operation currentOperation;
 
-    public enum Priority{
-        HIGH{
-            @Override
-            public String toString() {
-                return "High";
-            }
-        },
-        MEDIUM{
-            @Override
-            public String toString() {
-                return "Medium";
-            }
-        },
-        LOW{
-            @Override
-            public String toString() {
-                return "Low";
-            }
-        }
-    }
 
 
     public Item(ID itemID, Priority priority, Queue<Operation> operationList) {
