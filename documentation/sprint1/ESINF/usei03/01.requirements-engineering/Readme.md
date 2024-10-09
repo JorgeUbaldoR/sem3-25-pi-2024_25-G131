@@ -27,32 +27,35 @@ As an organization employee, I want to create a new task in order to be further 
 
 ### 1.3. Acceptance Criteria
 
-* **AC1:** All required fields must be filled in.
-* **AC2:** The task reference must have at least 5 alphanumeric characters.
-* **AC3:** When creating a task with an existing reference, the system must reject such operation and the user must be able to modify the typed reference.
+* **AC1:** The system successfully retrieves operation times and calculates total production times for all items in a production order.
+* **AC2:** The output is accurate and aligns with the input data.
+* **AC3:** The interface displays results clearly, allowing for easy review by the Production Manager.
+* **AC3:** Appropriate error messages are generated for incomplete data.
 
 ### 1.4. Found out Dependencies
 
-* There is a dependency on "US003 - Create a task category" as there must be at least one task category to classify the task being created.
+* There is a dependency on "US001 - "  " as must define the adequate data structures to store the information imported from the files.
+* There is a dependency on "US002 - "  " as must implement a simulator that processes all the items according to the following criteria.
+* There is a dependency on "US004 - "  " as must calculate execution times by each operation. 
+* There is a dependency on "US005 - "  " as must present a list of machines with total time of operation, and percentages relative to the operation time and total execution time.
+* There is a dependency on "US006 - "  " as must present average execution times per operation and the corresponding waiting times.
+* There is a dependency on "US007 - "  " as must produce a listing representing the flow dependency between machines.
+* There is a dependency on "US008 - "  " as must improvement to the simulator developed in USEI02 that takes into account a processing order based on priority.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* Typed data:
-    * a reference
-    * a designation 
-    * an informal description
-    * a technical description
-    * an estimated duration
-    * an estimated cost
-	
 * Selected data:
-    * a task category 
-
+    * List of Operations
+    * Time Estimates 
+    * Operational Sequence
+	
 **Output Data:**
-
-* List of existing task categories
+* Item identifier
+* Breakdown of time for each operation
+* Total production time for the item
+* Overall total production time for all items in the order
 * (In)Success of the operation
 
 ### 1.6. System Sequence Diagram (SSD)

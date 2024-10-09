@@ -1,62 +1,69 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.domain.more.ID;
+import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+
 import java.util.*;
 
 public class Simulator {
+    private final float DEFAULT_MINIMUM_TIME = -1;
 
-    private final ID simulatorID;
-    private Map<Operation, Queue<Item>> itemList;
-    private Map<Operation, Queue<Machine>> machineList;
-
-
-    public Simulator(List<Item> itemList, List<Machine> machineList) {
-        checkInformation(itemList, machineList);
-
-        organizeItems(itemList);
-        organizeMachines(machineList);
-        simulatorID = new ID();
-    }
+    private Map<Operation,Queue<Machine>> machineList;
+    private List<Item> itemList;
+    private List<OperationQueue> operationQueueList;
 
 
+    public Simulator(Map<Operation,Queue<Machine>> machines,List<Item> items,List<Operation> operations) {
+        checkInformation(machines, operations, items);
+        this.machineList = machines;
+        this.itemList = items;
+        this.operationQueueList = new ArrayList<>();
 
-
-    public boolean startSimulation() {
-
-        return false;
-    }
-
-
-    private void organizeItems(List<Item> itemList) {
-        this.itemList = new HashMap<>();
-
-        for (Item item : itemList) {
-            if (this.itemList.containsKey(item.showNextOperation())) {
-                this.itemList.get(item.showNextOperation()).add(item);
-            } else {
-                this.itemList.put(item.showNextOperation(), new LinkedList<>());
-                this.itemList.get(item.showNextOperation()).add(item);
-            }
+        for (Operation operation : operations) {
+            operationQueueList.add(new OperationQueue(operation));
         }
-    }
-    private void organizeMachines(List<Machine> machineList) {
-        this.machineList = new HashMap<>();
 
-        for(Machine machine : machineList) {
-            if(this.machineList.containsKey(machine.getOperation())){
-               this.machineList.get(machine.getOperation()).add(machine);
-            }else{
-                this.machineList.put(machine.getOperation(), new PriorityQueue<>());
-                this.machineList.get(machine.getOperation()).add(machine);
+        createQueues(items);
+    }
+
+    public void createQueues(List<Item> items) {
+        for(OperationQueue operationQueue : operationQueueList) {
+            Operation currentOperation = operationQueue.getOperation();
+            for (Item item : items) {
+                if(currentOperation.equals(item.getNextOperation())){
+                    operationQueue.addItemToQueue(item);
+                }
             }
         }
     }
 
+    public void startSimulation() {
+        boolean moreItemsToProcess = true;
+        int time = 0;
+        do{
+            System.out.println("========================================");
+            System.out.println("    INICIO SIMULAÇÃO - Tempo: " + time );
+            System.out.println("========================================");
+            for (OperationQueue operationQueue : operationQueueList) {
 
-    private void checkInformation(List<Item> itemList, List<Machine> machineList) {
-        if (itemList == null || itemList.isEmpty())
-            throw new IllegalArgumentException("The passed item list can't be null or empty");
+            }
+            time++;
+        }while(moreItemsToProcess);
 
-        if (machineList == null || machineList.isEmpty())
-            throw new IllegalArgumentException("The passed machine list can't be null or empty");
+    }
+
+
+
+    //-------------
+    private void checkInformation(Map<Operation,Queue<Machine>> machines, List<Operation> operations,List<Item> items) {
+        if (machines == null || machines.isEmpty()) {
+            throw new IllegalArgumentException("Machine list is null or empty");
+        }
+        if (operations == null || operations.isEmpty()) {
+            throw new IllegalArgumentException("Items list is null or empty");
+        }
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Items list is null or empty");
+        }
     }
 }

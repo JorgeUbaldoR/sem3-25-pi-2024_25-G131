@@ -1,10 +1,10 @@
-# US006 - Create a Task 
+# USEI02 - Implement a simulator that processes all the items
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt 
 
-![Domain Model](svg/us006-domain-model.svg)
+![Domain Model](svg/usei02-domain-model.svg)
 
 ### 2.2. Other Remarks
 

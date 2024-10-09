@@ -1,52 +1,38 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
+import pt.ipp.isep.dei.esoft.project.domain.more.ID;
+import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+
 import java.util.*;
 
 public class Item {
-    private ID id_item;
+    private ID itemID;
     private Priority priority;
     private Queue<Operation> operationList;
-
-    public enum Priority{
-        HIGH{
-            @Override
-            public String toString() {
-                return "High";
-            }
-        },
-        MEDIUM{
-            @Override
-            public String toString() {
-                return "Medium";
-            }
-        },
-        LOW{
-            @Override
-            public String toString() {
-                return "Low";
-            }
-        }
-    }
+    private Operation currentOperation;
 
 
-    public Item(ID id_item, Priority priority, Queue<Operation> operationList) {
-        this.id_item = id_item;
+
+    public Item(ID itemID, Priority priority, Queue<Operation> operationList) {
+        this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
+        this.currentOperation = null;
     }
 
 
     //-- Set
-    public void setId_item(ID id_item) {
-        this.id_item = id_item;
+    public void setItemID(ID itemID) {
+        this.itemID = itemID;
     }
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
     //-- Gets
-    public ID getId_item() {
-        return id_item;
+    public ID getItemID() {
+        return itemID;
     }
     public Priority getPriority() {
         return priority;
@@ -55,9 +41,14 @@ public class Item {
         return operationList;
     }
 
-    public Operation showNextOperation() {
-        return operationList.peek();
+    public Operation getNextOperation() {
+        if(!operationList.isEmpty()){
+            this.currentOperation = operationList.poll();
+            return this.currentOperation;
+        }
+        return null;
     }
+
 
 
     //-- Methods of class Machine
@@ -67,15 +58,15 @@ public class Item {
         if (o == null || getClass() != o.getClass()) return false;
 
         Item item = (Item) o;
-        return Objects.equals(id_item, item.id_item) && priority == item.priority && Objects.equals(operationList, item.operationList);
+        return Objects.equals(itemID, item.itemID) && priority == item.priority && Objects.equals(operationList, item.operationList);
     }
 
     @Override
     public int hashCode() {
-        return id_item.hashCode();
+        return itemID.hashCode();
     }
 
     public Item clone(){
-        return new Item(id_item, priority, operationList);
+        return new Item(itemID, priority, operationList);
     }
 }
