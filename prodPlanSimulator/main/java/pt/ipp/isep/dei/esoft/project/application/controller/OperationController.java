@@ -8,15 +8,17 @@ import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class OperationController {
 
     private OperationRepository operationRepository;
-    private MachineRepository machineRepository;
+    private final MachineRepository machineRepository;
 
     public OperationController() {
-        getOperationRepository();
-        getMachineRepository();
+        this.machineRepository = getMachineRepository();
+        this.operationRepository = getOperationRepository();
+        fillOperationsFromMachines();
 
     }
 
@@ -29,11 +31,8 @@ public class OperationController {
     }
 
     private MachineRepository getMachineRepository() {
-        if (machineRepository == null) {
-            Repositories repository = Repositories.getInstance();
-            machineRepository = repository.getMachineRepository();
-        }
-        return machineRepository;
+        Repositories repository = Repositories.getInstance();
+        return repository.getMachineRepository();
     }
 
     public Optional<Operation> addOperation(Operation operation) {
@@ -43,5 +42,12 @@ public class OperationController {
     public List<Machine> getAllMachines() {
         return machineRepository.getMachineList();
     }
+
+    public void fillOperationsFromMachines() {
+        List<Machine> machines = getAllMachines();
+        operationRepository.fillOperations(machines);
+    }
+
+
 }
 

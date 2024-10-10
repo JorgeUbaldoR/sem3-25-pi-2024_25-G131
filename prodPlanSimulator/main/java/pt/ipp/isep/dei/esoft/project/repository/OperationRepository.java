@@ -11,9 +11,9 @@ public class OperationRepository {
     private final Set<Operation> operations;
 
 
-    public OperationRepository() {
+    public OperationRepository(List<Machine> machines) {
         this.operations = new HashSet<>();
-        fillOperations();
+        fillOperations(machines);
     }
 
     public Optional<Operation> addOperation(Operation operation) {
@@ -27,14 +27,7 @@ public class OperationRepository {
         return op;
     }
 
-    private List<Machine> getMachines() {
-        OperationController operationController = new OperationController();
-        return operationController.getAllMachines();
-
-    }
-
-    private void fillOperations() {
-        List<Machine> machines = getMachines();
+    public void fillOperations(List<Machine> machines) {
         for (Machine machine : machines) {
             operations.add(machine.getOperation());
         }
