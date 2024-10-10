@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import pt.ipp.isep.dei.esoft.project.domain.OperationQueue;
 import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
@@ -17,12 +18,14 @@ public class SimulatorController {
     private ItemRepository itemRepository;
     private MachineRepository machineRepository;
     private OperationRepository operationRepository;
+    private Simulator simulator;
 
 
     public SimulatorController() {
         getItemRepository();
         getMachineRepository();
         getOperationRepository();
+
 
     }
 
@@ -49,11 +52,17 @@ public class SimulatorController {
         return operationRepository;
     }
 
-    public void startSimulation() {
-        Simulator simulator1 = new Simulator(getMachinesMap(),
-                getItemRepository().getItemList(),
-                new ArrayList<>(getOperationRepository().getOperations()));
+    public void createQueueSimulator() {
+        this.simulator = new Simulator(getMachinesMap(), getItemRepository().getItemList(),getOperationRepository().getOperations());
+        List<OperationQueue> list = simulator.createQueues(getItemRepository().getItemList());
+        for (OperationQueue operationQueue : list) {
+            for (Item item: operationQueue.getItemList()){
+            }
+        }
+    }
 
+    public void startSimulation(){
+        this.simulator.startSimulation();
     }
 
     private Map<Operation, Queue<Machine>> getMachinesMap() {

@@ -13,7 +13,7 @@ public class OperationRepository {
 
     public OperationRepository(List<Machine> machines) {
         this.operations = new HashSet<>();
-        fillOperations(machines);
+//        fillOperations(machines);
     }
 
     public Optional<Operation> addOperation(Operation operation) {
@@ -33,7 +33,9 @@ public class OperationRepository {
         }
     }
 
-    public Set<Operation> getOperations() {
-        return operations;
+    public List<Operation> getOperations() {
+        List<Operation> operation = new ArrayList<>();
+        operation.addAll(operations);
+        return operation;
     }
 }

@@ -15,7 +15,7 @@ public class ItemRepository {
 
     public ItemRepository() {
         itemList = new HashMap<>();
-        fillInventory();
+//        fillInventory();
     }
 
     //------------ Add Item ---------------

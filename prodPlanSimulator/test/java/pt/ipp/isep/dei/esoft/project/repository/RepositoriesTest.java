@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RepositoriesTest {
 
@@ -14,8 +14,8 @@ class RepositoriesTest {
 
 
     @Test
-    void testGetTaskCategoryRepository() {
+    void testGetIDRepository() {
         Repositories instance = Repositories.getInstance();
-        assertNotNull(instance.getTaskCategoryRepository());
+        assertNotNull(instance.getIDRepository());
     }
 }

@@ -29,4 +29,8 @@ public class OperationQueue {
     public boolean isEmpty() {
         return itemList.isEmpty();
     }
+
+    public Queue<Item> getItemList() {
+        return itemList;
+    }
 }

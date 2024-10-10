@@ -69,7 +69,7 @@ public class Machine implements Comparable<Machine> {
     }
     public void setNotAvailable() {this.available = false;}
     private void setTimeToFinish() {
-        this.timeLeftToFinish = processingSpeed;
+        this.timeLeftToFinish = processingSpeed + 1;
     }
 
     //-- Gets
@@ -84,6 +84,9 @@ public class Machine implements Comparable<Machine> {
     }
     public boolean isAvailable() {
         return available;
+    }
+    public float getTimeLeftToFinish() {
+        return timeLeftToFinish;
     }
 
     //-- Methods of class Machine

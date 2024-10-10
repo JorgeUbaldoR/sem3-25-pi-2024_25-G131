@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
+import pt.ipp.isep.dei.esoft.project.application.controller.SimulatorController;
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.MainMenuUI;
 
 public class Main {
@@ -8,11 +9,14 @@ public class Main {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
 
-        try {
-            MainMenuUI menu = new MainMenuUI();
-            menu.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SimulatorController simulatorController = new SimulatorController();
+        simulatorController.createQueueSimulator();
+        simulatorController.startSimulation();
+//        try {
+//            MainMenuUI menu = new MainMenuUI();
+//            menu.run();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
