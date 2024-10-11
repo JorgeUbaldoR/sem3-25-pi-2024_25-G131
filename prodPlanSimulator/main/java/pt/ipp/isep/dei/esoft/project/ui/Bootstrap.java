@@ -6,7 +6,7 @@ import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.more.ID;
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import pt.ipp.isep.dei.esoft.project.repository.*;
 
 import java.util.LinkedList;

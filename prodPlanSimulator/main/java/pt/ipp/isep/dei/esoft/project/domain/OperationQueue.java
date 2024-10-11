@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
-
 import java.util.LinkedList;
 import java.util.Queue;
 

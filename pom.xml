@@ -8,14 +8,12 @@
     <artifactId>project-template</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <properties>
         <!-- Java Version Configuration -->
         <java.version>11</java.version>
 
         <!-- Maven Version Configuration -->
         <maven-compiler-plugin>3.10.1</maven-compiler-plugin>
-
 
         <!-- Project Encoding Configuration -->
         <project.sourceEncoding>UTF-8</project.sourceEncoding>
@@ -26,7 +24,7 @@
         <junit-jupiter>5.9.2</junit-jupiter>
 
         <!-- Coverage configuration -->
-        <jacoco-maven-plugin>0.8.8</jacoco-maven-plugin>
+        <jacoco-maven-plugin>0.8.8</jacoco-maven-plugin> <!-- Alterado para 0.8.8 -->
 
         <!-- Pitest Version Configuration-->
         <pitest-maven>1.11.0</pitest-maven>
@@ -36,8 +34,7 @@
         <maven-surefire-plugin>3.0.0-M9</maven-surefire-plugin>
 
         <!-- Mockito Version Configuration -->
-        <mockito-all>1.10.19</mockito-all>
-        <mockito-core>5.1.1</mockito-core>
+        <mockito-core>5.1.1</mockito-core> <!-- Removido mockito-all -->
 
     </properties>
 
@@ -53,13 +50,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-jupiter}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito-all}</version>
             <scope>test</scope>
         </dependency>
 
@@ -81,22 +71,21 @@
             <artifactId>AuthLib</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
-
-            <!-- Required for compiling the project usign maven -->
-            <plugin><!-- Compiler configuration-->
+            <!-- Required for compiling the project using maven -->
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <showWarnings>true</showWarnings>   <!-- Needs this -->
+                    <showWarnings>true</showWarnings>
                     <compilerArgs>
-                        <arg>-Xlint:all</arg>   <!-- recommended -->
+                        <arg>-Xlint:all</arg>
                     </compilerArgs>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
@@ -129,6 +118,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/ui/**/*</exclude>
+                        <exclude>**/sun/**</exclude>
+                        <exclude>**/java/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -153,27 +144,19 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>${pitest-maven}</version>
                 <dependencies>
-                    <dependency> <!-- Only required because PITest does not work with JUnit5 without it -->
+                    <dependency>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
                         <version>${pitest-junit5-plugin}</version>
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <!--<timestampedReports>false</timestampedReports>-->
-                    <!--<inScopeClasses>
-                        <param>lapr.project.model.*</param>
-                        <param>lapr.project.utils.*</param>
-                    </inScopeClasses>-->
                     <targetClasses>
-                        <!-- Example: <param>lapr.project.model.*</param> -->
                         <param>pt.ipp.isep.dei.esoft.project.*</param>
                     </targetClasses>
                     <targetTests>
-                        <!-- Example: <param>lapr.project.utils.*</param> -->
                         <param>pt.ipp.isep.dei.esoft.project.*</param>
                     </targetTests>
-
                     <excludedClasses>
                         <param>pt.ipp.isep.dei.esoft.project**ui.*</param>
                     </excludedClasses>
@@ -181,9 +164,7 @@
                         <outputFormat>XML</outputFormat>
                         <outputFormat>HTML</outputFormat>
                     </outputFormats>
-                    <!--<verbose>true</verbose>-->
                 </configuration>
-
             </plugin>
 
             <plugin>
@@ -211,12 +192,16 @@
             </plugin>
         </plugins>
     </build>
+
     <repositories>
+        <repository>
+            <id>jacoco</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <repository>
             <id>repsy</id>
             <name>lei-soft</name>
             <url>https://repo.repsy.io/mvn/pmaio/lei-soft</url>
         </repository>
     </repositories>
-
 </project>

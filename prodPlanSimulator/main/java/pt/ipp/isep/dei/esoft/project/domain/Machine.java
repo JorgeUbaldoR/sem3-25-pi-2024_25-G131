@@ -1,7 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.ipp.isep.dei.esoft.project.domain.more.ID;
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
 
 import java.util.Objects;
 
@@ -224,5 +223,8 @@ public class Machine implements Comparable<Machine> {
         return new Machine(id_machine, operation, processingSpeed);
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("%s%n", id_machine.toString());
+    }
 }
