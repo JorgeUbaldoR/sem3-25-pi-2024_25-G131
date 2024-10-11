@@ -13,6 +13,11 @@ import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.util.*;
 
+
+/**
+ * Controller class that manages the simulation of operations involving machines and items.
+ * This class initializes the simulator and provides functionality to start the simulation.
+ */
 public class SimulatorController {
 
     private ItemRepository itemRepository;
@@ -20,7 +25,10 @@ public class SimulatorController {
     private OperationRepository operationRepository;
     private Simulator simulator;
 
-
+    /**
+     * Constructs a SimulatorController instance.
+     * Initializes the item repository, machine repository, operation repository, and the simulator.
+     */
     public SimulatorController() {
         getItemRepository();
         getMachineRepository();
@@ -28,6 +36,11 @@ public class SimulatorController {
         this.simulator = new Simulator(getMachinesMap(), getItemRepository().getItemList(),getOperationRepository().getOperations());
     }
 
+    /**
+     * Retrieves the ItemRepository instance.
+     *
+     * @return the ItemRepository instance
+     */
     private ItemRepository getItemRepository() {
         if(itemRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -36,6 +49,12 @@ public class SimulatorController {
         return itemRepository;
 
     }
+
+    /**
+     * Retrieves the MachineRepository instance.
+     *
+     * @return the MachineRepository instance
+     */
     private MachineRepository getMachineRepository() {
         if(machineRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -43,6 +62,12 @@ public class SimulatorController {
         }
         return machineRepository;
     }
+
+    /**
+     * Retrieves the OperationRepository instance.
+     *
+     * @return the OperationRepository instance
+     */
     private OperationRepository getOperationRepository() {
         if(operationRepository == null) {
             Repositories repositories = Repositories.getInstance();
@@ -52,10 +77,18 @@ public class SimulatorController {
     }
 
 
+    /**
+     * Starts the simulation process.
+     */
     public void startSimulation(){
         this.simulator.startSimulation();
     }
 
+    /**
+     * Constructs a mapping of operations to their associated machines.
+     *
+     * @return a Map where each key is an Operation and its value is a Queue of Machines that can perform it
+     */
     private Map<Operation, Queue<Machine>> getMachinesMap() {
         Map<Operation, Queue<Machine>> machinesMap = new HashMap<>();
         for (Machine machine : getMachineRepository().getMachineList()) {
