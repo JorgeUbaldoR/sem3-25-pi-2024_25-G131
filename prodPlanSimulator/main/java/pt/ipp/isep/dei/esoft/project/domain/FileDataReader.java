@@ -10,6 +10,12 @@ public class FileDataReader {
     private static final int NUMBER_OF_DETAILS = 3;
 
 
+    /**
+     * Reads machine details from a CSV file and returns them as a list of string arrays
+     *
+     * @return List of string arrays containing machine details
+     * @throws IOException if an error occurs while reading the file
+     */
     public static List<String[]> getMachinesDetails() throws IOException {
         Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs"));
         List<String[]> machineDetails = new ArrayList<>();
@@ -26,6 +32,12 @@ public class FileDataReader {
         return machineDetails;
     }
 
+    /**
+     * Reads item details from a CSV file and returns them as a list of string arrays
+     *
+     * @return List of string arrays containing item details
+     * @throws IOException if the file is not found or another I/O error occurs
+     */
     public static List<String[]> getItemsDetails() throws IOException {
         File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs");
         if (!file.exists()) {
