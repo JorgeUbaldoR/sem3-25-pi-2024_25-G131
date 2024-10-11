@@ -1,7 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.application.session.ApplicationSession;
-
+/**
+ * Singleton class that manages multiple repositories used in the application.
+ * This class provides access to different repository instances such as
+ * AuthenticationRepository, MachineRepository, ItemRepository, IDRepository,
+ * and OperationRepository.
+ */
 public class Repositories {
 
     private static Repositories instance;
@@ -11,6 +15,10 @@ public class Repositories {
     private final IDRepository idRepository;
     private final OperationRepository operationRepository;
 
+    /**
+     * Private constructor for Repositories.
+     * Initializes the various repositories used in the application.
+     */
     private Repositories() {
         authenticationRepository = new AuthenticationRepository();
         machineRepository = new MachineRepository();
@@ -19,6 +27,11 @@ public class Repositories {
         operationRepository = new OperationRepository(machineRepository.getMachineList());
     }
 
+    /**
+     * Provides access to the singleton instance of Repositories.
+     *
+     * @return the single instance of Repositories
+     */
     public static Repositories getInstance() {
         if (instance == null) {
             synchronized (Repositories.class) {
@@ -28,23 +41,47 @@ public class Repositories {
         return instance;
     }
 
-
+    /**
+     * Gets the AuthenticationRepository instance.
+     *
+     * @return the AuthenticationRepository instance
+     */
     public AuthenticationRepository getAuthenticationRepository() {
         return authenticationRepository;
     }
 
+    /**
+     * Gets the MachineRepository instance.
+     *
+     * @return the MachineRepository instance
+     */
     public MachineRepository getMachineRepository() {
         return machineRepository;
     }
 
+    /**
+     * Gets the ItemRepository instance.
+     *
+     * @return the ItemRepository instance
+     */
     public ItemRepository getItemRepository() {
         return itemRepository;
     }
 
+    /**
+     * Gets the IDRepository instance.
+     *
+     * @return the IDRepository instance
+     */
     public IDRepository getIDRepository() {
         return idRepository;
     }
 
+    /**
+     * Gets the OperationRepository instance.
+     *
+     * @return the OperationRepository instance
+     */
     public OperationRepository getOperationRepository() {
         return operationRepository;
     }

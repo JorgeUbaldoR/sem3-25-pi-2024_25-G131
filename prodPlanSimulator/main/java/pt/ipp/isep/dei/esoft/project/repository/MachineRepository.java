@@ -9,17 +9,31 @@ import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Repository class for managing Machine objects.
+ * This class allows adding machines to the repository and retrieving them.
+ */
 public class MachineRepository {
 
     private final Map<ID, Machine> machineList;
 
-
+    /**
+     * Constructs a new MachineRepository instance.
+     * Initializes an empty HashMap to store Machine objects and fills the machinery
+     * from a data source.
+     */
     public MachineRepository() {
         this.machineList = new HashMap<>();
-//        fillMachinery();
+//       fillMachinery();
     }
 
-    //------------ Add Machine ---------------
+    /**
+     * Adds a new machine to the repository if it does not already exist.
+     *
+     * @param machine the Machine to be added to the repository
+     * @return an Optional containing a clone of the added machine if successful,
+     *         or an empty Optional if the machine already exists
+     */
     public Optional<Machine> addMachine(Machine machine) {
         Optional<Machine> newMachine = Optional.empty();
 
@@ -32,9 +46,11 @@ public class MachineRepository {
         return newMachine;
     }
 
-
-    //---------------------------------------------
-
+    /**
+     * Fills the machinery list with machines from a data source.
+     * This method reads machine details from a file and populates the machine list.
+     * It handles IOExceptions that may occur during file reading.
+     */
     private void fillMachinery() {
         try {
 
@@ -56,6 +72,11 @@ public class MachineRepository {
 
     }
 
+    /**
+     * Retrieves all machines from the repository.
+     *
+     * @return a List containing all Machine objects in the repository
+     */
     public List<Machine> getMachineList() {
         return new ArrayList<>(machineList.values());
     }
