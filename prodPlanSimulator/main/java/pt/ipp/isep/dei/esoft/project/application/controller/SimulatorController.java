@@ -25,8 +25,7 @@ public class SimulatorController {
         getItemRepository();
         getMachineRepository();
         getOperationRepository();
-
-
+        this.simulator = new Simulator(getMachinesMap(), getItemRepository().getItemList(),getOperationRepository().getOperations());
     }
 
     private ItemRepository getItemRepository() {
@@ -52,14 +51,6 @@ public class SimulatorController {
         return operationRepository;
     }
 
-    public void createQueueSimulator() {
-        this.simulator = new Simulator(getMachinesMap(), getItemRepository().getItemList(),getOperationRepository().getOperations());
-        List<OperationQueue> list = simulator.createQueues(getItemRepository().getItemList());
-        for (OperationQueue operationQueue : list) {
-            for (Item item: operationQueue.getItemList()){
-            }
-        }
-    }
 
     public void startSimulation(){
         this.simulator.startSimulation();

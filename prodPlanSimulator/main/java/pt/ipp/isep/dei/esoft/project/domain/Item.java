@@ -45,8 +45,9 @@ public class Item {
     }
 
     public Operation getNextOperation() {
-        if(!operationList.isEmpty()){
-            this.currentOperation = operationList.poll();
+        if (!operationList.isEmpty()) {
+            operationList.poll();
+            this.currentOperation = operationList.peek();
             return this.currentOperation;
         }
         return null;
@@ -75,6 +76,6 @@ public class Item {
     }
 
     public Item clone(){
-        return new Item(itemID, priority, operationList);
+        return new Item(itemID, priority, new LinkedList<>(operationList));
     }
 }

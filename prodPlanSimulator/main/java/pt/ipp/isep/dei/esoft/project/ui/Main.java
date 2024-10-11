@@ -10,7 +10,6 @@ public class Main {
         bootstrap.run();
 
         SimulatorController simulatorController = new SimulatorController();
-        simulatorController.createQueueSimulator();
         simulatorController.startSimulation();
 //        try {
 //            MainMenuUI menu = new MainMenuUI();

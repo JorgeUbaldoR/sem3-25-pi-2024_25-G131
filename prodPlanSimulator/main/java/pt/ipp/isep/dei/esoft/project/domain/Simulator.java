@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
 
 import java.util.*;
@@ -12,11 +11,13 @@ public class Simulator {
 
     public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations) {
         checkInformation(machines, operations, items);
+
         this.machineList = machines;
         this.operationQueueList = new ArrayList<>();
         for (Operation operation : operations) {
             operationQueueList.add(new OperationQueue(operation));
         }
+        createQueues(items);
     }
 
     public List<OperationQueue> createQueues(List<Item> items) {
@@ -39,7 +40,7 @@ public class Simulator {
             System.out.println("---------------------------------");
             for (OperationQueue operationQueue : operationQueueList) {
                 if (!operationQueue.isEmpty())
-                    assingItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
+                    assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
             }
             updateMachines();
             printMachineStatus();
@@ -53,7 +54,7 @@ public class Simulator {
 
 
 
-    private void assingItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
+    private void assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
         if (!machineList.isEmpty()) {
             for (Machine currentMachine : machineList) {
                 if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
@@ -66,9 +67,28 @@ public class Simulator {
     private void updateMachines() {
         for (Operation operation : machineList.keySet()) {
             for (Machine machine : machineList.get(operation)) {
-                machine.updateMachine();
+                boolean finished = machine.updateMachine();
+                if (finished) {
+                    Item currentItem = machine.getCurrentProcessingItem();
+                    Operation newOperation = currentItem.getNextOperation();
+                    if (newOperation != null) {
+                        OperationQueue operationQueue = findOperationInQueue(newOperation);
+                        if (operationQueue != null) {
+                            operationQueue.addItemToQueue(currentItem);
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private OperationQueue findOperationInQueue(Operation newOperation) {
+        for (OperationQueue operationQueue : operationQueueList) {
+            if (operationQueue.getOperation().equals(newOperation)) {
+                return operationQueue;
+            }
+        }
+        return null;
     }
 
 
@@ -103,9 +123,10 @@ public class Simulator {
 
     private void sleep(int milliseconds) {
         try {
-            Thread.sleep(milliseconds); // Pausa a execução por x milissegundos
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Thread interrupted", e);
         }
     }
 

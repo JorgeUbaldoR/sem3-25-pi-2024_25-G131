@@ -28,6 +28,7 @@ public class Bootstrap implements Runnable {
     private final ID idItem2 = new ID(102, TypeID.ITEM);
     private final ID idItem3 = new ID(103, TypeID.ITEM);
     private final ID idItem4 = new ID(104, TypeID.ITEM);
+    private final ID idItem5 = new ID(105, TypeID.ITEM);
 
     private final Machine machineCutting01 = new Machine(idMachineCutting01, opCutting, 2.5f);
     private final Machine machineCutting02 = new Machine(idMachineCutting02, opCutting, 4f);
@@ -35,10 +36,11 @@ public class Bootstrap implements Runnable {
     private final Machine machineWelding = new Machine(idMachineWelding, opWelding, 3.0f);
     private final Machine machinePainting = new Machine(idMachinePainting, opPainting, 1.5f);
 
-    private Queue<Operation> operationListItem1 = new LinkedList<>();
-    private Queue<Operation> operationListItem2 = new LinkedList<>();
-    private Queue<Operation> operationListItem3 = new LinkedList<>();
-    private Queue<Operation> operationListItem4 = new LinkedList<>();
+    private final Queue<Operation> operationListItem1 = new LinkedList<>();
+    private final Queue<Operation> operationListItem2 = new LinkedList<>();
+    private final Queue<Operation> operationListItem3 = new LinkedList<>();
+    private final Queue<Operation> operationListItem4 = new LinkedList<>();
+    private final Queue<Operation> operationListItem5 = new LinkedList<>();
 
 
     //Add some task categories to the repository as bootstrap
@@ -57,10 +59,12 @@ public class Bootstrap implements Runnable {
         Item item2 = new Item(idItem2, Priority.HIGH, operationListItem2);
         Item item3 = new Item(idItem3, Priority.HIGH, operationListItem3);
         Item item4 = new Item(idItem4, Priority.HIGH, operationListItem4);
+        Item item5 = new Item(idItem5, Priority.HIGH, operationListItem5);
         itemRepository.addItem(item1);
         itemRepository.addItem(item2);
         itemRepository.addItem(item3);
         itemRepository.addItem(item4);
+        itemRepository.addItem(item5);
     }
 
     private void addMachines() {
@@ -97,6 +101,8 @@ public class Bootstrap implements Runnable {
 
         operationListItem4.add(opCutting);
         operationListItem4.add(opWelding);
+
+        operationListItem5.add(opCutting);
 
         operationRepository.addOperation(opCutting);
         operationRepository.addOperation(opWelding);
