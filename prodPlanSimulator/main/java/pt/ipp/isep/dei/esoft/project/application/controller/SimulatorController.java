@@ -5,7 +5,7 @@ import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Simulator;
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;

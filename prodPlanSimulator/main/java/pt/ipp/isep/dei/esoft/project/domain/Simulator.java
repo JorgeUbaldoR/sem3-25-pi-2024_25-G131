@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
 import java.util.*;
 

@@ -1,14 +1,13 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
-import pt.ipp.isep.dei.esoft.project.domain.more.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class OperationController {
 
