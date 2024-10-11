@@ -16,12 +16,20 @@ public class FileDataReaderTest {
     private static final String TEST_MACHINES_FILE = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs";
     private static final String TEST_ITEMS_FILE = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs";
 
+    /**
+     * Sets up the test environment before each test.
+     * Creates the test files for machines and items.
+     */
     @BeforeEach
     public void setUp() throws IOException {
         createTestMachinesFile();
         createTestItemsFile();
     }
 
+    /**
+     * Tests getting machine details from a valid file.
+     * Verifies that the correct number of details is returned and checks specific entries.
+     */
     @Test
     public void testGetMachinesDetails_ValidFile() throws IOException {
         List<String[]> details = FileDataReader.getMachinesDetails();
@@ -30,6 +38,10 @@ public class FileDataReaderTest {
         assertArrayEquals(new String[]{"18", "Polish", "0.75"}, details.get(17)); // Última linha
     }
 
+    /**
+     * Tests getting item details from a valid file.
+     * Verifies that the correct number of details is returned and checks specific entries.
+     */
     @Test
     public void testGetItemsDetails_ValidFile() throws IOException {
         List<String[]> details = FileDataReader.getItemsDetails();
@@ -38,18 +50,30 @@ public class FileDataReaderTest {
         assertArrayEquals(new String[]{"120", "HIGH", "Drill", "Test", "Polish", "Cut", "Grind"}, details.get(19)); // Última linha
     }
 
+    /**
+     * Tests the behavior when trying to read machine details from a non-existent file.
+     * Verifies that an IOException is thrown.
+     */
     @Test
     public void testGetMachinesDetails_FileNotFound() {
         new File(TEST_MACHINES_FILE).delete();
         assertThrows(IOException.class, () -> FileDataReader.getMachinesDetails());
     }
 
+    /**
+     * Tests the behavior when trying to read item details from a non-existent file.
+     * Verifies that an IOException is thrown.
+     */
     @Test
     public void testGetItemsDetails_FileNotFound() {
         new File(TEST_ITEMS_FILE).delete();
         assertThrows(IOException.class, () -> FileDataReader.getItemsDetails());
     }
 
+    /**
+     * Tests getting machine details from a file with an invalid format.
+     * Verifies that no details are returned.
+     */
     @Test
     public void testGetMachinesDetails_InvalidFormat() throws IOException {
         createInvalidFormatMachinesFile();
@@ -57,6 +81,10 @@ public class FileDataReaderTest {
         assertEquals(0, details.size());
     }
 
+    /**
+     * Tests getting item details from a file with an invalid format.
+     * Verifies that no details are returned.
+     */
     @Test
     public void testGetItemsDetails_InvalidFormat() throws IOException {
         createInvalidFormatItemsFile();
@@ -64,6 +92,9 @@ public class FileDataReaderTest {
         assertEquals(0, details.size());
     }
 
+    /**
+     * Creates a test file for machines with valid data.
+     */
     private void createTestMachinesFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_MACHINES_FILE)) {
             writer.write("1,Drill,1.5\n");
@@ -87,6 +118,9 @@ public class FileDataReaderTest {
         }
     }
 
+    /**
+     * Creates a test file for items with valid data.
+     */
     private void createTestItemsFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE)) {
             writer.write("101,HIGH,Drill,Cut,Polish,Assemble\n");
@@ -112,12 +146,18 @@ public class FileDataReaderTest {
         }
     }
 
+    /**
+     * Creates a test file for machines with an invalid format.
+     */
     private void createInvalidFormatMachinesFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_MACHINES_FILE)) {
             writer.write("1,Drill\n"); // Falta um campo
         }
     }
 
+    /**
+     * Creates a test file for items with an invalid format.
+     */
     private void createInvalidFormatItemsFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE)) {
             writer.write("Artigo 1,Descrição A\n"); // Falta um campo

@@ -19,12 +19,20 @@ public class OperationRepositoryTest {
     private OperationRepository operationRepository;
     private List<Machine> machines;
 
+    /**
+     * Sets up the test environment before each test.
+     * Initializes the machine list and the operation repository.
+     */
     @BeforeEach
     public void setUp() {
         machines = new ArrayList<>();
         operationRepository = new OperationRepository(machines);
     }
 
+    /**
+     * Tests the addition of an operation to the repository.
+     * Verifies that the operation is added successfully.
+     */
     @Test
     public void testAddOperation_Success() {
         Operation operation = new Operation("Operation Test");
@@ -35,6 +43,10 @@ public class OperationRepositoryTest {
         assertEquals("Operation Test", result.get().getOperationName());
     }
 
+    /**
+     * Tests adding a duplicate operation to the repository.
+     * Verifies that the duplicate is not added.
+     */
     @Test
     public void testAddOperation_Duplicate() {
         Operation operation = new Operation("Operation Test");
@@ -44,6 +56,10 @@ public class OperationRepositoryTest {
         assertFalse(result.isPresent());
     }
 
+    /**
+     * Tests filling operations in the repository from the provided machine list.
+     * Verifies that the operations are filled correctly.
+     */
     @Test
     public void testFillOperations() {
         Operation operation1 = new Operation("First Operation");
@@ -65,6 +81,10 @@ public class OperationRepositoryTest {
         assertTrue(operations.contains(operation2));
     }
 
+    /**
+     * Tests retrieving operations from the repository.
+     * Verifies that the correct operations are returned.
+     */
     @Test
     public void testGetOperations() {
         Operation operation = new Operation("Operação 1");
