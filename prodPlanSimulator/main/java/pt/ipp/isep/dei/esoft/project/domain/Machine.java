@@ -48,7 +48,7 @@ public class Machine implements Comparable<Machine> {
                                 ANSI_BRIGHT_WHITE,id_machine,ANSI_RESET,ANSI_BRIGHT_YELLOW,ANSI_RESET,
                                 ANSI_BRIGHT_WHITE,item.getItemID(),ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET);
         } else {
-            System.out.println("    ⚠️ Machine " + id_machine + " cannot process item: " + item.getItemID() + " [Operation mismatch]");
+            System.out.printf("   ⚠️ Machine %s%s%s  can't process:  📦 Item %s%s%s [Operation mismatch]",ANSI_BRIGHT_WHITE,id_machine,ANSI_RESET,ANSI_BRIGHT_WHITE,item.getItemID(),ANSI_RESET);
         }
     }
 
