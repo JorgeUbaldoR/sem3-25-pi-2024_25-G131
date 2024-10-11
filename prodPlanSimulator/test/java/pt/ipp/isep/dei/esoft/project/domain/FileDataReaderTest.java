@@ -35,7 +35,7 @@ public class FileDataReaderTest {
         List<String[]> details = FileDataReader.getMachinesDetails();
         assertEquals(18, details.size());
         assertArrayEquals(new String[]{"1", "Drill", "1.5"}, details.get(0));
-        assertArrayEquals(new String[]{"18", "Polish", "0.75"}, details.get(17)); // Última linha
+        assertArrayEquals(new String[]{"18", "Polish", "0.75"}, details.get(17));
     }
 
     /**
@@ -47,7 +47,7 @@ public class FileDataReaderTest {
         List<String[]> details = FileDataReader.getItemsDetails();
         assertEquals(20, details.size());
         assertArrayEquals(new String[]{"101", "HIGH", "Drill", "Cut", "Polish", "Assemble"}, details.get(0));
-        assertArrayEquals(new String[]{"120", "HIGH", "Drill", "Test", "Polish", "Cut", "Grind"}, details.get(19)); // Última linha
+        assertArrayEquals(new String[]{"120", "HIGH", "Drill", "Test", "Polish", "Cut", "Grind"}, details.get(19));
     }
 
     /**
@@ -151,7 +151,7 @@ public class FileDataReaderTest {
      */
     private void createInvalidFormatMachinesFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_MACHINES_FILE)) {
-            writer.write("1,Drill\n"); // Falta um campo
+            writer.write("1,Drill\n");
         }
     }
 
@@ -160,7 +160,7 @@ public class FileDataReaderTest {
      */
     private void createInvalidFormatItemsFile() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE)) {
-            writer.write("Artigo 1,Descrição A\n"); // Falta um campo
+            writer.write("Item 1,Description A\n");
         }
     }
 }
