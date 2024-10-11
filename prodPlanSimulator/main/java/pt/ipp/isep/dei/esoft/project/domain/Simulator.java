@@ -1,8 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
 import java.util.*;
+
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class Simulator {
     /**
@@ -69,20 +70,24 @@ public class Simulator {
     public void startSimulation() {
         int time = 0;
         while (checkOperationQueue() || checkTimeOperations()) {
-            System.out.println("---------------------------------");
-            System.out.println("| INICIO SIMULAÇÃO - Tempo: " + time + "   |");
-            System.out.println("---------------------------------");
-            for (OperationQueue operationQueue : operationQueueList) {
-                if (!operationQueue.isEmpty())
-                    assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
-            }
+            System.out.printf("%s===========================================================%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
+            System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                    %s||%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET,ANSI_BRIGHT_WHITE,time,ANSI_RESET,ANSI_BRIGHT_BLACK,ANSI_RESET);
+            System.out.printf("%s===========================================================%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
+            System.out.printf("%nUpdates:%n");
             updateMachines();
+            System.out.printf("%nNew Processing:%n");
+            for (OperationQueue operationQueue : operationQueueList) {
+                if (!operationQueue.isEmpty()) {
+                    assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
+                }
+            }
+            System.out.printf("%nStatus:%n");
             printMachineStatus();
-            System.out.println("---------------------------------");
+            System.out.printf("%n%s===========================================================%s%n%n%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
             time++;
-            sleep(1000);
+//            sleep(1000);
         }
-        System.out.println("✅ All operations completed!");
+        System.out.printf("%s✅ All operations completed! %s%n",ANSI_GREEN,ANSI_RESET);
     }
 
 

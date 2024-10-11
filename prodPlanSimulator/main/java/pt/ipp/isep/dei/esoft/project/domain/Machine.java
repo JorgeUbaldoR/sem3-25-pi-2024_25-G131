@@ -4,6 +4,8 @@ import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 
 import java.util.Objects;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
 public class Machine implements Comparable<Machine> {
     private final Boolean DEFAULT_STATUS = true;
     private final float DEFAULT_TIME_LEFT = 0;
@@ -42,9 +44,11 @@ public class Machine implements Comparable<Machine> {
             setCurrentProcessingItem(item);
             setNotAvailable();
             setTimeToFinish();
-            System.out.println("🔄 Machine " + id_machine + " Processing: 🟡 " + item.getItemID() + " [Operation: " + this.operation.getOperationName() + "]");
+            System.out.printf("   🔄 Machine %s%s%s %sprocessing%s:  📦 %s%s%s [Operation: %s%s%s]%n",
+                                ANSI_BRIGHT_WHITE,id_machine,ANSI_RESET,ANSI_BRIGHT_YELLOW,ANSI_RESET,
+                                ANSI_BRIGHT_WHITE,item.getItemID(),ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET);
         } else {
-            System.out.println("⚠️ Machine " + id_machine + " cannot process item: " + item.getItemID() + " [Operation mismatch]");
+            System.out.println("    ⚠️ Machine " + id_machine + " cannot process item: " + item.getItemID() + " [Operation mismatch]");
         }
     }
 
@@ -58,7 +62,7 @@ public class Machine implements Comparable<Machine> {
         if (!available) {
             this.timeLeftToFinish--;
             if (timeLeftToFinish <= 0) {
-                System.out.println("✅ Machine " + this.id_machine + " finished: " + this.currentProcessingItem.getItemID() + " [Operation: " + this.operation.getOperationName() + "]");
+                System.out.printf("    ✅ Machine %s%s%s %sfinished%s:  📦 %s%s%s [Operation: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,ANSI_RED,ANSI_RESET,ANSI_BRIGHT_WHITE,this.currentProcessingItem.getItemID(),ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET);
                 resetMachine();
                 return true;
             }
@@ -80,9 +84,12 @@ public class Machine implements Comparable<Machine> {
      */
     public void printStatus() {
         if (available) {
-            System.out.println("🟢 Machine " + this.id_machine + " is AVAILABLE");
+            System.out.printf("   ⚙️ Machine %s%s%s is %sAVAILABLE%s%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,ANSI_BRIGHT_GREEN,ANSI_RESET);
         } else {
-            System.out.println("🟡 Machine " + this.id_machine + " is processing: 🟠 " + currentProcessingItem.getItemID() + " [Operation: " + this.operation.getOperationName() + "] with " + timeLeftToFinish + " time left.");
+            System.out.printf("   🛠️ Machine %s%s%s is %sprocessing%s:  📦 %s%s%s [Operation: %s%s%s] [Time left: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,
+                    ANSI_BRIGHT_YELLOW,ANSI_RESET,ANSI_BRIGHT_WHITE,currentProcessingItem.getItemID(),
+                    ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET,
+                    ANSI_BRIGHT_WHITE,this.timeLeftToFinish,ANSI_RESET);
         }
     }
 
@@ -108,7 +115,7 @@ public class Machine implements Comparable<Machine> {
      * Sets the time left to finish processing based on the machine's processing speed.
      */
     private void setTimeToFinish() {
-        this.timeLeftToFinish = processingSpeed + 1;
+        this.timeLeftToFinish = processingSpeed;
     }
 
     //----------------Getters
