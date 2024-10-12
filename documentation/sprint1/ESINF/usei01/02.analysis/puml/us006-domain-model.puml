@@ -16,46 +16,35 @@ hide methods
 '  -description
 '}
 
-class Organization {
+class FileDataReader {
+}
+
+class Operation {
     name
-    vatNumber
-    website
-    phoneNumber
-    email
-}
-
-class Task {
-    reference
     description
-    informalDesc
-    technicalDesc
-    duration
-    cost
+    time
 }
 
-class Category {
-    description
-}
-
-class Employee {
+class Machine {
     name
-    email
-    position
-    phone
+    operation
+    processingSpeed
+    timeLeftToFinish
+    currentProcessingItem
+    availability
 }
 
-'class User {
-'    name
-'    email
-'    password
-'}
+class Item {
+    id
+    priority
+    listOperations
+    currentOperation
 
-'Platform "1" -- "*" Organization : has registered >
-'Platform "1" -- "*" Category : defines >
-Organization "1" - "0..*" Employee : has >
-Organization "1" - "0..*" Task: owns >
-'Task "*" -- "1" Employee: created by >
-Employee "1" -- "*" Task : creates >
-'Employee "0..1" -- "1" User: acts as >
-Task "*" - "1" Category: cataloged as >
+}
+
+
+
+FileDataReader "1" --- "0..*" Item : > stores
+FileDataReader "1" -- "0..*" Operation : > stores
+FileDataReader "1" -- "0..*" Machine : > stores
 @enduml
