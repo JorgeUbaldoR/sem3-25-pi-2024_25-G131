@@ -110,6 +110,8 @@ class SimulatorTest {
         operation2.addItemToQueue(item3);
         operation3 = new OperationQueue(painting);
         operation3.addItemToQueue(item2);
+
+
     }
 
     @Test
@@ -149,8 +151,13 @@ class SimulatorTest {
     @Test
     void startSimulation() {
         simulator = new Simulator();
-        assertNotNull(simulator);
+//        assertEquals(0,simulator.startSimulation());
     }
 
-
+    @Test
+    void checkOperationQueue() {
+        simulator = new Simulator(machines, items, operations);
+        System.out.println("Test Check Operation Queue");
+        assertFalse(simulator.checkTimeOperations());
+    }
 }

@@ -18,8 +18,8 @@ public class Simulator {
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
      *
-     * @param machines a map of operations to queues of machines available for processing.
-     * @param items a list of items to be processed in the simulation.
+     * @param machines   a map of operations to queues of machines available for processing.
+     * @param items      a list of items to be processed in the simulation.
      * @param operations a list of operations to be executed during the simulation.
      * @throws IllegalArgumentException if any of the provided lists are null or empty.
      */
@@ -37,7 +37,7 @@ public class Simulator {
      * Constructs a Simulator instance with default settings.
      * Initializes an empty map for machine operations and an empty list for operation queues.
      */
-    public Simulator(){
+    public Simulator() {
         this.machineList = new HashMap<>();
         this.operationQueueList = new ArrayList<>();
         this.operationTime = new HashMap<>();
@@ -84,9 +84,9 @@ public class Simulator {
     public void startSimulation() {
         int time = 0;
         while (checkOperationQueue() || checkTimeOperations()) {
-            System.out.printf("%s===========================================================%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
-            System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                    %s||%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET,ANSI_BRIGHT_WHITE,time,ANSI_RESET,ANSI_BRIGHT_BLACK,ANSI_RESET);
-            System.out.printf("%s===========================================================%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
+            System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                    %s||%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, time, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             System.out.printf("%nUpdates:%n");
             updateMachines();
             System.out.printf("%nNew Processing:%n");
@@ -97,11 +97,11 @@ public class Simulator {
             }
             System.out.printf("%nStatus:%n");
             printMachineStatus();
-            System.out.printf("%n%s===========================================================%s%n%n%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
+            System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
 //            sleep(1000);
         }
-        System.out.printf("%s✅ All operations completed! %s%n",ANSI_GREEN,ANSI_RESET);
+        System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printExecutionTimesOperation();
     }
 
@@ -110,9 +110,9 @@ public class Simulator {
      * Assigns the next item from the operation queue to an available machine.
      *
      * @param operationQueue the operation queue from which the item is retrieved.
-     * @param machineList the queue of machines available for processing the item.
+     * @param machineList    the queue of machines available for processing the item.
      */
-    private void assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
+    public void assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
         if (!machineList.isEmpty()) {
             for (Machine currentMachine : machineList) {
                 if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
@@ -191,13 +191,13 @@ public class Simulator {
      *
      * @return true if any machine has time left to finish processing; false otherwise.
      */
-    private boolean checkTimeOperations() {
+    public boolean checkTimeOperations() {
         List<Machine> machines = new ArrayList<>();
         for (Queue<Machine> machine : machineList.values()) {
             machines.addAll(machine);
         }
         for (Machine machine : machines) {
-            if(machine.getTimeLeftToFinish() != 0)
+            if (machine.getTimeLeftToFinish() != 0)
                 return true;
         }
         return false;
@@ -220,9 +220,9 @@ public class Simulator {
     /**
      * Checks the provided lists for null or empty values and throws an exception if any are found.
      *
-     * @param machines the map of machines to check.
+     * @param machines   the map of machines to check.
      * @param operations the list of operations to check.
-     * @param items the list of items to check.
+     * @param items      the list of items to check.
      * @throws IllegalArgumentException if any of the lists are null or empty.
      */
     private void checkInformation(Map<Operation, Queue<Machine>> machines, List<Operation> operations, List<Item> items) {
@@ -237,6 +237,14 @@ public class Simulator {
         }
     }
 
+
+    /**
+     * Adds the execution time of a given operation to the map. If the operation already has recorded time,
+     * the new time is added to the existing time; otherwise, the operation is added with the provided time.
+     *
+     * @param op   the operation for which the execution time is being recorded.
+     * @param time the time to add to the execution time of the operation.
+     */
     private void addExecutionTimesOperation(Operation op, float time) {
         if (!this.operationTime.containsKey(op)) {
             operationTime.put(op, time);
@@ -246,12 +254,28 @@ public class Simulator {
         }
     }
 
+
+    /**
+     * Prints the execution times for all operations to the console.
+     * Each operation and its corresponding execution time is printed.
+     */
     private void printExecutionTimesOperation(){
+
+        System.out.printf("%n%n%s====================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%sTime of the operations:  %s%9s%s%n",ANSI_BRIGHT_BLACK,"||",ANSI_RESET,ANSI_BRIGHT_BLACK,"||",ANSI_RESET);
         for (Map.Entry<Operation, Float> entry : operationTime.entrySet()) {
-            System.out.println("Time of the operation: " + entry.getKey() + " " + entry.getValue());
+            System.out.printf("%s%s%s   • %s%-9s%s %s %s%-7.2f%s %s%8s%s%n",ANSI_BRIGHT_BLACK,"||",ANSI_RESET,ANSI_BRIGHT_WHITE,entry.getKey().getOperationName(),ANSI_RESET,"->",ANSI_BRIGHT_WHITE,entry.getValue(),ANSI_RESET,ANSI_BRIGHT_BLACK,"||",ANSI_RESET);
         }
+        System.out.printf("%s====================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
     }
 
+
+    /**
+     * Retrieves the execution times for all operations.
+     *
+     * @return a map containing operations and their corresponding execution times.
+     */
     private Map<Operation, Float> getExecutionTimesOperation() {
         return this.operationTime;
     }
