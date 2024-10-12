@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class AddOperationDescription implements Runnable{
+public class AddOperationDescription implements Runnable {
 
     private final OperationController controller;
 
-    public AddOperationDescription()  {
+    public AddOperationDescription() {
         controller = new OperationController();
     }
 
@@ -53,16 +53,37 @@ public class AddOperationDescription implements Runnable{
         Optional<List<Operation>> op = controller.getAllOperations();
         List<Operation> operationList = op.get();
         int option = selectOperation();
-        Scanner description = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         if (operationList.get(option - 1).getOperationDescription() == null) {
             System.out.println(ANSI_BRIGHT_RED + "Selected Operation description is empty!" + ANSI_RESET);
         } else {
             System.out.printf("Current operation description: %s%s%s%n", ANSI_BRIGHT_YELLOW, operationList.get(option - 1).getOperationDescription(), ANSI_RESET);
         }
         System.out.print("New one: ");
-        description.nextLine();
+        String description = scanner.nextLine();
+        String currentDescription = operationList.get(option - 1).getOperationDescription();
+        String confirmation = requestConfirmation(description, operationList.get(option - 1).getOperationName());
+
+        if (confirmation.equals("y")) {
+            operationList.get(option - 1).setOperationDescription(description);
+        } else {
+            operationList.get(option - 1).setOperationDescription(currentDescription);
+        }
 
     }
 
+    private String requestConfirmation(String answer, String operationName) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("Are you sure that %s%s%s will be your %s%s%s operation description? (y/n): ", ANSI_YELLOW, answer, ANSI_RESET, ANSI_YELLOW, operationName, ANSI_RESET);
+        String confirmation = scanner.nextLine();
+        if (!confirmation.equalsIgnoreCase("y") && !confirmation.equalsIgnoreCase("n")) {
+            do {
+                System.out.print("Select 'y' or 'n': ");
+                confirmation = scanner.nextLine();
+            } while (!confirmation.equalsIgnoreCase("y") && !confirmation.equalsIgnoreCase("n"));
+        }
+        return confirmation;
+
+    }
 
 }
