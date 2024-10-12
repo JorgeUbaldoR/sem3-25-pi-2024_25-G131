@@ -28,7 +28,8 @@ public class Item {
         this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
-        this.currentOperation = operationList.peek();
+        if(operationList != null)
+            this.currentOperation = operationList.peek();
     }
 
 
