@@ -5,8 +5,7 @@ import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
-import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 
 import java.util.ArrayList;
 import java.util.List;

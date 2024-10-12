@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.domain.more;
+package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 

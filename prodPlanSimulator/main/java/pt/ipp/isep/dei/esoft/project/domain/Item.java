@@ -1,7 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 
 import java.util.*;
 

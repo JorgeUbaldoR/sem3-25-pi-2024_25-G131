@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
-
 import java.util.Objects;
 
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;

@@ -2,7 +2,7 @@ package pt.ipp.isep.dei.esoft.project.repository;
 
 import pt.ipp.isep.dei.esoft.project.domain.FileDataReader;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 

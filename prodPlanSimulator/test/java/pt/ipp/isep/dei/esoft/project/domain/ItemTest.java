@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
-import pt.ipp.isep.dei.esoft.project.domain.more.ID;
 
 import java.util.LinkedList;
 import java.util.Queue;
