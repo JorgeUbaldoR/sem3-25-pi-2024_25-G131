@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -85,4 +86,36 @@ public class OperationQueue {
         return itemList.isEmpty();
     }
 
+    /**
+     * Compares this OperationQueue to the specified object for equality.
+     * <p>
+     * Two OperationQueue objects are considered equal if they are the same instance,
+     * or if they are of the same class and both their operation and itemList fields are equal.
+     * </p>
+     *
+     * @param o the object to be compared for equality with this OperationQueue
+     * @return {@code true} if the specified object is equal to this OperationQueue;
+     *         {@code false} otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OperationQueue that = (OperationQueue) o;
+        return Objects.equals(operation, that.operation) && Objects.equals(itemList, that.itemList);
+    }
+
+    /**
+     * Returns a hash code value for this OperationQueue.
+     * <p>
+     * The hash code is computed based on the operation and itemList fields.
+     * This is important for using this class in hash-based collections like HashMap.
+     * </p>
+     *
+     * @return a hash code value for this OperationQueue
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(operation, itemList);
+    }
 }
