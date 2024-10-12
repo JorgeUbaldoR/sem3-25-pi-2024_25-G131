@@ -32,15 +32,26 @@ public class Simulator {
 
 
     /**
+     * Constructs a Simulator instance with default settings.
+     * Initializes an empty map for machine operations and an empty list for operation queues.
+     */
+    public Simulator(){
+        this.machineList = new HashMap<>();
+        this.operationQueueList = new ArrayList<>();
+    }
+
+
+    /**
      * Adds a list of operations to the operation queue list, creating
      * an OperationQueue for each operation.
      *
      * @param operations the list of operations to be added to the operation queue.
      */
-    private void addOperationToQueue(List<Operation> operations) {
+    public List<OperationQueue> addOperationToQueue(List<Operation> operations) {
         for (Operation operation : operations) {
             operationQueueList.add(new OperationQueue(operation));
         }
+        return operationQueueList;
     }
 
 

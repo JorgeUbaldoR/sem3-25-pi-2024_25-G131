@@ -212,4 +212,11 @@ class MachineTest {
     void testToString() {
         assertEquals(machineCutting.toString(), machineCutting.toString());
     }
+
+    @Test
+    void testPrintStatus(){
+        assertTrue(machinePainting.printStatus());
+        machinePainting.processItem(item2);
+        assertFalse(machinePainting.printStatus());
+    }
 }

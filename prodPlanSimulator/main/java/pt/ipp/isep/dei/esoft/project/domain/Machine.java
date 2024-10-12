@@ -82,15 +82,17 @@ public class Machine implements Comparable<Machine> {
      * Prints the current status of the machine.
      * Displays whether the machine is available or currently processing an item.
      */
-    public void printStatus() {
+    public boolean printStatus() {
         if (available) {
             System.out.printf("   ⚙️ Machine %s%s%s is %sAVAILABLE%s%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,ANSI_BRIGHT_GREEN,ANSI_RESET);
+            return true;
         } else {
             System.out.printf("   🛠️ Machine %s%s%s is %sprocessing%s:  📦 %s%s%s [Operation: %s%s%s] [Time left: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,
                     ANSI_BRIGHT_YELLOW,ANSI_RESET,ANSI_BRIGHT_WHITE,currentProcessingItem.getItemID(),
                     ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET,
                     ANSI_BRIGHT_WHITE,this.timeLeftToFinish,ANSI_RESET);
         }
+        return false;
     }
 
 

@@ -101,7 +101,9 @@ public class OperationQueue {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         OperationQueue that = (OperationQueue) o;
+
         return Objects.equals(operation, that.operation) && Objects.equals(itemList, that.itemList);
     }
 
@@ -117,5 +119,23 @@ public class OperationQueue {
     @Override
     public int hashCode() {
         return Objects.hash(operation, itemList);
+    }
+
+    /**
+     * Retorna uma representação em formato de string da fila de operações (OperationQueue).
+     * A string contém o nome da operação e a lista de IDs dos itens presentes na fila.
+     * O formato é: "Operation: {nome da operação} - Items: [{IDs dos itens}]".
+     *
+     * @return Uma string representando a operação e os itens na fila.
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Operation: ").append(operation).append(" - Items: [");
+        for (Item item : itemList) {
+            sb.append(item.getItemID().getKeyID()).append(" ");
+        }
+        sb.append("]\n");
+        return sb.toString();
     }
 }

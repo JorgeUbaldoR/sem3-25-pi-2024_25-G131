@@ -74,6 +74,7 @@ class OperationQueueTest {
         operationQueue2 = new OperationQueue(painting);
         operationQueue3 = new OperationQueue(welling);
 
+
     }
 
     @Test
@@ -118,5 +119,42 @@ class OperationQueueTest {
         }catch (IllegalArgumentException e){
             assertTrue(operationQueue3.isEmpty());
         }
+    }
+
+    @Test
+    void testEquals() {
+        System.out.println("Test Equals");
+        assertNotEquals(operationQueue1, operationQueue2);
+        assertNotEquals(operationQueue1, operationQueue3);
+        assertEquals(operationQueue1, operationQueue1);
+        assertNotEquals(operationQueue1, new Object());
+
+        OperationQueue operationQueue3 = operationQueue1;
+        assertEquals(operationQueue1, operationQueue3);
+
+        OperationQueue operationQueue4 = new OperationQueue(painting);
+        assertEquals(operationQueue2, operationQueue4);
+    }
+
+    @Test
+    void testHashCode() {
+        System.out.println("Test Hash Code");
+        assertNotEquals(operationQueue1.hashCode(), operationQueue2.hashCode());
+        assertNotEquals(operationQueue1.hashCode(), operationQueue3.hashCode());
+        assertEquals(operationQueue1.hashCode(), operationQueue1.hashCode());
+
+        OperationQueue operationQueue3 = operationQueue1;
+        assertEquals(operationQueue1.hashCode(), operationQueue3.hashCode());
+
+        OperationQueue operationQueue4 = new OperationQueue(painting);
+        assertEquals(operationQueue2.hashCode(), operationQueue4.hashCode());
+    }
+
+    @Test
+    void testToString(){
+        OperationQueue operationQueue = new OperationQueue(cutting);
+        operationQueue.addItemToQueue(item1);
+        String result = operationQueue.toString();
+        assertEquals(result, operationQueue.toString());
     }
 }

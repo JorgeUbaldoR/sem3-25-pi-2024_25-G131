@@ -18,6 +18,7 @@ class ItemTest {
     private Item item3;
     private Item item4;
     private Item item5;
+    private Item item6;
 
     private ID idItem1;
     private ID idItem2;
@@ -41,6 +42,10 @@ class ItemTest {
         operationListItem2.add(opPainting);
         operationListItem2.add(opCutting);
 
+        Queue<Operation> operationListItem = new LinkedList<>();
+        operationListItem2.add(null);
+
+
         idItem1 = new ID(101, TypeID.ITEM);
         idItem2 = new ID(102, TypeID.ITEM);
 
@@ -50,6 +55,7 @@ class ItemTest {
         item3 = item1;
         item4 = null;
         item5 = new Item(idItem1, Priority.LOW, operationListItem2);
+        item6 = new Item(idItem1, Priority.LOW, operationListItem);
     }
 
     @Test
@@ -71,6 +77,8 @@ class ItemTest {
         System.out.println("Test Get Next Operations");
         assertEquals(opWelding, item1.getNextOperation());
         assertEquals(opCutting, item2.getNextOperation());
+        assertEquals(opPainting, item3.getNextOperation());
+        assertEquals(null, item6.getNextOperation());
     }
 
     @Test
@@ -102,5 +110,13 @@ class ItemTest {
     void testToString() {
         System.out.println("Test ToString");
         assertEquals(item1.toString(),item3.toString());
+    }
+
+    @Test
+    void testCheckInformation(){
+        System.out.println("Test Check Information");
+        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(null,Priority.HIGH,new LinkedList<>()));
+        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem2,null,new LinkedList<>()));
+        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem1,Priority.HIGH,null ));
     }
 }

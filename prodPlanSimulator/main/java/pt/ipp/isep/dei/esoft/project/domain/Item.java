@@ -2,7 +2,6 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.more.ID;
-import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
 import java.util.*;
 
@@ -23,15 +22,29 @@ public class Item {
      * @param itemID        the unique identifier for the item.
      * @param priority      the priority level of the item.
      * @param operationList the queue of operations that the item will undergo.
+     * @throws IllegalArgumentException if itemID, priority, or operationList is null.
      */
     public Item(ID itemID, Priority priority, Queue<Operation> operationList) {
+        checkInfomation(itemID, priority, operationList);
         this.itemID = itemID;
         this.priority = priority;
         this.operationList = operationList;
-        if(operationList != null)
-            this.currentOperation = operationList.peek();
+        this.currentOperation = operationList.peek();
     }
 
+    /**
+     * Checks the validity of the provided item information.
+     *
+     * @param itemID        the unique identifier for the item.
+     * @param priority      the priority level of the item.
+     * @param operationList the queue of operations that the item will undergo.
+     * @throws IllegalArgumentException if itemID, priority, or operationList is null.
+     */
+    public void checkInfomation(ID itemID, Priority priority, Queue<Operation> operationList) {
+        if (itemID == null) throw new IllegalArgumentException("Can't create Item because ID is null");
+        if (priority == null) throw new IllegalArgumentException("Can't create Item because Priority is null");
+        if (operationList == null) throw new IllegalArgumentException("Can't create Item because operation list is null");
+    }
 
 
     /**
@@ -58,7 +71,7 @@ public class Item {
      * @return the next operation, or null if there are no more operations.
      */
     public Operation getNextOperation() {
-        if (!operationList.isEmpty()) {
+        if (!operationList.isEmpty() ) {
             operationList.poll();
             this.currentOperation = operationList.peek();
             return this.currentOperation;
