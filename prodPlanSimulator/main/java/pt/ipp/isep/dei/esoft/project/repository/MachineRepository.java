@@ -32,7 +32,7 @@ public class MachineRepository {
      *
      * @param machine the Machine to be added to the repository
      * @return an Optional containing a clone of the added machine if successful,
-     *         or an empty Optional if the machine already exists
+     * or an empty Optional if the machine already exists
      */
     public Optional<Machine> addMachine(Machine machine) {
         Optional<Machine> newMachine = Optional.empty();
@@ -79,6 +79,16 @@ public class MachineRepository {
      */
     public List<Machine> getMachineList() {
         return new ArrayList<>(machineList.values());
+    }
+
+    public Optional<List<Machine>> requestMachineList() {
+        Optional<List<Machine>> optionalValue = Optional.empty();
+        List<Machine> list = getMachineList();
+
+        if (!machineList.isEmpty()) {
+            optionalValue = Optional.of(list);
+        }
+        return optionalValue;
     }
 
 }

@@ -13,6 +13,7 @@ public class AuthenticationController {
 
     public static final String ROLE_ADMIN = "ADMINISTRATOR";
     public static final String ROLE_EMPLOYEE = "EMPLOYEE";
+    public static final String ROLE_PRODUCTION_MANAGER = "PRODUCTION_MANAGER";
 
     //private final ApplicationSession applicationSession;
     private final AuthenticationRepository authenticationRepository;

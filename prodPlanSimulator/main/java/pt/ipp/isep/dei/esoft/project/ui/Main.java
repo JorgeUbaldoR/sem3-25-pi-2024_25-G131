@@ -11,11 +11,11 @@ public class Main {
 
         SimulatorController simulatorController = new SimulatorController();
         simulatorController.startSimulation();
-//        try {
-//            MainMenuUI menu = new MainMenuUI();
-//            menu.run();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            MainMenuUI menu = new MainMenuUI();
+            menu.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

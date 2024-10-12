@@ -76,6 +76,14 @@ public class OperationController {
         operationRepository.fillOperations(machines);
     }
 
+    public List<Operation> getOperationsList() {
+        return operationRepository.getOperations();
+    }
+
+    public Optional<List<Operation>> getAllOperations() {
+        return operationRepository.getAllOperations();
+    }
+
 
 }
 

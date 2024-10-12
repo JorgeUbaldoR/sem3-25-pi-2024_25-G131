@@ -62,4 +62,13 @@ public class OperationRepository {
         operation.addAll(operations);
         return operation;
     }
+
+    public Optional<List<Operation>> getAllOperations() {
+        Optional<List<Operation>> op = Optional.empty();
+        List<Operation> operations = getOperations();
+        if (!operations.isEmpty()) {
+            op = Optional.of(operations);
+        }
+        return op;
+    }
 }
