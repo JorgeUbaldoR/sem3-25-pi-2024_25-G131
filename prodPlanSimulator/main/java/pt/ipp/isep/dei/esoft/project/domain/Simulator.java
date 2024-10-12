@@ -13,6 +13,7 @@ public class Simulator {
     private final Map<Operation, Queue<Machine>> machineList;
     private final List<OperationQueue> operationQueueList;
 
+    private final Map<Operation, Float> operationTime;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -28,6 +29,7 @@ public class Simulator {
         this.operationQueueList = new ArrayList<>();
         addOperationToQueue(operations);
         createQueues(items);
+        this.operationTime = new HashMap<>();
     }
 
 
@@ -38,6 +40,7 @@ public class Simulator {
     public Simulator(){
         this.machineList = new HashMap<>();
         this.operationQueueList = new ArrayList<>();
+        this.operationTime = new HashMap<>();
     }
 
 
@@ -99,6 +102,7 @@ public class Simulator {
 //            sleep(1000);
         }
         System.out.printf("%s✅ All operations completed! %s%n",ANSI_GREEN,ANSI_RESET);
+        printExecutionTimesOperation();
     }
 
 
@@ -128,6 +132,7 @@ public class Simulator {
             for (Machine machine : machineList.get(operation)) {
                 boolean finished = machine.updateMachine();
                 if (finished) {
+                    addExecutionTimesOperation(operation, machine.getProcessingSpeed());
                     Item currentItem = machine.getCurrentProcessingItem();
                     Operation newOperation = currentItem.getNextOperation();
                     if (newOperation != null) {
@@ -232,4 +237,22 @@ public class Simulator {
         }
     }
 
+    private void addExecutionTimesOperation(Operation op, float time) {
+        if (!this.operationTime.containsKey(op)) {
+            operationTime.put(op, time);
+        } else {
+            float currentTime = operationTime.get(op) + time;
+            operationTime.put(op, currentTime);
+        }
+    }
+
+    private void printExecutionTimesOperation(){
+        for (Map.Entry<Operation, Float> entry : operationTime.entrySet()) {
+            System.out.println("Time of the operation: " + entry.getKey() + " " + entry.getValue());
+        }
+    }
+
+    private Map<Operation, Float> getExecutionTimesOperation() {
+        return this.operationTime;
+    }
 }
