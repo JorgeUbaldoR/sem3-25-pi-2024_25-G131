@@ -27,6 +27,8 @@ public class AddOperationUI implements Runnable {
     @Override
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
+        System.out.println(ANSI_BRIGHT_WHITE + "               Add Operation                 " + ANSI_RESET + "\n");
+
         confirmAndSubmitOperation();
 
     }

@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.esoft.project.ui.console.AddOperationDescriptionUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.SimulatorUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ViewOperationsUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.AddOperationUI;
+import pt.ipp.isep.dei.esoft.project.ui.console.utils.ShowInformationUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.ArrayList;
@@ -24,11 +25,13 @@ public class ProductionManagerUI implements Runnable {
         options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
         options.add(new MenuItem("Change operation description", new AddOperationDescriptionUI()));
         options.add(new MenuItem("Simulation", new SimulatorUI()));
+        options.add(new MenuItem("Show Information", new ShowInformationUI()));
+
 
         int option = 0;
         do {
             System.out.println("\n\n╔════════════════════════════════════════╗");
-            option = Utils.showAndSelectIndex(options, "║" + ANSI_BRIGHT_WHITE + "        PRODUCTION MANAGER MENU   " + ANSI_RESET + "      ║");
+            option = Utils.showAndSelectIndex(options, "║"+ANSI_BRIGHT_WHITE+"        PRODUCTION MANAGER MENU   "+ANSI_RESET +"      ║");
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
