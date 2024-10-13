@@ -99,7 +99,7 @@ public class Simulator {
             printMachineStatus();
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
-//            sleep(1000);
+            sleep(1000);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printExecutionTimesOperation();

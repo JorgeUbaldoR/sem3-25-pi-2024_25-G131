@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
 import pt.ipp.isep.dei.esoft.project.ui.console.AddOperationDescriptionUI;
+import pt.ipp.isep.dei.esoft.project.ui.console.SimulatorUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ViewOperationsUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
@@ -20,6 +21,7 @@ public class ProductionManagerUI implements Runnable {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
         options.add(new MenuItem("Change operation description", new AddOperationDescriptionUI()));
+        options.add(new MenuItem("Simulation", new SimulatorUI()));
 
         int option = 0;
         do {

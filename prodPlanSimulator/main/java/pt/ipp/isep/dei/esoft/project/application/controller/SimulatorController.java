@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Simulator;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
@@ -86,7 +87,7 @@ public class SimulatorController {
      *
      * @return a Map where each key is an Operation and its value is a Queue of Machines that can perform it
      */
-    private Map<Operation, Queue<Machine>> getMachinesMap() {
+    public Map<Operation, Queue<Machine>> getMachinesMap() {
         Map<Operation, Queue<Machine>> machinesMap = new HashMap<>();
         for (Machine machine : getMachineRepository().getMachineList()) {
             if(!machinesMap.containsKey(machine.getOperation())) {
@@ -97,6 +98,26 @@ public class SimulatorController {
             }
         }
         return machinesMap;
+    }
+
+    /**
+     * Method that returns the list of items.
+     * It accesses the item repository and retrieves all stored items.
+     *
+     * @return List of items present in the repository.
+     */
+    public List<Item> getItemList(){
+        return getItemRepository().getItemList();
+    }
+
+    /**
+     * Method that returns the list of operations.
+     * It accesses the operation repository and retrieves all stored operations.
+     *
+     * @return List of operations present in the repository.
+     */
+    public List<Operation> getOperationList(){
+        return getOperationRepository().getOperations();
     }
 
 

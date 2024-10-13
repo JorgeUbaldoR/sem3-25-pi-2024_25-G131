@@ -23,7 +23,7 @@ public class ViewOperationsUI implements Runnable {
 
 
     public void run() {
-        System.out.println("\n══════════════════════════════════════════");
+        System.out.println("\n\n══════════════════════════════════════════");
 
         System.out.println(ANSI_BRIGHT_WHITE+"        List [Operation->Machines]\n"+ANSI_RESET);
 

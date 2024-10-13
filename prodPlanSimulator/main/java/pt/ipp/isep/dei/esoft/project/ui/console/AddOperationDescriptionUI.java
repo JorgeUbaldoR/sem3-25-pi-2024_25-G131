@@ -21,7 +21,7 @@ public class AddOperationDescriptionUI implements Runnable {
     }
 
     public void run() {
-        System.out.println("\n══════════════════════════════════════════");
+        System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE+"      Change operation description       "+ANSI_RESET+"\n");
         addDescription();
     }

@@ -124,4 +124,8 @@ public class Item {
     public String toString() {
         return String.format("%s -> %s -> %s ", itemID, priority, operationList.peek());
     }
+
+    public List<Operation> getOperationList() {
+        return List.copyOf(operationList);
+    }
 }

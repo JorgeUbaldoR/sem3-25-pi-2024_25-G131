@@ -7,8 +7,7 @@ import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_BRIGHT_WHITE;
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 /**
  * @author Paulo Maio pam@isep.ipp.pt
