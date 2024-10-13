@@ -9,14 +9,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
 /**
  * @author Paulo Maio pam@isep.ipp.pt
  */
 public class Utils {
+    final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
 
     static public String readLineFromConsole(String prompt) {
         try {
-            System.out.print("\n" + prompt);
+            System.out.printf("%s : ", prompt);
 
             InputStreamReader converter = new InputStreamReader(System.in);
             BufferedReader in = new BufferedReader(converter);
@@ -93,22 +96,23 @@ public class Utils {
 
     static public void showList(List list, String header) {
         System.out.println(header);
+        System.out.println("╚════════════════════════════════════════╝");
 
         int index = 0;
         for (Object o : list) {
             index++;
 
-            System.out.println("  " + index + " - " + o.toString());
+            System.out.printf("║    %s(%d)%s -  %-20s %9s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
         }
-        //System.out.println();
-        System.out.println("  0 - Cancel");
+        System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.println("╚════════════════════════════════════════╝");
     }
 
     static public Object selectsObject(List list) {
         String input;
         int value;
         do {
-            input = Utils.readLineFromConsole("Type your option: ");
+            input = Utils.readLineFromConsole("Type your option");
             value = Integer.valueOf(input);
         } while (value < 0 || value > list.size());
 
@@ -123,7 +127,7 @@ public class Utils {
         String input;
         int value;
         do {
-            input = Utils.readLineFromConsole("Type your option: ");
+            input = Utils.readLineFromConsole("Type your option");
             try {
                 value = Integer.valueOf(input);
             } catch (NumberFormatException ex) {

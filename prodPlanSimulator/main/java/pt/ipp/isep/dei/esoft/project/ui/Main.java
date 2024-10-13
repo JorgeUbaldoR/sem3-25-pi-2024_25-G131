@@ -9,8 +9,8 @@ public class Main {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
 
-        SimulatorController simulatorController = new SimulatorController();
-        simulatorController.startSimulation();
+//        SimulatorController simulatorController = new SimulatorController();
+//        simulatorController.startSimulation();
         try {
             MainMenuUI menu = new MainMenuUI();
             menu.run();

@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
 /**
  * @author Paulo Maio pam@isep.ipp.pt
  */
@@ -53,18 +55,21 @@ public class AuthenticationUI implements Runnable {
     }
 
     private boolean doLogin() {
-        System.out.println("\n\n--- LOGIN UI ---------------------------");
+        System.out.println("\n\n══════════════════════════════════════════");
+        System.out.println(ANSI_BRIGHT_WHITE+"                 LOGIN UI               "+ANSI_RESET);
+
 
         int maxAttempts = 3;
         boolean success = false;
         do {
             maxAttempts--;
-            String id = Utils.readLineFromConsole("Enter UserId/Email: ");
-            String pwd = Utils.readLineFromConsole("Enter Password: ");
+            System.out.println("Enter:");
+            String id = Utils.readLineFromConsole("    •UserId/Email");
+            String pwd = Utils.readLineFromConsole("    •Password");
 
             success = ctrl.doLogin(id, pwd);
             if (!success) {
-                System.out.println("Invalid UserId and/or Password. \n You have  " + maxAttempts + " more attempt(s).");
+                System.out.println(ANSI_LIGHT_RED+"Invalid UserId and/or Password - Attempt(s) left [" + maxAttempts + "]" + ANSI_RESET+"\n");
             }
 
         } while (!success && maxAttempts > 0);
