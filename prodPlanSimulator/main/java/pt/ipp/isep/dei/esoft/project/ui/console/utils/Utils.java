@@ -84,17 +84,17 @@ public class Utils {
         return input.equalsIgnoreCase("s");
     }
 
-    static public Object showAndSelectOne(List list, String header) {
+    static public Object showAndSelectOne(List<?> list, String header) {
         showList(list, header);
         return selectsObject(list);
     }
 
-    static public int showAndSelectIndex(List list, String header) {
+    static public int showAndSelectIndex(List<?> list, String header) {
         showList(list, header);
         return selectsIndex(list);
     }
 
-    static public void showList(List list, String header) {
+    static public void showList(List<?> list, String header) {
         System.out.println(header);
         System.out.println("╚════════════════════════════════════════╝");
 
@@ -102,13 +102,13 @@ public class Utils {
         for (Object o : list) {
             index++;
 
-            System.out.printf("║    %s(%d)%s -  %-20s %9s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
+            System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
         }
         System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
         System.out.println("╚════════════════════════════════════════╝");
     }
 
-    static public Object selectsObject(List list) {
+    static public Object selectsObject(List<?> list) {
         String input;
         int value;
         do {

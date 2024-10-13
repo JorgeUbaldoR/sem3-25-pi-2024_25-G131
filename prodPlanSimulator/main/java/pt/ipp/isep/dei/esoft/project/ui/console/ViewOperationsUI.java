@@ -23,7 +23,9 @@ public class ViewOperationsUI implements Runnable {
 
 
     public void run() {
-        System.out.println("\n\n--- Request [Operation -> Machines] list ------------------------");
+        System.out.println("\n══════════════════════════════════════════");
+
+        System.out.println(ANSI_BRIGHT_WHITE+"        List [Operation->Machines]\n"+ANSI_RESET);
 
         submitData();
     }
@@ -34,7 +36,7 @@ public class ViewOperationsUI implements Runnable {
 
         if (machineList.isPresent()) {
             printResult();
-            System.out.println(ANSI_BRIGHT_GREEN + "List successfully generated!" + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_GREEN + "\nList successfully generated!" + ANSI_RESET);
         } else {
             System.out.println(ANSI_BRIGHT_RED + "LEAVING..." + ANSI_RESET);
         }
@@ -50,7 +52,7 @@ public class ViewOperationsUI implements Runnable {
                 operationToMachines.get(machine.getOperation()).add(machine);
             }
         } else {
-            System.out.println(ANSI_BRIGHT_RED + "Request failed!" + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_RED + "\nRequest failed!" + ANSI_RESET);
         }
         return operationToMachines;
 
@@ -62,15 +64,13 @@ public class ViewOperationsUI implements Runnable {
             Operation operation = entry.getKey();
             List<Machine> machines = entry.getValue();
 
-            System.out.printf("%s%s%s is performed by machines: %n", ANSI_YELLOW,
-                    operation.getOperationName(), ANSI_RESET);
+            System.out.printf("[%-9s%s is performed by machines: %s%n",operation.getOperationName()+"]" ,ANSI_BRIGHT_BLACK, ANSI_RESET);
             for (Machine machine : machines) {
-                System.out.printf(" - %s%s%s%n", ANSI_CRIMSON, machine.getId_machine(), ANSI_RESET);
+                System.out.printf(" • %s%s%s%n", ANSI_BRIGHT_WHITE, machine.getId_machine(), ANSI_RESET);
             }
         }
 
     }
-
 
 
 //--- Not currently in use, maybe later (both)... ---//
