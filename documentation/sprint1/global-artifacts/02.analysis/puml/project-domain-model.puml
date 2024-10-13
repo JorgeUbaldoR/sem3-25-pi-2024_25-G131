@@ -2,83 +2,86 @@
 skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
-'skinparam linetype ortho
-'left to right direction
 skinparam classAttributeIconSize 0
 hide circle
 hide methods
+left to right direction
 
-'title Domain Model
-
-'class Platform {
-'  -description
-'}
-
-class Organization {
-    name
-    vatNumber
-    website
-    phoneNumber
-    email
+class ProductionOrder {
+    ProductOrder_ID
+    Order_ID
+    Product_ID
+    StartDate
+    EndDate
+    Status
+    Priority
+    ListOfProductBOM_ID
+    ListOfProductBOO_ID
 }
 
-class Task {
-    reference
-    description
-    informalDesc
-    technicalDesc
-    duration
-    cost
+class ListOfProduct {
+    Order_ID
+    Product_ID
+    Amount_Product
 }
 
-class Category {
-    description
+class Product {
+    Product_ID
+    Family_ID
+    Name
+    Description
+    Category
 }
 
-class Employee {
-    name
-    email
-    position
-    phone
+class ProductFamily {
+    Family_ID
 }
 
-class TechnicalSkill{
-    shortDescription
-    fullDescription
+class BOM {
+    BOM_ID
+    Product_ID
+    Quantity
 }
 
-class ActivityArea{
-    shortDescription
-    fullDescription
+class Component {
+    Component_ID
+    Name
+    Stock
+    StockMin
+    Description
 }
 
-class FeatureTS{
-    mandatory
+class Operation {
+    Operation_ID
+    Description
+    Duration
 }
 
-'class User {
-'    name
-'    email
-'    password
-'}
-class PostalAddress{
-    street
-    zipCode
-    city
+class Workstation {
+    Workstation_ID
+    Sector_ID
+    Name
 }
-'Platform "1" -- "*" Organization : has registered >
-'Platform "1" -- "*" Category : defines >
-Organization "1" - "0..*" Employee : has >
-Organization "1" - "0..*" Task: owns >
-'Task "*" -- "1" Employee: created by >
-Employee "1" -- "*" Task : creates >
-'Employee "0..1" -- "1" User: acts as >
-Task "*" - "1" Category: cataloged as >
-TechnicalSkill "*" - "1" ActivityArea: regarding an >
 
-Category "*" - "*" TechnicalSkill :  : requires >
-(Category, TechnicalSkill) . FeatureTS
+class Sector {
+    Sector_ID
+    Name
+    Description
+}
 
-Organization "1" -left "1" PostalAddress : located At >
+class BOO {
+    BOO_ID
+    sequence
+}
+
+ProductionOrder "1" - "1" ListOfProduct : contains >
+ListOfProduct "1" - "0..*" Product : contains >
+Product "1" - "1" ProductFamily : belongs to >
+ProductFamily "1" - "1" BOM : has >
+BOM "1" - "0..*" Component : contains >
+ProductionOrder "1" - "0..*" Operation : includes >
+BOO "1" - "1" Workstation : performed in >
+Workstation "1" - "1" Sector : belongs to >
+Operation "1" - "0..*" BOO : belongs to >
 
 @enduml
