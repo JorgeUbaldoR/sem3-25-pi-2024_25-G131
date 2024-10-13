@@ -82,7 +82,7 @@ public class Machine implements Comparable<Machine> {
      */
     public boolean printStatus() {
         if (available) {
-            System.out.printf("   ⚙️ Machine %s%s%s is %sAVAILABLE%s%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,ANSI_BRIGHT_GREEN,ANSI_RESET);
+            System.out.printf("   ⚙️ Machine %s%s%s is %sAVAILABLE%s [Operation: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,ANSI_BRIGHT_GREEN,ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName(),ANSI_RESET);
             return true;
         } else {
             System.out.printf("   🛠️ Machine %s%s%s is %sprocessing%s:  📦 %s%s%s [Operation: %s%s%s] [Time left: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,
@@ -230,6 +230,15 @@ public class Machine implements Comparable<Machine> {
         return new Machine(id_machine, operation, processingSpeed);
     }
 
+    /**
+     * Returns a string representation of the machine.
+     * <p>
+     * This method formats the output to include the ID of the machine.
+     * The output will display the machine ID on a new line.
+     * </p>
+     *
+     * @return a formatted string representing the machine's ID.
+     */
     @Override
     public String toString() {
         return String.format("%s%n", id_machine.toString());

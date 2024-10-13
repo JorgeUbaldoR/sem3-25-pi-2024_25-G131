@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.ui.console.utils;
+package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.SimulatorController;
 import pt.ipp.isep.dei.esoft.project.domain.Item;

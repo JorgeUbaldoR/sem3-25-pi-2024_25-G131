@@ -87,22 +87,41 @@ public class Simulator {
             System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                    %s||%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, time, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
             System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-            System.out.printf("%nUpdates:%n");
+            System.out.printf("%n• Updates:%n");
             updateMachines();
-            System.out.printf("%nNew Processing:%n");
+            System.out.printf("%n• Queue:%n");
+            printQueue();
+            System.out.printf("%n• Status:%n");
+            printMachineStatus();
+            System.out.printf("%n• New Processing:%n");
             for (OperationQueue operationQueue : operationQueueList) {
                 if (!operationQueue.isEmpty()) {
                     assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
                 }
             }
-            System.out.printf("%nStatus:%n");
-            printMachineStatus();
+
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
-            sleep(1000);
+            sleep(1500);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printExecutionTimesOperation();
+    }
+
+    /**
+     * Prints the current state of all operation queues to the console.
+     * <p>
+     * This method iterates through the list of operation queues and
+     * prints the string representation of each queue using the
+     * {@link OperationQueue#toString()} method. Each queue will be
+     * displayed on a new line, providing a clear overview of the
+     * items waiting to be processed in each operation queue.
+     * </p>
+     */
+    private void printQueue() {
+        for (OperationQueue operationQueue : operationQueueList) {
+            System.out.printf("%s%n",operationQueue.toString());
+        }
     }
 
 

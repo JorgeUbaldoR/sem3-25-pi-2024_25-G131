@@ -29,7 +29,7 @@ public class SimulatorUI implements Runnable {
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "               Simulation                 " + ANSI_RESET + "\n");
-        System.out.println(ANSI_BRIGHT_GREEN+"\n              START OF THE SIMULATION..."+ANSI_RESET);
+        System.out.println(ANSI_BRIGHT_GREEN+"\nSTART OF THE SIMULATION..."+ANSI_RESET);
 
         getSimulationController().startSimulation();
     }

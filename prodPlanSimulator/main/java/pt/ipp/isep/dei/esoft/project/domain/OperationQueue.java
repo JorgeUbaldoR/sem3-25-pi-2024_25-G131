@@ -121,21 +121,33 @@ public class OperationQueue {
         return Objects.hash(operation, itemList);
     }
 
+
     /**
-     * Retorna uma representação em formato de string da fila de operações (OperationQueue).
-     * A string contém o nome da operação e a lista de IDs dos itens presentes na fila.
-     * O formato é: "Operation: {nome da operação} - Items: [{IDs dos itens}]".
+     * Returns a string representation of the OperationQueue.
+     * <p>
+     * The string includes the operation name and a list of item IDs currently in the queue.
+     * Each item ID is separated by a comma. The format of the output is as follows:
+     * <pre>
+     *    📝 OperationName: [ItemID1, ItemID2, ..., ItemIDn]
+     * </pre>
+     * </p>
      *
-     * @return Uma string representando a operação e os itens na fila.
+     * @return a formatted string representing the operation and its associated items in the queue.
      */
     @Override
     public String toString() {
+        int num = 0;
         StringBuilder sb = new StringBuilder();
-        sb.append("Operation: ").append(operation).append(" - Items: [");
+        sb.append("   📝 ").append(operation.getOperationName()).append(": [");
         for (Item item : itemList) {
-            sb.append(item.getItemID().getKeyID()).append(" ");
+            if(num != itemList.size() - 1 ){
+                sb.append(item.getItemID().getKeyID()).append(", ");
+            }else {
+                sb.append(item.getItemID().getKeyID());
+            }
+            num++;
         }
-        sb.append("]\n");
+        sb.append("]");
         return sb.toString();
     }
 }

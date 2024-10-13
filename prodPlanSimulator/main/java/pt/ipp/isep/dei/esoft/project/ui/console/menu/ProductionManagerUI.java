@@ -4,7 +4,7 @@ import pt.ipp.isep.dei.esoft.project.ui.console.AddOperationDescriptionUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.SimulatorUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.ViewOperationsUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.AddOperationUI;
-import pt.ipp.isep.dei.esoft.project.ui.console.utils.ShowInformationUI;
+import pt.ipp.isep.dei.esoft.project.ui.console.ShowInformationUI;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 
 import java.util.ArrayList;
