@@ -78,8 +78,12 @@ public class Operation {
      *
      * @param operationDescription the new description of the operation
      */
-    public void setOperationDescription(String operationDescription) {
-        this.operationDescription = operationDescription;
+    public boolean setOperationDescription(String operationDescription) {
+        if (this.operationDescription == null || !this.operationDescription.equals(operationDescription)) {
+            this.operationDescription = operationDescription;
+            return true;
+        }
+        return false;
     }
 
     /**

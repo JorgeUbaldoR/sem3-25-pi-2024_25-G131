@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class AddOperationDescription implements Runnable {
+public class AddOperationDescriptionUI implements Runnable {
 
     private final OperationController controller;
 
-    public AddOperationDescription() {
+    public AddOperationDescriptionUI() {
         controller = new OperationController();
     }
 
@@ -38,14 +38,24 @@ public class AddOperationDescription implements Runnable {
             operationList = op.get();
         }
         for (Operation operation : operationList) {
-            System.out.printf("%s(%d)%s %s%n", ANSI_PURPLE, c++, ANSI_RESET, operation.getOperationName());
+            if (operation.getOperationDescription() != null) {
+                System.out.printf("%s(%d)%s %s: %s%s%s%n", ANSI_PURPLE, c++, ANSI_RESET,
+                        operation.getOperationName(), ANSI_YELLOW,
+                        operation.getOperationDescription(), ANSI_RESET);
+
+            } else {
+                operation.setOperationDescription(ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET);
+                System.out.printf("%s(%d)%s %s: %s%s%s%n", ANSI_PURPLE, c++, ANSI_RESET,
+                        operation.getOperationName(), ANSI_YELLOW,
+                        operation.getOperationDescription(), ANSI_RESET);
+            }
         }
     }
 
     private int selectOperation() {
         Scanner scanner = new Scanner(System.in);
         seeOperations();
-        System.out.println("Select an operation by the number: ");
+        System.out.print("Select an operation by the number: ");
         return scanner.nextInt();
     }
 
@@ -54,20 +64,18 @@ public class AddOperationDescription implements Runnable {
         List<Operation> operationList = op.get();
         int option = selectOperation();
         Scanner scanner = new Scanner(System.in);
-        if (operationList.get(option - 1).getOperationDescription() == null) {
-            System.out.println(ANSI_BRIGHT_RED + "Selected Operation description is empty!" + ANSI_RESET);
-        } else {
-            System.out.printf("Current operation description: %s%s%s%n", ANSI_BRIGHT_YELLOW, operationList.get(option - 1).getOperationDescription(), ANSI_RESET);
-        }
-        System.out.print("New one: ");
+
+        System.out.print("Description to be added: ");
         String description = scanner.nextLine();
         String currentDescription = operationList.get(option - 1).getOperationDescription();
         String confirmation = requestConfirmation(description, operationList.get(option - 1).getOperationName());
 
         if (confirmation.equals("y")) {
-            operationList.get(option - 1).setOperationDescription(description);
+            if(operationList.get(option - 1).setOperationDescription(description))
+                System.out.println(ANSI_BRIGHT_GREEN + "New description successfully added!" + ANSI_RESET);
         } else {
             operationList.get(option - 1).setOperationDescription(currentDescription);
+            System.out.println(ANSI_BRIGHT_RED + "No changes made!" + ANSI_RESET);
         }
 
     }
