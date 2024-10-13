@@ -19,8 +19,9 @@ public class MachineRepository {
 
     /**
      * Constructs a new MachineRepository instance.
-     * Initializes an empty HashMap to store Machine objects and fills the machinery
-     * from a data source.
+     * Initializes an empty HashMap to store Machine objects.
+     * Additionally, fills the repository with machines from an external data source
+     * by invoking the fillMachinery() method.
      */
     public MachineRepository() {
         this.machineList = new HashMap<>();
@@ -74,6 +75,7 @@ public class MachineRepository {
 
     /**
      * Retrieves all machines from the repository.
+     * The returned list is a new ArrayList containing the current machines, ensuring the original list is not modified.
      *
      * @return a List containing all Machine objects in the repository
      */
@@ -81,6 +83,13 @@ public class MachineRepository {
         return new ArrayList<>(machineList.values());
     }
 
+    /**
+     * Requests the list of machines in the repository, wrapped in an Optional.
+     * If the repository is not empty, the method returns an Optional containing the list of machines.
+     * If the repository is empty, an empty Optional is returned.
+     *
+     * @return an Optional containing a List of machines if available, or an empty Optional if the repository is empty
+     */
     public Optional<List<Machine>> requestMachineList() {
         Optional<List<Machine>> optionalValue = Optional.empty();
         List<Machine> list = getMachineList();
