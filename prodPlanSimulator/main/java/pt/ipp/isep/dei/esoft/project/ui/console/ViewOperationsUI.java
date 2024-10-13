@@ -40,7 +40,7 @@ public class ViewOperationsUI implements Runnable {
             printResult();
             System.out.println(ANSI_BRIGHT_GREEN + "List successfully generated!" + ANSI_RESET);
         } else {
-            System.out.println(ANSI_BRIGHT_RED + "There are no machines in the system!" + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_RED + "LEAVING..." + ANSI_RESET);
         }
     }
 
@@ -82,9 +82,10 @@ public class ViewOperationsUI implements Runnable {
             Operation operation = entry.getKey();
             List<Machine> machines = entry.getValue();
 
-            System.out.printf("Operation %s is performed by machines: %n", operation.getOperationName());
+            System.out.printf("%s%s%s is performed by machines: %n", ANSI_YELLOW,
+                    operation.getOperationName(), ANSI_RESET);
             for (Machine machine : machines) {
-                System.out.printf(" - %s%n", machine.getId_machine());
+                System.out.printf(" - %s%s%s%n", ANSI_CRIMSON, machine.getId_machine(), ANSI_RESET);
             }
         }
 

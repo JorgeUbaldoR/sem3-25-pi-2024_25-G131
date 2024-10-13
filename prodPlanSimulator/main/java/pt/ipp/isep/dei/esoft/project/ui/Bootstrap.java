@@ -18,12 +18,15 @@ public class Bootstrap implements Runnable {
     private final Operation opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
     private final Operation opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
     private final Operation opPainting = new Operation("Painting", "Painting the surface", 1.5f);
+    private final Operation opTesting = new Operation("Testing");
+
 
     private final ID idMachineCutting01 = new ID(100, TypeID.MACHINE);
     private final ID idMachineCutting02 = new ID(110, TypeID.MACHINE);
     private final ID idMachineCutting03 = new ID(111, TypeID.MACHINE);
     private final ID idMachinePainting = new ID(102, TypeID.MACHINE);
     private final ID idMachineWelding = new ID(101, TypeID.MACHINE);
+    private final ID idMachineTesting = new ID(107, TypeID.MACHINE);
     private final ID idItem1 = new ID(101, TypeID.ITEM);
     private final ID idItem2 = new ID(102, TypeID.ITEM);
     private final ID idItem3 = new ID(103, TypeID.ITEM);
@@ -35,6 +38,7 @@ public class Bootstrap implements Runnable {
     private final Machine machineCutting03 = new Machine(idMachineCutting03, opCutting, 3f);
     private final Machine machineWelding = new Machine(idMachineWelding, opWelding, 3.0f);
     private final Machine machinePainting = new Machine(idMachinePainting, opPainting, 1.5f);
+    private final Machine machineTesting = new Machine(idMachineTesting, opTesting, 1.5f);
 
     private final Queue<Operation> operationListItem1 = new LinkedList<>();
     private final Queue<Operation> operationListItem2 = new LinkedList<>();
@@ -74,6 +78,7 @@ public class Bootstrap implements Runnable {
         machineRepository.addMachine(machineCutting03);
         machineRepository.addMachine(machineWelding);
         machineRepository.addMachine(machinePainting);
+        machineRepository.addMachine(machineTesting);
     }
 
     private void addIDs() {
