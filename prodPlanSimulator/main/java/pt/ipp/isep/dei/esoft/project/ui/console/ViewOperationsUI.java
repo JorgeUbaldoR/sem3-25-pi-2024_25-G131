@@ -30,11 +30,7 @@ public class ViewOperationsUI implements Runnable {
 
 
     private void submitData() {
-        Optional<List<Machine>> machineList = Optional.empty();
-
-        if (continueProcess()) {
-            machineList = getMachineController().requestList();
-        }
+        Optional<List<Machine>> machineList = getMachineController().requestList();
 
         if (machineList.isPresent()) {
             printResult();
@@ -44,22 +40,6 @@ public class ViewOperationsUI implements Runnable {
         }
     }
 
-    private String requestList() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Do you want to see which machines perform a certain operation? (y/n): ");
-        String activation = scanner.nextLine().toLowerCase();
-
-        while (!activation.equals("y") && !activation.equals("n")) {
-            System.out.print("Please enter 'y' or 'n': ");
-            activation = scanner.nextLine().toLowerCase();
-        }
-
-        return activation;
-    }
-
-    private boolean continueProcess() {
-        return requestList().equals("y");
-    }
 
     private Map<Operation, List<Machine>> connectOperationToMachines() {
         Map<Operation, List<Machine>> operationToMachines = new HashMap<>();
@@ -91,4 +71,23 @@ public class ViewOperationsUI implements Runnable {
 
     }
 
+
+
+//--- Not currently in use, maybe later (both)... ---//
+    private String requestList() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to see which machines perform a certain operation? (y/n): ");
+        String activation = scanner.nextLine().toLowerCase();
+
+        while (!activation.equals("y") && !activation.equals("n")) {
+            System.out.print("Please enter 'y' or 'n': ");
+            activation = scanner.nextLine().toLowerCase();
+        }
+
+        return activation;
+    }
+
+    private boolean continueProcess() {
+        return requestList().equals("y");
+    }
 }
