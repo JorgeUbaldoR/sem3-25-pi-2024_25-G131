@@ -22,7 +22,7 @@ public class AddOperationDescriptionUI implements Runnable {
 
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
-        System.out.println(ANSI_BRIGHT_WHITE+"      Change operation description       "+ANSI_RESET+"\n");
+        System.out.println(ANSI_BRIGHT_WHITE + "      Change operation description       " + ANSI_RESET + "\n");
         addDescription();
     }
 
@@ -35,14 +35,15 @@ public class AddOperationDescriptionUI implements Runnable {
         }
         for (Operation operation : operationList) {
             if (operation.getOperationDescription() != null) {
-                System.out.printf("%s(%d)%s - %-10s %s %s\"%s\"%s%n", ANSI_BRIGHT_BLACK, c++, ANSI_RESET,
-                        operation.getOperationName(),":", ANSI_FOREST_GREEN,
-                        operation.getOperationDescription(), ANSI_RESET);
+                System.out.printf("%s(%d)%s - %-10s %s %s\"%s%s\"%s%n",
+                        ANSI_BRIGHT_BLACK, c++, ANSI_RESET,
+                        operation.getOperationName(), ":",
+                        ANSI_FOREST_GREEN,
+                        operation.getOperationDescription(),
+                        ANSI_FOREST_GREEN,
+                        ANSI_RESET
+                );
 
-            } else {
-                operation.setOperationDescription(ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET);
-                System.out.printf("%s(%d)%s - %-10s %s %s%n", ANSI_BRIGHT_BLACK, c++, ANSI_RESET,
-                        operation.getOperationName(),":",operation.getOperationDescription());
             }
         }
         return operationList;

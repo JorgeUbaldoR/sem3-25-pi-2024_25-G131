@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.ui.console.utils;
+package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.OperationController;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
@@ -26,6 +26,7 @@ public class AddOperationUI implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("\n\n══════════════════════════════════════════");
         confirmAndSubmitOperation();
 
     }

@@ -1,9 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
 import java.util.Objects;
 
 public class Operation {
 
+    private static final String NO_DESCRIPTION = ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET;
 
     private String operationName;
     private String operationDescription;
@@ -45,6 +48,7 @@ public class Operation {
      */
     public Operation(String operationName) {
         this.operationName = operationName;
+        this.operationDescription = NO_DESCRIPTION;
     }
 
 
