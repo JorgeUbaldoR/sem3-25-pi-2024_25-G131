@@ -10,12 +10,11 @@ public class Operation {
     private float duration;
 
     /**
-     *
-     * @param operationName the name of the operation
+     * @param operationName        the name of the operation
      * @param operationDescription description of the operation
-     * @param duration duration of operation
-     *
-     * Operation class constructor that receives all its parameters.
+     * @param duration             duration of operation
+     *                             <p>
+     *                             Operation class constructor that receives all its parameters.
      */
     public Operation(String operationName, String operationDescription, float duration) {
         this.operationName = operationName;
@@ -24,22 +23,25 @@ public class Operation {
     }
 
     /**
-     *
      * @param operationName the name of the operation
-     * @param duration duration of operation
-     *
-     *  Operation class constructor that receives the name and duration of the operation.
+     * @param duration      duration of operation
+     *                      <p>
+     *                      Operation class constructor that receives the name and duration of the operation.
      */
     public Operation(String operationName, float duration) {
         this.operationName = operationName;
         this.duration = duration;
     }
 
+    public Operation(String operationName, String operationDescription) {
+        this.operationName = operationName;
+        this.operationDescription = operationDescription;
+    }
+
     /**
-     *
      * @param operationName the name of the operation
-     *
-     * Constructor of Operation class that receives only the name
+     *                      <p>
+     *                      Constructor of Operation class that receives only the name
      */
     public Operation(String operationName) {
         this.operationName = operationName;
@@ -105,7 +107,6 @@ public class Operation {
     }
 
     /**
-     *
      * @param o the object to compare
      * @return true if the operations are equal based on their names, false otherwise
      */
@@ -118,7 +119,6 @@ public class Operation {
     }
 
     /**
-     *
      * @return the hash code of the operation name
      */
     @Override
@@ -128,7 +128,6 @@ public class Operation {
 
 
     /**
-     *
      * @return the operation name as a string
      */
     @Override
@@ -138,6 +137,7 @@ public class Operation {
 
     /**
      * Clones the current Operation object
+     *
      * @return a new instance of Operation with the same parameters
      */
     public Operation clone() {

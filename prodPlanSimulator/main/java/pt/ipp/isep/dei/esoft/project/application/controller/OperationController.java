@@ -85,5 +85,13 @@ public class OperationController {
     }
 
 
+    public Optional<Operation> registerOperation(String name, String description) {
+        return operationRepository.registerOperation(name,description);
+    }
+
+    public Optional<Operation> registerOperation(String name) {
+        return operationRepository.registerOperation(name);
+    }
 }
+
 

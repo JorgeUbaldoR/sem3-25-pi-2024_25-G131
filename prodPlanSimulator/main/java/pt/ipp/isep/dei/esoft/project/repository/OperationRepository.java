@@ -71,4 +71,27 @@ public class OperationRepository {
         }
         return op;
     }
+
+    public Optional<Operation> registerOperation(String name, String description) {
+        Optional<Operation> optionalValue = Optional.empty();
+
+        Operation operation = new Operation(name, description);
+
+        if (operations.add(operation)) {
+            optionalValue = Optional.of(operation);
+        }
+        return optionalValue;
+    }
+
+
+    public Optional<Operation> registerOperation(String name) {
+        Optional<Operation> optionalValue = Optional.empty();
+
+        Operation operation = new Operation(name);
+
+        if (operations.add(operation)) {
+            optionalValue = Optional.of(operation);
+        }
+        return optionalValue;
+    }
 }
