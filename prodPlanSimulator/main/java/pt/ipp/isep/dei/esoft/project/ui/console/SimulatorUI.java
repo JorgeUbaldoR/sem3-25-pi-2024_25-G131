@@ -56,12 +56,12 @@ public class SimulatorUI implements Runnable {
     private void doChoice(int choice) {
         switch (choice) {
             case 1:
-                System.out.println(ANSI_BRIGHT_GREEN + "\nSTART OF THE SIMULATION WITHOUT PRIORITY..." + ANSI_RESET);
+                System.out.println(ANSI_BRIGHT_GREEN + "\n\n         START OF THE SIMULATION WITH PRIORITY..." + ANSI_RESET);
                 getSimulationController().startSimulationWithOutPriority();
                 break;
 
             case 2:
-                System.out.println(ANSI_BRIGHT_GREEN + "\nSTART OF THE SIMULATION WITH PRIORITY..." + ANSI_RESET);
+                System.out.println(ANSI_BRIGHT_GREEN + "\n\n         START OF THE SIMULATION WITH PRIORITY..." + ANSI_RESET);
                 getSimulationController().startSimulationWithPriority();
                 break;
 

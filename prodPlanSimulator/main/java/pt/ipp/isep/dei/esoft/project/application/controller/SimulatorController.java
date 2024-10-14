@@ -73,13 +73,17 @@ public class SimulatorController {
         return operationRepository;
     }
 
-
+    /**
+     * Starts the simulation without considering priority in the operation queues.
+     */
     public void startSimulationWithOutPriority(){
         this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),false);
         this.simulator.startSimulation();
     }
 
-
+    /**
+     * Starts the simulation considering priority in the operation queues.
+     */
     public void startSimulationWithPriority(){
         this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),true);
         this.simulator.startSimulation();
