@@ -6,7 +6,7 @@ package pt.ipp.isep.dei.esoft.project.domain.enumclasses;
  */
 public enum Priority {
     HIGH("High"),
-    MEDIUM("Medium"),
+    NORMAL("Normal"),
     LOW("Low");
 
     /**

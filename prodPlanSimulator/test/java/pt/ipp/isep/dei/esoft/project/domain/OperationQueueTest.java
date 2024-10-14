@@ -69,9 +69,9 @@ class OperationQueueTest {
         item5 = new Item(id4, Priority.HIGH, operationListItem4);
 
 
-        operationQueue1 = new OperationQueue(cutting);
-        operationQueue2 = new OperationQueue(painting);
-        operationQueue3 = new OperationQueue(welling);
+        operationQueue1 = new OperationQueue(cutting,false);
+        operationQueue2 = new OperationQueue(painting,false);
+        operationQueue3 = new OperationQueue(welling,false);
 
 
     }
@@ -131,7 +131,7 @@ class OperationQueueTest {
         OperationQueue operationQueue3 = operationQueue1;
         assertEquals(operationQueue1, operationQueue3);
 
-        OperationQueue operationQueue4 = new OperationQueue(painting);
+        OperationQueue operationQueue4 = new OperationQueue(painting,false);
         assertEquals(operationQueue2, operationQueue4);
     }
 
@@ -145,13 +145,13 @@ class OperationQueueTest {
         OperationQueue operationQueue3 = operationQueue1;
         assertEquals(operationQueue1.hashCode(), operationQueue3.hashCode());
 
-        OperationQueue operationQueue4 = new OperationQueue(painting);
+        OperationQueue operationQueue4 = new OperationQueue(painting,false);
         assertEquals(operationQueue2.hashCode(), operationQueue4.hashCode());
     }
 
     @Test
     void testToString(){
-        OperationQueue operationQueue = new OperationQueue(cutting);
+        OperationQueue operationQueue = new OperationQueue(cutting,false);
         operationQueue.addItemToQueue(item1);
         String result = operationQueue.toString();
         assertEquals(result, operationQueue.toString());

@@ -31,7 +31,6 @@ public class SimulatorController {
         getItemRepository();
         getMachineRepository();
         getOperationRepository();
-        this.simulator = new Simulator(getMachinesMap(), getItemRepository().getItemList(),getOperationRepository().getOperations());
     }
 
     /**
@@ -75,12 +74,17 @@ public class SimulatorController {
     }
 
 
-    /**
-     * Starts the simulation process.
-     */
-    public void startSimulation(){
+    public void startSimulationWithOutPriority(){
+        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),false);
         this.simulator.startSimulation();
     }
+
+
+    public void startSimulationWithPriority(){
+        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),true);
+        this.simulator.startSimulation();
+    }
+
 
     /**
      * Constructs a mapping of operations to their associated machines.

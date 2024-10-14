@@ -8,7 +8,7 @@ import java.util.*;
  * Represents an item that has a unique ID, a priority level,
  * and a list of operations it needs to undergo.
  */
-public class Item {
+public class Item implements Comparable<Item> {
     private ID itemID;
     private Priority priority;
     private Queue<Operation> operationList;
@@ -27,8 +27,8 @@ public class Item {
         checkInfomation(itemID, priority, operationList);
         this.itemID = itemID;
         this.priority = priority;
-        this.operationList = operationList;
-        this.currentOperation = operationList.peek();
+        this.operationList = new LinkedList<>(operationList);
+        this.currentOperation = this.operationList.peek();
     }
 
     /**
@@ -127,5 +127,13 @@ public class Item {
 
     public List<Operation> getOperationList() {
         return List.copyOf(operationList);
+    }
+
+    @Override
+    public int compareTo(Item o) {
+        int priorityComparison = this.priority.compareTo(o.priority);
+        if(priorityComparison != 0)
+            return priorityComparison;
+        return this.itemID.compareTo(o.itemID);
     }
 }

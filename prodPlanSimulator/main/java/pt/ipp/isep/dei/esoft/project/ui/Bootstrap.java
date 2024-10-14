@@ -39,6 +39,13 @@ public class Bootstrap implements Runnable {
     private final Machine machineWelding = new Machine(idMachineWelding, opWelding, 3.0f);
     private final Machine machinePainting = new Machine(idMachinePainting, opPainting, 1.5f);
     private final Machine machineTesting = new Machine(idMachineTesting, opTesting, 1.5f);
+//    private final Machine machineCutting01 = new Machine(idMachineCutting01, opCutting, 1f);
+//    private final Machine machineCutting02 = new Machine(idMachineCutting02, opCutting, 1f);
+//    private final Machine machineCutting03 = new Machine(idMachineCutting03, opCutting, 1f);
+//    private final Machine machineWelding = new Machine(idMachineWelding, opWelding, 1f);
+//    private final Machine machinePainting = new Machine(idMachinePainting, opPainting, 1f);
+//    private final Machine machineTesting = new Machine(idMachineTesting, opTesting, 1f);
+
 
     private final Queue<Operation> operationListItem1 = new LinkedList<>();
     private final Queue<Operation> operationListItem2 = new LinkedList<>();
@@ -59,10 +66,10 @@ public class Bootstrap implements Runnable {
     private void addItems() {
         ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
 
-        Item item1 = new Item(idItem1, Priority.HIGH, operationListItem1);
-        Item item2 = new Item(idItem2, Priority.HIGH, operationListItem2);
-        Item item3 = new Item(idItem3, Priority.HIGH, operationListItem3);
-        Item item4 = new Item(idItem4, Priority.HIGH, operationListItem4);
+        Item item1 = new Item(idItem1, Priority.LOW, operationListItem1);
+        Item item2 = new Item(idItem2, Priority.NORMAL, operationListItem2);
+        Item item3 = new Item(idItem3, Priority.LOW, operationListItem3);
+        Item item4 = new Item(idItem4, Priority.NORMAL, operationListItem4);
         Item item5 = new Item(idItem5, Priority.HIGH, operationListItem5);
         itemRepository.addItem(item1);
         itemRepository.addItem(item2);
