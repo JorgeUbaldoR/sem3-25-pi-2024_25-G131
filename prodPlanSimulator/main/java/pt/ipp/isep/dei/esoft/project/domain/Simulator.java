@@ -282,8 +282,10 @@ public class Simulator {
         List<Map.Entry<Operation, Float>> list = ascendingOrder();
         float totalTime = sumTotalTime();
 
-        System.out.printf("%n%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s%s%s  %-15s %s%9s%s%n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, "Operation", ANSI_BRIGHT_BLACK, "Time", ANSI_RESET);
+        System.out.println("\n\n═══════════════════════════════════════════════");
+        System.out.print(ANSI_BRIGHT_WHITE + "               Statistics                 " + ANSI_RESET + "\n");
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s  %-13s %6s %s%10s%s%n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, "Operation", " Time(min)",ANSI_BRIGHT_BLACK, "  Percentages" , ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Map.Entry<Operation, Float> entry : list) {
@@ -306,7 +308,7 @@ public class Simulator {
      */
     private List<Map.Entry<Operation, Float>> ascendingOrder() {
         List<Map.Entry<Operation, Float>> list = new ArrayList<>(getExecutionTimesOperation().entrySet());
-        list.sort(Map.Entry.comparingByValue());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         return list;
     }
 
