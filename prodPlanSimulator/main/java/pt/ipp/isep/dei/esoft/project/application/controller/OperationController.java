@@ -86,7 +86,7 @@ public class OperationController {
 
 
     public Optional<Operation> registerOperation(String name, String description) {
-        return operationRepository.registerOperation(name,description);
+        return operationRepository.registerOperation(name, description);
     }
 
     public Optional<Operation> registerOperation(String name) {

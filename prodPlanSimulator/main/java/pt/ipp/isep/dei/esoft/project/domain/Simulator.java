@@ -102,7 +102,7 @@ public class Simulator {
 
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
-            sleep(1500);
+//            sleep(1500);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printExecutionTimesOperation();
@@ -275,18 +275,52 @@ public class Simulator {
 
 
     /**
-     * Prints the execution times for all operations to the console.
+     * Prints the execution times for all operations and percentages relative to the total time to the console.
      * Each operation and its corresponding execution time is printed.
      */
-    private void printExecutionTimesOperation(){
+    private void printExecutionTimesOperation() {
+        List<Map.Entry<Operation, Float>> list = ascendingOrder();
+        float totalTime = sumTotalTime();
 
-        System.out.printf("%n%n%s====================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s%s%sTime of the operations:  %s%9s%s%n",ANSI_BRIGHT_BLACK,"||",ANSI_RESET,ANSI_BRIGHT_BLACK,"||",ANSI_RESET);
-        for (Map.Entry<Operation, Float> entry : operationTime.entrySet()) {
-            System.out.printf("%s%s%s   • %s%-9s%s %s %s%-7.2f%s %s%8s%s%n",ANSI_BRIGHT_BLACK,"||",ANSI_RESET,ANSI_BRIGHT_WHITE,entry.getKey().getOperationName(),ANSI_RESET,"->",ANSI_BRIGHT_WHITE,entry.getValue(),ANSI_RESET,ANSI_BRIGHT_BLACK,"||",ANSI_RESET);
+        System.out.printf("%n%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s  %-15s %s%9s%s%n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, "Operation", ANSI_BRIGHT_BLACK, "Time", ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+        for (Map.Entry<Operation, Float> entry : list) {
+            float percentage = (entry.getValue() / totalTime) * 100;
+            System.out.printf("%s%s%s  %-15s %s %s%-7.2f%s %s(%5.2f%%) %s%s%n",
+                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                    entry.getKey().getOperationName(),
+                    "->",
+                    ANSI_BRIGHT_WHITE, entry.getValue(), ANSI_RESET,
+                    ANSI_BRIGHT_BLACK, percentage,
+                    ANSI_RESET, ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         }
-        System.out.printf("%s====================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    }
+
+    /**
+     *
+     * @return a list where all operations are sorted by their time, in ascending order.
+     */
+    private List<Map.Entry<Operation, Float>> ascendingOrder() {
+        List<Map.Entry<Operation, Float>> list = new ArrayList<>(getExecutionTimesOperation().entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        return list;
+    }
+
+    /**
+     *
+     * @return the sum of all operation's times.
+     */
+    private float sumTotalTime() {
+        float sum = 0;
+        List<Map.Entry<Operation, Float>> list = ascendingOrder();
+        for (Map.Entry<Operation, Float> entry : list) {
+            sum += entry.getValue();
+        }
+        return sum;
     }
 
 
@@ -295,7 +329,7 @@ public class Simulator {
      *
      * @return a map containing operations and their corresponding execution times.
      */
-    private Map<Operation, Float> getExecutionTimesOperation() {
+    public Map<Operation, Float> getExecutionTimesOperation() {
         return this.operationTime;
     }
 }
