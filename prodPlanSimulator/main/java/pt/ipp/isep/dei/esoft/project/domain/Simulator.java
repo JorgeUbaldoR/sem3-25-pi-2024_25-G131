@@ -13,6 +13,7 @@ public class Simulator {
     private final Map<Operation, Queue<Machine>> machineList;
     private final List<OperationQueue> operationQueueList;
     private final Map<Operation, Float> operationTime;
+    private final Map<Operation, Float> waitingTime;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -29,6 +30,7 @@ public class Simulator {
         this.machineList = machines;
         this.operationQueueList = new ArrayList<>();
         this.operationTime = new HashMap<>();
+        this.waitingTime = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
         createQueues(items);
     }
@@ -42,6 +44,7 @@ public class Simulator {
         this.machineList = new HashMap<>();
         this.operationQueueList = new ArrayList<>();
         this.operationTime = new HashMap<>();
+        this.waitingTime = new HashMap<>();
     }
 
 
@@ -336,4 +339,12 @@ public class Simulator {
     public Map<Operation, Float> getExecutionTimesOperation() {
         return this.operationTime;
     }
+
+
+
+
+
+
+
+
 }
