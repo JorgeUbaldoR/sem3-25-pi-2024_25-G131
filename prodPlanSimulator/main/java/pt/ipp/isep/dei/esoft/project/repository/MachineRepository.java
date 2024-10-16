@@ -100,6 +100,13 @@ public class MachineRepository {
         return optionalValue;
     }
 
+
+    /**
+     * Reformats a machine ID by removing the non-numeric prefix and retaining only the numeric part.
+     *
+     * @param id The original machine ID as a string, e.g., "ws111".
+     * @return A new string representing only the numeric part of the machine ID, e.g., "111".
+     */
     private String reformatMachineId(String id) {
         int len = id.length();
         return id.substring(2, len);

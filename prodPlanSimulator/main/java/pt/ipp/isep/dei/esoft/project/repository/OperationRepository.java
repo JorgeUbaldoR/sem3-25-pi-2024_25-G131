@@ -63,6 +63,11 @@ public class OperationRepository {
         return operation;
     }
 
+    /**
+     * Retrieves all operations from the operations list.
+     *
+     * @return An Optional containing a list of operations if available; otherwise, an empty Optional.
+     */
     public Optional<List<Operation>> getAllOperations() {
         Optional<List<Operation>> op = Optional.empty();
         List<Operation> operations = getOperations();
@@ -72,6 +77,14 @@ public class OperationRepository {
         return op;
     }
 
+
+    /**
+     * Registers a new operation with the given name and description.
+     *
+     * @param name        The name of the operation to be registered.
+     * @param description The description of the operation.
+     * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
+     */
     public Optional<Operation> registerOperation(String name, String description) {
         Optional<Operation> optionalValue = Optional.empty();
 
@@ -84,6 +97,12 @@ public class OperationRepository {
     }
 
 
+    /**
+     * Registers a new operation with the given name.
+     *
+     * @param name The name of the operation to be registered.
+     * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
+     */
     public Optional<Operation> registerOperation(String name) {
         Optional<Operation> optionalValue = Optional.empty();
 
