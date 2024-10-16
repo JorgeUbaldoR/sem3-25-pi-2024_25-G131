@@ -14,11 +14,11 @@ public class Simulator {
     private final List<OperationQueue> operationQueueList;
     private final Map<Operation, Float> operationTime;
     private final Map<Operation, Float> waitingTime;
-    private final Map<Item, Float> avgExecutionTime;
+    private final Map<Operation, Float> avgExecutionTime;
     private final LinkedList<Item> itemLinkedList;
     private final Map<Item, LinkedList<ID>> itemLinkedListMap;
     private final Map<Machine, Float> machineUsage;
-    private final Map <Operation, Integer> executionPerOperation;
+    private final Map<Operation, Integer> executionPerOperation;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -125,6 +125,7 @@ public class Simulator {
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printExecutionTimesMachine();
         printExecutionTimesOperation();
+        printAverageExecutionTime();
         printItemMachine();
     }
 
@@ -302,7 +303,7 @@ public class Simulator {
     /**
      * Adds or updates the execution time for a specific machine.
      *
-     * @param m The machine for which the execution time is being added or updated.
+     * @param m    The machine for which the execution time is being added or updated.
      * @param time The time (in minutes) to be added to the machine's total execution time.
      */
     private void addExecutionTimesMachine(Machine m, float time) {
@@ -384,7 +385,7 @@ public class Simulator {
      * Returns a list where all operations are sorted by their time, in descending order.
      *
      * @return A list of entries (key-value pairs) where the key is an operation (Operation)
-     *         and the value is the operation time (Float), sorted in descending order of time.
+     * and the value is the operation time (Float), sorted in descending order of time.
      */
     private List<Map.Entry<Operation, Float>> ascendingOrderOperationTimes() {
         List<Map.Entry<Operation, Float>> list = new ArrayList<>(getExecutionTimesOperation().entrySet());
@@ -396,7 +397,7 @@ public class Simulator {
      * Returns a list where all machines are sorted by their execution time, in descending order.
      *
      * @return A list of entries (key-value pairs), where the key is the machine (Machine)
-     *         and the value is the execution time (Float), sorted in descending order of time.
+     * and the value is the execution time (Float), sorted in descending order of time.
      */
     private List<Map.Entry<Machine, Float>> ascendingOrderMachineTimes() {
         List<Map.Entry<Machine, Float>> list = new ArrayList<>(getExecutionTimesMachine().entrySet());
@@ -452,13 +453,28 @@ public class Simulator {
         }
     }
 
-    private void fillExecutionPerOperation (Operation operation) {
-        if(!executionPerOperation.containsKey(operation)) {
+    private void fillExecutionPerOperation(Operation operation) {
+        if (!executionPerOperation.containsKey(operation)) {
             executionPerOperation.put(operation, 1);
         } else {
             executionPerOperation.put(operation, executionPerOperation.get(operation) + 1);
         }
     }
+
+    private void calculateAverageExecutionTimes() {
+        float totalTime;
+        int qtdOperations;
+
+        for (Map.Entry<Operation, Float> entry : operationTime.entrySet()) {
+
+            Operation operation = entry.getKey();
+            totalTime = entry.getValue();
+            qtdOperations = executionPerOperation.get(operation);
+
+            avgExecutionTime.put(operation, (totalTime / qtdOperations));
+        }
+    }
+
 
     private void printAverageExecutionTime() {
 
