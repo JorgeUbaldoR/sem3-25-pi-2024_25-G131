@@ -478,7 +478,28 @@ public class Simulator {
 
     private void printAverageExecutionTime() {
 
+        calculateAverageExecutionTimes();
 
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Operation",
+                "Average Time (min)"
+                ,ANSI_RESET,
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+
+
+        for (Map.Entry<Operation, Float> entry : avgExecutionTime.entrySet()) {
+            System.out.printf("%s%s%s  %-14s %17.2f %n",
+                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                    entry.getKey().getOperationName(),
+                    entry.getValue());
+        }
+
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
 
     }
