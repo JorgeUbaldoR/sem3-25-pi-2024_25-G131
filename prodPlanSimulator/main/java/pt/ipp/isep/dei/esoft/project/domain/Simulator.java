@@ -14,6 +14,8 @@ public class Simulator {
     private final List<OperationQueue> operationQueueList;
     private final Map<Operation, Float> operationTime;
     private final Map<Operation, Float> waitingTime;
+    private final LinkedList<Item> itemLinkedList;
+    private final Map<Item, LinkedList<ID>> itemLinkedListMap;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -31,6 +33,8 @@ public class Simulator {
         this.operationQueueList = new ArrayList<>();
         this.operationTime = new HashMap<>();
         this.waitingTime = new HashMap<>();
+        this.itemLinkedList = new LinkedList<>();
+        this.itemLinkedListMap = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
         createQueues(items);
     }
@@ -45,6 +49,8 @@ public class Simulator {
         this.operationQueueList = new ArrayList<>();
         this.operationTime = new HashMap<>();
         this.waitingTime = new HashMap<>();
+        this.itemLinkedList = new LinkedList<>();
+        this.itemLinkedListMap = new HashMap<>();
     }
 
 
@@ -108,7 +114,8 @@ public class Simulator {
 //            sleep(1500);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
-        printExecutionTimesOperation();
+        //printExecutionTimesOperation();
+        printItemMachine();
     }
 
     /**
@@ -158,11 +165,15 @@ public class Simulator {
                     addExecutionTimesOperation(operation, machine.getProcessingSpeed());
                     Item currentItem = machine.getCurrentProcessingItem();
                     Operation newOperation = currentItem.getNextOperation();
+                    itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
+                    itemLinkedListMap.get(currentItem).add(machine.getId_machine());
                     if (newOperation != null) {
                         OperationQueue operationQueue = findOperationInQueue(newOperation);
                         if (operationQueue != null) {
                             operationQueue.addItemToQueue(currentItem);
                         }
+                    } else {
+                        itemLinkedList.add(currentItem);
                     }
                 }
             }
@@ -340,9 +351,22 @@ public class Simulator {
         return this.operationTime;
     }
 
+    private void printItemOrder() {
+        for (Item it : itemLinkedList) {
+            System.out.println(it.getItemID());
+        }
+    }
 
-
-
+    private void printItemMachine() {
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            for (Item it : itemLinkedList) {
+                if (entry.getKey().equals(it)) {
+                    System.out.print(entry.getKey().getItemID() + " " + entry.getValue());
+                }
+            }
+            System.out.println();
+        }
+    }
 
 
 
