@@ -21,12 +21,12 @@ public class Bootstrap implements Runnable {
     private final Operation opTesting = new Operation("Testing");
 
 
-    private final ID idMachineCutting01 = new ID(100, TypeID.MACHINE);
-    private final ID idMachineCutting02 = new ID(110, TypeID.MACHINE);
-    private final ID idMachineCutting03 = new ID(111, TypeID.MACHINE);
-    private final ID idMachinePainting = new ID(102, TypeID.MACHINE);
-    private final ID idMachineWelding = new ID(101, TypeID.MACHINE);
-    private final ID idMachineTesting = new ID(107, TypeID.MACHINE);
+    private final ID idMachineCutting01 = new ID(10001, TypeID.MACHINE);
+    private final ID idMachineCutting02 = new ID(10002, TypeID.MACHINE);
+    private final ID idMachineCutting03 = new ID(10003, TypeID.MACHINE);
+    private final ID idMachinePainting = new ID(10004, TypeID.MACHINE);
+    private final ID idMachineWelding = new ID(10005, TypeID.MACHINE);
+    private final ID idMachineTesting = new ID(10006, TypeID.MACHINE);
     private final ID idItem1 = new ID(101, TypeID.ITEM);
     private final ID idItem2 = new ID(102, TypeID.ITEM);
     private final ID idItem3 = new ID(103, TypeID.ITEM);

@@ -16,6 +16,7 @@ public class Simulator {
     private final Map<Operation, Float> waitingTime;
     private final LinkedList<Item> itemLinkedList;
     private final Map<Item, LinkedList<ID>> itemLinkedListMap;
+    private final Map<Machine, Float> machineUsage;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -35,6 +36,7 @@ public class Simulator {
         this.waitingTime = new HashMap<>();
         this.itemLinkedList = new LinkedList<>();
         this.itemLinkedListMap = new HashMap<>();
+        this.machineUsage = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
         createQueues(items);
     }
@@ -51,6 +53,7 @@ public class Simulator {
         this.waitingTime = new HashMap<>();
         this.itemLinkedList = new LinkedList<>();
         this.itemLinkedListMap = new HashMap<>();
+        this.machineUsage = new HashMap<>();
     }
 
 
@@ -111,10 +114,11 @@ public class Simulator {
 
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
-            sleep(1000);
+            //sleep(1000);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
-        //printExecutionTimesOperation();
+        printExecutionTimesMachine();
+        printExecutionTimesOperation();
         printItemMachine();
     }
 
@@ -163,6 +167,7 @@ public class Simulator {
                 boolean finished = machine.updateMachine();
                 if (finished) {
                     addExecutionTimesOperation(operation, machine.getProcessingSpeed());
+                    addExecutionTimesMachine(machine, machine.getProcessingSpeed());
                     Item currentItem = machine.getCurrentProcessingItem();
                     Operation newOperation = currentItem.getNextOperation();
                     itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
@@ -286,45 +291,107 @@ public class Simulator {
         }
     }
 
+    /**
+     * Adds or updates the execution time for a specific machine.
+     *
+     * @param m The machine for which the execution time is being added or updated.
+     * @param time The time (in minutes) to be added to the machine's total execution time.
+     */
+    private void addExecutionTimesMachine(Machine m, float time) {
+        if (!this.machineUsage.containsKey(m)) {
+            machineUsage.put(m, time);
+        } else {
+            float currentTime = machineUsage.get(m) + time;
+            machineUsage.put(m, currentTime);
+        }
+    }
+
 
     /**
      * Prints the execution times for all operations and percentages relative to the total time to the console.
      * Each operation and its corresponding execution time is printed.
      */
     private void printExecutionTimesOperation() {
-        List<Map.Entry<Operation, Float>> list = ascendingOrder();
+        List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
         float totalTime = sumTotalTime();
 
-        System.out.println("\n\n═══════════════════════════════════════════════");
-        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET + "\n");
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %6s %15s %s%s%3s%s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Operation",
                 " Time(min)",
-                "Percentages",ANSI_RESET,
+                "Percentages", ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Map.Entry<Operation, Float> entry : list) {
             float percentage = (entry.getValue() / totalTime) * 100;
-            System.out.printf("%s%s%s  %-15s %-13.2f %.2f %s %s%5s%s%n",
+            System.out.printf("%s%s%s  %-14s %-13.2f %.2f %s%n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                     entry.getKey().getOperationName(),
                     entry.getValue(),
-                    percentage,"%",
-                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
+                    percentage, "%");
         }
 
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 
     /**
-     * @return a list where all operations are sorted by their time, in ascending order.
+     * Prints the execution times of each machine along with their percentages of total execution time.
+     * It displays the data in a formatted table.
      */
-    private List<Map.Entry<Operation, Float>> ascendingOrder() {
+    private void printExecutionTimesMachine() {
+        List<Map.Entry<Machine, Float>> list = ascendingOrderMachineTimes();
+        float totalTime = sumTotalTime();
+
+
+        System.out.println("\n\n═══════════════════════════════════════════════");
+        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET + "\n");
+
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %6s %15s %s%s%3s%s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Workstation",
+                " Time(min)",
+                "Percentages", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, " ||", ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+        for (Map.Entry<Machine, Float> entry : list) {
+            float percentage = (entry.getValue() / totalTime) * 100;
+            System.out.printf("%s%s%s  %-14s %-15.2f %.2f %s%n",
+                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                    entry.getKey().getId_machine(),
+                    entry.getValue(),
+                    percentage, "%");
+        }
+
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+    }
+
+    /**
+     * Returns a list where all operations are sorted by their time, in descending order.
+     *
+     * @return A list of entries (key-value pairs) where the key is an operation (Operation)
+     *         and the value is the operation time (Float), sorted in descending order of time.
+     */
+    private List<Map.Entry<Operation, Float>> ascendingOrderOperationTimes() {
         List<Map.Entry<Operation, Float>> list = new ArrayList<>(getExecutionTimesOperation().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
+    }
+
+    /**
+     * Returns a list where all machines are sorted by their execution time, in descending order.
+     *
+     * @return A list of entries (key-value pairs), where the key is the machine (Machine)
+     *         and the value is the execution time (Float), sorted in descending order of time.
+     */
+    private List<Map.Entry<Machine, Float>> ascendingOrderMachineTimes() {
+        List<Map.Entry<Machine, Float>> list = new ArrayList<>(getExecutionTimesMachine().entrySet());
         list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         return list;
     }
@@ -334,7 +401,7 @@ public class Simulator {
      */
     private float sumTotalTime() {
         float sum = 0;
-        List<Map.Entry<Operation, Float>> list = ascendingOrder();
+        List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
         for (Map.Entry<Operation, Float> entry : list) {
             sum += entry.getValue();
         }
@@ -349,6 +416,15 @@ public class Simulator {
      */
     public Map<Operation, Float> getExecutionTimesOperation() {
         return this.operationTime;
+    }
+
+    /**
+     * Retrieves the map that contains the execution times for each machine.
+     *
+     * @return A map where the keys are Machine objects and the values are the execution times (in minutes) for each machine.
+     */
+    public Map<Machine, Float> getExecutionTimesMachine() {
+        return this.machineUsage;
     }
 
     private void printItemOrder() {
@@ -367,8 +443,6 @@ public class Simulator {
             System.out.println();
         }
     }
-
-
 
 
 }
