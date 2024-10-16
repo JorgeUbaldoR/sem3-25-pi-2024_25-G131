@@ -76,19 +76,33 @@ public class OperationController {
         operationRepository.fillOperations(machines);
     }
 
-    public List<Operation> getOperationsList() {
-        return operationRepository.getOperations();
-    }
 
+    /**
+     * Retrieves all operations from the operation repository.
+     *
+     * @return An Optional containing a list of all operations if available; otherwise, an empty Optional.
+     */
     public Optional<List<Operation>> getAllOperations() {
         return operationRepository.getAllOperations();
     }
 
-
+    /**
+     * Registers a new operation with the given name and description in the operation repository.
+     *
+     * @param name        The name of the operation to be registered.
+     * @param description The description of the operation to be registered.
+     * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
+     */
     public Optional<Operation> registerOperation(String name, String description) {
         return operationRepository.registerOperation(name, description);
     }
 
+    /**
+     * Registers a new operation with the given name in the operation repository.
+     *
+     * @param name The name of the operation to be registered.
+     * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
+     */
     public Optional<Operation> registerOperation(String name) {
         return operationRepository.registerOperation(name);
     }

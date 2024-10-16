@@ -46,10 +46,11 @@ public class MachineController {
         return getMachineRepository().addMachine(machine);
     }
 
-    public List<Machine> getMachinesList(){
-        return machineRepository.getMachineList();
-    }
-
+    /**
+     * Requests a list of machines from the machine repository.
+     *
+     * @return An Optional containing a list of machines if available; otherwise, an empty Optional.
+     */
     public Optional<List<Machine>> requestList() {
         Optional<List<Machine>> request;
 
