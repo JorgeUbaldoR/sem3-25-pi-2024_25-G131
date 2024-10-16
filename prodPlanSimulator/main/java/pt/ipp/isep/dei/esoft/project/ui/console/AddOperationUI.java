@@ -33,6 +33,11 @@ public class AddOperationUI implements Runnable {
 
     }
 
+    /**
+     * Prompts the user to enter the name of the operation.
+     *
+     * @return The trimmed operation name entered by the user.
+     */
     private String requestOperationName() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the operation name: ");
@@ -40,6 +45,11 @@ public class AddOperationUI implements Runnable {
         return operationName;
     }
 
+    /**
+     * Prompts the user to enter a description for the operation.
+     *
+     * @return The trimmed operation description entered by the user.
+     */
     private String requestOperationDescription() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the operation description: ");
@@ -47,16 +57,34 @@ public class AddOperationUI implements Runnable {
         return operationDescription;
     }
 
+    /**
+     * Displays the typed operation name to the user.
+     *
+     * @param typedOperationName The name entered by the user.
+     */
     private void displayTypedName(String typedOperationName) {
         System.out.printf("%nTyped name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]%n"
                 , typedOperationName);
     }
 
+
+    /**
+     * Displays the typed operation description to the user.
+     *
+     * @param typedOperationDescription The description entered by the user.
+     */
     private void displayTypedDescription(String typedOperationDescription) {
         System.out.printf("%nTyped description -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]%n"
                 , typedOperationDescription);
     }
 
+    /**
+     * Confirms whether the user wishes to save the operation.
+     *
+     * @param name        The name of the operation.
+     * @param description The description of the operation, which can be null.
+     * @return An Optional containing the registered Operation if successful, otherwise empty.
+     */
     private Optional<Operation> confirmOperationSubmission(String name, String description) {
         System.out.print("Do you wish to save the operation? (y/n): ");
         String answer = yesNoConfirmation();
@@ -69,6 +97,9 @@ public class AddOperationUI implements Runnable {
         return Optional.empty();
     }
 
+    /**
+     * Handles the confirmation and submission of the operation.
+     */
     private void confirmAndSubmitOperation() {
         String name = requestOperationName();
         displayTypedName(name);
@@ -91,6 +122,11 @@ public class AddOperationUI implements Runnable {
         }
     }
 
+    /**
+     * Prompts the user for a yes or no confirmation.
+     *
+     * @return The user's answer as a lowercase string, either "y" or "n".
+     */
     private String yesNoConfirmation() {
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine().toLowerCase();

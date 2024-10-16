@@ -20,12 +20,18 @@ public class AddOperationDescriptionUI implements Runnable {
         return controller;
     }
 
+
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "      Change operation description       " + ANSI_RESET + "\n");
         addDescription();
     }
 
+    /**
+     * Retrieves and displays the list of operations with their descriptions.
+     *
+     * @return A list of operations that were retrieved.
+     */
     private List<Operation> seeOperations() {
         List<Operation> operationList = new LinkedList<>();
         Optional<List<Operation>> op = getController().getAllOperations();
@@ -49,6 +55,11 @@ public class AddOperationDescriptionUI implements Runnable {
         return operationList;
     }
 
+    /**
+     * Prompts the user to select an operation from a list and validates the input.
+     *
+     * @return The index of the selected operation.
+     */
     private int selectOperation() {
         int selection = 0;
         boolean valid = false;
@@ -75,6 +86,9 @@ public class AddOperationDescriptionUI implements Runnable {
         return selection;
     }
 
+    /**
+     * Adds or updates the description for a selected operation after confirming with the user.
+     */
     private void addDescription() {
         Optional<List<Operation>> op = getController().getAllOperations();
         if (op.isPresent()) {
@@ -99,6 +113,13 @@ public class AddOperationDescriptionUI implements Runnable {
             System.out.println(ANSI_LIGHT_RED + "\nNo operations in the system!" + ANSI_RESET);
     }
 
+    /**
+     * Prompts the user to confirm an action with a yes or no response.
+     *
+     * @param answer        The proposed description to confirm.
+     * @param operationName The name of the operation related to the description.
+     * @return A confirmation response from the user ('y' or 'n').
+     */
     private String requestConfirmation(String answer, String operationName) {
         Scanner scanner = new Scanner(System.in);
         System.out.printf("• Are you sure that \"%s%s%s\" will be your %s%s%s operation description? (y/n): ",

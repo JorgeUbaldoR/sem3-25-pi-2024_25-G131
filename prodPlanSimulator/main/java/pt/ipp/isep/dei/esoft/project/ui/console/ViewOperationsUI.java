@@ -30,7 +30,9 @@ public class ViewOperationsUI implements Runnable {
         submitData();
     }
 
-
+    /**
+     * Method to submit data and print results.
+     */
     private void submitData() {
         Optional<List<Machine>> machineList = getMachineController().requestList();
 
@@ -43,6 +45,11 @@ public class ViewOperationsUI implements Runnable {
     }
 
 
+    /**
+     * Method to connect operations to their respective machines.
+     *
+     * @return A map where each operation is associated with a list of machines that perform it.
+     */
     private Map<Operation, List<Machine>> connectOperationToMachines() {
         Map<Operation, List<Machine>> operationToMachines = new HashMap<>();
         Optional<List<Machine>> machineList = getMachineController().requestList();
@@ -58,6 +65,9 @@ public class ViewOperationsUI implements Runnable {
 
     }
 
+    /**
+     * Method to print the results of operations and their associated machines.
+     */
     private void printResult() {
         Map<Operation, List<Machine>> operationToMachines = connectOperationToMachines();
         for (Map.Entry<Operation, List<Machine>> entry : operationToMachines.entrySet()) {
@@ -73,7 +83,7 @@ public class ViewOperationsUI implements Runnable {
     }
 
 
-//--- Not currently in use, maybe later (both)... ---//
+//--- Not currently in use, maybe later... ---//
     private String requestList() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Do you want to see which machines perform a certain operation? (y/n): ");
