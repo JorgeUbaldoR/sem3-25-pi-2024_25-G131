@@ -17,12 +17,16 @@ public class FileDataReader {
      * @throws IOException if an error occurs while reading the file
      */
     public static List<String[]> getMachinesDetails() throws IOException {
-        Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs"));
+        Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/workstations.csv"));
         List<String[]> machineDetails = new ArrayList<>();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] parts = line.split(",");
+            String[] parts = line.split(";");
 
             if (parts.length == NUMBER_OF_DETAILS) {
                 machineDetails.add(parts);
@@ -39,7 +43,7 @@ public class FileDataReader {
      * @throws IOException if the file is not found or another I/O error occurs
      */
     public static List<String[]> getItemsDetails() throws IOException {
-        File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs");
+        File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/articlesFinal.csv");
         if (!file.exists()) {
             throw new IOException("File not found: " + file.getAbsolutePath());
         }
@@ -47,9 +51,13 @@ public class FileDataReader {
         Scanner scanner = new Scanner(file);
         List<String[]> itemsDetails = new ArrayList<>();
 
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] parts = line.split(",");
+            String[] parts = line.split(";");
 
             if (parts.length >= NUMBER_OF_DETAILS) {
                 itemsDetails.add(parts);

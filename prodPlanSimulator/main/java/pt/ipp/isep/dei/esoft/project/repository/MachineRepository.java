@@ -25,7 +25,7 @@ public class MachineRepository {
      */
     public MachineRepository() {
         this.machineList = new HashMap<>();
-//       fillMachinery();
+        //fillMachinery();
     }
 
     /**
@@ -57,7 +57,7 @@ public class MachineRepository {
 
             List<String[]> importedItems = FileDataReader.getMachinesDetails();
             for (String[] importedItem : importedItems) {
-                ID machineID = new ID(Integer.parseInt(importedItem[0]), TypeID.MACHINE);
+                ID machineID = new ID(Integer.parseInt(reformatMachineId(importedItem[0])), TypeID.MACHINE);
                 Operation operation = new Operation(importedItem[1]);
                 float duration = Float.parseFloat(importedItem[2]);
 
@@ -98,6 +98,11 @@ public class MachineRepository {
             optionalValue = Optional.of(list);
         }
         return optionalValue;
+    }
+
+    private String reformatMachineId(String id) {
+        int len = id.length();
+        return id.substring(2, len);
     }
 
 }
