@@ -14,9 +14,11 @@ public class Simulator {
     private final List<OperationQueue> operationQueueList;
     private final Map<Operation, Float> operationTime;
     private final Map<Operation, Float> waitingTime;
+    private final Map<Item, Float> avgExecutionTime;
     private final LinkedList<Item> itemLinkedList;
     private final Map<Item, LinkedList<ID>> itemLinkedListMap;
     private final Map<Machine, Float> machineUsage;
+    private final Map <Operation, Integer> executionPerOperation;
 
     /**
      * Constructs a Simulator instance with the provided machines, items, and operations.
@@ -37,6 +39,8 @@ public class Simulator {
         this.itemLinkedList = new LinkedList<>();
         this.itemLinkedListMap = new HashMap<>();
         this.machineUsage = new HashMap<>();
+        this.avgExecutionTime = new HashMap<>();
+        this.executionPerOperation = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
         createQueues(items);
     }
@@ -54,6 +58,8 @@ public class Simulator {
         this.itemLinkedList = new LinkedList<>();
         this.itemLinkedListMap = new HashMap<>();
         this.machineUsage = new HashMap<>();
+        this.avgExecutionTime = new HashMap<>();
+        this.executionPerOperation = new HashMap<>();
     }
 
 
@@ -150,6 +156,8 @@ public class Simulator {
             for (Machine currentMachine : machineList) {
                 if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
                     currentMachine.processItem(operationQueue.getNextItem());
+
+                    fillExecutionPerOperation(currentMachine.getOperation());
                 }
             }
         }
@@ -442,6 +450,26 @@ public class Simulator {
             }
             System.out.println();
         }
+    }
+
+    private void fillExecutionPerOperation (Operation operation) {
+        if(!executionPerOperation.containsKey(operation)) {
+            executionPerOperation.put(operation, 1);
+        } else {
+            executionPerOperation.put(operation, executionPerOperation.get(operation) + 1);
+        }
+    }
+
+    private void printAverageExecutionTime() {
+
+
+
+
+    }
+
+    private void printWaitingTime() {
+
+
     }
 
 
