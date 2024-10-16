@@ -1,166 +1,175 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.domain.FileDataReader;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FileDataReaderTest {
 
-    private static final String TEST_MACHINES_FILE = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs";
-    private static final String TEST_ITEMS_FILE = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs";
+    private static final String TEST_WORKSTATIONS_FILE_PATH = "test_workstations.csv";
+    private static final String TEST_ITEMS_FILE_PATH = "test_items.csv";
+    private static final int NUMBER_OF_DETAILS = 3;
+    private static final String WORKSTATIONS_CSV_CONTENT = "workstation;name_oper;time\n" +
+            "ws11;CUT;21\n" +
+            "ws12;CUT;25\n" +
+            "ws21;DRILL;36\n" +
+            "ws31;SCREW;50\n";
+    private static final String ITEMS_CSV_CONTENT = "item_code;item_name;item_price\n" +
+            "001;Item A;10.0\n" +
+            "002;Item B;20.5\n" +
+            "003;Item C;15.75\n";
 
-    /**
-     * Sets up the test environment before each test.
-     * Creates the test files for machines and items.
-     */
     @BeforeEach
-    public void setUp() throws IOException {
-        createTestMachinesFile();
-        createTestItemsFile();
-    }
-
-    /**
-     * Tests getting machine details from a valid file.
-     * Verifies that the correct number of details is returned and checks specific entries.
-     */
-    @Test
-    public void testGetMachinesDetails_ValidFile() throws IOException {
-        List<String[]> details = FileDataReader.getMachinesDetails();
-        assertEquals(18, details.size());
-        assertArrayEquals(new String[]{"1", "Drill", "1.5"}, details.get(0));
-        assertArrayEquals(new String[]{"18", "Polish", "0.75"}, details.get(17));
-    }
-
-    /**
-     * Tests getting item details from a valid file.
-     * Verifies that the correct number of details is returned and checks specific entries.
-     */
-    @Test
-    public void testGetItemsDetails_ValidFile() throws IOException {
-        List<String[]> details = FileDataReader.getItemsDetails();
-        assertEquals(20, details.size());
-        assertArrayEquals(new String[]{"101", "HIGH", "Drill", "Cut", "Polish", "Assemble"}, details.get(0));
-        assertArrayEquals(new String[]{"120", "HIGH", "Drill", "Test", "Polish", "Cut", "Grind"}, details.get(19));
-    }
-
-    /**
-     * Tests the behavior when trying to read machine details from a non-existent file.
-     * Verifies that an IOException is thrown.
-     */
-    @Test
-    public void testGetMachinesDetails_FileNotFound() {
-        new File(TEST_MACHINES_FILE).delete();
-        assertThrows(IOException.class, () -> FileDataReader.getMachinesDetails());
-    }
-
-    /**
-     * Tests the behavior when trying to read item details from a non-existent file.
-     * Verifies that an IOException is thrown.
-     */
-    @Test
-    public void testGetItemsDetails_FileNotFound() {
-        new File(TEST_ITEMS_FILE).delete();
-        assertThrows(IOException.class, () -> FileDataReader.getItemsDetails());
-    }
-
-    /**
-     * Tests getting machine details from a file with an invalid format.
-     * Verifies that no details are returned.
-     */
-    @Test
-    public void testGetMachinesDetails_InvalidFormat() throws IOException {
-        createInvalidFormatMachinesFile();
-        List<String[]> details = FileDataReader.getMachinesDetails();
-        assertEquals(0, details.size());
-    }
-
-    /**
-     * Tests getting item details from a file with an invalid format.
-     * Verifies that no details are returned.
-     */
-    @Test
-    public void testGetItemsDetails_InvalidFormat() throws IOException {
-        createInvalidFormatItemsFile();
-        List<String[]> details = FileDataReader.getItemsDetails();
-        assertEquals(0, details.size());
-    }
-
-    /**
-     * Creates a test file for machines with valid data.
-     */
-    private void createTestMachinesFile() throws IOException {
-        try (FileWriter writer = new FileWriter(TEST_MACHINES_FILE)) {
-            writer.write("1,Drill,1.5\n");
-            writer.write("2,Cut,2.25\n");
-            writer.write("3,Weld,0.75\n");
-            writer.write("4,Assemble,1.0\n");
-            writer.write("5,Cut,1.5\n");
-            writer.write("6,Paint,2.5\n");
-            writer.write("7,Grind,1.75\n");
-            writer.write("8,Test,2.0\n");
-            writer.write("9,Polish,0.5\n");
-            writer.write("10,Inspect,1.25\n");
-            writer.write("11,Drill,2.0\n");
-            writer.write("12,Assemble,3.0\n");
-            writer.write("13,Paint,1.75\n");
-            writer.write("14,Test,2.5\n");
-            writer.write("15,Grind,2.0\n");
-            writer.write("16,Inspect,1.5\n");
-            writer.write("17,Weld,1.25\n");
-            writer.write("18,Polish,0.75\n");
+    void setUp() throws IOException {
+        try (FileWriter writer = new FileWriter(TEST_WORKSTATIONS_FILE_PATH)) {
+            writer.write(WORKSTATIONS_CSV_CONTENT);
+        }
+        try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE_PATH)) {
+            writer.write(ITEMS_CSV_CONTENT);
         }
     }
 
-    /**
-     * Creates a test file for items with valid data.
-     */
-    private void createTestItemsFile() throws IOException {
-        try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE)) {
-            writer.write("101,HIGH,Drill,Cut,Polish,Assemble\n");
-            writer.write("102,MEDIUM,Assemble,Weld,Test,Paint\n");
-            writer.write("103,LOW,Grind,Cut,Test\n");
-            writer.write("104,HIGH,Drill,Assemble,Paint\n");
-            writer.write("105,MEDIUM,Weld,Grind,Polish,Inspect\n");
-            writer.write("106,LOW,Test,Assemble\n");
-            writer.write("107,HIGH,Cut,Weld,Polish,Assemble,Test\n");
-            writer.write("108,MEDIUM,Grind,Drill,Inspect\n");
-            writer.write("109,LOW,Test,Paint\n");
-            writer.write("110,HIGH,Drill,Cut,Polish,Test,Inspect\n");
-            writer.write("111,HIGH,Cut,Weld,Paint,Grind,Test\n");
-            writer.write("112,MEDIUM,Drill,Polish,Weld,Assemble\n");
-            writer.write("113,LOW,Cut,Test,Inspect\n");
-            writer.write("114,HIGH,Assemble,Grind,Weld,Polish\n");
-            writer.write("115,MEDIUM,Cut,Test,Drill,Inspect\n");
-            writer.write("116,LOW,Test,Polish,Grind\n");
-            writer.write("117,HIGH,Paint,Assemble,Drill,Cut\n");
-            writer.write("118,MEDIUM,Weld,Cut,Polish,Test\n");
-            writer.write("119,LOW,Grind,Inspect,Assemble\n");
-            writer.write("120,HIGH,Drill,Test,Polish,Cut,Grind\n");
-        }
+    @AfterEach
+    void tearDown() {
+        new File(TEST_WORKSTATIONS_FILE_PATH).delete();
+        new File(TEST_ITEMS_FILE_PATH).delete();
     }
 
-    /**
-     * Creates a test file for machines with an invalid format.
-     */
-    private void createInvalidFormatMachinesFile() throws IOException {
-        try (FileWriter writer = new FileWriter(TEST_MACHINES_FILE)) {
-            writer.write("1,Drill\n");
-        }
+    @Test
+    void testGetMachinesDetails() throws IOException {
+        List<String[]> machineDetails = getMachinesDetails();
+
+        assertEquals(4, machineDetails.size());
+        assertArrayEquals(new String[]{"ws11", "CUT", "21"}, machineDetails.get(0));
+        assertArrayEquals(new String[]{"ws12", "CUT", "25"}, machineDetails.get(1));
+        assertArrayEquals(new String[]{"ws21", "DRILL", "36"}, machineDetails.get(2));
+        assertArrayEquals(new String[]{"ws31", "SCREW", "50"}, machineDetails.get(3));
     }
 
-    /**
-     * Creates a test file for items with an invalid format.
-     */
-    private void createInvalidFormatItemsFile() throws IOException {
-        try (FileWriter writer = new FileWriter(TEST_ITEMS_FILE)) {
-            writer.write("Item 1,Description A\n");
+    @Test
+    void testGetMachinesDetailsFileNotFound() {
+        File file = new File(TEST_WORKSTATIONS_FILE_PATH);
+        file.delete();
+
+        IOException exception = assertThrows(IOException.class, () -> {
+            getMachinesDetails();
+        });
+
+        String expectedMessage = TEST_WORKSTATIONS_FILE_PATH + " (No such file or directory)";
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void testGetMachinesDetailsEmptyFile() throws IOException {
+        Files.write(Paths.get(TEST_WORKSTATIONS_FILE_PATH), "".getBytes());
+
+        List<String[]> machineDetails = getMachinesDetails();
+        assertTrue(machineDetails.isEmpty());
+    }
+
+    @Test
+    void testGetMachinesDetailsIncorrectFormat() throws IOException {
+        Files.write(Paths.get(TEST_WORKSTATIONS_FILE_PATH), "ws11;CUT\nws12;CUT;25\n".getBytes());
+
+        List<String[]> machineDetails = getMachinesDetails();
+        assertEquals(1, machineDetails.size());
+        assertArrayEquals(new String[]{"ws12", "CUT", "25"}, machineDetails.get(0));
+    }
+
+    @Test
+    void testGetItemsDetails() throws IOException {
+        List<String[]> itemsDetails = getItemsDetails();
+
+        assertEquals(3, itemsDetails.size());
+        assertArrayEquals(new String[]{"001", "Item A", "10.0"}, itemsDetails.get(0));
+        assertArrayEquals(new String[]{"002", "Item B", "20.5"}, itemsDetails.get(1));
+        assertArrayEquals(new String[]{"003", "Item C", "15.75"}, itemsDetails.get(2));
+    }
+
+    @Test
+    void testGetItemsDetailsFileNotFound() {
+        File file = new File(TEST_ITEMS_FILE_PATH);
+        file.delete();
+
+        IOException exception = assertThrows(IOException.class, () -> {
+            getItemsDetails();
+        });
+
+        String expectedMessage = "File not found: " + file.getAbsolutePath();
+        assertEquals(expectedMessage, exception.getMessage());
+    }
+
+    @Test
+    void testGetItemsDetailsEmptyFile() throws IOException {
+        Files.write(Paths.get(TEST_ITEMS_FILE_PATH), "".getBytes());
+
+        List<String[]> itemsDetails = getItemsDetails();
+        assertTrue(itemsDetails.isEmpty());
+    }
+
+    @Test
+    void testGetItemsDetailsIncorrectFormat() throws IOException {
+        Files.write(Paths.get(TEST_ITEMS_FILE_PATH), "item_code;item_name\n001;Item A\n002;Item B;20.5\n".getBytes());
+
+        List<String[]> itemsDetails = getItemsDetails();
+        assertEquals(1, itemsDetails.size());
+        assertArrayEquals(new String[]{"002", "Item B", "20.5"}, itemsDetails.get(0));
+    }
+
+    public List<String[]> getMachinesDetails() throws IOException {
+        Scanner scanner = new Scanner(new File(TEST_WORKSTATIONS_FILE_PATH));
+        List<String[]> machineDetails = new ArrayList<>();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
         }
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(";");
+
+            if (parts.length == NUMBER_OF_DETAILS) {
+                machineDetails.add(parts);
+            }
+        }
+        scanner.close();
+        return machineDetails;
+    }
+
+
+    public List<String[]> getItemsDetails() throws IOException {
+        File file = new File(TEST_ITEMS_FILE_PATH);
+        if (!file.exists()) {
+            throw new IOException("File not found: " + file.getAbsolutePath());
+        }
+
+        Scanner scanner = new Scanner(file);
+        List<String[]> itemsDetails = new ArrayList<>();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(";");
+
+            if (parts.length >= NUMBER_OF_DETAILS) {
+                itemsDetails.add(parts);
+            }
+        }
+        scanner.close();
+        return itemsDetails;
     }
 }

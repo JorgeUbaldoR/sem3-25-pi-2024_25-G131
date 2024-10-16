@@ -107,7 +107,7 @@ public class MachineRepository {
      * @param id The original machine ID as a string, e.g., "ws111".
      * @return A new string representing only the numeric part of the machine ID, e.g., "111".
      */
-    private String reformatMachineId(String id) {
+    public String reformatMachineId(String id) {
         int len = id.length();
         return id.substring(2, len);
     }
