@@ -24,7 +24,7 @@ public class Repositories {
         machineRepository = new MachineRepository();
         itemRepository = new ItemRepository();
         idRepository = new IDRepository();
-        operationRepository = new OperationRepository(machineRepository.getMachineList());
+        operationRepository = new OperationRepository(itemRepository.getItemList());
     }
 
     /**

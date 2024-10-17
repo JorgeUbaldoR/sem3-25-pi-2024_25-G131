@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
@@ -17,11 +18,11 @@ public class OperationRepository {
      * Constructs an OperationRepository instance.
      * Initializes the set to hold operations.
      *
-     * @param machines a list of machines to fill the repository with operations
+     * @param items a list of items to fill the repository with operations
      */
-    public OperationRepository(List<Machine> machines) {
+    public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
-//        fillOperations(machines);
+        fillOperations(items);
     }
 
     /**
@@ -41,14 +42,22 @@ public class OperationRepository {
         return op;
     }
 
+
     /**
-     * Fills the repository with operations from the provided list of machines.
+     * Populates the operations list with operations extracted from the provided items.
+
+     * This method iterates over each item in the provided list and retrieves the list of operations
+     * associated with each item. Each operation is cloned to ensure that the original operation objects
+     * are not modified when added to the operations list. The cloned operations are then added to the
+     * internal list of operations.
      *
-     * @param machines a list of machines whose operations will be added to the repository
+     * @param items a list of Item objects from which operations are extracted and added to the operations list.
      */
-    public void fillOperations(List<Machine> machines) {
-        for (Machine machine : machines) {
-            operations.add(machine.getOperation());
+    public void fillOperations(List<Item> items) {
+        for (Item item : items) {
+            for (Operation operation : item.getOperationList()) {
+                operations.add(operation.clone());
+            }
         }
     }
 

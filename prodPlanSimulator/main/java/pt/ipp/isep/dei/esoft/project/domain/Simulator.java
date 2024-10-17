@@ -119,7 +119,7 @@ public class Simulator {
                 }
             }
 
-            if (time > 0){
+            if (time > 0) {
                 fillWaitingTime(operationQueueList);
             }
 
@@ -159,14 +159,15 @@ public class Simulator {
      * @param machineList    the queue of machines available for processing the item.
      */
     private void assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
-        if (!machineList.isEmpty()) {
+        if (machineList != null && !machineList.isEmpty()) {
             for (Machine currentMachine : machineList) {
                 if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
                     currentMachine.processItem(operationQueue.getNextItem());
-
                     fillExecutionPerOperation(currentMachine.getOperation());
                 }
             }
+        } else {
+            operationQueue.getNextItem();
         }
     }
 
