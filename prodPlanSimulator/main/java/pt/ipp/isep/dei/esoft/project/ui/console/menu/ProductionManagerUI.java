@@ -18,6 +18,7 @@ public class ProductionManagerUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Add an Operation", new AddOperationUI()));
+        options.add(new MenuItem("Add a Machine", new AddMachineUI()));
         options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
         options.add(new MenuItem("Change operation description", new AddOperationDescriptionUI()));
         options.add(new MenuItem("Simulation", new SimulatorUI()));

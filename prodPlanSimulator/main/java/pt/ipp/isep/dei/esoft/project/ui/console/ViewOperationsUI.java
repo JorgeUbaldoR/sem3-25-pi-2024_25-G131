@@ -74,7 +74,9 @@ public class ViewOperationsUI implements Runnable {
             Operation operation = entry.getKey();
             List<Machine> machines = entry.getValue();
 
-            System.out.printf("[%-9s%s is performed by machines: %s%n",operation.getOperationName()+"]" ,ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf("[%-9s%s is performed by machines: %s%n",
+                    operation.getOperationName()+"]" ,ANSI_BRIGHT_BLACK, ANSI_RESET);
+
             for (Machine machine : machines) {
                 System.out.printf(" • %s%s%s%n", ANSI_BRIGHT_WHITE, machine.getId_machine(), ANSI_RESET);
             }
