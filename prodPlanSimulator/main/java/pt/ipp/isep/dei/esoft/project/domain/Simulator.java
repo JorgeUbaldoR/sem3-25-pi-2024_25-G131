@@ -132,7 +132,7 @@ public class Simulator {
         printExecutionTimesOperation();
         printAverageExecutionTime();
         printWaitingTime();
-        printItemMachine();
+        //printItemMachine();
     }
 
     /**

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_BRIGHT_WHITE;
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class ShowInformationUI implements Runnable {
 
@@ -44,26 +43,45 @@ public class ShowInformationUI implements Runnable {
         System.out.printf("%s%-20s %-17s%s%n", ANSI_BRIGHT_WHITE, "Name", "Description", ANSI_RESET);
         System.out.printf("-----------------------------------------------%n");
         for (Operation operation : operationList) {
-            System.out.printf("%-13s %-3s%n",operation.getOperationName(),operation.getOperationDescription());
+            System.out.printf("%-13s %-3s%n", operation.getOperationName(), operation.getOperationDescription());
         }
     }
+
     private void showItems() {
+        boolean flag = true;
         System.out.printf("%n%s• ITEMS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("-----------------------------------------------%n");
         List<Item> listItem = getSimulationController().getItemList();
         System.out.printf("%s%-20s %-17s%s%n", ANSI_BRIGHT_WHITE, "ID", "Operation", ANSI_RESET);
         System.out.printf("-----------------------------------------------%n");
+
         for (Item item : listItem) {
-            System.out.printf("%-13s [", item.getItemID());
-            for (Operation operation : item.getOperationList()) {
-                if (item.getOperationList().indexOf(operation) != item.getOperationList().size() - 1) {
-                    System.out.printf("%s, ", operation.getOperationName());
-                }else{
-                    System.out.printf("%s]%n", operation.getOperationName());
+            flag = true;
+            if (!item.getOperationList().isEmpty()) {
+                flag = false;
+                System.out.printf("%-13s [", item.getItemID());
+                for (Operation operation : item.getOperationList()) {
+                    if (item.getOperationList().indexOf(operation) != item.getOperationList().size() - 1) {
+                        System.out.printf("%s, ", operation.getOperationName());
+                    } else {
+                        System.out.printf("%s]%n", operation.getOperationName());
+                    }
                 }
+            }
+
+        }
+        if (flag) {
+
+            for (Item item : listItem) {
+                if (item.getOperationList().isEmpty()) {
+                    System.out.printf("%-13s [%s%s%s]%n", item.getItemID(), ANSI_BRIGHT_WHITE, "Operations completed", ANSI_RESET);
+                }
+
             }
         }
     }
+
+
     private void showMachines() {
         System.out.printf("%s• MACHINES:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("-----------------------------------------------%n");
@@ -77,3 +95,4 @@ public class ShowInformationUI implements Runnable {
         }
     }
 }
+

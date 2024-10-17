@@ -85,7 +85,6 @@ public class Bootstrap implements Runnable {
         machineRepository.addMachine(machineCutting03);
         machineRepository.addMachine(machineWelding);
         machineRepository.addMachine(machinePainting);
-        machineRepository.addMachine(machineTesting);
     }
 
     private void addIDs() {
@@ -105,6 +104,7 @@ public class Bootstrap implements Runnable {
         operationListItem1.add(opCutting);
         operationListItem1.add(opWelding);
         operationListItem1.add(opPainting);
+        operationListItem1.add(opTesting);
 
         operationListItem2.add(opPainting);
         operationListItem2.add(opCutting);
