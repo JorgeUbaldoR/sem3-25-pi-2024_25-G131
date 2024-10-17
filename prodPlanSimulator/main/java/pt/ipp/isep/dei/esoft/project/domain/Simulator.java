@@ -123,8 +123,6 @@ public class Simulator {
                 fillWaitingTime(operationQueueList);
             }
 
-
-
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
             //sleep(1000);
@@ -533,7 +531,29 @@ public class Simulator {
         }
     }
 
+    private void printWaitingTime() {
 
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Item",
+                "Waiting Time (min)"
+                , ANSI_RESET,
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+
+        for (Map.Entry<Item, Float> entry : waitingTime.entrySet()) {
+            System.out.printf("%s%s%s  %-14s %17.2f %n",
+                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                    entry.getKey().getItemID(),
+                    entry.getValue());
+        }
+
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+    }
 
 
 
