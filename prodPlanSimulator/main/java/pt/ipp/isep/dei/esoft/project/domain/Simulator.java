@@ -530,10 +530,8 @@ public class Simulator {
 
                     if (!waitingTime.containsKey(item)) {
                         waitingTime.put(item, 1f);
-                        System.out.printf("Item: %s +1\n", item.getItemID());
                     } else {
                         waitingTime.put(item, waitingTime.get(item) + 1f);
-                        System.out.printf("Item: %s +1\n", item.getItemID());
                     }
 
                 }
