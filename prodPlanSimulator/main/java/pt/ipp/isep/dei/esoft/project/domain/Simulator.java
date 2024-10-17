@@ -446,6 +446,10 @@ public class Simulator {
         return this.avgExecutionTime;
     }
 
+    public Map<Item, Float> getWaitingTime() {
+        return this.waitingTime;
+    }
+
     private void printItemOrder() {
         for (Item it : itemLinkedList) {
             System.out.println(it.getItemID());
@@ -539,6 +543,8 @@ public class Simulator {
 
     private void printWaitingTime() {
 
+        List<Map.Entry<Item, Float>> sortedListWaitingTime = ascendingOrderWaitingTime();
+
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
@@ -550,7 +556,7 @@ public class Simulator {
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
 
-        for (Map.Entry<Item, Float> entry : waitingTime.entrySet()) {
+        for (Map.Entry<Item, Float> entry : sortedListWaitingTime) {
             System.out.printf("%s%s%s  %-14s %17.2f %n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                     entry.getKey().getItemID(),
@@ -567,6 +573,11 @@ public class Simulator {
         return list;
     }
 
+    private List<Map.Entry<Item, Float>> ascendingOrderWaitingTime() {
+        List<Map.Entry<Item, Float>> list = new ArrayList<>(getWaitingTime().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
+    }
 
 
 }
