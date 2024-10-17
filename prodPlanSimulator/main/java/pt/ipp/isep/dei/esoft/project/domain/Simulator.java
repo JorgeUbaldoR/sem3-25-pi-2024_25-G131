@@ -13,7 +13,7 @@ public class Simulator {
     private final Map<Operation, Queue<Machine>> machineList;
     private final List<OperationQueue> operationQueueList;
     private final Map<Operation, Float> operationTime;
-    private final Map<Operation, Float> waitingTime;
+    private final Map<Item, Float> waitingTime;
     private final Map<Operation, Float> avgExecutionTime;
     private final LinkedList<Item> itemLinkedList;
     private final Map<Item, LinkedList<ID>> itemLinkedListMap;
@@ -111,12 +111,19 @@ public class Simulator {
             printQueue();
             System.out.printf("%n• Status:%n");
             printMachineStatus();
+
             System.out.printf("%n• New Processing:%n");
             for (OperationQueue operationQueue : operationQueueList) {
                 if (!operationQueue.isEmpty()) {
                     assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
                 }
             }
+
+            if (time > 0){
+                fillWaitingTime(operationQueueList);
+            }
+
+
 
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
@@ -126,6 +133,7 @@ public class Simulator {
         printExecutionTimesMachine();
         printExecutionTimesOperation();
         printAverageExecutionTime();
+        printWaitingTime();
         printItemMachine();
     }
 
@@ -486,10 +494,9 @@ public class Simulator {
                 ANSI_BRIGHT_WHITE,
                 "Operation",
                 "Average Time (min)"
-                ,ANSI_RESET,
+                , ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-
 
 
         for (Map.Entry<Operation, Float> entry : avgExecutionTime.entrySet()) {
@@ -504,10 +511,30 @@ public class Simulator {
 
     }
 
-    private void printWaitingTime() {
+    private void fillWaitingTime(List<OperationQueue> operationQueueList) {
 
+        for (OperationQueue operationQueue : operationQueueList) {
 
+            if (!operationQueue.isEmpty()) {
+                Queue<Item> items = operationQueue.getItemList();
+
+                for (Item item : items) {
+
+                    if (!waitingTime.containsKey(item)) {
+                        waitingTime.put(item, 1f);
+                        System.out.printf("Item: %s +1\n", item.getItemID());
+                    } else {
+                        waitingTime.put(item, waitingTime.get(item) + 1f);
+                        System.out.printf("Item: %s +1\n", item.getItemID());
+                    }
+
+                }
+            }
+        }
     }
+
+
+
 
 
 }

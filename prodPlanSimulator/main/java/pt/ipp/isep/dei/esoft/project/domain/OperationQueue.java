@@ -188,5 +188,7 @@ public class OperationQueue {
         return sb.toString();
     }
 
-
+    public Queue<Item> getItemList() {
+        return itemList;
+    }
 }
