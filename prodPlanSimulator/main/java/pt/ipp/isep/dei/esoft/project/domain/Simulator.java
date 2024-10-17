@@ -132,7 +132,8 @@ public class Simulator {
         printExecutionTimesOperation();
         printAverageExecutionTime();
         printWaitingTime();
-        printItemMachine();
+        //printItemMachine();
+        printMachineTransitions();
     }
 
     /**
@@ -188,6 +189,7 @@ public class Simulator {
                     itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
                     itemLinkedListMap.get(currentItem).add(machine.getId_machine());
                     if (newOperation != null) {
+
                         OperationQueue operationQueue = findOperationInQueue(newOperation);
                         if (operationQueue != null) {
                             operationQueue.addItemToQueue(currentItem);
@@ -489,6 +491,41 @@ public class Simulator {
         }
     }
 
+    private void printMachineTransitions() {
+        Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
+
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            LinkedList<ID> machineIds = entry.getValue();
+
+            for (int i = 0; i < machineIds.size() - 1; i++) {
+                ID fromMachine = machineIds.get(i);
+                ID toMachine = machineIds.get(i + 1);
+
+                transitionMap.putIfAbsent(fromMachine, new HashMap<>());
+
+                Map<ID, Integer> toMachineCount = transitionMap.get(fromMachine);
+
+                toMachineCount.put(toMachine, toMachineCount.getOrDefault(toMachine, 0) + 1);
+            }
+        }
+
+        for (Map.Entry<ID, Map<ID, Integer>> transitionEntry : transitionMap.entrySet()) {
+            ID fromMachine = transitionEntry.getKey();
+            Map<ID, Integer> toMachines = transitionEntry.getValue();
+
+            System.out.print(fromMachine.getKeyID() + " : [");
+
+            List<String> transitionStrings = new ArrayList<>();
+            for (Map.Entry<ID, Integer> toMachineEntry : toMachines.entrySet()) {
+                ID toMachine = toMachineEntry.getKey();
+                int count = toMachineEntry.getValue();
+                transitionStrings.add("(" + toMachine.getKeyID() + "," + count + ")");
+            }
+
+            System.out.print(String.join(", ", transitionStrings));
+            System.out.println("]");
+        }
+    }
 
     private void printAverageExecutionTime() {
 
