@@ -29,7 +29,7 @@ class Item {
 
 class PriorityEnum{
     high
-    medium
+    normal
     low
 }
 
@@ -42,14 +42,14 @@ class Operation {
 class Machine{
 }
 
-class Queue{
+class OperationQueue{
 }
 
 Item "1" -- "0..*" Operation : has >
 Machine "1" - "         1" Operation: execute >
 Item "1" -- "1" PriorityEnum : has >
 'Simulator "1" -- "*" Operation : do >
-Simulator "1..*" -- "1" Queue: has >
+Simulator "1..*" -- "1" OperationQueue: has >
 Simulator "1" -- "1..*" Machine : has >
-Queue "1" -- "1..*" Item
+OperationQueue "1" -- "1..*" Item
 @enduml

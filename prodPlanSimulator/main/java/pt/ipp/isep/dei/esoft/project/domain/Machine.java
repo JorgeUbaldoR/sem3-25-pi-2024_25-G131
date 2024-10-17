@@ -82,8 +82,10 @@ public class Machine implements Comparable<Machine> {
      */
     public boolean printStatus() {
         if (available) {
-            System.out.printf("   ⚙️ Workstation %s%s%s is %sAVAILABLE%4s [Operation: %s%-10s%s [Processing Time: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET
-                                            ,ANSI_BRIGHT_GREEN,ANSI_RESET,ANSI_BRIGHT_WHITE,this.operation.getOperationName()+"]",ANSI_RESET,"",ANSI_BRIGHT_WHITE,this.processingSpeed,ANSI_RESET);
+            System.out.printf("   ⚙️ Workstation %s%s%s is %sAVAILABLE%4s [Operation: %s%-10s%s%s [Processing Time: %s%s%s]%n",
+                    ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,
+                    ANSI_BRIGHT_GREEN,ANSI_RESET,
+                    ANSI_BRIGHT_WHITE,this.operation.getOperationName()+"]",ANSI_RESET,"",ANSI_BRIGHT_WHITE,this.processingSpeed,ANSI_RESET);
             return true;
         } else {
             System.out.printf("   🛠️ Workstation %s%s%s is %sPROCESSING%s:  📦 %s%s%s [Operation: %s%s%s] [Time left: %s%s%s]%n",ANSI_BRIGHT_WHITE,this.id_machine,ANSI_RESET,

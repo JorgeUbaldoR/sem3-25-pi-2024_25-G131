@@ -21,7 +21,7 @@ public class OperationRepository {
      */
     public OperationRepository(List<Machine> machines) {
         this.operations = new HashSet<>();
-        fillOperations(machines);
+//        fillOperations(machines);
     }
 
     /**
