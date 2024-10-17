@@ -59,6 +59,20 @@ public class MachineController {
         return request;
     }
 
+    /**
+     * Registers a new machine with the specified operation, ID, and execution time.
+
+     * This method delegates the machine registration process to the machine repository.
+     * It utilizes the provided parameters to create and store a new machine.
+     * The method returns an Optional<Machine> which contains the registered machine if
+     * the registration is successful. If the machine could not be registered (e.g.,
+     * due to ID duplication), an empty Optional is returned.
+     *
+     * @param operation The operation associated with the machine to be registered.
+     * @param id The unique identifier for the machine.
+     * @param exTime The execution time for the machine's operation.
+     * @return An Optional containing the registered machine if successful, or an empty Optional if not.
+     */
     public Optional<Machine> registerMachine(Operation operation, int id, double exTime) {
         return machineRepository.registerMachine(operation, id, exTime);
     }

@@ -25,7 +25,7 @@ public class MachineRepository {
      */
     public MachineRepository() {
         this.machineList = new HashMap<>();
-        //fillMachinery();
+        fillMachinery();
     }
 
     /**
@@ -100,6 +100,14 @@ public class MachineRepository {
         return optionalValue;
     }
 
+    /**
+     * Registers a new machine if the ID is unique.
+     *
+     * @param operation The operation to associate with the machine.
+     * @param id The unique identifier for the machine.
+     * @param exTime The execution time for the operation.
+     * @return An Optional containing the registered machine if successful; otherwise, an empty Optional.
+     */
     public Optional<Machine> registerMachine(Operation operation, int id, double exTime) {
         ID identification = new ID(id, TypeID.MACHINE);
 
