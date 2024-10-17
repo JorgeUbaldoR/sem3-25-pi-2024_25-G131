@@ -412,6 +412,29 @@ public class Simulator {
     }
 
     /**
+     * Sorts the average execution time entries in descending order.
+     *
+     * @return A list of entries sorted by their average execution time in descending order.
+     */
+    private List<Map.Entry<Operation, Float>> ascendingOrderAvgExecutionTime() {
+        List<Map.Entry<Operation, Float>> list = new ArrayList<>(getAvgExecutionTime().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
+    }
+
+    /**
+     * Sorts the waiting time entries in descending order.
+     *
+     * @return A list of entries sorted by their waiting time in descending order.
+     */
+    private List<Map.Entry<Item, Float>> ascendingOrderWaitingTime() {
+        List<Map.Entry<Item, Float>> list = new ArrayList<>(getWaitingTime().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
+    }
+
+
+    /**
      * @return the sum of all operation's times.
      */
     private float sumTotalTime() {
@@ -442,10 +465,20 @@ public class Simulator {
         return this.machineUsage;
     }
 
+    /**
+     * Retrieves the map containing the average execution times for each operation.
+     *
+     * @return A map where the keys are Operations and the values are their average execution times in minutes.
+     */
     public Map<Operation, Float> getAvgExecutionTime() {
         return this.avgExecutionTime;
     }
 
+    /**
+     * Retrieves the map containing the waiting times for each item.
+     *
+     * @return A map where the keys are Items and the values are their waiting times in minutes.
+     */
     public Map<Item, Float> getWaitingTime() {
         return this.waitingTime;
     }
@@ -467,6 +500,12 @@ public class Simulator {
         }
     }
 
+    /**
+     * Populates the executionPerOperation map with the number of executions for each operation.
+     * If the operation is already present, increments its count by 1.
+     *
+     * @param operation The operation whose execution count is being tracked.
+     */
     private void fillExecutionPerOperation(Operation operation) {
         if (!executionPerOperation.containsKey(operation)) {
             executionPerOperation.put(operation, 1);
@@ -475,12 +514,15 @@ public class Simulator {
         }
     }
 
+    /**
+     * Calculates the average execution time for each operation and stores it in avgExecutionTime.
+     * Divides the total execution time of each operation by its number of executions.
+     */
     private void calculateAverageExecutionTimes() {
         float totalTime;
         int qtdOperations;
 
         for (Map.Entry<Operation, Float> entry : operationTime.entrySet()) {
-
             Operation operation = entry.getKey();
             totalTime = entry.getValue();
             qtdOperations = executionPerOperation.get(operation);
@@ -490,11 +532,13 @@ public class Simulator {
     }
 
 
+    /**
+     * Prints the average execution time for each operation in a formatted output.
+     * Sorts the list of operations by their average execution time before printing.
+     */
     private void printAverageExecutionTime() {
-
         calculateAverageExecutionTimes();
         List<Map.Entry<Operation, Float>> sortedListAvgExecutionTime = ascendingOrderAvgExecutionTime();
-
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
@@ -506,7 +550,6 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
-
         for (Map.Entry<Operation, Float> entry : sortedListAvgExecutionTime) {
             System.out.printf("%s%s%s  %-14s %17.2f %n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
@@ -515,32 +558,35 @@ public class Simulator {
         }
 
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-
-
     }
 
+    /**
+     * Fills the waitingTime map with the waiting time of each item in the operation queue list.
+     * If an item is already present, increments its waiting time by 1 minute.
+     *
+     * @param operationQueueList The list of operation queues to process for waiting time.
+     */
     private void fillWaitingTime(List<OperationQueue> operationQueueList) {
-
         for (OperationQueue operationQueue : operationQueueList) {
-
             if (!operationQueue.isEmpty()) {
                 Queue<Item> items = operationQueue.getItemList();
 
                 for (Item item : items) {
-
                     if (!waitingTime.containsKey(item)) {
                         waitingTime.put(item, 1f);
                     } else {
                         waitingTime.put(item, waitingTime.get(item) + 1f);
                     }
-
                 }
             }
         }
     }
 
+    /**
+     * Prints the waiting time for each item in a formatted output.
+     * Sorts the list of items by their waiting time before printing.
+     */
     private void printWaitingTime() {
-
         List<Map.Entry<Item, Float>> sortedListWaitingTime = ascendingOrderWaitingTime();
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -553,7 +599,6 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
-
         for (Map.Entry<Item, Float> entry : sortedListWaitingTime) {
             System.out.printf("%s%s%s  %-14s %17.2f %n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
@@ -562,20 +607,5 @@ public class Simulator {
         }
 
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-
     }
-
-    private List<Map.Entry<Operation, Float>> ascendingOrderAvgExecutionTime() {
-        List<Map.Entry<Operation, Float>> list = new ArrayList<>(getAvgExecutionTime().entrySet());
-        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        return list;
-    }
-
-    private List<Map.Entry<Item, Float>> ascendingOrderWaitingTime() {
-        List<Map.Entry<Item, Float>> list = new ArrayList<>(getWaitingTime().entrySet());
-        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        return list;
-    }
-
-
 }
