@@ -442,6 +442,10 @@ public class Simulator {
         return this.machineUsage;
     }
 
+    public Map<Operation, Float> getAvgExecutionTime() {
+        return this.avgExecutionTime;
+    }
+
     private void printItemOrder() {
         for (Item it : itemLinkedList) {
             System.out.println(it.getItemID());
@@ -485,6 +489,8 @@ public class Simulator {
     private void printAverageExecutionTime() {
 
         calculateAverageExecutionTimes();
+        List<Map.Entry<Operation, Float>> sortedListAvgExecutionTime = ascendingOrderAvgExecutionTime();
+
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
@@ -497,7 +503,7 @@ public class Simulator {
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
 
-        for (Map.Entry<Operation, Float> entry : avgExecutionTime.entrySet()) {
+        for (Map.Entry<Operation, Float> entry : sortedListAvgExecutionTime) {
             System.out.printf("%s%s%s  %-14s %17.2f %n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                     entry.getKey().getOperationName(),
@@ -553,6 +559,12 @@ public class Simulator {
 
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
+    }
+
+    private List<Map.Entry<Operation, Float>> ascendingOrderAvgExecutionTime() {
+        List<Map.Entry<Operation, Float>> list = new ArrayList<>(getAvgExecutionTime().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
     }
 
 
