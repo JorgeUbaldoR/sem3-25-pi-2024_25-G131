@@ -43,6 +43,15 @@ public class OperationQueue {
     }
 
     /**
+     * Retrieves the queue of items in the operation queue.
+     *
+     * @return A queue containing the items.
+     */
+    public Queue<Item> getItemList() {
+        return itemList;
+    }
+
+    /**
      * Adds an item to the queue if it meets certain conditions.
      * <p>
      * Conditions:
@@ -186,9 +195,5 @@ public class OperationQueue {
         }
         sb.append("]");
         return sb.toString();
-    }
-
-    public Queue<Item> getItemList() {
-        return itemList;
     }
 }

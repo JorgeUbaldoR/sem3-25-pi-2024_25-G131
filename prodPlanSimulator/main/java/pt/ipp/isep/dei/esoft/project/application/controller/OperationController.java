@@ -1,7 +1,9 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
@@ -13,6 +15,7 @@ public class OperationController {
 
     private OperationRepository operationRepository;
     private final MachineRepository machineRepository;
+    private ItemRepository itemRepository;
 
     /**
      * Constructor for OperationController.
@@ -22,7 +25,8 @@ public class OperationController {
     public OperationController() {
         this.machineRepository = getMachineRepository();
         this.operationRepository = getOperationRepository();
-        fillOperationsFromMachines();
+        this.itemRepository = getItemRepository();
+        fillOperationsFromItems();
 
     }
 
@@ -48,6 +52,13 @@ public class OperationController {
         Repositories repository = Repositories.getInstance();
         return repository.getMachineRepository();
     }
+    private ItemRepository getItemRepository() {
+        if (itemRepository == null) {
+            Repositories repository = Repositories.getInstance();
+            itemRepository = repository.getItemRepository();
+        }
+        return itemRepository;
+    }
 
     /**
      * Adds a new operation to the operation repository.
@@ -59,21 +70,27 @@ public class OperationController {
         return getOperationRepository().addOperation(operation);
     }
 
-    /**
-     * Retrieves a list of all machines.
-     *
-     * @return a list of machines
-     */
-    public List<Machine> getAllMachines() {
-        return machineRepository.getMachineList();
-    }
 
     /**
-     * Fills operations in the operation repository based on the available machines.
+     * Retrieves all items from the item repository.
+     *
+     * @return a list containing all items managed by the item repository.
      */
-    public void fillOperationsFromMachines() {
-        List<Machine> machines = getAllMachines();
-        operationRepository.fillOperations(machines);
+    public List<Item> getAllItems() {
+        return itemRepository.getItemList();
+    }
+
+
+    /**
+     * Populates the operation repository with operations extracted from the items.
+
+     * This method first retrieves all items by calling getAllItems(), then uses those items
+     * to fill the operation repository. Each item may be associated with one or more operations,
+     * and this method ensures that the operation repository is populated based on the available items.
+     */
+    public void fillOperationsFromItems() {
+        List<Item> items = getAllItems();
+        operationRepository.fillOperations(items);
     }
 
 

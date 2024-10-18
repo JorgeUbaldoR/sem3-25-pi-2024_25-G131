@@ -100,6 +100,27 @@ public class MachineRepository {
         return optionalValue;
     }
 
+    /**
+     * Registers a new machine if the ID is unique.
+     *
+     * @param operation The operation to associate with the machine.
+     * @param id The unique identifier for the machine.
+     * @param exTime The execution time for the operation.
+     * @return An Optional containing the registered machine if successful; otherwise, an empty Optional.
+     */
+    public Optional<Machine> registerMachine(Operation operation, int id, double exTime) {
+        ID identification = new ID(id, TypeID.MACHINE);
+
+        if (!machineList.containsKey(identification)) {
+            Machine newMachine = new Machine(identification, operation, (float) exTime);
+            machineList.put(identification, newMachine);
+
+            return Optional.of(newMachine);
+        }
+
+        return Optional.empty();
+    }
+
 
     /**
      * Reformats a machine ID by removing the non-numeric prefix and retaining only the numeric part.
@@ -111,5 +132,6 @@ public class MachineRepository {
         int len = id.length();
         return id.substring(2, len);
     }
-
 }
+
+
