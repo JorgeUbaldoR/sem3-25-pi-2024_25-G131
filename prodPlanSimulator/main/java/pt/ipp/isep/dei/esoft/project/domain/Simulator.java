@@ -611,6 +611,9 @@ public class Simulator {
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 
+    /**
+     * Prints the transitions of a machine to another.
+     */
     private void printMachineTransitions() {
         Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
 
