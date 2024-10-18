@@ -132,7 +132,7 @@ public class Simulator {
         printExecutionTimesOperation();
         printAverageExecutionTime();
         printWaitingTime();
-        //printItemMachine();
+        printItemMachine();
         printMachineTransitions();
     }
 
@@ -492,14 +492,23 @@ public class Simulator {
     }
 
     private void printItemMachine() {
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Item",
+                "Item Route"
+                , ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
             for (Item it : itemLinkedList) {
                 if (entry.getKey().equals(it)) {
-                    System.out.print(entry.getKey().getItemID() + " " + entry.getValue());
+                    System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, entry.getKey().getItemID(), entry.getValue());
                 }
             }
-            System.out.println();
         }
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 
     /**
