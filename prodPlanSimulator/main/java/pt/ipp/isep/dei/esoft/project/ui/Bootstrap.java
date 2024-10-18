@@ -21,18 +21,23 @@ public class Bootstrap implements Runnable {
     private final Operation opTesting = new Operation("Testing");
 
 
+    //ID machine
     private final ID idMachineCutting01 = new ID(10001, TypeID.MACHINE);
     private final ID idMachineCutting02 = new ID(10002, TypeID.MACHINE);
     private final ID idMachineCutting03 = new ID(10003, TypeID.MACHINE);
     private final ID idMachinePainting = new ID(10004, TypeID.MACHINE);
     private final ID idMachineWelding = new ID(10005, TypeID.MACHINE);
     private final ID idMachineTesting = new ID(10006, TypeID.MACHINE);
+
+
+    //ID item
     private final ID idItem1 = new ID(101, TypeID.ITEM);
     private final ID idItem2 = new ID(102, TypeID.ITEM);
     private final ID idItem3 = new ID(103, TypeID.ITEM);
     private final ID idItem4 = new ID(104, TypeID.ITEM);
     private final ID idItem5 = new ID(105, TypeID.ITEM);
 
+    //Machine
     private final Machine machineCutting01 = new Machine(idMachineCutting01, opCutting, 2.5f);
     private final Machine machineCutting02 = new Machine(idMachineCutting02, opCutting, 4f);
     private final Machine machineCutting03 = new Machine(idMachineCutting03, opCutting, 3f);
@@ -47,6 +52,7 @@ public class Bootstrap implements Runnable {
 //    private final Machine machineTesting = new Machine(idMachineTesting, opTesting, 1f);
 
 
+    //Operation queue
     private final Queue<Operation> operationListItem1 = new LinkedList<>();
     private final Queue<Operation> operationListItem2 = new LinkedList<>();
     private final Queue<Operation> operationListItem3 = new LinkedList<>();
@@ -63,6 +69,7 @@ public class Bootstrap implements Runnable {
         addItems();
     }
 
+    //add items to the repository
     private void addItems() {
         ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
 
@@ -78,6 +85,7 @@ public class Bootstrap implements Runnable {
         itemRepository.addItem(item5);
     }
 
+    //add machines to the repository
     private void addMachines() {
         MachineRepository machineRepository = Repositories.getInstance().getMachineRepository();
         machineRepository.addMachine(machineCutting01);
@@ -87,6 +95,7 @@ public class Bootstrap implements Runnable {
         machineRepository.addMachine(machinePainting);
     }
 
+    //add IDs to the repository
     private void addIDs() {
         IDRepository idRepository = Repositories.getInstance().getIDRepository();
         idRepository.addID(idItem1);
@@ -99,6 +108,7 @@ public class Bootstrap implements Runnable {
         idRepository.addID(idMachineWelding);
     }
 
+    //add operations to the repository
     private void addOperations() {
         OperationRepository operationRepository = Repositories.getInstance().getOperationRepository();
         operationListItem1.add(opCutting);
@@ -122,6 +132,7 @@ public class Bootstrap implements Runnable {
     }
 
 
+    //add users to the repository
     private void addUsers() {
         //TODO: add Authentication users here: should be created for each user in the organization
         AuthenticationRepository authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
