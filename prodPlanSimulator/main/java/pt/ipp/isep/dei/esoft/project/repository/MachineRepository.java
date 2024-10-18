@@ -25,7 +25,7 @@ public class MachineRepository {
      */
     public MachineRepository() {
         this.machineList = new HashMap<>();
-        //fillMachinery();
+        fillMachinery();
     }
 
     /**

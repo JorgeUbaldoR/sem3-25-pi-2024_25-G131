@@ -630,13 +630,13 @@ public class Simulator {
         }
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s%s%s%s %-13s %26s %s%s%3s%s%n",
+        System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Machine ID",
                 "Machine Route"
                 , ANSI_RESET,
-                ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
+                ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         for (Map.Entry<ID, Map<ID, Integer>> transitionEntry : transitionMap.entrySet()) {
             ID fromMachine = transitionEntry.getKey();
@@ -648,7 +648,7 @@ public class Simulator {
                 int count = toMachineEntry.getValue();
                 transitionStrings.add("(" + toMachine.getKeyID()+ "," + count + ")");
             }
-            System.out.printf("%s%s%s  %-14s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, fromMachine.getKeyID(), String.join(", ", transitionStrings));
+            System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, fromMachine.getKeyID(), String.join(", ", transitionStrings));
         }
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
