@@ -91,7 +91,7 @@ public class AddMachineUI implements Runnable {
         if (machine.isPresent()) {
             System.out.println(ANSI_BRIGHT_GREEN + "Machine successfully registered!" + ANSI_RESET);
         } else {
-            System.out.println(ANSI_BRIGHT_RED + "Machine not registered - ID duplication!" + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_RED + "Machine not registered - ID duplication or canceled!" + ANSI_RESET);
         }
 
     }

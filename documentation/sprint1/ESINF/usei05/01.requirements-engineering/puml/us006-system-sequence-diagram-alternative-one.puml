@@ -7,33 +7,23 @@ title System Sequence Diagram (SSD) - Alternative One
 
 autonumber
 
-actor "Organization\nEmployee" as Employee
+actor "Plant Floor Manager" as PFM
 participant ":System" as System
 
-activate Employee
+activate PFM
 
-    Employee -> System : asks to create a new task
+    PFM -> System : asks to activate the simulator
     activate System
 
-        System --> Employee : requests data (i.e. reference, designation, informal\ndescription, technical description, duration, cost)
+        System --> PFM : requests a priority or non priority type of simulation
     deactivate System
 
-    Employee -> System : types requested data
+    PFM -> System : types required simulation
     activate System
 
-        System --> Employee : shows task category list and asks to select one
+        System --> PFM : activates simulator and shows workstation related info
     deactivate System
 
-    Employee -> System : selects a task category
-    activate System
 
-        System --> Employee : shows all data and requests confirmation
-    deactivate System
-
-    Employee -> System : confirms data
-    activate System
-
-        System --> Employee : displays operation success
-    deactivate System
 
 @enduml

@@ -14,6 +14,9 @@ import java.util.Queue;
 
 public class Bootstrap implements Runnable {
 
+    private static final String PROD_MANAGER_EMAIL = "prodm@this.app";
+    private static final String PROD_MANAGER_PASSWORD = "manager";
+
     // Operation
     private final Operation opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
     private final Operation opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
@@ -148,7 +151,7 @@ public class Bootstrap implements Runnable {
         authenticationRepository.addUserWithRole("Employee", "employee@this.app", "pwd",
                 AuthenticationController.ROLE_EMPLOYEE);
 
-        authenticationRepository.addUserWithRole("Production Manager", "prodm@this.app", "manager",
+        authenticationRepository.addUserWithRole("Production Manager", PROD_MANAGER_EMAIL.trim(), PROD_MANAGER_PASSWORD.trim(),
                 AuthenticationController.ROLE_PRODUCTION_MANAGER);
     }
 }
