@@ -132,8 +132,8 @@ public class Simulator {
         printExecutionTimesOperation();
         printAverageExecutionTime();
         printWaitingTime();
-        printItemMachine();
-        printMachineTransitions();
+        printItemRoute();
+        printMachineRoute();
     }
 
     /**
@@ -485,13 +485,10 @@ public class Simulator {
         return this.waitingTime;
     }
 
-    private void printItemOrder() {
-        for (Item it : itemLinkedList) {
-            System.out.println(it.getItemID());
-        }
-    }
-
-    private void printItemMachine() {
+    /**
+     * Prints the route of a item
+     */
+    private void printItemRoute() {
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
@@ -623,23 +620,9 @@ public class Simulator {
     /**
      * Prints the transitions of a machine to another.
      */
-    private void printMachineTransitions() {
-        Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
+    private void printMachineRoute() {
 
-        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
-            LinkedList<ID> machineIds = entry.getValue();
-
-            for (int i = 0; i < machineIds.size() - 1; i++) {
-                ID fromMachine = machineIds.get(i);
-                ID toMachine = machineIds.get(i + 1);
-
-                transitionMap.putIfAbsent(fromMachine, new HashMap<>());
-
-                Map<ID, Integer> toMachineCount = transitionMap.get(fromMachine);
-
-                toMachineCount.put(toMachine, toMachineCount.getOrDefault(toMachine, 0) + 1);
-            }
-        }
+        Map<ID, Map<ID, Integer>> transitionMap = getMachineRoute();
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
@@ -663,6 +646,29 @@ public class Simulator {
             System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, fromMachine.getKeyID(), String.join(", ", transitionStrings));
         }
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    }
+
+    /**
+     * Gets a Map that stores all the transitions of the machines
+     */
+    private Map<ID, Map<ID, Integer>> getMachineRoute() {
+        Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
+
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            LinkedList<ID> machineIds = entry.getValue();
+
+            for (int i = 0; i < machineIds.size() - 1; i++) {
+                ID fromMachine = machineIds.get(i);
+                ID toMachine = machineIds.get(i + 1);
+
+                transitionMap.putIfAbsent(fromMachine, new HashMap<>());
+
+                Map<ID, Integer> toMachineCount = transitionMap.get(fromMachine);
+
+                toMachineCount.put(toMachine, toMachineCount.getOrDefault(toMachine, 0) + 1);
+            }
+        }
+        return transitionMap;
     }
 
 }
