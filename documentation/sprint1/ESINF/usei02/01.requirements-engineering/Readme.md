@@ -1,4 +1,4 @@
-# USEI02 - Implement a simulator that processes all the items according
+# USEI02 - Implement a simulator that processes all the items.
 
 
 ## 1. Requirements Engineering
@@ -40,23 +40,22 @@ can be robots, automated machines, or operated by humans.
 **Input Data:**
 
 * Typed data:
-    * a simulator ID
+    * None.
 	
 * Selected data:
-    * None. 
+    * Option "Simulator Without Priority"
 
 **Output Data:**
 
-* List of complete processed items.
-* (In)Success of the operation
+* List of updates, queues, status of machines and new processing.
+* (In)Success of the operation.
 
 ### 1.6. System Sequence Diagram (SSD)
-
-#### Alternative One
 
 ![System Sequence Diagram - Alternative One](svg/us002-system-sequence-diagram.svg)
 
 
 ### 1.7 Other Relevant Remarks
 
-* None.
+* The processing time of a machine is in minutes.
+* 1 minute is equals to a while loop in code.

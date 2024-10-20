@@ -128,6 +128,14 @@ public class Simulator {
             //sleep(1000);
         }
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
+        printStatistics();
+
+    }
+
+    /**
+     * Print statistical information.
+     */
+    private void printStatistics() {
         printExecutionTimesMachine();
         printExecutionTimesOperation();
         printAverageExecutionTime();

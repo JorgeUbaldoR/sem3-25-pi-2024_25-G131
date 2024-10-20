@@ -1,4 +1,4 @@
-# USEI02 - Implement a simulator that processes all the items
+# USEI02 - Implement a simulator that processes all the items.
 
 ## 2. Analysis
 
@@ -6,6 +6,3 @@
 
 ![Domain Model](svg/usei02-domain-model.svg)
 
-### 2.2. Other Remarks
-
-n/a
