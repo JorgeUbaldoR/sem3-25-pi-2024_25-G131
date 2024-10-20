@@ -23,6 +23,7 @@ As a user of the system, I want to create a list representing the flow dependenc
 
 * **AC1:** There should be machines.
 * **AC2:** There should be items.
+* **AC3** The listing should be sorted in descending order of processed items.
 
 ### 1.4. Found out Dependencies
 
@@ -38,7 +39,8 @@ As a user of the system, I want to create a list representing the flow dependenc
 
 **Output Data:**
 
-* List of dependencies between machines
+* List of items that show in which machines it did use
+* List of dependencies between machines in order
 * (In)Success of the operation
 
 ### 1.6. System Sequence Diagram (SSD)
@@ -48,10 +50,6 @@ As a user of the system, I want to create a list representing the flow dependenc
 #### Alternative One
 
 ![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
-
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us006-system-sequence-diagram-alternative-two.svg)
 
 ### 1.7 Other Relevant Remarks
 
