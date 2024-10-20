@@ -57,7 +57,6 @@ class MachineRepositoryTest {
 
         List<Machine> result = machineRepository.getMachineList();
         List<Machine> expected = new ArrayList<>();
-        System.out.println(size);
         expected.add(machine1);
         expected.add(machine2);
         expected.add(machine3);
@@ -94,7 +93,7 @@ class MachineRepositoryTest {
         System.out.println("Test Machine Repository Initialization");
         List<Machine> machines = machineRepository.getMachineList();
         assertNotNull(machines);
-        assertTrue(machines.size() > 0, "Repository should contain machines upon initialization");
+        assertFalse(machines.isEmpty(), "Repository should contain machines upon initialization");
     }
 
     @Test

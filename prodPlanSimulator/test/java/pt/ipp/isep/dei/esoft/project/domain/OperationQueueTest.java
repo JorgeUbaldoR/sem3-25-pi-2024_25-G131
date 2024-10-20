@@ -37,8 +37,8 @@ class OperationQueueTest {
     void setUp() {
 
         cutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
-        painting = new Operation("Welding", "Welding metal parts", 3.0f);
-        welling = new Operation("Painting", "Painting the surface", 1.5f);
+        painting = new Operation("Painting", "Welding metal parts", 3.0f);
+        welling = new Operation("Welling", "Painting the surface", 1.5f);
 
 
         id1 = new ID(101, TypeID.ITEM);
@@ -151,9 +151,36 @@ class OperationQueueTest {
 
     @Test
     void testToString(){
+        System.out.println("Test ToString");
         OperationQueue operationQueue = new OperationQueue(cutting,false);
         operationQueue.addItemToQueue(item1);
         String result = operationQueue.toString();
         assertEquals(result, operationQueue.toString());
+
+        OperationQueue operationQueue2 = new OperationQueue(painting,true);
+        operationQueue2.addItemToQueue(item2);
+        String result2 = operationQueue2.toString();
+        assertEquals(result2, operationQueue2.toString());
+
+        OperationQueue operationQueue3 = new OperationQueue(painting,false);
+        assertThrows(IllegalArgumentException.class, () -> operationQueue3.addItemToQueue(item5));
+        String result3 = operationQueue3.toString();
+        assertEquals(result3, operationQueue3.toString());
+
+        OperationQueue operationQueue4 = new OperationQueue(painting,false);
+        String result4 = operationQueue4.toString();
+        assertEquals(result4, operationQueue4.toString());
+    }
+
+    @Test
+    void testGetItemList(){
+        System.out.println("Test Get Item List");
+        OperationQueue operationQueue = new OperationQueue(cutting,false);
+        operationQueue.addItemToQueue(item1);
+        operationQueue.addItemToQueue(item3);
+        Queue<Item> expected = new LinkedList<>();
+        expected.add(item1);
+        expected.add(item3);
+        assertEquals(expected, operationQueue.getItemList());
     }
 }
