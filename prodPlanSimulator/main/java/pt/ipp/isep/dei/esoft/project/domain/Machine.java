@@ -73,7 +73,7 @@ public class Machine implements Comparable<Machine> {
      */
     private void resetMachine() {
         this.timeLeftToFinish = DEFAULT_TIME_LEFT;
-        this.available = DEFAULT_STATUS;;
+        this.available = DEFAULT_STATUS;
     }
 
     /**
