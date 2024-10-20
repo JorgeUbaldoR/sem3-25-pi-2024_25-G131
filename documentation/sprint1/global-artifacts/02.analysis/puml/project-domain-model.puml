@@ -5,7 +5,7 @@ skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide circle
 hide methods
-left to right direction
+'left to right direction
 
 class ProductionOrder {
     ProductOrder_ID
@@ -74,7 +74,7 @@ class BOO {
     sequence
 }
 
-class Machines{
+class Machine{
     Machine_ID
     Operation_ID
     Description
@@ -85,24 +85,24 @@ class Company {
     Name
 }
 
-Class Fabric {
-    Fabric_ID
+Class Factory {
+    Factory_ID
     Company_ID
     Address
 }
 
-Company "1" - "0..*" Fabric : posses >
-Fabric "1" - "0..*" Sector: has >
-Sector "1" - "0..*" Workstation: includes >
-Workstation "1" - "0..*" Machines: has >
-Machines "1" - "1" Operation: does >
-Operation "1" ------ "1" BOO: belongs >
+Company "1" - "1..*" Factory : posses >
+Factory "1" - "1..*" Sector: has >
+Sector "1" - "1..*" Workstation: includes >
+Workstation "1" - "1" Machine: has >
+Machine "1" - "1" Operation: does >
+Operation "1" ---- "1" BOO: belongs >
 ProductFamily "1" - "1" BOO: has >
 Product "1" --- "1" ProductFamily : belongs to >
 Product "1" - "1" BOM : has >
-ListOfProduct "1" - "0..*" Product : contains >
+ListOfProduct "1" - "1..*" Product : contains >
 ProductionOrder "1" - "1" ListOfProduct : contains >
-Workstation "1" ----- "0..*" ProductionOrder: has >
-BOM "1" - "0..*" Component : contains >
+Workstation "1" -- "*" ProductionOrder: has >
+BOM "1" - "1..*" Component : contains >
 
 @enduml
