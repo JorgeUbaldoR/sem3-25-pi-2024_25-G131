@@ -194,6 +194,43 @@ activate ADM
             activate SIMUL
 
                 loop until the all operationQueues are empty and there are no machien processing items
+                    SIMUL -> SIMUL: updateMachines()
+                    activate SIMUL
+
+                    deactivate SIMUL
+
+                    SIMUL -> SIMUL: printQueue()
+                    activate SIMUL
+
+                    deactivate SIMUL
+
+                    SIMUL -> SIMUL: printMachineStatus()
+                    activate SIMUL
+
+                    deactivate SIMUL
+
+                    loop for each operationQueue in the operationQueueList that doesn't is empty
+                        SIMUL -> OPQULIST: getOperationQueue
+                        activate OPQULIST
+
+                            OPQULIST --> SIMUL : operationQueue
+                        deactivate OPQULIST
+                        SIMUL -> OPQUE : getOperation()
+                        activate OPQUE
+
+                            OPQUE --> SIMUL: operation
+                        deactivate OPQUE
+                        SIMUL -> MACHMAP : get(operation)
+                        activate MACHMAP
+
+                            MACHMAP --> SIMUL : machineListOP : Queue<Machine>
+                        deactivate MACHMAP
+
+                        SIMUL -> SIMUL : assignItemToMachine(operationQueue,machineListOP)
+                        activate SIMUL
+
+                        deactivate SIMUL
+                    end
 
                 end
             deactivate SIMUL
