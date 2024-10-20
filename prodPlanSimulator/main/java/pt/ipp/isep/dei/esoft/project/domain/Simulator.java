@@ -657,7 +657,8 @@ public class Simulator {
     }
 
     /**
-     * Gets a Map that stores all the transitions of the machines
+     *
+     * @return a Map that stores all the transitions of the machines
      */
     private Map<ID, Map<ID, Integer>> getMachineRoute() {
         Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
