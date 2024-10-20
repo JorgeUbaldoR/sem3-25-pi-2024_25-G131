@@ -9,21 +9,13 @@ Present a list of workstations with total time of operation, and percentages rel
 
 ### 1.2. Customer Specifications and Clarifications 
 
-**From the specifications document:**
-
->   ?? 
-
->	?? 
-
 **From the client clarifications:**
 
-> **Question:** ???
+> **Question:** Can be more explicit when you refer "sorted in ascending order of the percentage of execution time relative to the total time.", the total time is mentioned previously as "total execution time" ?
 >
-> **Answer:** ???
+> **Answer:** The goal is to show significance of each machine labour time compared to total labour of the process!
+Since all machines would be shown in the list, ordering it by the percentage (significance) looks reasonable.
 
-> **Question:** ???
->
-> **Answer:** ???
 
 ### 1.3. Acceptance Criteria
 
@@ -46,5 +38,5 @@ Present a list of workstations with total time of operation, and percentages rel
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one-System_Sequence_Diagram__SSD____.svg)
+![System Sequence Diagram - Alternative One](svg/us005-system-sequence-diagram-System_Sequence_Diagram__SSD____Alternative_One.svg)
 
