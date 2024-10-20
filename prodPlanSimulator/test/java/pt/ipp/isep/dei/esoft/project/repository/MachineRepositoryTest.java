@@ -63,7 +63,7 @@ class MachineRepositoryTest {
         expected.add(machine3);
 
         assertTrue(result.containsAll(expected));
-        assertEquals(size,  result.size());
+        assertEquals(size, result.size());
     }
 
     @Test
@@ -102,5 +102,23 @@ class MachineRepositoryTest {
         System.out.println("Test Reformat Machine ID");
         String reformattedId = machineRepository.reformatMachineId("ws100");
         assertEquals("100", reformattedId);
+    }
+
+    @Test
+    void testRegisterMachine() {
+        Operation operation = new Operation("Register");
+        int id = 69;
+        double exTime = 9.3;
+        Optional<Machine> result = machineRepository.registerMachine(operation, id, exTime);
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void testRegisterMachineDuplicate() {
+        Operation operation = new Operation("Register");
+        int id = 12; //in the files
+        double exTime = 9.3;
+        Optional<Machine> result = machineRepository.registerMachine(operation, id, exTime);
+        assertFalse(result.isPresent());
     }
 }

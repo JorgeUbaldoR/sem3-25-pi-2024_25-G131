@@ -1,37 +1,33 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.domain.Machine;
-import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.Item;
+import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OperationRepositoryTest {
 
     private OperationRepository operationRepository;
-    private List<Machine> machines;
+    private List<Item> items;
+    private final Operation opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
+    private final Operation opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
+    private final Operation opPainting = new Operation("Painting", "Painting the surface", 1.5f);
+    private final Queue<Operation> operationListItem1 = new LinkedList<>();
+    private final Queue<Operation> operationListItem2 = new LinkedList<>();
 
-    /**
-     * Sets up the test environment before each test.
-     * Initializes the machine list and the operation repository.
-     */
     @BeforeEach
     public void setUp() {
-        machines = new ArrayList<>();
-        operationRepository = new OperationRepository(machines);
+        items = new ArrayList<>();
+        operationRepository = new OperationRepository(items);
     }
 
-    /**
-     * Tests the addition of an operation to the repository.
-     * Verifies that the operation is added successfully.
-     */
     @Test
     public void testAddOperation_Success() {
         Operation operation = new Operation("Operation Test");
@@ -42,10 +38,6 @@ public class OperationRepositoryTest {
         assertEquals("Operation Test", result.get().getOperationName());
     }
 
-    /**
-     * Tests adding a duplicate operation to the repository.
-     * Verifies that the duplicate is not added.
-     */
     @Test
     public void testAddOperation_Duplicate() {
         Operation operation = new Operation("Operation Test");
@@ -55,43 +47,76 @@ public class OperationRepositoryTest {
         assertFalse(result.isPresent());
     }
 
-    /**
-     * Tests filling operations in the repository from the provided machine list.
-     * Verifies that the operations are filled correctly.
-     */
     @Test
-    public void testFillOperations() {
-        Operation operation1 = new Operation("First Operation");
-        Operation operation2 = new Operation("Second Operation");
+    public void testFillOperationsFromItems() {
+        // Create operations
+        operationListItem1.add(opCutting);
+        operationListItem1.add(opWelding);
+        operationListItem1.add(opPainting);
+        operationListItem2.add(opCutting);
+        operationListItem2.add(opWelding);
 
-        ID id1 = new ID(1, TypeID.MACHINE);
-        ID id2 = new ID(2, TypeID.MACHINE);
-        Machine machine1 = new Machine(id1, operation1, 1.5f);
-        Machine machine2 = new Machine(id2, operation2, 2.7f);
+        // Create items with operation lists
+         ID idItem1 = new ID(101, TypeID.ITEM);
+         ID idItem2 = new ID(102, TypeID.ITEM);
+         Item item1 = new Item(idItem1, Priority.LOW, operationListItem1);
+         Item item2 = new Item(idItem2, Priority.NORMAL, operationListItem2);
+        items.add(item1);
+        items.add(item2);
 
-        machines.add(machine1);
-        machines.add(machine2);
-
-        operationRepository.fillOperations(machines);
+        operationRepository.fillOperations(items);
 
         List<Operation> operations = operationRepository.getOperations();
-        assertEquals(2, operations.size());
-        assertTrue(operations.contains(operation1));
-        assertTrue(operations.contains(operation2));
+        assertEquals(3, operations.size());
+        assertTrue(operations.contains(opCutting));
+        assertTrue(operations.contains(opPainting));
+        assertTrue(operations.contains(opWelding));
+
     }
 
-    /**
-     * Tests retrieving operations from the repository.
-     * Verifies that the correct operations are returned.
-     */
     @Test
-    public void testGetOperations() {
-        Operation operation = new Operation("Operação 1");
-        operationRepository.addOperation(operation);
-
+    public void testGetOperations_EmptyRepository() {
         List<Operation> operations = operationRepository.getOperations();
 
-        assertEquals(1, operations.size());
-        assertTrue(operations.contains(operation));
+        assertTrue(operations.isEmpty());
+    }
+
+    @Test
+    public void testGetAllOperations_NonEmpty() {
+        Operation operation1 = new Operation("Operation1");
+        Operation operation2 = new Operation("Operation2");
+
+        operationRepository.addOperation(operation1);
+        operationRepository.addOperation(operation2);
+
+        Optional<List<Operation>> operations = operationRepository.getAllOperations();
+
+        assertTrue(operations.isPresent());
+        assertEquals(2, operations.get().size());
+    }
+
+    @Test
+    public void testRegisterOperation_Success() {
+        Optional<Operation> result = operationRepository.registerOperation("Cutting", "This operation cuts materials");
+
+        assertTrue(result.isPresent());
+        assertEquals("Cutting", result.get().getOperationName());
+        assertEquals("This operation cuts materials", result.get().getOperationDescription());
+    }
+
+    @Test
+    public void testRegisterOperation_Duplicate() {
+        operationRepository.registerOperation("Cutting", "First operation");
+        Optional<Operation> result = operationRepository.registerOperation("Cutting", "Second operation");
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testRegisterOperation_Duplicate2() {
+        operationRepository.registerOperation("Cutting");
+        Optional<Operation> result = operationRepository.registerOperation("Cutting");
+
+        assertFalse(result.isPresent());
     }
 }
