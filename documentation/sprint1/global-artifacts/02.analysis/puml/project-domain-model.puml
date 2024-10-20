@@ -74,14 +74,24 @@ class BOO {
     sequence
 }
 
-ProductionOrder "1" - "1" ListOfProduct : contains >
+class Company {
+}
+
+Class Fabric {
+}
+
+Company "1" - "0..*" Fabric : posses >
+Fabric "1" - "0..*" Sector: has >
+Sector "1" - "0..*" Workstation: includes >
+Workstation "1" - "0..*" Machines: has >
+Machines "1" - "1" Operation: does >
+Operation "1" ------ "1" BOO: belongs >
+ProductFamily "1" - "1" BOO: has >
+Product "1" --- "1" ProductFamily : belongs to >
+Product "1" - "1" BOM : has >
 ListOfProduct "1" - "0..*" Product : contains >
-Product "1" - "1" ProductFamily : belongs to >
-ProductFamily "1" - "1" BOM : has >
+ProductionOrder "1" - "1" ListOfProduct : contains >
+Workstation "1" ----- "0..*" ProductionOrder: has >
 BOM "1" - "0..*" Component : contains >
-ProductionOrder "1" - "0..*" Operation : includes >
-BOO "1" - "1" Workstation : performed in >
-Workstation "1" - "1" Sector : belongs to >
-Operation "1" - "0..*" BOO : belongs to >
 
 @enduml
