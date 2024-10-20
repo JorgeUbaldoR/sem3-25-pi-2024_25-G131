@@ -71,10 +71,9 @@ class OperationQueue{
 
 }
 
-Item "1" -- "0..*" Operation : has >
+Item "1" -- "*" Operation : has >
 Machine "1" - "         1" Operation: execute >
 Item "1" -- "1" PriorityEnum : has >
-'Simulator "1" -- "*" Operation : do >
 Simulator "1" -- "1" OperationQueue: has >
 Simulator "1" -- "1..*" Machine : has >
 OperationQueue "1" -- "1..*" Item

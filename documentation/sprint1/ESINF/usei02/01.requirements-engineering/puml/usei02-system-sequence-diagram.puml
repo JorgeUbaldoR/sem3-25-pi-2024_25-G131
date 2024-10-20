@@ -15,10 +15,10 @@ activate PFM
     PFM -> System : asks to start a new simulation
     activate System
 
-    System --> PFM : requests kind of simulation
+    System --> PFM : shows types of simulator and asks to select one
     deactivate System
 
-    PFM -> System : types requested data
+    PFM -> System : select simulator without priority
     activate System
 
     System --> PFM : displays simulation information.
