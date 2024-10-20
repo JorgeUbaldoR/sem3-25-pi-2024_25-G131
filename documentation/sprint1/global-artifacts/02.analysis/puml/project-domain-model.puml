@@ -74,10 +74,21 @@ class BOO {
     sequence
 }
 
+class Machines{
+    Machine_ID
+    Operation_ID
+    Description
+}
+
 class Company {
+    Company_ID
+    Name
 }
 
 Class Fabric {
+    Fabric_ID
+    Company_ID
+    Address
 }
 
 Company "1" - "0..*" Fabric : posses >
