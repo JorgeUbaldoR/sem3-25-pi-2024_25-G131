@@ -49,7 +49,7 @@ As a user of the system, I want to create a list representing the flow dependenc
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/usei07-system-sequence-diagram-alternative-one.svg)
 
 ### 1.7 Other Relevant Remarks
 
