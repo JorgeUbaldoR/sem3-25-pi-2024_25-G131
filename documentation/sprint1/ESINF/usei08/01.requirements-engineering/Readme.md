@@ -28,6 +28,7 @@ Consider an improvement to the simulator developed in USEI02 that takes into acc
 
 ### 1.4. Found out Dependencies
 
+* There is a dependency on "USEI01 - Store the information imported from the files" as there must be items and machines in the system to do a simulation.
 * There is a dependency on "US002 -  Implement a simulator" as there must be a simulator to be imporve.
 ### 1.5 Input and Output Data
 
@@ -37,10 +38,11 @@ Consider an improvement to the simulator developed in USEI02 that takes into acc
     * None
 	
 * Selected data:
-    * None
+    * Option "Simulator With Priority"
 
 **Output Data:**
-
+* List of updates, queues, status of machines and new processing.
+* (In)Success of the operation.
 * Simulator execution
 
 ### 1.6. System Sequence Diagram (SSD)
@@ -49,12 +51,10 @@ Consider an improvement to the simulator developed in USEI02 that takes into acc
 
 #### Alternative One
 
-![System Sequence Diagram - Alternative One](svg/us006-system-sequence-diagram-alternative-one.svg)
+![System Sequence Diagram - Alternative One](svg/usei08-system-sequence-diagram-USEI02___Simulator_Without_Priority.svg)
 
-#### Alternative Two
-
-![System Sequence Diagram - Alternative Two](svg/us006-system-sequence-diagram-alternative-two.svg)
 
 ### 1.7 Other Relevant Remarks
 
-* The created task stays in a "not published" state in order to distinguish from "published" tasks.
+* The processing time of a machine is in minutes.
+* 1 minute is equals to a while loop in code.

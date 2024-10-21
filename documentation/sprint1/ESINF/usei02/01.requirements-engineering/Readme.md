@@ -46,7 +46,7 @@ can be robots, automated machines, or operated by humans.
     * Option "Simulator Without Priority"
 
 **Output Data:**
-
+* Simulator execution
 * List of updates, queues, status of machines and new processing.
 * (In)Success of the operation.
 
