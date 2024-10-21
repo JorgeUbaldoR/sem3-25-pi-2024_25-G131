@@ -21,6 +21,7 @@ participant "machinesMap \n: Map<Operation, Queue<Machine>>" as MACHMAP
 participant "operationQueue\n: OperationQueue" as OPQUE
 participant "itemList\n : PriorityQueue<Item>" as ITMLIST
 participant "operationQueueList\n: List<OperationQueue>" as OPQULIST
+participant "item\n: Item" as ITEM
 
 activate ADM
 
@@ -194,10 +195,56 @@ activate ADM
             activate SIMUL
 
                 loop until the all operationQueues are empty and there are no machien processing items
+                    |||
                     SIMUL -> SIMUL: updateMachines()
                     activate SIMUL
 
+                        loop for each operation int in the machinesMap
+                            SIMUL -> MACHLIST : get(operation)
+                            activate MACHLIST
+
+                                MACHLIST --> SIMUL : machines : Queue<Machine>
+                            deactivate MACHLIST
+                            loop for each machine in the machines
+                                SIMUL -> MACH : updateMachine()
+                                activate MACH
+                                    opt if (!available)
+                                        MACH -> MACH : timeLeftToFinish--
+                                        activate MACH
+                                            MACH --> MACH : time
+                                        deactivate MACH
+                                        opt if (time <= 0)
+                                            MACH -> MACH : resetMachine()
+                                            activate MACH
+
+                                            deactivate MACH
+
+                                        end
+
+                                    end
+                                    MACH --> SIMUL : finished : boolean
+                                deactivate MACH
+                                    |||
+                                    opt  if(finished)
+                                        SIMUL -> MACH : getCurrentProcessingItem()
+                                        activate MACH
+
+                                            MACH --> SIMUL : item
+                                        deactivate MACH
+
+                                        SIMUL -> ITEM : getNextOperation()
+                                        activate ITEM
+
+                                            ITEM --> SIMUL : operation
+                                        deactivate ITEM
+                                        SIMUL -> OPQUE : addItemToQueue(item)
+                                    end
+
+                                deactivate MACH
+                            end
+
                     deactivate SIMUL
+                        end
 
                     SIMUL -> SIMUL: printQueue()
                     activate SIMUL
@@ -229,11 +276,58 @@ activate ADM
                         SIMUL -> SIMUL : assignItemToMachine(operationQueue,machineListOP)
                         activate SIMUL
 
+                        loop for each machine that's available and there is an item to be process in that machine
+                            SIMUL -> MACHLIST : getMachine()
+                            activate MACHLIST
+
+                                MACHLIST --> SIMUL : machine
+                            deactivate MACHLIST
+                            SIMUL -> OPQUE : getNextItem()
+                            activate OPQUE
+
+                                OPQUE --> SIMUL: Item
+                            deactivate OPQUE
+                            SIMUL -> MACH : processItem(Item)
+                            activate MACH
+
+                                MACH -> MACH : processItem(Item)
+                                activate MACH
+
+                                    MACH -> ITEM : getCurrentOperation()
+                                    activate ITEM
+
+                                        ITEM --> MACH : processingOperation
+                                    deactivate ITEM
+                                    opt processingOperation != null && processingOperation.equals(this.operation)
+                                        |||
+                                        MACH -> MACH : setCurrentProcessingItem(Item)
+                                            activate MACH
+
+                                            deactivate MACH
+                                        MACH -> MACH : setNotAvailable()
+                                            activate MACH
+
+                                            deactivate MACH
+
+                                        MACH -> MACH : setTimeToFinish()
+                                            activate MACH
+
+                                            deactivate MACH
+
+                                    end
+                                deactivate MACH
+
+                            deactivate MACH
                         deactivate SIMUL
+                        end
+                        |||
                     end
 
+                        |||
                 end
+                SIMUL --> CTRL : result
             deactivate SIMUL
+            CTRL --> UI: result
 
 deactivate ADM
 

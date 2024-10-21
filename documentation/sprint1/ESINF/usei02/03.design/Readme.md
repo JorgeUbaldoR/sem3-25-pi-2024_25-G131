@@ -1,32 +1,30 @@
 # USEI02 - Implement a simulator that processes all the items.
 
-## 3. Design - User Story Realization 
+## 3. Design - User Story Realization
 
 ### 3.1. Rationale
 
 _**Note that SSD - Alternative One is adopted.**_
 
-| Interaction ID | Question: Which class is responsible for... | Answer               | Justification (with patterns)                                                                                 |
-|:-------------  |:--------------------- |:---------------------|:--------------------------------------------------------------------------------------------------------------|
-| Step 1  		 |	... interacting with the actor? | CreateTaskUI         | Pure Fabrication: there is no reason to assign this responsibility to any existing class in the Domain Model. |
-| 			  		 |	... coordinating the US? | CreateTaskController | Controller                                                                                                    |
-| 			  		 |	... instantiating a new Task? | Organization         | Creator (Rule 1): in the DM Organization has a Task.                                                          |
-| 			  		 | ... knowing the user using the system?  | UserSession          | IE: cf. A&A component documentation.                                                                          |
-| 			  		 |							 | Organization         | IE: knows/has its own Employees                                                                               |
-| 			  		 |							 | Employee             | IE: knows its own data (e.g. email)                                                                           |
-| Step 2  		 |							 |                      |                                                                                                               |
-| Step 3  		 |	...saving the inputted data? | Task                 | IE: object created in step 1 has its own data.                                                                |
-| Step 4  		 |	...knowing the task categories to show? | System               | IE: Task Categories are defined by the Administrators.                                                        |
-| Step 5  		 |	... saving the selected category? | Task                 | IE: object created in step 1 is classified in one Category.                                                   |
-| Step 6  		 |							 |                      |                                                                                                               |              
-| Step 7  		 |	... validating all data (local validation)? | Task                 | IE: owns its data.                                                                                            | 
-| 			  		 |	... validating all data (global validation)? | Organization         | IE: knows all its tasks.                                                                                      | 
-| 			  		 |	... saving the created task? | Organization         | IE: owns all its tasks.                                                                                       | 
-| Step 8  		 |	... informing operation success?| CreateTaskUI         | IE: is responsible for user interactions.                                                                     | 
+| Interaction ID | Question: Which class is responsible for...                | Answer               | Justification (with patterns)                                                                                 |
+|:-------------  |:---------------------------------------------------------- |:---------------------|:--------------------------------------------------------------------------------------------------------------|
+| Step 1         | ... interacting with the actor?                            | SimulatorUI          | Pure Fabrication: Responsible for interacting with the user, displaying data, and receiving inputs.            |
+|                | ... coordinating the simulation execution?                 | SimulatorController  | Controller: Responsible for coordinating the simulation logic and interacting with repositories.               |
+|                | ... obtaining the item repository instance?                | Repositories         | Creator: Repositories creates and manages access to the item repository.                                       |
+|                | ... retrieving the machine list?                           | MachineRepository    | IE: MachineRepository knows and manages the list of machines.                                                 |
+|                | ... storing the mapping between operations and machines?   | MachinesMap          | IE: MachinesMap stores the mapping between operations and machine queues.                                      |
+| Step 2         | ... starting the simulation?                               | SimulatorController  | Controller: The controller starts the simulation and passes the necessary configurations to the simulator.     |
+| Step 3         | ... creating the operation queues for the simulation?      | Simulator            | Creator: The simulator creates the operation queues based on the list of operations and items.                 |
+| Step 4         | ... updating the status of the machines?                   | Machine              | IE: The machine knows its own status, such as availability and time remaining to complete a task.              |
+| Step 5         | ... processing an item in a machine?                       | Machine              | IE: The machine processes the items and updates its internal status.                                           |
+| Step 6         | ... adding items to the operation queue?                   | OperationQueue       | IE: The operation queue knows the items and the order in which they will be processed.                         |
+| Step 7         | ... assigning an item to a machine?                        | Simulator            | Controller: The simulator is responsible for distributing items to the available machines.                     |
+| Step 8         | ... checking if a machine’s operation is finished?         | Machine              | IE: The machine checks its own progress and, if necessary, resets its state after finishing an operation.      |
+
 
 ### Systematization ##
 
-According to the taken rationale, the conceptual classes promoted to software classes are: 
+According to the taken rationale, the conceptual classes promoted to software classes are:
 
 * OperationQueue
 * Operation
@@ -34,11 +32,10 @@ According to the taken rationale, the conceptual classes promoted to software cl
 * Item
 * ID
 
-Other software classes (i.e. Pure Fabrication) identified: 
+Other software classes (i.e. Pure Fabrication) identified:
 
-* SimulatorUI  
+* SimulatorUI
 * SimulatorController
-
 
 ## 3.2. Sequence Diagram (SD)
 
@@ -48,16 +45,7 @@ _**Note that SSD - Alternative Two is adopted.**_
 
 This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
 
-![Sequence Diagram - Full](svg/us006-sequence-diagram-full.svg)
-
-### Split Diagrams
-
-The following diagram shows the same sequence of interactions between the classes involved in the realization of this user story, but it is split in partial diagrams to better illustrate the interactions between the classes.
-
-It uses Interaction Occurrence (a.k.a. Interaction Use).
-
-![Sequence Diagram - split](svg/us006-sequence-diagram-split.svg)
-
+![Sequence Diagram - Full](svg/usei02-sequence-diagram-full.svg)
 
 ## 3.3. Class Diagram (CD)
 
