@@ -1,10 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.Item;
-import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
-import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
@@ -14,7 +12,6 @@ import java.util.Optional;
 public class OperationController {
 
     private OperationRepository operationRepository;
-    private final MachineRepository machineRepository;
     private ItemRepository itemRepository;
 
     /**
@@ -23,7 +20,6 @@ public class OperationController {
      * Also fills operations from machines upon creation.
      */
     public OperationController() {
-        this.machineRepository = getMachineRepository();
         this.operationRepository = getOperationRepository();
         this.itemRepository = getItemRepository();
         fillOperationsFromItems();
@@ -44,30 +40,16 @@ public class OperationController {
     }
 
     /**
-     * Retrieves the MachineRepository instance.
+     * Retrieves the ItemRepository instance.
      *
-     * @return the machineRepository
+     * @return the itemRepository
      */
-    private MachineRepository getMachineRepository() {
-        Repositories repository = Repositories.getInstance();
-        return repository.getMachineRepository();
-    }
     private ItemRepository getItemRepository() {
         if (itemRepository == null) {
             Repositories repository = Repositories.getInstance();
             itemRepository = repository.getItemRepository();
         }
         return itemRepository;
-    }
-
-    /**
-     * Adds a new operation to the operation repository.
-     *
-     * @param operation the operation to be added
-     * @return an Optional containing the added operation if successful
-     */
-    public Optional<Operation> addOperation(Operation operation) {
-        return getOperationRepository().addOperation(operation);
     }
 
 

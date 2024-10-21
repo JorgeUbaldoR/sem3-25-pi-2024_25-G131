@@ -42,8 +42,14 @@
 ### Class FileDataReader 
 
 ```java
+/**
+ * Reads item details from a CSV file and returns them as a list of string arrays
+ *
+ * @return List of string arrays containing item details
+ * @throws IOException if the file is not found or another I/O error occurs
+ */
 public static List<String[]> getItemsDetails() throws IOException {
-    File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/artigos.cvs");
+    File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/articlesFinal.csv");
     if (!file.exists()) {
         throw new IOException("File not found: " + file.getAbsolutePath());
     }
@@ -51,9 +57,13 @@ public static List<String[]> getItemsDetails() throws IOException {
     Scanner scanner = new Scanner(file);
     List<String[]> itemsDetails = new ArrayList<>();
 
+    if (scanner.hasNextLine()) {
+        scanner.nextLine();
+    }
+
     while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        String[] parts = line.split(",");
+        String[] parts = line.split(";");
 
         if (parts.length >= NUMBER_OF_DETAILS) {
             itemsDetails.add(parts);
@@ -67,13 +77,23 @@ public static List<String[]> getItemsDetails() throws IOException {
 ```
 
 ```java
-  public static List<String[]> getMachinesDetails() throws IOException {
-    Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/maquinas.cvs"));
+   /**
+ * Reads machine details from a CSV file and returns them as a list of string arrays
+ *
+ * @return List of string arrays containing machine details
+ * @throws IOException if an error occurs while reading the file
+ */
+public static List<String[]> getMachinesDetails() throws IOException {
+    Scanner scanner = new Scanner(new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/workstations.csv"));
     List<String[]> machineDetails = new ArrayList<>();
+
+    if (scanner.hasNextLine()) {
+        scanner.nextLine();
+    }
 
     while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        String[] parts = line.split(",");
+        String[] parts = line.split(";");
 
         if (parts.length == NUMBER_OF_DETAILS) {
             machineDetails.add(parts);
@@ -88,6 +108,11 @@ public static List<String[]> getItemsDetails() throws IOException {
 ### Class ItemRepository
 
 ```java
+  /**
+ * Fills the inventory with items from a data source.
+ * This method reads item details from a file and populates the item list.
+ * It handles IOExceptions that may occur during file reading.
+ */
 private void fillInventory() {
     try {
 
@@ -117,12 +142,17 @@ private void fillInventory() {
 ### Class MachineRepository
 
 ```java
-   private void fillMachinery() {
+      /**
+ * Fills the machinery list with machines from a data source.
+ * This method reads machine details from a file and populates the machine list.
+ * It handles IOExceptions that may occur during file reading.
+ */
+private void fillMachinery() {
     try {
 
         List<String[]> importedItems = FileDataReader.getMachinesDetails();
         for (String[] importedItem : importedItems) {
-            ID machineID = new ID(Integer.parseInt(importedItem[0]), TypeID.MACHINE);
+            ID machineID = new ID(Integer.parseInt(reformatMachineId(importedItem[0])), TypeID.MACHINE);
             Operation operation = new Operation(importedItem[1]);
             float duration = Float.parseFloat(importedItem[2]);
 
@@ -146,22 +176,69 @@ return new ArrayList<>(machineList.values());
 }
 ```
 
+### Class OperationController
+
+```java
+   /**
+ * Retrieves all items from the item repository.
+ *
+ * @return a list containing all items managed by the item repository.
+ */
+public List<Item> getAllItems() {
+    return itemRepository.getItemList();
+}
+```
+
+```java
+    /**
+ * Populates the operation repository with operations extracted from the items.
+
+ * This method first retrieves all items by calling getAllItems(), then uses those items
+ * to fill the operation repository. Each item may be associated with one or more operations,
+ * and this method ensures that the operation repository is populated based on the available items.
+ */
+public void fillOperationsFromItems() {
+    List<Item> items = getAllItems();
+    operationRepository.fillOperations(items);
+}
+```
+
 ### Class OperationRepository
 
 ```java
-public void fillOperations(List<Machine> machines) {
-    for (Machine machine : machines) {
-        operations.add(machine.getOperation());
+/**
+ * Populates the operations list with operations extracted from the provided items.
+
+ * This method iterates over each item in the provided list and retrieves the list of operations
+ * associated with each item. Each operation is cloned to ensure that the original operation objects
+ * are not modified when added to the operations list. The cloned operations are then added to the
+ * internal list of operations.
+ *
+ * @param items a list of Item objects from which operations are extracted and added to the operations list.
+ */
+public void fillOperations(List<Item> items) {
+    for (Item item : items) {
+        for (Operation operation : item.getOperationList()) {
+            operations.add(operation.clone());
+        }
     }
 }
 
 ```
 
 ```java
- public OperationRepository(List<Machine> machines) {
+/**
+ * Constructs an OperationRepository instance.
+ * Initializes the set to hold operations.
+ *
+ * @param items a list of items to fill the repository with operations
+ */
+public OperationRepository(List<Item> items) {
     this.operations = new HashSet<>();
-    fillOperations(machines);
+    fillOperations(items);
 }
 
 ```
+
+
 
