@@ -27,7 +27,16 @@ executionPerOperation
 
 
 
+
+
+
+
+
+
+
+
+
 'Platform "1" -- "*" Organization : has registered >
 'Platform "1" -- "*" Category : defines >
-Simulator "      1" --> "      1" Simulator: generates all the info
+Simulator "      1" --> "      1" Simulator: generates all the stats
 @enduml
