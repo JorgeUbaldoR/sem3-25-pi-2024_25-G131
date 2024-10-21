@@ -2,24 +2,32 @@
 
 ## 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
+**Test 1:** 
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
+    @Test
+    void testConstructor() {
+        System.out.println("Testing constructor");
+        simulator = new Simulator();
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,true);
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(null,itemList,operationList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(new HashMap<>(),itemList,operationList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,null,operationList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,new ArrayList<>(),operationList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,null,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,new ArrayList<>(),true));
+    }
 	
 
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
+**Test 2:** 
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
+    @Test
+    void testStartSimulation(){
+        System.out.println("Testing Start Simulation");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator.startSimulation();
+    }
 
-_It is also recommended to organize this content by subsections._ 
 
 
 ## 5. Construction (Implementation)
