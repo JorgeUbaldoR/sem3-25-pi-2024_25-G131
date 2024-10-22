@@ -3,37 +3,21 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Alternative One
+title USEI06 -  Average Execution Times and Waiting Times
 
 autonumber
 
-actor "Organization\nEmployee" as Employee
+actor "Plant Floor Manager" as PFM
 participant ":System" as System
 
-activate Employee
+activate PFM
 
-    Employee -> System : asks to create a new task
+    PFM -> System : asks to start a new simulation
     activate System
 
-        System --> Employee : requests data (i.e. reference, designation, informal\ndescription, technical description, duration, cost)
+    System --> PFM : displays average execution times per operation and the waiting times
     deactivate System
 
-    Employee -> System : types requested data
-    activate System
 
-        System --> Employee : shows task category list and asks to select one
-    deactivate System
-
-    Employee -> System : selects a task category
-    activate System
-
-        System --> Employee : shows all data and requests confirmation
-    deactivate System
-
-    Employee -> System : confirms data
-    activate System
-
-        System --> Employee : displays operation success
-    deactivate System
 
 @enduml
