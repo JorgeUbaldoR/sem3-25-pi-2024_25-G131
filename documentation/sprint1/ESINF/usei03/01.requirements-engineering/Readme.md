@@ -37,7 +37,7 @@
 
 **Output Data:**
 
-* List of the total production time for each item.
+* List of the total production time for all items.
 
 ### 1.6. System Sequence Diagram (SSD)
 

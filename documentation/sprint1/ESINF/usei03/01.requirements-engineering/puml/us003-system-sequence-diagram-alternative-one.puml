@@ -15,7 +15,7 @@ activate PFM
     PFM -> System : asks to start a new simulation
     activate System
 
-    System --> PFM : displays the total production time for each item
+    System --> PFM : displays the total production time for all items
     deactivate System
 
 
