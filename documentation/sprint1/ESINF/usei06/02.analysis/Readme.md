@@ -1,4 +1,4 @@
-# US006 - Create a Task 
+# US006 - Average Execution Times and Waiting Times
 
 ## 2. Analysis
 
