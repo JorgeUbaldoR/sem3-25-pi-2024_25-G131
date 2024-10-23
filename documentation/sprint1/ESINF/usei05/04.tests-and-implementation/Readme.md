@@ -1,19 +1,6 @@
 # USEI05 - Workstation Statistics
 
-## 4. Tests 
-
-**Test 1:** TO BE ADDED 
-
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
-	
-
-
-
-
-## 5. Construction (Implementation)
+## 4. Construction (Implementation)
 
 ### Class Simulator 
 

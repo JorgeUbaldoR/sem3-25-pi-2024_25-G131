@@ -6,18 +6,22 @@ skinparam shadowing false
 autonumber
 
 'hide footbox
-actor "Organization Employee" as ADM
-participant ":CreateTaskUI" as UI
-participant ":CreateTaskController" as CTRL
+actor "Plant Floor Manager" as ADM
+participant ":SimulatorUI" as UI
+participant ":SimulatorController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
-participant "taskCategoryRepository:\nTaskCategoryRepository" as TaskCategoryRepository
-participant ":ApplicationSession" as _APP
-participant "appSession\n:ApplicationSession" as APP
-participant "currentSession\n:UserSession" as SESSAO
-participant "organizationRepository:\nOrganizationRepository" as OrganizationRepository
-participant "organization\n:Organization" as ORG
-participant "task\n:Task" as TAREFA
+participant "simulator\n:Simulator" as SIMUL
+participant "machineRepository \n: MachineRepository" as MACHREP
+participant "machineList \n : ArrayList<Machine>" as MACHLIST
+participant "machine \n: Machine" as MACH
+participant "itemRepository \n: ItemRepository" as ITMREP
+participant "operationRepository \n: OperationRepository" as OPREP
+participant "machinesMap \n: Map<Operation, Queue<Machine>>" as MACHMAP
+participant "operationQueue\n: OperationQueue" as OPQUE
+participant "itemList\n : PriorityQueue<Item>" as ITMLIST
+participant "operationQueueList\n: List<OperationQueue>" as OPQULIST
+participant "item\n: Item" as ITEM
 
 activate ADM
 
@@ -29,7 +33,6 @@ activate ADM
             'create CTRL
             UI -> CTRL** : create
 
-            UI -> CTRL : getTaskCategories()
             activate CTRL
 
                 CTRL -> RepositorySingleton : getInstance()
@@ -38,142 +41,295 @@ activate ADM
                     RepositorySingleton --> CTRL: repositories
                 deactivate RepositorySingleton
 
-                CTRL -> PLAT : getTaskCategoryRepository()
+                |||
+                CTRL -> PLAT : getItemRepository()
                 activate PLAT
 
-                    PLAT --> CTRL: taskCategoryRepository
+                PLAT --> CTRL: itemRepository
                 deactivate PLAT
 
-                CTRL -> TaskCategoryRepository : getTaskCategories()
-                activate TaskCategoryRepository
+                |||
+                CTRL -> PLAT : getMachineRepository()
+                activate PLAT
 
-                    TaskCategoryRepository --> CTRL : taskCategoryList
-                deactivate TaskCategoryRepository
+                    PLAT --> CTRL: machineRepository
+                deactivate PLAT
+                |||
 
-                CTRL --> UI : taskCategoryList
+                CTRL -> PLAT : getOperationRepository()
+                activate PLAT
+
+                PLAT --> CTRL: operationRepository
+                deactivate PLAT
+
             deactivate CTRL
 
-            UI --> ADM : shows task category list\n and asks to sleect one
+            UI --> ADM : shows types of simulator and asks to select one
         deactivate UI
 
-    ADM -> UI : selects a task category
+    ADM -> UI : select simulator without priority
     activate UI
 
-        UI --> ADM : requests data
-    deactivate UI
-
-    ADM -> UI : types requested data (reference, description, \ninformal description, technical description,\nduration, cost)
-    activate UI
-
-        UI --> ADM : shows selected category and requested data
-    deactivate UI
-
-    ADM -> UI : submits data
-    activate UI
-
-        UI -> CTRL : createTask(reference,\ndescription,\ninformalDescription,\ntechnicalDescription,\nduration, cost,\ntaskCategoryDescription)
+        UI -> CTRL : startSimulationWithOutPriority()
         activate CTRL
 
-            CTRL -> CTRL : getTaskCategoryByDescription(taskCategoryDescription)
+            CTRL -> CTRL : getMachinesMap()
             activate CTRL
 
-                CTRL -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+                CTRL -> MACHMAP** : create
+                CTRL -> MACHREP : getMachineList()
+                activate MACHREP
 
-                    RepositorySingleton --> CTRL: repositories
-                deactivate RepositorySingleton
+                    MACHREP --> CTRL : machineList
+                deactivate MACHREP
 
-                CTRL -> PLAT : getTaskCategoryRepository()
-                activate PLAT
+                |||
 
-                    PLAT -> CTRL : taskCategoryRepository
-                deactivate PLAT
+                loop for each machine in the machineList
+                    CTRL -> MACHLIST : getMachine()
+                    activate MACHLIST
 
-                CTRL -> TaskCategoryRepository : getTaskCategoryByDescription(taskCategoryDescription)
-                activate TaskCategoryRepository
+                    MACHLIST --> CTRL : machine
+                    deactivate MACHLIST
+                    CTRL -> MACH : getOperation()
+                    activate MACH
 
-                    TaskCategoryRepository --> CTRL : taskCategory
-                deactivate TaskCategoryRepository
-                    CTRL --> CTRL : taskCategory
+                    MACH --> CTRL : operation
+                    deactivate MACH
+
+                    CTRL -> MACHMAP : add(operation,machine)
+                    activate MACHMAP
+
+                    MACHMAP --> CTRL : result
+                    deactivate MACHMAP
+
+
+                end
+                CTRL --> CTRL: machinesMap
             deactivate CTRL
 
             |||
-            CTRL -> CTRL : getEmployeeFromSession()
+            CTRL -> CTRL : getItemList()
             activate CTRL
 
-                CTRL -> _APP: getInstance()
-                activate _APP
-                    _APP -> CTRL: appSession
-                deactivate _APP
+                CTRL -> ITMREP : getItemList()
+                activate ITMREP
+
+                    ITMREP --> CTRL : itemList
+                deactivate ITMREP
+                CTRL --> CTRL: itemList
+            deactivate CTRL
+
+            |||
+
+            CTRL -> CTRL : getOperationList()
+            activate CTRL
+
+                CTRL -> OPREP : getOperationList()
+                activate OPREP
+
+                    OPREP --> CTRL : operationList
+                deactivate OPREP
+                CTRL --> CTRL: operationList
+            deactivate CTRL
+
+            |||
+            CTRL -> SIMUL** : create(machinesMap,itemList,operationList,false)
+            activate SIMUL
+
+                SIMUL -> OPQULIST** : create
+                activate OPQULIST
+
+                OPQULIST --> SIMUL : operationQueueList
+                deactivate OPQULIST
+
+                SIMUL --> SIMUL : addOperationToQueue(operationList,false)
+                    activate SIMUL
+                        loop for each operation in the operationList
+                            SIMUL -> OPQUE** : create(operation,false)
+                            activate OPQUE
+
+                                OPQUE -> ITMLIST** : create
+                                OPQUE --> SIMUL : operationQueue
+                            deactivate OPQUE
 
 
-                CTRL -> APP: getCurrentSession()
-                activate APP
+                            SIMUL -> OPQULIST : add(operationQueue)
+                            activate OPQULIST
 
-                    APP --> CTRL: currentSession
-                deactivate APP
+                            OPQULIST --> SIMUL : result
+                            deactivate OPQULIST
+                        end
+                    deactivate SIMUL
 
-                CTRL -> SESSAO: email = getUserEmail()
-                activate SESSAO
+                SIMUL -> SIMUL : createQueues(items)
+                activate SIMUL
 
-                    SESSAO --> CTRL: email
-                deactivate SESSAO
+                    loop for each operationQueue in the operationQueueList
+                        SIMUL -> OPQULIST : getOperationQueue()
+                        activate OPQULIST
 
+                            OPQULIST --> SIMUL : operationQueue
+                        deactivate OPQULIST
 
-                CTRL -> PLAT: getOrganizationRepository(email)
-                activate PLAT
+                        SIMUL -> OPQUE : getOperation()
+                        activate OPQUE
 
-                    PLAT --> CTRL: organizationRepository
-                deactivate PLAT
+                        OPQUE --> SIMUL : operation
+                        deactivate OPQUE
 
+                        loop for each item in itemList witch operation is equal to operation
+                            SIMUL -> OPQUE :addItemToQueue(item)
+                            activate OPQUE
 
-                CTRL -> OrganizationRepository: getOrganizationByEmployeeEmail(email)
-                activate OrganizationRepository
+                            deactivate OPQUE
+                        end
 
-                    loop [for each organization
-                        OrganizationRepository -> ORG : anyEmployeeHasEmail(email)
-                        activate ORG
-
-                             ORG --> OrganizationRepository : true/false
-                        deactivate ORG
                     end
-                    OrganizationRepository --> CTRL : organization
-                deactivate OrganizationRepository
+                deactivate SIMUL
 
-                CTRL -> ORG: getEmployeeByEmail(email)
-                activate ORG
+                SIMUL --> CTRL : simulator
+            deactivate SIMUL
 
-                    ORG --> CTRL : employee
-                deactivate ORG
+            CTRL -> SIMUL : startSimulation()
+            activate SIMUL
 
-                CTRL --> CTRL : employee
-            deactivate CTRL
+                loop until the all operationQueues are empty and there are no machien processing items
+                    |||
+                    SIMUL -> SIMUL: updateMachines()
+                    SIMUL -> SIMUL : addExecutionTimesMachine()
+                    activate SIMUL
 
-            |||
-            CTRL -> ORG: createTask(employee, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, , taskCategory, employee)
-            activate ORG
+                        loop for each operation int in the machinesMap
+                            SIMUL -> MACHLIST : get(operation)
+                            activate MACHLIST
 
-                ORG -> TAREFA**: create(employee, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, taskCategory, employee)
-                ORG -> ORG: addTask (task)
+                                MACHLIST --> SIMUL : machines : Queue<Machine>
+                            deactivate MACHLIST
+                            loop for each machine in the machines
+                                SIMUL -> MACH : updateMachine()
+                                activate MACH
+                                    opt if (!available)
+                                        MACH -> MACH : timeLeftToFinish--
+                                        activate MACH
+                                            MACH --> MACH : time
+                                        deactivate MACH
+                                        opt if (time <= 0)
+                                            MACH -> MACH : resetMachine()
+                                            activate MACH
 
+                                            deactivate MACH
 
-                activate ORG
-                    ORG -> ORG: validateTask(task)
-                    activate ORG
-                        ORG --> ORG
-                    deactivate ORG
+                                        end
 
-                    ORG --> ORG
-                deactivate ORG
+                                    end
+                                    MACH --> SIMUL : finished : boolean
+                                deactivate MACH
+                                    |||
+                                    opt  if(finished)
+                                        SIMUL -> MACH : getCurrentProcessingItem()
+                                        activate MACH
 
-                ORG --> CTRL : task
+                                            MACH --> SIMUL : item
+                                        deactivate MACH
 
-            deactivate ORG
+                                        SIMUL -> ITEM : getNextOperation()
+                                        activate ITEM
 
-            CTRL --> UI: task
-            deactivate CTRL
-            UI --> ADM: displays operation success
-    deactivate UI
+                                            ITEM --> SIMUL : operation
+                                        deactivate ITEM
+                                        SIMUL -> OPQUE : addItemToQueue(item)
+                                    end
+
+                                deactivate MACH
+                            end
+
+                    deactivate SIMUL
+                        end
+
+                    SIMUL -> SIMUL: printQueue()
+                    activate SIMUL
+
+                    deactivate SIMUL
+
+                    SIMUL -> SIMUL: printMachineStatus()
+                    activate SIMUL
+
+                    deactivate SIMUL
+
+                    loop for each operationQueue in the operationQueueList that doesn't is empty
+                        SIMUL -> OPQULIST: getOperationQueue
+                        activate OPQULIST
+
+                            OPQULIST --> SIMUL : operationQueue
+                        deactivate OPQULIST
+                        SIMUL -> OPQUE : getOperation()
+                        activate OPQUE
+
+                            OPQUE --> SIMUL: operation
+                        deactivate OPQUE
+                        SIMUL -> MACHMAP : get(operation)
+                        activate MACHMAP
+
+                            MACHMAP --> SIMUL : machineListOP : Queue<Machine>
+                        deactivate MACHMAP
+
+                        SIMUL -> SIMUL : assignItemToMachine(operationQueue,machineListOP)
+                        activate SIMUL
+
+                        loop for each machine that's available and there is an item to be process in that machine
+                            SIMUL -> MACHLIST : getMachine()
+                            activate MACHLIST
+
+                                MACHLIST --> SIMUL : machine
+                            deactivate MACHLIST
+                            SIMUL -> OPQUE : getNextItem()
+                            activate OPQUE
+
+                                OPQUE --> SIMUL: Item
+                            deactivate OPQUE
+                            SIMUL -> MACH : processItem(Item)
+                            activate MACH
+
+                                MACH -> MACH : processItem(Item)
+                                activate MACH
+
+                                    MACH -> ITEM : getCurrentOperation()
+                                    activate ITEM
+
+                                        ITEM --> MACH : processingOperation
+                                    deactivate ITEM
+                                    opt processingOperation != null && processingOperation.equals(this.operation)
+                                        |||
+                                        MACH -> MACH : setCurrentProcessingItem(Item)
+                                            activate MACH
+
+                                            deactivate MACH
+                                        MACH -> MACH : setNotAvailable()
+                                            activate MACH
+
+                                            deactivate MACH
+
+                                        MACH -> MACH : setTimeToFinish()
+                                            activate MACH
+
+                                            deactivate MACH
+
+                                    end
+                                deactivate MACH
+
+                            deactivate MACH
+                        deactivate SIMUL
+                        end
+                        |||
+                    end
+
+                        |||
+                end
+                SIMUL -> SIMUL:
+                SIMUL --> CTRL : printExecutionTimesMachine()
+            deactivate SIMUL
+            CTRL --> UI: printExecutionTimesMachine()
 
 deactivate ADM
 
