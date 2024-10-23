@@ -10,7 +10,7 @@ well as get the respective type of workstation, from a BOO of a given product.
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
    legacy system.
 
-    select p.NAME as Product_Name, b.OPNUMBER as Operation_Number, wt.WS_TYPE_ID
+      select p.NAME as Product_Name, b.OPNUMBER as Operation_Number, wt.WS_TYPE_ID
       from product p, Prod_family pf, BOO b, Operation op, Workstation_Type_Operation wto, Workstation_Type wt
       where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
       and b.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
