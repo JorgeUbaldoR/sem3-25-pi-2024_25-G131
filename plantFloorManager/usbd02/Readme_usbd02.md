@@ -26,12 +26,12 @@
 >* **AC2:** Minimum expected requirement: a complete model in Visual Paradigm, including all connections and constraints, which allows the physical model
    script to be automatically generated.
 >#### Relational Model - (Logical Model)
->![System Sequence Diagram - Alternative One](svg/usbd02-relational-model-visual-Paradigm.svg)
+>![System Sequence Diagram - Alternative One](svg/USBD02-relational-model.svg)
 
 
 >* **AC3:** Minimum requirement above the expected: the presentation of a conceptual
    model developed in Visual Paradigm in addition to the expected level.
 >#### Relational Model - (Conceptual Model)
->![System Sequence Diagram - Alternative One](svg/usb02-relational-model-conceptual-model.png)
+>![System Sequence Diagram - Alternative One](svg/USBD02-conceptual-model.svg)
 
 
