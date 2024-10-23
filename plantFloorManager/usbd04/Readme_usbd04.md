@@ -27,7 +27,7 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO costumer (COSTUMER_ID, NAME, VAT, ADDRESS, ZIP, CITY, COUNTRY) VALUES (785, 'Tudo para a casa, Lda', 'PT501245488', 'R. Dr. Barros 93', '4465-219', 'São Mamede de Infesta', 'Portugal');							
     INSERT INTO costumer (COSTUMER_ID, NAME, VAT, ADDRESS, ZIP, CITY, COUNTRY) VALUES (657, 'Sair de Cena', 'PT501242417', 'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88', '4400-023', 'Vila Nova de Gaia', 'Portugal');							
     INSERT INTO costumer (COSTUMER_ID, NAME, VAT, ADDRESS, ZIP, CITY, COUNTRY) VALUES (348, 'U Fleku', 'CZ6451237810', 'Křemencova 11', '110 00', 'Nové Město', 'Czechia');
-    
+
     --Inserts of order
     INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES (1, 785, TO_DATE('15/09/2024', 'dd/mm/yyyy'), TO_DATE('23/09/2024', 'dd/mm/yyyy'));
     INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES (2, 657, TO_DATE('15/09/2024', 'dd/mm/yyyy'), TO_DATE('25/09/2024', 'dd/mm/yyyy'));
@@ -36,7 +36,7 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES (5, 657, TO_DATE('18/09/2024', 'dd/mm/yyyy'), TO_DATE('25/09/2024', 'dd/mm/yyyy'));
     INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES (6, 348, TO_DATE('18/09/2024', 'dd/mm/yyyy'), TO_DATE('26/09/2024', 'dd/mm/yyyy'));
     INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES (7, 456, TO_DATE('21/09/2024', 'dd/mm/yyyy'), TO_DATE('26/09/2024', 'dd/mm/yyyy'));
-    
+
     --Inserts of prod_family
     INSERT INTO Prod_Family (FAMILY_ID) VALUES ('AS12945T22');
     INSERT INTO Prod_Family (FAMILY_ID) VALUES ('AS12945S22');
@@ -44,7 +44,7 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO Prod_Family (FAMILY_ID) VALUES ('AS12945S17');
     INSERT INTO Prod_Family (FAMILY_ID) VALUES ('AS12945S48');
     INSERT INTO Prod_Family (FAMILY_ID) VALUES ('AS12945G48');
-    
+
     --Inserts of product
     INSERT INTO Product (Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('AS12945T22', 'La Belle 22 5l pot', '5l 22 cm aluminium and teflon non stick pot');
     INSERT INTO Product (Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('AS12945S22', 'Pro 22 5l pot', '5l 22 cm stainless steel pot');
@@ -52,17 +52,18 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO Product (Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('AS12945S17', 'Pro 17 2l sauce pan', '2l 17 cm stainless steel souce pan');
     INSERT INTO Product (Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('AS12945S48', 'Pro 17 lid', '17 cm stainless steel lid');
     INSERT INTO Product (Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('AS12945G48', 'Pro Clear 17 lid', '17 cm glass lid');
-    
+
     --Inserts of order_products
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('1', 'AS12945S22', 5);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('1', 'AS12945S20', 15);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('2', 'AS12945S22', 10);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('3', 'AS12945S22', 10);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('3', 'AS12945S20', 10);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('4', 'AS12945S22', 4);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('5', 'AS12945S22', 12);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('6', 'AS12945S22', 8);								
-    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES ('7', 'AS12945S22', 7);
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (1, 'AS12945S22', 5);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (1, 'AS12945S20', 15);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (2, 'AS12945S22', 10);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (3, 'AS12945S22', 10);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (3, 'AS12945S20', 10);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (4, 'AS12945S22', 4);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (5, 'AS12945S22', 12);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (6, 'AS12945S22', 8);								
+    INSERT INTO Order_Products (OrderORDER_ID, ProductProd_FamilyFAMILY_ID, AMOUNT_PRODUCT) VALUES (7, 'AS12945S22', 7);
+    
     
     --Inserts of workstation_types
     INSERT INTO Workstation_Type (WS_TYPE_ID, NAME) VALUES ('A4578','600t cold forging stamping press');
@@ -78,6 +79,7 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO Workstation_Type (WS_TYPE_ID, NAME) VALUES ('T3452','Assembly T1');
     INSERT INTO Workstation_Type (WS_TYPE_ID, NAME) VALUES ('G9273','Circular glass cutting');
     INSERT INTO Workstation_Type (WS_TYPE_ID, NAME) VALUES ('G9274','Glass trimming');
+    
     
     --Inserts of workstation
     INSERT INTO Work_Station (WS_ID, Workstation_TypeWS_TYPE_ID, NAME, DESCRIPTION) VALUES (9875, 'A4578', 'Press 01', '220-630t cold forging press');									
@@ -103,23 +105,19 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO Work_Station (WS_ID, Workstation_TypeWS_TYPE_ID, NAME, DESCRIPTION) VALUES (4125, 'Q3547', 'Polishing 03', 'Metal polishing station');
     
     --Inserts of operation
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'Disc cutting', 'A4578');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'Disc cutting', 'A4588');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'Disc cutting', 'A4598');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5649, 'Initial pot base pressing', 'A4588');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5649, 'Initial pot base pressing', 'A4598');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5651, 'Final pot base pressing', 'A4588');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5653, 'Pot base finishing', 'C5637');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5655, 'Lid pressing', 'A4588');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5655, 'Lid pressing', 'A4598');
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5657, 'Lid finishing', 'C5637');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5659, 'Pot handles riveting', 'S3271');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5661, 'Lid handle screw', 'T3452');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5663, 'Pot test and packaging', 'K3675');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5665, 'Handle welding', 'D9123');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5667, 'Lid polishing', 'Q3547');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5669, 'Pot base polishing', 'Q3547');						
-    INSERT INTO Operation (OPERATION_ID, DESCRIPTION, Workstation_TypeWS_TYPE_ID) VALUES (5671, 'Teflon painting', 'Q5478');
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5647, 'Disc cutting');
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5649, 'Initial pot base pressing');
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5651, 'Final pot base pressing');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5653, 'Pot base finishing');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5655, 'Lid pressing');		
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5657, 'Lid finishing');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5659, 'Pot handles riveting');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5661, 'Lid handle screw');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5663, 'Pot test and packaging');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5665, 'Handle welding');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5667, 'Lid polishing');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5669, 'Pot base polishing');						
+    INSERT INTO Operation (OPERATION_ID, DESCRIPTION) VALUES (5671, 'Teflon painting');
     
     --Inserts of bom
     INSERT INTO BOM (ProductProd_FamilyFAMILY_ID, PARTNUMBER, DESCRIPTION, QUANTITY) VALUES ('AS12945S22', 'PN12344A21', 'Screw M6 35 mm', 1);								
@@ -136,19 +134,39 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO BOM (ProductProd_FamilyFAMILY_ID, PARTNUMBER, DESCRIPTION, QUANTITY) VALUES ('AS12945S20', 'PN18324C51', 'Stainless steel handle model R11', 1);
     
     --Inserts of boo
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5647, 1);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5647, 2);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5649, 3);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5651, 4);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5653, 5);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5659, 6);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5669, 7);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5655, 8);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5657, 9);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5661, 10);								
-    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5667, 11);								
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5647, 1);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5647, 2);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5649, 3);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5651, 4);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5653, 5);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5659, 6);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5669, 7);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5655, 8);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5657, 9);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5661, 10);		
+    INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5667, 11);		
     INSERT INTO BOO (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ('AS12945S22', 5663, 12);
     
+    --Inserts of Workstation_Type_Operation
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'A4578');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'A4588');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5647, 'A4598');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5649, 'A4588');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5649, 'A4598');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5651, 'A4588');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5651, 'A4598');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5653, 'C5637');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5655, 'A4588');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5655, 'A4598');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5657, 'C5637');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5659, 'S3271');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5661, 'T3452');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5663, 'K3675');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5665, 'D9123');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5667, 'Q3547');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5669, 'Q3547');
+    INSERT INTO Workstation_Type_Operation(OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES (5671, 'Q5478');
+
 
 * **AC2:** Minimum requirement above the expected: automatic generation of SQL
   input code from the spreadsheet (e.g., Excel formulas, scripts in any other
