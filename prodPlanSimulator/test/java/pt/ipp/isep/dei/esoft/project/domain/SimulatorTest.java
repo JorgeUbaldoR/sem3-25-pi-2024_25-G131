@@ -15,10 +15,11 @@ class SimulatorTest {
     private Simulator simulator;
     private SimulatorController controller;
     private Map<Operation, Queue<Machine>> machineListMap = new HashMap<>();
-    private List<OperationQueue> operationQueueList;
+    private OperationQueue operationQueue;
     private List<Item> itemList;
     private List<Operation> operationList;
     private List<Machine> machineList;
+    private Map<Operation, Integer> executionPerOperation;
 
     @BeforeEach
     void setUp() {
@@ -86,6 +87,10 @@ class SimulatorTest {
             }
         }
 
+        operationQueue = new OperationQueue(cutting, false);
+        operationQueue.addItemToQueue(item1);
+
+
 
     }
 
@@ -127,4 +132,78 @@ class SimulatorTest {
         assertTrue(transitionMap.containsKey(new ID(12, TypeID.MACHINE)));
         assertEquals(1, (int) transitionMap.get(new ID(12, TypeID.MACHINE)).get(new ID(11, TypeID.MACHINE)));
     }
+
+    @Test
+    void testFillExecutionPerOperation() {
+        System.out.println("Testing Fill Execution Per Operation");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        Operation operation = new Operation("Op1");
+
+
+        simulator.fillExecutionPerOperation(operation);
+        assertEquals(1, simulator.getExecutionPerOperation().get(operation).intValue());
+
+        simulator.fillExecutionPerOperation(operation);
+        assertEquals(2, simulator.getExecutionPerOperation().get(operation).intValue());
+    }
+
+    @Test
+    void testCalculateAverageExecutionTimes() {
+        System.out.println("Testing Calculate Average Execution Times");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        Operation operation = new Operation("Op1");
+
+        simulator.getOperationTime().put(operation, 10f);
+        simulator.getExecutionPerOperation().put(operation, 2);
+
+        simulator.calculateAverageExecutionTimes();
+
+        assertEquals(5f, simulator.getAvgExecutionTime().get(operation), 0.001);
+    }
+
+    @Test
+    void testFillWaitingTime() {
+        System.out.println("Testing Fill Waiting Time");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+
+        operationQueue.addItem(itemList.get(1));
+        List<OperationQueue> queues = Collections.singletonList(operationQueue);
+
+        simulator.fillWaitingTime(queues);
+
+        assertEquals(1f, simulator.getWaitingTime().get(itemList.get(0)), 0.001);
+        assertEquals(1f, simulator.getWaitingTime().get(itemList.get(1)), 0.001);
+
+        simulator.fillWaitingTime(queues);
+
+        assertEquals(2f, simulator.getWaitingTime().get(itemList.get(0)), 0.001);
+        assertEquals(2f, simulator.getWaitingTime().get(itemList.get(1)), 0.001);
+    }
+
+    @Test
+    void testAscendingOrderAvgExecutionTime() {
+        System.out.println("Testing Ascending Order Avg Execution Time");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+
+        simulator.getAvgExecutionTime().put(operationList.get(0), 5f);
+        simulator.getAvgExecutionTime().put(operationList.get(1), 10f);
+
+        List<Map.Entry<Operation, Float>> result = simulator.ascendingOrderAvgExecutionTime();
+        assertEquals(operationList.get(1), result.get(0).getKey());
+        assertEquals(operationList.get(0), result.get(1).getKey());
+    }
+
+    @Test
+    void testAscendingOrderWaitingTime() {
+        System.out.println("Testing Ascending Order Waiting Time");
+        simulator = new Simulator(machineListMap,itemList,operationList,false);
+
+        simulator.getWaitingTime().put(itemList.get(0), 2f);
+        simulator.getWaitingTime().put(itemList.get(1), 4f);
+
+        List<Map.Entry<Item, Float>> result = simulator.ascendingOrderWaitingTime();
+        assertEquals(itemList.get(1), result.get(0).getKey());
+        assertEquals(itemList.get(0), result.get(1).getKey());
+    }
+
 }
