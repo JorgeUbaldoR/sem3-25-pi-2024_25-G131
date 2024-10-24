@@ -328,9 +328,9 @@ activate ADM
                         |||
                 end
                 SIMUL -> SIMUL:
-                SIMUL --> CTRL : printExecutionTimesMachine()
+                SIMUL --> CTRL : sucess
             deactivate SIMUL
-            CTRL --> UI: printExecutionTimesMachine()
+            CTRL --> UI: sucess
 
 deactivate ADM
 
