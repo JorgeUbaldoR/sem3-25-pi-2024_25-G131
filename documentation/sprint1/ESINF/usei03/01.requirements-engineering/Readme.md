@@ -5,7 +5,7 @@
 
 ### 1.1. User Story Description
 
-> As a Plant Floor Manager, I want the system to calculate the total production time for all items in a given process, so that I can have a clear understanding of the time required to complete each batch of items.
+> As a Production Manager, I want the system to calculate the total production time for all items in a given process, so that I can have a clear understanding of the time required to complete each batch of items.
 
 ### 1.2. Customer Specifications and Clarifications 
 

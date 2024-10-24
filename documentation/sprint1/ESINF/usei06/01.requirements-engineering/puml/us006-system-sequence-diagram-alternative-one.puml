@@ -7,7 +7,7 @@ title USEI06 -  Average Execution Times and Waiting Times
 
 autonumber
 
-actor "Plant Floor Manager" as PFM
+actor "Production Manager" as PFM
 participant ":System" as System
 
 activate PFM

@@ -7,7 +7,7 @@ title USEI03 - Calculate the total production time for the items
 
 autonumber
 
-actor "Plant Floor Manager" as PFM
+actor "Production Manager" as PFM
 participant ":System" as System
 
 activate PFM

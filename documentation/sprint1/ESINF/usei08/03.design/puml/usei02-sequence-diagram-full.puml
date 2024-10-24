@@ -6,7 +6,7 @@ skinparam shadowing false
 autonumber
 
 'hide footbox
-actor "Plant Floor Manager" as ADM
+actor "Production Manager" as ADM
 participant ":SimulatorUI" as UI
 participant ":SimulatorController" as CTRL
 participant ":Repositories" as RepositorySingleton
