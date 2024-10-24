@@ -16,7 +16,7 @@ public class Simulator {
     private final Map<Item, Float> waitingTime;
     private final Map<Operation, Float> avgExecutionTime;
     private final LinkedList<Item> itemLinkedList;
-    private final Map<Item, LinkedList<ID>> itemLinkedListMap;
+    public final Map<Item, LinkedList<ID>> itemLinkedListMap;
     private final Map<Machine, Float> machineUsage;
     private final Map<Operation, Integer> executionPerOperation;
 
@@ -628,7 +628,7 @@ public class Simulator {
     /**
      * Prints the transitions of a machine to another.
      */
-    private void printMachineRoute() {
+    public void printMachineRoute() {
 
         Map<ID, Map<ID, Integer>> transitionMap = getMachineRoute();
 
@@ -660,7 +660,7 @@ public class Simulator {
      *
      * @return a Map that stores all the transitions of the machines
      */
-    private Map<ID, Map<ID, Integer>> getMachineRoute() {
+    public Map<ID, Map<ID, Integer>> getMachineRoute() {
         Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
 
         for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {

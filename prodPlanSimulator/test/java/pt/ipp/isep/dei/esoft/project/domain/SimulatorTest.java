@@ -110,6 +110,21 @@ class SimulatorTest {
         simulator.startSimulation();
     }
 
+    @Test
+    void getMachineRouteTest() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        simulator.printMachineRoute();
 
+        Map<ID, Map<ID, Integer>> transitionMap = simulator.getMachineRoute();
 
+        assertTrue(transitionMap.containsKey(new ID(10, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(10, TypeID.MACHINE)).get(new ID(11, TypeID.MACHINE)));
+
+        assertTrue(transitionMap.containsKey(new ID(11, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(11, TypeID.MACHINE)).get(new ID(12, TypeID.MACHINE)));
+
+        assertTrue(transitionMap.containsKey(new ID(12, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(12, TypeID.MACHINE)).get(new ID(11, TypeID.MACHINE)));
+    }
 }
