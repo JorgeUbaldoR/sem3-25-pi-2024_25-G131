@@ -12,6 +12,7 @@ participant ":SimulatorController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "simulator\n:Simulator" as SIMUL
+participant "Total Time \n : Float" as Counter
 participant "machineRepository \n: MachineRepository" as MACHREP
 participant "machineList \n : ArrayList<Machine>" as MACHLIST
 participant "machine \n: Machine" as MACH
@@ -197,6 +198,7 @@ activate ADM
                 loop until the all operationQueues are empty and there are no machien processing items
                     |||
                     SIMUL -> SIMUL: updateMachines()
+                    SIMUL -> Counter** : adds +1
                     activate SIMUL
 
                         loop for each operation int in the machinesMap
@@ -325,9 +327,10 @@ activate ADM
 
                         |||
                 end
-                SIMUL --> CTRL : result
+                SIMUL -> SIMUL:
+                SIMUL --> CTRL : printExecutionTimesMachine()
             deactivate SIMUL
-            CTRL --> UI: result
+            CTRL --> UI: printExecutionTimesMachine()
 
 deactivate ADM
 
