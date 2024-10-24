@@ -426,7 +426,7 @@ public class Simulator {
      *
      * @return A list of entries sorted by their average execution time in descending order.
      */
-    private List<Map.Entry<Operation, Float>> ascendingOrderAvgExecutionTime() {
+    List<Map.Entry<Operation, Float>> ascendingOrderAvgExecutionTime() {
         List<Map.Entry<Operation, Float>> list = new ArrayList<>(getAvgExecutionTime().entrySet());
         list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         return list;
@@ -437,7 +437,7 @@ public class Simulator {
      *
      * @return A list of entries sorted by their waiting time in descending order.
      */
-    private List<Map.Entry<Item, Float>> ascendingOrderWaitingTime() {
+    List<Map.Entry<Item, Float>> ascendingOrderWaitingTime() {
         List<Map.Entry<Item, Float>> list = new ArrayList<>(getWaitingTime().entrySet());
         list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         return list;
@@ -494,6 +494,24 @@ public class Simulator {
     }
 
     /**
+     * Retrieves the map containing the number of executions for each operation.
+     *
+     * @return A map where the keys are Operations and the values are their execution counts.
+     */
+    public Map<Operation, Integer> getExecutionPerOperation() {
+        return executionPerOperation;
+    }
+
+    /**
+     * Retrieves the map containing the total execution time for each operation.
+     *
+     * @return A map where the keys are Operations and the values are their total execution times in minutes.
+     */
+    public Map<Operation, Float> getPpk() {
+        return operationTime;
+    }
+
+    /**
      * Prints the route of a item
      */
     private void printItemRoute() {
@@ -522,7 +540,7 @@ public class Simulator {
      *
      * @param operation The operation whose execution count is being tracked.
      */
-    private void fillExecutionPerOperation(Operation operation) {
+    void fillExecutionPerOperation(Operation operation) {
         if (!executionPerOperation.containsKey(operation)) {
             executionPerOperation.put(operation, 1);
         } else {
@@ -534,7 +552,7 @@ public class Simulator {
      * Calculates the average execution time for each operation and stores it in avgExecutionTime.
      * Divides the total execution time of each operation by its number of executions.
      */
-    private void calculateAverageExecutionTimes() {
+    void calculateAverageExecutionTimes() {
         float totalTime;
         int qtdOperations;
 
@@ -582,7 +600,7 @@ public class Simulator {
      *
      * @param operationQueueList The list of operation queues to process for waiting time.
      */
-    private void fillWaitingTime(List<OperationQueue> operationQueueList) {
+    void fillWaitingTime(List<OperationQueue> operationQueueList) {
         for (OperationQueue operationQueue : operationQueueList) {
             if (!operationQueue.isEmpty()) {
                 Queue<Item> items = operationQueue.getItemList();

@@ -153,7 +153,7 @@ class SimulatorTest {
         simulator = new Simulator(machineListMap,itemList,operationList,false);
         Operation operation = new Operation("Op1");
 
-        simulator.getOperationTime().put(operation, 10f);
+        simulator.getPpk().put(operation, 10f);
         simulator.getExecutionPerOperation().put(operation, 2);
 
         simulator.calculateAverageExecutionTimes();

@@ -196,4 +196,13 @@ public class OperationQueue {
         sb.append("]");
         return sb.toString();
     }
+
+    /**
+     * Adds an item to the queue of items.
+     *
+     * @param item The item to be added to the queue.
+     */
+    public void addItem(Item item) {
+        itemList.add(item);
+    }
 }
