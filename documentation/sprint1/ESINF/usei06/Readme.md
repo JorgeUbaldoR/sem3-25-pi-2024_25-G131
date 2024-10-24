@@ -1,4 +1,4 @@
-# US006 - Create a Task 
+# US006 - Average Execution Times and Waiting Times
 
 [Requirements Engineering](01.requirements-engineering/Readme.md)
 
