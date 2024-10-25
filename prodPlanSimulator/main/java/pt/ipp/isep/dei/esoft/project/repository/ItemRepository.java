@@ -83,6 +83,10 @@ public class ItemRepository {
      * @return a List containing all Item objects in the repository
      */
     public List<Item> getItemList() {
-        return new ArrayList<>(itemList.values());
+        ArrayList<Item> items = new ArrayList<>();
+        for (Item item : itemList.values()) {
+            items.add(item.clone());
+        }
+        return items;
     }
 }
