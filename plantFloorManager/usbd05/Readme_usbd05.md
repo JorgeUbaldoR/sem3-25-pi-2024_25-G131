@@ -20,7 +20,7 @@ to be delivered (customer, product, quantity, date) within a given time frame.
       order by o.ORDER_ID asc;
 
 
-### 2. Resolution
+### 3. Resolution
 
 >![Results](img/USBD05.png)
 

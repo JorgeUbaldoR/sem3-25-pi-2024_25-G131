@@ -1,0 +1,18 @@
+﻿OPID;Description;WorkstationType;WorkstationType;WorkstationType
+5647;Disc cutting;A4578;A4588;A4598
+5649;Initial pot base pressing;A4588;A4598;
+5651;Final pot base pressing;A4588;A4598;
+5653;Pot base finishing;C5637;;
+5655;Lid pressing;A4588;A4598;
+5657;Lid finishing;C5637;;
+5659;Pot handles riveting;S3271;;
+5661;Lid handle screw;T3452;;
+5663;Pot test and packaging;K3675;;
+5665;Handle welding;D9123;;
+5667;Lid polishing;Q3547;;
+5669;Pot base polishing;Q3547;;
+5671;Teflon painting;Q5478;;
+5681;Initial pan base pressing;A4588;A4598;
+5682;Final pan base pressing;A4588;A4598;
+5683;Pan base finishing;C5637;;
+5688;Pan test and packaging;K3675;;

@@ -336,7 +336,7 @@ public class Simulator {
      * Prints the execution times for all operations and percentages relative to the total time to the console.
      * Each operation and its corresponding execution time is printed.
      */
-    private void printExecutionTimesOperation() {
+    public void printExecutionTimesOperation() {
         List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
         float totalTime = sumTotalTime();
 

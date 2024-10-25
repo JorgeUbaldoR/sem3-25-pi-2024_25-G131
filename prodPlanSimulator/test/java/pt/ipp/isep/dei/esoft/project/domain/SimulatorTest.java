@@ -7,6 +7,8 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,8 +91,6 @@ class SimulatorTest {
 
         operationQueue = new OperationQueue(cutting, false);
         operationQueue.addItemToQueue(item1);
-
-
 
     }
 
@@ -206,4 +206,47 @@ class SimulatorTest {
         assertEquals(itemList.get(0), result.get(1).getKey());
     }
 
+    @Test
+    public void testPrintExecutionTimesOperation() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        simulator.printExecutionTimesOperation();
+        String output = outputStream.toString();
+
+        assertTrue(output.contains("Cutting"));
+        assertTrue(output.contains("welding"));
+        assertTrue(output.contains("Painting"));
+
+        assertTrue(output.contains("2"));
+        assertTrue(output.contains("7"));
+        assertTrue(output.contains("5"));
+
+        assertTrue(output.contains("55,56 %"));
+        assertTrue(output.contains("33,33 %"));
+        assertTrue(output.contains("11,11 %"));
+
+        System.setOut(System.out);
+    }
+
+    @Test
+    public void testPrintMachineRoute() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        simulator.printMachineRoute();
+        String printedOutput = outputStream.toString();
+
+        assertTrue(printedOutput.contains("Machine ID"));
+        assertTrue(printedOutput.contains("Machine Route"));
+
+        assertTrue(printedOutput.contains("W-10"));
+        assertTrue(printedOutput.contains("(W-11,1)"));
+        assertTrue(printedOutput.contains("W-11"));
+        assertTrue(printedOutput.contains("(W-12,1)"));
+
+        System.setOut(System.out);
+    }
 }
