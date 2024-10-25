@@ -68,9 +68,7 @@ public class OperationRepository {
      * @return a list containing all operations
      */
     public List<Operation> getOperations() {
-        List<Operation> operation = new ArrayList<>();
-        operation.addAll(operations);
-        return operation;
+        return new ArrayList<>(operations);
     }
 
     /**

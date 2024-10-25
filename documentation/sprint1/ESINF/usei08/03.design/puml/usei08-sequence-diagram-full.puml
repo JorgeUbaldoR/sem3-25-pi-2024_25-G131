@@ -134,7 +134,7 @@ activate ADM
             deactivate CTRL
 
             |||
-            CTRL -> SIMUL** : create(machinesMap,itemList,operationList,false)
+            CTRL -> SIMUL** : create(machinesMap,itemList,operationList,true)
             activate SIMUL
 
                 SIMUL -> OPQULIST** : create

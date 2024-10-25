@@ -1,4 +1,4 @@
-# USEI02 - Implement a simulator that processes all the items.
+# USEI08 - Processing order based on priority
 
 ## 4. Tests 
 
@@ -79,7 +79,7 @@ private ItemRepository getItemRepository() {
 ###### 3. Start Simulation With Priority
 
 ```java
-    public void startSimulationWithOutPriority(){
+    public void startSimulationWithPriority(){
         this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),true);
         this.simulator.startSimulation();
 }
