@@ -1,7 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class FileDataReader {
     private static final int ID_MACHINE = 0;
     private static final int ID_ITEM = 1;
 
-    private static final Boolean LEITURA_AUTOMATICA = false;
+    private static final Boolean AUTO_READER = false;
 
     private static final String MACHINE_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations.csv";
     private static final String ITEM_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/articlesFinal.csv";
@@ -34,11 +32,11 @@ public class FileDataReader {
      */
     public static List<String[]> getMachinesDetails() throws IOException {
 
-        if (!LEITURA_AUTOMATICA) {
+        if (!AUTO_READER) {
             System.out.print("Write the name of the MACHINES file: ");
         }
 
-        if (isValidFile(LEITURA_AUTOMATICA, ID_MACHINE)) {
+        if (isValidFile(AUTO_READER, ID_MACHINE)) {
             Scanner scanner = new Scanner(new File(fileName));
             List<String[]> machineDetails = new ArrayList<>();
 
@@ -98,11 +96,11 @@ public class FileDataReader {
      */
     public static List<String[]> getItemsDetails() throws IOException {
 
-        if (!LEITURA_AUTOMATICA) {
+        if (!AUTO_READER) {
             System.out.print("Write the name of the ITEMS file: ");
         }
 
-        if (isValidFile(LEITURA_AUTOMATICA, ID_ITEM)) {
+        if (isValidFile(AUTO_READER, ID_ITEM)) {
             Scanner scanner = new Scanner(new File(fileName));
             List<String[]> itemsDetails = new ArrayList<>();
 
