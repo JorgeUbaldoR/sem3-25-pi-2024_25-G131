@@ -25,7 +25,7 @@ factory supports.
 
     select distinct OPERATION_ID as ID, DESCRIPTION from Operation;
 
->![Results](img/Result-usb08.png)
+>![Results](img/USBD08.png)
 >
 >[See results in a CSV file](csv_result/USBD08.csv)
 

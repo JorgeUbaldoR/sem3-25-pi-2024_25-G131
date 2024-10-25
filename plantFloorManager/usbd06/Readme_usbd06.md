@@ -35,6 +35,18 @@ legacy system.
     order by o.ORDER_ID asc;
 
 
+
+
+### 4. Results
+
+>![Results](img/USBD06_1.png)
+>
+>![Results](img/USBD06_2.png)
+>
+>![Results](img/USBD06_3.png)
+>
+>![Results](img/USBD06_4.png)
+
 >[See results in a CSV file](csv_result/USBD06.csv)
 
 

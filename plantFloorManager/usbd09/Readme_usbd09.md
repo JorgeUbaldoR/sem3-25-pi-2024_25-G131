@@ -20,5 +20,16 @@ well as get the respective type of workstation, from a BOO of a given product.
       group by p.NAME, b.OPNUMBER, wt.WS_TYPE_ID
       order by p.NAME asc, b.OPNUMBER asc;
 
+
+### 3. Results
+
+>![Results](img/USBD09_1.png)
+> 
+>![Results](img/USBD09_2.png)
+> 
+>![Results](img/USBD09_3.png)
+> 
+>![Results](img/USBD09_4.png)
+
 >[See results in a CSV file](csv_result/USBD09.csv)
 
