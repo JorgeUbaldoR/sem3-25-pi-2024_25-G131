@@ -1,0 +1,10 @@
+@startuml
+graph GraphRep {
+"Pro 20 3l pot" -- "PN12344A21"
+"Pro 20 3l pot" -- "PN18324C51"
+"Pro 20 3l pot" -- "PN18544A21"
+"Pro 20 3l pot" -- "PN18544C21"
+"Pro 20 3l pot" -- "PN52384R10"
+"Pro 20 3l pot" -- "PN52384R50"
+}
+@enduml

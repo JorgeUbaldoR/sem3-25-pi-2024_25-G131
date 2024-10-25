@@ -1,0 +1,6 @@
+@startuml
+graph GraphRep {
+"Pro 17 2l sauce pan" -- "PN18324C91"
+"Pro 17 2l sauce pan" -- "PN52384R45"
+}
+@enduml
