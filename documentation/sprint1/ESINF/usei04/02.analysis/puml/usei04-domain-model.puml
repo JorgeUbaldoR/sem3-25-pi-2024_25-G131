@@ -8,21 +8,46 @@ skinparam shadowing false
 skinparam classAttributeIconSize 0
 
 hide circle
-hide methods
+'hide methods
 
-
-class Operation {
+class Simulator {
+    itemList
+    machineList
+    avgExecutionTimeList
+    waitingTimeList
+    addOperationToQueue()
+    createQueues()
+    updateMachines()
+    printQueue()
+    printMachineStatus()
+    assignItemToMachine()
+    fillWaitingTime()
+    printWaitingTime()
+    fillExecutionPerOperation()
+    calculateAverageExecutionTimes()
+    printAverageExecutionTime()
 }
 
-class Item {
+class Operation {
+    operationName : String
+    duration : float
 }
 
 class Machine {
-    float time
+    idMachine : ID
+    operation : Operation
+    processingSpeed : float
+    available : boolean
+    timeLeftToFinish: float
+    currentProcessingItem : Item
+    processItem(Item item)
+    updateMachine()
+    resetMachine()
+    printStatus()
 }
 
-Machine "1" -- "1" Operation : has >
-Machine "*" -- "1" Item : makes >
-
+Simulator "1" -- "1..*" Machine : has >
+Simulator "1" -- "1..*" Operation : has >
+Machine "1" -- "1" Operation : performs >
 
 @enduml
