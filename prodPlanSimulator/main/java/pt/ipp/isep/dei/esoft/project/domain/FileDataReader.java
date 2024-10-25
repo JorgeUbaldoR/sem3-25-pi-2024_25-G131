@@ -16,7 +16,7 @@ public class FileDataReader {
     private static final int ID_MACHINE = 0;
     private static final int ID_ITEM = 1;
 
-    private static final Boolean AUTO_READER = false;
+    private static final Boolean AUTO_READER = true;
 
     private static final String MACHINE_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations.csv";
     private static final String ITEM_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/articlesFinal.csv";
@@ -36,7 +36,7 @@ public class FileDataReader {
             System.out.print("Write the name of the MACHINES file: ");
         }
 
-        if (isValidFile(AUTO_READER, ID_MACHINE)) {
+        if (isValidFile(ID_MACHINE)) {
             Scanner scanner = new Scanner(new File(fileName));
             List<String[]> machineDetails = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class FileDataReader {
             System.out.print("Write the name of the ITEMS file: ");
         }
 
-        if (isValidFile(AUTO_READER, ID_ITEM)) {
+        if (isValidFile(ID_ITEM)) {
             Scanner scanner = new Scanner(new File(fileName));
             List<String[]> itemsDetails = new ArrayList<>();
 
@@ -123,11 +123,11 @@ public class FileDataReader {
         return null;
     }
 
-    private static boolean isValidFile(Boolean leituraAutomatica, int ID) {
+    private static boolean isValidFile(int ID) {
         String userNameFile = null;
 
 
-        if (!leituraAutomatica) {
+        if (!AUTO_READER) {
             userNameFile = ler.nextLine();
             fileName = RAW_PATH + userNameFile;
         } else {
@@ -142,7 +142,6 @@ public class FileDataReader {
 
         while (true) {
 
-            // Verifica se o arquivo existe
 
             try {
                 new Scanner(new File(fileName)).close();
