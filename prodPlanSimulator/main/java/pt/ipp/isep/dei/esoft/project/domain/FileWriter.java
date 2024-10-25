@@ -41,7 +41,7 @@ public class FileWriter {
     private static Map<String, List<String>> getProductBoo() throws IOException {
         Map<String, List<String>> bom = new HashMap<>();
         List<String[]> data = FileDataReader.getBomDetails();
-        System.out.println(data.size());
+
         for (String[] line : data) {
             String productName = line[0];
             String componentName = line[1];
