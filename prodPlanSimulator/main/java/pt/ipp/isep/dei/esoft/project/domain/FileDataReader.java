@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class FileDataReader {
     private static final int NUMBER_OF_DETAILS = 3;
+    private static final int BOM_DETAILS = 2;
     private static String fileName = null;
     private static final Scanner ler = new Scanner(System.in);
     private static final int ID_MACHINE = 0;
@@ -50,7 +51,37 @@ public class FileDataReader {
         return null;
     }
 
+
     /**
+     *
+     * @return  List of string arrays containing product and component
+     * @throws IOException if the file is not found or another I/O error occurs
+     */
+    public static List<String[]> getBomDetails() throws IOException {
+        File file = new File("prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/productStructure.csv");
+
+        Scanner scanner = new Scanner(file);
+        List<String[]> bom = new ArrayList<>();
+
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(",");
+
+            if (parts.length == (BOM_DETAILS)) {
+                bom.add(parts);
+            }
+        }
+
+        scanner.close();
+        return bom;
+    }
+
+    /** Reads details from a CSV file and returns them as a list of string arrays
+
      * Reads item details from a CSV file and returns them as a list of string arrays
      *
      * @return List of string arrays containing item details
@@ -87,7 +118,11 @@ public class FileDataReader {
 
     private static boolean isValidFile(Boolean leituraAutomatica, int ID) {
 
-
+    /**
+     *
+     * @return  List of string arrays containing product and component
+     * @throws IOException if the file is not found or another I/O error occurs
+     */
         if (!leituraAutomatica) {
             fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/" + ler.nextLine();
         } else {
