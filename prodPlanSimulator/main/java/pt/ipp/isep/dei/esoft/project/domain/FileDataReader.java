@@ -15,7 +15,7 @@ public class FileDataReader {
     private static final int ID_MACHINE = 0;
     private static final int ID_ITEM = 1;
 
-    private static final Boolean LEITURA_AUTOMATICA = true;
+    private static final Boolean LEITURA_AUTOMATICA = false;
 
     /**
      * Reads machine details from a CSV file and returns them as a list of string arrays
@@ -124,13 +124,13 @@ public class FileDataReader {
      * @throws IOException if the file is not found or another I/O error occurs
      */
         if (!leituraAutomatica) {
-            fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/" + ler.nextLine();
+            fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/" + ler.nextLine();
         } else {
 
             if (ID == ID_MACHINE) {
-                fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/workstations.csv";
+                fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations.csv";
             } else {
-                fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/articlesFinal.csv";
+                fileName = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/articlesFinal.csv";
             }
 
         }
