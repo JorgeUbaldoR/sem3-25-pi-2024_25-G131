@@ -1,6 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 
 public class SQLGenerator {
     private static final String BOM = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/bom.csv";
@@ -31,8 +31,10 @@ public class SQLGenerator {
 
 
     private static void order() {
+
         try {
 
+            Set<String> saveIds = new HashSet<>();
             Scanner scanner = new Scanner(new File(SQLGenerator.ORDERS));
 
             if (scanner.hasNextLine()) {
@@ -40,7 +42,6 @@ public class SQLGenerator {
             }
 
             while (scanner.hasNextLine()) {
-
                 String line = scanner.nextLine();
                 String[] columns = line.split(";");
 
@@ -51,11 +52,16 @@ public class SQLGenerator {
                 String deliveryDate = columns[5];
 
 
-                String sql = "INSERT INTO \"Order\" (OrderORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES ("
-                        + orderId + ", " + customerId + ", TO_DATE('" + orderDate + "', 'dd/mm/yyyy'), TO_DATE('" + deliveryDate + "', 'dd/mm/yyyy'));";
+                if (saveIds.add(orderId)) {
+                    String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES ("
+                            + orderId + ", " + customerId + ", TO_DATE('" + orderDate + "', 'dd/mm/yyyy'), TO_DATE('" + deliveryDate + "', 'dd/mm/yyyy'));";
+
+                    System.out.println(sql);
 
 
-                System.out.println(sql);
+                }
+
+
             }
             System.out.println();
 
@@ -266,7 +272,7 @@ public class SQLGenerator {
 
 
                 String sql = "INSERT INTO work_station (WS_ID, Workstation_TypeWS_TYPE_ID, NAME, DESCRIPTION) VALUES ("
-                        + id + ", '" + name + "', '" + typeId + "', '" + description + "');";
+                        + id + ", '" + typeId + "', '" + name + "', '" + description + "');";
 
 
                 System.out.println(sql);
