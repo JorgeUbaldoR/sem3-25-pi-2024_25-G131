@@ -1,5 +1,3 @@
-package pt.ipp.isep.dei.esoft.project.sql_related;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
