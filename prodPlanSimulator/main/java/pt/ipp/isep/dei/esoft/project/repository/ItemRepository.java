@@ -6,6 +6,7 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -68,8 +69,11 @@ public class ItemRepository {
                 itemList.put(newId, new Item(newId, priority, operationQueue));
             }
 
-        } catch (IOException e) {
-            System.out.println("Error reading items details");
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println(ANSI_BRIGHT_RED + "Error reading items details from file." + ANSI_RESET);
+            System.out.println(ANSI_INDIAN_RED + "Shutting down..." + ANSI_RESET);
+            System.exit(1);
         }
     }
 
