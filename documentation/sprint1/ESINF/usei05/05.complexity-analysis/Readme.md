@@ -6,8 +6,8 @@
 |----------------------------------------------------------------------|------------|
 | addExecutionTimesMachine(Machine, float)                             | O(1)       |
 | printExecutionTimesMachine()                                         | O(N)       |
-| List<Map.Entry<Machine, Float>> ascendingOrderMachineTimes()         | O(N*logN)  |
+| List<Map.Entry<Machine, Float>> ascendingOrderMachineTimes()         | O(N⋅logN)  |
 | Map<Operation, Float> getExecutionTimesOperation()                   | O(1)       |
 | Map<Operation, Float> Map<Machine, Float> getExecutionTimesMachine() | O(1)       |
 
-**- USEI05 complexity** O(N*logN)
+**- USEI05 complexity** O(N⋅logN)
