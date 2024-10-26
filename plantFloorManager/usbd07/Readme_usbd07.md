@@ -24,18 +24,22 @@ material/component.
 
 ### 4. Result
 
-    select o.ORDER_ID, b.PARTNUMBER as Materials, sum(b.QUANTITY * op.AMOUNT_PRODUCT) as Quantity
+    select o.ORDER_ID, b.PARTNUMBER as Material, sum(b.QUANTITY * op.AMOUNT_PRODUCT) as Quantity
     from "Order" o, Order_Products op, Product p, BOM b
     where
     op.OrderORDER_ID = o.ORDER_ID
-    and op.ProductProd_FamilyFAMILY_ID = p.Prod_FamilyFAMILY_ID
-    and b.ProductProd_FamilyFAMILY_ID = p.Prod_FamilyFAMILY_ID
+    and op.ProductPRODUCT_ID = p.PRODUCT_ID
+    and b.ProductPRODUCT_ID = p.PRODUCT_ID
     group by o.ORDER_ID, b.PARTNUMBER
     order by o.ORDER_ID;
 
->![Results](img/Result1-usb07.png)
->![Results](img/Result2-usb07.png)
->![Results](img/Result3-usb07.png)
+>![Results](img/USBD07_1.png)
+>![Results](img/USBD07_2.png)
+>![Results](img/USBD07_3.png)
+> >![Results](img/USBD07_4.png)
+> >![Results](img/USBD07_5.png)
+> >![Results](img/USBD07_6.png)
+> >![Results](img/USBD07_7.png)
 > 
 >[See results in a CSV file](csv_result/USBD07.csv)
 
