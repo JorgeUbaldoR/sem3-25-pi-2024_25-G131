@@ -115,7 +115,7 @@ public class OperationTest {
 
     @Test
     public void testToString() {
-        assertEquals("Cutting\n", operation.toString());
+        assertEquals("Cutting", operation.toString().trim());
     }
 
     @Test

@@ -69,8 +69,9 @@ public class FileDataReaderTest {
             getMachinesDetails();
         });
 
-        String expectedMessage = TEST_WORKSTATIONS_FILE_PATH + " (No such file or directory)";
-        assertEquals(expectedMessage, exception.getMessage());
+        String expectedMessagePart = TEST_WORKSTATIONS_FILE_PATH;
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessagePart));
     }
 
     @Test

@@ -16,7 +16,7 @@ public class FileDataReader {
     private static final int ID_MACHINE = 0;
     private static final int ID_ITEM = 1;
 
-    public static Boolean AUTO_READER = false;
+    public static Boolean AUTO_READER = true;
 
     private static final String MACHINE_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations.csv";
     public static String ITEM_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/articlesFinal.csv";
