@@ -30,6 +30,9 @@ public class FileDataReaderTest {
             "002;Item B;20.5\n" +
             "003;Item C;15.75\n";
 
+
+
+
     @BeforeEach
     void setUp() throws IOException {
         try (FileWriter writer = new FileWriter(TEST_WORKSTATIONS_FILE_PATH)) {
@@ -172,4 +175,44 @@ public class FileDataReaderTest {
         scanner.close();
         return itemsDetails;
     }
+
+    @Test
+    void testGetBomDetails() {
+        try {
+            List<String[]> bomDetails = FileDataReader.getBomDetails();
+
+            assertNotNull(bomDetails, "BOM Details should not be null");
+            assertFalse(bomDetails.isEmpty(), "BOM Details list should not be empty");
+
+            assertTrue(bomDetails.stream()
+                            .anyMatch(entry -> List.of(entry).equals(List.of("Pro 17 2l pot", "PN12344A21"))),
+                    "Should contain 'Pro 17 2l pot, PN12344A21'");
+
+            assertTrue(bomDetails.stream()
+                            .anyMatch(entry -> List.of(entry).equals(List.of("Pro 20 3l pot", "PN18544A21"))),
+                    "Should contain 'Pro 20 3l pot, PN18544A21'");
+
+            for (String[] entry : bomDetails) {
+                assertEquals(2, entry.length, "each bom entry should contain 2 fields");
+            }
+        } catch (IOException e) {
+            fail("IOException should not happen in getBomDetails");
+        }
+    }
+
+    @Test
+    void testIsValidFile_machinePath() {
+        int machineID = 0;
+        boolean isValid = FileDataReader.isValidFile(machineID);
+        assertTrue(isValid, "Machine file should be valid and accessible");
+    }
+
+    @Test
+    void testIsValidFile_itemPath() {
+        int itemID = 1;
+        boolean isValid = FileDataReader.isValidFile(itemID);
+        assertTrue(isValid, "Item file should be valid and accessible");
+    }
+
+
 }
