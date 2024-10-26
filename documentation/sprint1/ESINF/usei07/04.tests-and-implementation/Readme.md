@@ -45,6 +45,26 @@
         System.setOut(System.out);
     }
 
+**Test 3:** Check if the item route in the correct order
+
+    @Test
+    public void testPrintItemRoute() {
+    simulator = new Simulator(machineListMap, itemList, operationList, false);
+    simulator.startSimulation();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outputStream));
+    simulator.printItemRoute();
+    String printedOutput = outputStream.toString();
+
+        assertTrue(printedOutput.contains("Item"));
+        assertTrue(printedOutput.contains("Item Route"));
+
+        assertTrue(printedOutput.contains("I-10"));
+        assertTrue(printedOutput.contains("[W-11, W-12]"));
+
+        System.setOut(System.out);
+    }
+
 _It is also recommended to organize this content by subsections._ 
 
 
@@ -76,6 +96,28 @@ private void updateMachines() {
                 }
             }
         }
+    }
+```
+
+```
+public void printItemRoute() {
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Item",
+                "Item Route"
+                , ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            for (Item it : itemLinkedList) {
+                if (entry.getKey().equals(it)) {
+                    System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, entry.getKey().getItemID(), entry.getValue());
+                }
+            }
+        }
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 ```
 
