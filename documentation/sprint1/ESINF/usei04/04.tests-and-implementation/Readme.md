@@ -2,69 +2,97 @@
 
 ## 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
+**Test 1:** Tests to check if the print contains the operations inserted and their respective duration. 
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
-	
+	@Test
+    public void testPrintExecutionTimesOperation() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        simulator.printExecutionTimesOperation();
+        String output = outputStream.toString();
 
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
+        assertTrue(output.contains("Cutting"));
+        assertTrue(output.contains("welding"));
+        assertTrue(output.contains("Painting"));
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
+        assertTrue(output.contains("2"));
+        assertTrue(output.contains("7"));
+        assertTrue(output.contains("5"));
+
+        assertTrue(output.contains("55,56 %"));
+        assertTrue(output.contains("33,33 %"));
+        assertTrue(output.contains("11,11 %"));
+
+        System.setOut(System.out);
+    }
+
 
 _It is also recommended to organize this content by subsections._ 
 
 
 ## 5. Construction (Implementation)
 
-### Class CreateTaskController 
+### Class Simulator
 
 ```java
-public Task createTask(String reference, String description, String informalDescription, String technicalDescription,
-                       Integer duration, Double cost, String taskCategoryDescription) {
-
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
-
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
-
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, duration,
-                                      cost,taskCategory, employee);
-    
-	return newTask;
-}
+public Map<Operation, Float> getExecutionTimesOperation() {
+        return this.operationTime;
+        }
 ```
 
-### Class Organization
+```
+private List<Map.Entry<Operation, Float>> ascendingOrderOperationTimes() {
+        List<Map.Entry<Operation, Float>> list = new ArrayList<>(getExecutionTimesOperation().entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return list;
+    }
+```
 
-```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                 String technicalDescription, Integer duration, Double cost, TaskCategory taskCategory,
-                                 Employee employee) {
-    
-    Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                         taskCategory, employee);
+```
+private float sumTotalTime() {
+        float sum = 0;
+        List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
+        for (Map.Entry<Operation, Float> entry : list) {
+            sum += entry.getValue();
+        }
+        return sum;
+    }
+```
 
-    addTask(task);
-        
-    return task;
-}
+```
+public void printExecutionTimesOperation() {
+        List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
+        float totalTime = sumTotalTime();
+
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %6s %15s %s%s%3s%s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Operation",
+                " Time(min)",
+                "Percentages", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+        for (Map.Entry<Operation, Float> entry : list) {
+            float percentage = (entry.getValue() / totalTime) * 100;
+            System.out.printf("%s%s%s  %-14s %-13.2f %.2f %s%n",
+                    ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                    entry.getKey().getOperationName(),
+                    entry.getValue(),
+                    percentage, "%");
+        }
+
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    }
 ```
 
 
 ## 6. Integration and Demo 
 
-* A new option on the Employee menu options was added.
-
-* For demo purposes some tasks are bootstrapped while system starts.
-
+* It will print the operation and their time as well as a percentage of the time used in each operation when a simulation finishes.
 
 ## 7. Observations
 

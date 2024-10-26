@@ -249,4 +249,22 @@ class SimulatorTest {
 
         System.setOut(System.out);
     }
+
+    @Test
+    public void testPrintItemRoute() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        simulator.printItemRoute();
+        String printedOutput = outputStream.toString();
+
+        assertTrue(printedOutput.contains("Item"));
+        assertTrue(printedOutput.contains("Item Route"));
+
+        assertTrue(printedOutput.contains("I-10"));
+        assertTrue(printedOutput.contains("[W-11, W-12]"));
+
+        System.setOut(System.out);
+    }
 }

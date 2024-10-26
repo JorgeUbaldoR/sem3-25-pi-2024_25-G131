@@ -514,7 +514,7 @@ public class Simulator {
     /**
      * Prints the route of a item
      */
-    private void printItemRoute() {
+    public void printItemRoute() {
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,

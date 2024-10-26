@@ -2,68 +2,180 @@
 
 ## 4. Tests 
 
-**Test 1:** Check that it is not possible to create an instance of the Task class with null values. 
+**Test 1:** Check if the transitionMap has the machines came from and where they will go as well as how many times they made that route.
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureNullIsNotAllowed() {
-		Task instance = new Task(null, null, null, null, null, null, null);
-	}
+	@Test
+    void getMachineRouteTest() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        simulator.printMachineRoute();
+
+        Map<ID, Map<ID, Integer>> transitionMap = simulator.getMachineRoute();
+
+        assertTrue(transitionMap.containsKey(new ID(10, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(10, TypeID.MACHINE)).get(new ID(11, TypeID.MACHINE)));
+
+        assertTrue(transitionMap.containsKey(new ID(11, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(11, TypeID.MACHINE)).get(new ID(12, TypeID.MACHINE)));
+
+        assertTrue(transitionMap.containsKey(new ID(12, TypeID.MACHINE)));
+        assertEquals(1, (int) transitionMap.get(new ID(12, TypeID.MACHINE)).get(new ID(11, TypeID.MACHINE)));
+    }
 	
 
-**Test 2:** Check that it is not possible to create an instance of the Task class with a reference containing less than five chars - AC2. 
+**Test 2:** Check if the print contains the machines and their transitions (movements between machines)
 
-	@Test(expected = IllegalArgumentException.class)
-		public void ensureReferenceMeetsAC2() {
-		Category cat = new Category(10, "Category 10");
-		
-		Task instance = new Task("Ab1", "Task Description", "Informal Data", "Technical Data", 3, 3780, cat);
-	}
+	@Test
+    public void testPrintMachineRoute() {
+        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator.startSimulation();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        simulator.printMachineRoute();
+        String printedOutput = outputStream.toString();
+
+        assertTrue(printedOutput.contains("Machine ID"));
+        assertTrue(printedOutput.contains("Machine Route"));
+
+        assertTrue(printedOutput.contains("W-10"));
+        assertTrue(printedOutput.contains("(W-11,1)"));
+        assertTrue(printedOutput.contains("W-11"));
+        assertTrue(printedOutput.contains("(W-12,1)"));
+
+        System.setOut(System.out);
+    }
+
+**Test 3:** Check if the item route in the correct order
+
+    @Test
+    public void testPrintItemRoute() {
+    simulator = new Simulator(machineListMap, itemList, operationList, false);
+    simulator.startSimulation();
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outputStream));
+    simulator.printItemRoute();
+    String printedOutput = outputStream.toString();
+
+        assertTrue(printedOutput.contains("Item"));
+        assertTrue(printedOutput.contains("Item Route"));
+
+        assertTrue(printedOutput.contains("I-10"));
+        assertTrue(printedOutput.contains("[W-11, W-12]"));
+
+        System.setOut(System.out);
+    }
 
 _It is also recommended to organize this content by subsections._ 
 
 
 ## 5. Construction (Implementation)
 
-### Class CreateTaskController 
+### Simulator
 
 ```java
-public Task createTask(String reference, String description, String informalDescription, String technicalDescription,
-                       Integer duration, Double cost, String taskCategoryDescription) {
-
-	TaskCategory taskCategory = getTaskCategoryByDescription(taskCategoryDescription);
-
-	Employee employee = getEmployeeFromSession();
-	Organization organization = getOrganizationRepository().getOrganizationByEmployee(employee);
-
-	newTask = organization.createTask(reference, description, informalDescription, technicalDescription, duration,
-                                      cost,taskCategory, employee);
-    
-	return newTask;
-}
+private void updateMachines() {
+        for (Operation operation : machineList.keySet()) {
+            Queue<Machine> machines = machineList.get(operation);
+            for (Machine machine : machines) {
+                boolean finished = machine.updateMachine();
+                if (finished) {
+                    addExecutionTimesOperation(operation, machine.getProcessingSpeed());
+                    addExecutionTimesMachine(machine, machine.getProcessingSpeed());
+                    Item currentItem = machine.getCurrentProcessingItem();
+                    Operation newOperation = currentItem.getNextOperation();
+                    itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
+                    itemLinkedListMap.get(currentItem).add(machine.getId_machine());
+                    if (newOperation != null) {
+                        OperationQueue operationQueue = findOperationInQueue(newOperation);
+                        if (operationQueue != null) {
+                            operationQueue.addItemToQueue(currentItem);
+                        }
+                    } else {
+                        itemLinkedList.add(currentItem);
+                    }
+                }
+            }
+        }
+    }
 ```
 
-### Class Organization
-
-```java
-public Optional<Task> createTask(String reference, String description, String informalDescription,
-                                 String technicalDescription, Integer duration, Double cost, TaskCategory taskCategory,
-                                 Employee employee) {
-    
-    Task task = new Task(reference, description, informalDescription, technicalDescription, duration, cost,
-                         taskCategory, employee);
-
-    addTask(task);
-        
-    return task;
-}
+```
+public void printItemRoute() {
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Item",
+                "Item Route"
+                , ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            for (Item it : itemLinkedList) {
+                if (entry.getKey().equals(it)) {
+                    System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, entry.getKey().getItemID(), entry.getValue());
+                }
+            }
+        }
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    }
 ```
 
+```
+public Map<ID, Map<ID, Integer>> getMachineRoute() {
+        Map<ID, Map<ID, Integer>> transitionMap = new HashMap<>();
+
+        for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
+            LinkedList<ID> machineIds = entry.getValue();
+
+            for (int i = 0; i < machineIds.size() - 1; i++) {
+                ID fromMachine = machineIds.get(i);
+                ID toMachine = machineIds.get(i + 1);
+
+                transitionMap.putIfAbsent(fromMachine, new HashMap<>());
+
+                Map<ID, Integer> toMachineCount = transitionMap.get(fromMachine);
+
+                toMachineCount.put(toMachine, toMachineCount.getOrDefault(toMachine, 0) + 1);
+            }
+        }
+        return transitionMap;
+    }
+```
+
+```
+public void printMachineRoute() {
+
+        Map<ID, Map<ID, Integer>> transitionMap = getMachineRoute();
+
+        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-13s %17s %s%s%3s%n",
+                ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
+                ANSI_BRIGHT_WHITE,
+                "Machine ID",
+                "Machine Route"
+                , ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        for (Map.Entry<ID, Map<ID, Integer>> transitionEntry : transitionMap.entrySet()) {
+            ID fromMachine = transitionEntry.getKey();
+            Map<ID, Integer> toMachines = transitionEntry.getValue();
+
+            List<String> transitionStrings = new ArrayList<>();
+            for (Map.Entry<ID, Integer> toMachineEntry : toMachines.entrySet()) {
+                ID toMachine = toMachineEntry.getKey();
+                int count = toMachineEntry.getValue();
+                transitionStrings.add("(" + toMachine.getKeyID()+ "," + count + ")");
+            }
+            System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, fromMachine.getKeyID(), String.join(", ", transitionStrings));
+        }
+        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    }
+```
 
 ## 6. Integration and Demo 
 
-* A new option on the Employee menu options was added.
-
-* For demo purposes some tasks are bootstrapped while system starts.
+* It will print the machine transitions when a simulation finishes.
 
 
 ## 7. Observations
