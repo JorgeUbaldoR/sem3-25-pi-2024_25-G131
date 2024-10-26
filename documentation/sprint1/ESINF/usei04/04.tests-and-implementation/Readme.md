@@ -17,10 +17,6 @@
         assertTrue(output.contains("welding"));
         assertTrue(output.contains("Painting"));
 
-        assertTrue(output.contains("2"));
-        assertTrue(output.contains("7"));
-        assertTrue(output.contains("5"));
-
         assertTrue(output.contains("55,56 %"));
         assertTrue(output.contains("33,33 %"));
         assertTrue(output.contains("11,11 %"));
