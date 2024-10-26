@@ -39,7 +39,7 @@ _It is also recommended to organize this content by subsections._
 ```java
 public Map<Operation, Float> getExecutionTimesOperation() {
         return this.operationTime;
-        }
+}
 ```
 
 ```
@@ -92,7 +92,7 @@ public void printExecutionTimesOperation() {
 
 ## 6. Integration and Demo 
 
-* It will be printed when a simulation finishes.
+* It will print the operation and their time as well as a percentage of the time used in each operation when a simulation finishes.
 
 
 ## 7. Observations
