@@ -1,6 +1,7 @@
-ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
+ORDER_ID,WS_TYPE_ID,NAME
 1,A4578,600t cold forging stamping press
 1,A4588,600t cold forging precision stamping press
+1,A4598,1000t cold forging precision stamping press
 1,C5637,Border trimming
 1,K3675,Packaging
 1,Q3547,Stainless steel polishing
@@ -8,6 +9,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 1,T3452,Assembly T1
 2,A4578,600t cold forging stamping press
 2,A4588,600t cold forging precision stamping press
+2,A4598,1000t cold forging precision stamping press
 2,C5637,Border trimming
 2,D9123,Spot welding
 2,K3675,Packaging
@@ -16,6 +18,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 2,T3452,Assembly T1
 3,A4578,600t cold forging stamping press
 3,A4588,600t cold forging precision stamping press
+3,A4598,1000t cold forging precision stamping press
 3,C5637,Border trimming
 3,K3675,Packaging
 3,Q3547,Stainless steel polishing
@@ -23,6 +26,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 3,T3452,Assembly T1
 4,A4578,600t cold forging stamping press
 4,A4588,600t cold forging precision stamping press
+4,A4598,1000t cold forging precision stamping press
 4,C5637,Border trimming
 4,K3675,Packaging
 4,Q3547,Stainless steel polishing
@@ -30,6 +34,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 4,T3452,Assembly T1
 5,A4578,600t cold forging stamping press
 5,A4588,600t cold forging precision stamping press
+5,A4598,1000t cold forging precision stamping press
 5,C5637,Border trimming
 5,K3675,Packaging
 5,Q3547,Stainless steel polishing
@@ -37,6 +42,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 5,T3452,Assembly T1
 6,A4578,600t cold forging stamping press
 6,A4588,600t cold forging precision stamping press
+6,A4598,1000t cold forging precision stamping press
 6,C5637,Border trimming
 6,D9123,Spot welding
 6,K3675,Packaging
@@ -45,6 +51,7 @@ ORDER_ID,WORKSTATION_ID,WORKSTATION_TYPE_NAME
 6,T3452,Assembly T1
 7,A4578,600t cold forging stamping press
 7,A4588,600t cold forging precision stamping press
+7,A4598,1000t cold forging precision stamping press
 7,C5637,Border trimming
 7,K3675,Packaging
 7,Q3547,Stainless steel polishing

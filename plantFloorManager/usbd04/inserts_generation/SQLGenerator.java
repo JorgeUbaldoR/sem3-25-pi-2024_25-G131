@@ -41,6 +41,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for order");
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] columns = line.split(";");
@@ -81,6 +82,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for costumer");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -122,6 +124,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for prod_family");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -156,6 +159,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for product");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -191,6 +195,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for order_products");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -225,6 +230,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for workstation_types");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -259,6 +265,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for workstation");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -295,6 +302,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for operation");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -328,6 +336,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for bom");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -363,6 +372,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for boo");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
@@ -398,6 +408,7 @@ public class SQLGenerator {
                 scanner.nextLine();
             }
 
+            System.out.println("--Inserts for workstation_type_operation");
             while (scanner.hasNextLine()) {
 
                 String line = scanner.nextLine();
