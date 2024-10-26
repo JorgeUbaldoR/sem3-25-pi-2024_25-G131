@@ -2,8 +2,10 @@
 
 ### **Class Simulator**
 
-| Method                           | Complexity |
-|----------------------------------|------------|
-| getExecutionTimesMachine()       | O(1)       |
-| ascendingOrderMachineTimes()     | O(N log N) |
-| printExecutionTimesMachine()     | O(n log n) |
+| Method                                          | Complexity |
+|-------------------------------------------------|------------|
+| updateMachines()                                | O(M + N)   |
+| addExecutionTimesMachine(Machine m, float time) | O(log N)   |
+| getExecutionTimesMachine()                      | O(1)       |
+| ascendingOrderMachineTimes()                    | O(N log N) |
+| printExecutionTimesMachine()                    | O(N log N) |
