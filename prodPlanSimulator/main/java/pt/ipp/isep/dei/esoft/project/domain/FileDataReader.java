@@ -16,7 +16,7 @@ public class FileDataReader {
     private static final int ID_MACHINE = 0;
     private static final int ID_ITEM = 1;
 
-    public static Boolean AUTO_READER = true;
+    public static Boolean AUTO_READER = false;
 
     private static final String MACHINE_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations.csv";
     public static String ITEM_PATH = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/input/articlesFinal.csv";
@@ -151,7 +151,9 @@ public class FileDataReader {
                 System.out.println(ANSI_BRIGHT_RED + "Couldn't find file: " + ANSI_RESET + userNameFile);
                 System.out.print("Try again: ");
 
-                fileName = RAW_PATH + ler.nextLine();
+                userNameFile = ler.nextLine();
+
+                fileName = RAW_PATH + userNameFile;
 
             }
         }
