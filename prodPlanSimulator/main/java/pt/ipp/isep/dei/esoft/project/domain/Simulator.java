@@ -320,7 +320,7 @@ public class Simulator {
      * Adds or updates the execution time for a specific machine.
      *
      * @param m    The machine for which the execution time is being added or updated.
-     * @param time The time (in minutes) to be added to the machine's total execution time.
+     * @param time The time (in seconds) to be added to the machine's total execution time.
      */
     private void addExecutionTimesMachine(Machine m, float time) {
         if (!this.machineUsage.containsKey(m)) {
@@ -345,7 +345,7 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Operation",
-                " Time(min)",
+                " Time(sec)",
                 "Percentages", ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -379,7 +379,7 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Workstation",
-                " Time(min)",
+                " Time(sec)",
                 "Percentages", ANSI_RESET,
                 ANSI_BRIGHT_BLACK, " ||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -469,7 +469,7 @@ public class Simulator {
     /**
      * Retrieves the map that contains the execution times for each machine.
      *
-     * @return A map where the keys are Machine objects and the values are the execution times (in minutes) for each machine.
+     * @return A map where the keys are Machine objects and the values are the execution times (in seconds) for each machine.
      */
     public Map<Machine, Float> getExecutionTimesMachine() {
         return this.machineUsage;
@@ -478,7 +478,7 @@ public class Simulator {
     /**
      * Retrieves the map containing the average execution times for each operation.
      *
-     * @return A map where the keys are Operations and the values are their average execution times in minutes.
+     * @return A map where the keys are Operations and the values are their average execution times in seconds.
      */
     public Map<Operation, Float> getAvgExecutionTime() {
         return this.avgExecutionTime;
@@ -487,7 +487,7 @@ public class Simulator {
     /**
      * Retrieves the map containing the waiting times for each item.
      *
-     * @return A map where the keys are Items and the values are their waiting times in minutes.
+     * @return A map where the keys are Items and the values are their waiting times in seconds.
      */
     public Map<Item, Float> getWaitingTime() {
         return this.waitingTime;
@@ -505,7 +505,7 @@ public class Simulator {
     /**
      * Retrieves the map containing the total execution time for each operation.
      *
-     * @return A map where the keys are Operations and the values are their total execution times in minutes.
+     * @return A map where the keys are Operations and the values are their total execution times in seconds.
      */
     public Map<Operation, Float> getPpk() {
         return operationTime;
@@ -579,7 +579,7 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Operation",
-                "Average Time (min)"
+                "Average Time (sec)"
                 , ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -596,7 +596,7 @@ public class Simulator {
 
     /**
      * Fills the waitingTime map with the waiting time of each item in the operation queue list.
-     * If an item is already present, increments its waiting time by 1 minute.
+     * If an item is already present, increments its waiting time by 1 second.
      *
      * @param operationQueueList The list of operation queues to process for waiting time.
      */
@@ -628,7 +628,7 @@ public class Simulator {
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Item",
-                "Waiting Time (min)"
+                "Waiting Time (sec)"
                 , ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
