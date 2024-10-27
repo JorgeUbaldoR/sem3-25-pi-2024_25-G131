@@ -65,6 +65,13 @@ class ItemTest {
     }
 
     @Test
+    void getPriority() {
+        System.out.println("Test Get Priority");
+        assertEquals(Priority.HIGH, item1.getPriority());
+        assertEquals(Priority.LOW, item5.getPriority());
+    }
+
+    @Test
     void getCurrentOperation() {
         System.out.println("Test Get Current Operations");
         assertEquals(opCutting, item1.getCurrentOperation());
@@ -117,5 +124,14 @@ class ItemTest {
         assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(null,Priority.HIGH,new LinkedList<>()));
         assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem2,null,new LinkedList<>()));
         assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem1,Priority.HIGH,null ));
+    }
+
+    @Test
+    void compareTo() {
+        System.out.println("Test CompareTo");
+        Item cloneItem1 = item1.clone();
+        assertTrue(cloneItem1.compareTo(item1) == 0);
+        assertFalse(item5.compareTo(item1) < 0);
+        assertTrue(item1.compareTo(item5) < 0);
     }
 }
