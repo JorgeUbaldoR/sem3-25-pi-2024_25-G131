@@ -74,12 +74,6 @@ class BOO {
     sequence
 }
 
-class Machine{
-    Machine_ID
-    Operation_ID
-    Description
-}
-
 class Company {
     Company_ID
     Name
@@ -94,8 +88,7 @@ Class Factory {
 Company "1" - "1..*" Factory : posses >
 Factory "1" - "1..*" Sector: has >
 Sector "1" - "1..*" Workstation: includes >
-Workstation "1" - "1" Machine: has >
-Machine "1" - "1" Operation: does >
+Workstation "1" - "1" Operation: does >
 Operation "1" ---- "1" BOO: belongs >
 ProductFamily "1" - "1" BOO: has >
 Product "1" --- "1" ProductFamily : belongs to >

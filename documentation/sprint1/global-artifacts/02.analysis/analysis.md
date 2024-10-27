@@ -1,4 +1,5 @@
 # OO Analysis
+# OO Analysis
 
 
 ## Rationale to identify domain conceptual classes
@@ -152,9 +153,8 @@ An association is a relationship between instances of objects that indicates a r
 | Company         |    owns     |         Factory |
 | Factory         |  contains   |          Sector |
 | Sector          |  includes   |     Workstation |
-| Workstation     |     has     |         Machine |
 | Workstation     |  performs   | ProductionOrder |
-| Machine         |  executes   |       Operation |
+| Workstation     |  executes   |       Operation |
 | Operation       | belongs to  |             BOO |
 | ProductFamily   |     has     |             BOO |
 | Product         | belongs to  |   ProductFamily |
@@ -162,7 +162,6 @@ An association is a relationship between instances of objects that indicates a r
 | BOM             |  contains   |       Component |
 | ListOfProduct   |  contains   |         Product |
 | ProductionOrder |  contains   |   ListOfProduct |
-
 
 
 
