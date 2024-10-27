@@ -371,8 +371,10 @@ public class Simulator {
         float totalTime = sumTotalTime();
 
 
-        System.out.println("\n\n═══════════════════════════════════════════════");
-        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET + "\n");
+        System.out.println("\n\n\n═══════════════════════════════════════════════");
+        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET+"\n");
+        System.out.println("═══════════════════════════════════════════════\n");
+
 
         System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s%s%s%s %-13s %6s %15s %s%s%3s%s%n",

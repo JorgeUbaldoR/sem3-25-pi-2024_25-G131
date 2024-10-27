@@ -1,4 +1,4 @@
-# MusgoSublime Application Manual
+# KeepItSimple  Application Manual
 
 # Introduction
 

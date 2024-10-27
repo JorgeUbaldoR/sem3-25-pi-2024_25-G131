@@ -1,0 +1,12 @@
+pt.ipp.isep.dei.esoft.project.application.controller
+pt.ipp.isep.dei.esoft.project.application.controller.authorization
+pt.ipp.isep.dei.esoft.project.application.session
+pt.ipp.isep.dei.esoft.project.domain
+pt.ipp.isep.dei.esoft.project.domain.enumclasses
+pt.ipp.isep.dei.esoft.project.domain.more
+pt.ipp.isep.dei.esoft.project.repository
+pt.ipp.isep.dei.esoft.project.ui
+pt.ipp.isep.dei.esoft.project.ui.console
+pt.ipp.isep.dei.esoft.project.ui.console.authorization
+pt.ipp.isep.dei.esoft.project.ui.console.menu
+pt.ipp.isep.dei.esoft.project.ui.console.utils

@@ -66,10 +66,10 @@ public class Bootstrap implements Runnable {
     //Add some task categories to the repository as bootstrap
     public void run() {
         addUsers();
-        addOperations();
-        addIDs();
-        addMachines();
-        addItems();
+//        addOperations();
+//        addIDs();
+//        addMachines();
+//        addItems();
     }
 
     //add items to the repository

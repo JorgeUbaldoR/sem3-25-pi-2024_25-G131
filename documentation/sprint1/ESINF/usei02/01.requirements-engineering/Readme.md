@@ -57,5 +57,5 @@ can be robots, automated machines, or operated by humans.
 
 ### 1.7 Other Relevant Remarks
 
-* The processing time of a machine is in minutes.
+* The processing time of a machine is in seconds.
 * 1 second is equals to a while loop in code.

@@ -1,5 +1,4 @@
 # OO Analysis
-# OO Analysis
 
 
 ## Rationale to identify domain conceptual classes

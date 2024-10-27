@@ -25,9 +25,9 @@ carried out as described in the following table.
 | Domain Model                | [all](sprint1/global-artifacts/02.analysis/analysis.md)                                    |              |              |
 | -----------                 | -----------                                                                                | -----------  | -----------  |
 | USBD01                      | [1230444]()                                                                                |              |              |
-| USBD02                      | [1230564]() and [1231274]()                                                                |              |              |
-| USBD03                      | [1230564]() and [1231274]()                                                                |              |              |
-| USBD04                      | [1231274]()                                                                                |              |              |
+| USBD02                      | [all]()                                                                                    |              |              |
+| USBD03                      | [all]()                                                                                    |              |              |
+| USBD04                      | [all]()                                                                                    |              |              |
 | USBD05                      | [1230564]()                                                                                |              |              |
 | USBD06                      | [1230444]()                                                                                |              |              |
 | USBD07                      | [1231498]()                                                                                |              |              |
@@ -42,3 +42,6 @@ carried out as described in the following table.
 | USEI06                      | [1230839]()                                                                                |              |              |
 | USEI07                      | [1230444]()                                                                                |              |              |
 | USEI08                      | [1231274]()                                                                                |              |              |
+| -----------                 | -----------                                                                                | -----------  | -----------  |
+| USLP01                      | [all]()                                                                                    |              |              |
+| USLP02                      | [1230564]() and [1231274]()                                                                |              |              |

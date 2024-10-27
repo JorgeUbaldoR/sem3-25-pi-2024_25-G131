@@ -34,12 +34,18 @@ material/component.
     order by o.ORDER_ID;
 
 >![Results](img/USBD07_1.png)
+
 >![Results](img/USBD07_2.png)
+
 >![Results](img/USBD07_3.png)
-> >![Results](img/USBD07_4.png)
-> >![Results](img/USBD07_5.png)
-> >![Results](img/USBD07_6.png)
-> >![Results](img/USBD07_7.png)
+
+>![Results](img/USBD07_4.png)
+
+>![Results](img/USBD07_5.png)
+
+>![Results](img/USBD07_6.png)
+
+>![Results](img/USBD07_7.png)
 > 
 >[See results in a CSV file](csv_result/USBD07.csv)
 

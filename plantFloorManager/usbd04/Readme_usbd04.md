@@ -198,7 +198,7 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
 
 
 
-* **AC2:** Minimum requirement above the expected: automatic generation of SQL
+>* **AC2:** Minimum requirement above the expected: automatic generation of SQL
   input code from the spreadsheet (e.g., Excel formulas, scripts in any other
   language, etc.).
 

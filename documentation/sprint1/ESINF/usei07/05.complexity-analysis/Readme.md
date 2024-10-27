@@ -4,7 +4,7 @@
 
 | Method              | Complexity |
 |---------------------|------------|
-| updateMachines()    | O(N + M)   |
-| printItemRoute()    | O(N * M)   |
-| getMachineRoute()   | O(N + M)   |
-| printMachineRoute() | O(N + M)   |
+| updateMachines()    | O(N)       |
+| printItemRoute()    | O(N * N)   |
+| getMachineRoute()   | O(N)       |
+| printMachineRoute() | O(N)       |

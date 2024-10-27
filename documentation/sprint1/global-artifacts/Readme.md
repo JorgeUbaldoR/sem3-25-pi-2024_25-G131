@@ -10,4 +10,3 @@ This folder contains all the global artifacts for your project, split by each im
 
 [Analysis](02.analysis/analysis.md)
 
-[Design](03.design/Readme.md)

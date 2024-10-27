@@ -65,6 +65,15 @@ public class Item implements Comparable<Item> {
     }
 
     /**
+     * Gets the priority of operation.
+     *
+     * @return the priority.
+     */
+    public Priority getPriority() {
+        return priority;
+    }
+
+    /**
      * Gets the next operation in the queue for this item.
      *
      * @return the next operation, or null if there are no more operations.

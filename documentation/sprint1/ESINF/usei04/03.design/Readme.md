@@ -31,8 +31,6 @@ Other software classes (i.e. Pure Fabrication) identified:
 
 ## 3.2. Sequence Diagram (SD)
 
-_**Note that SSD - Alternative Two is adopted.**_
-
 ### Full Diagram
 
 This diagram shows the full sequence of interactions between the classes involved in the realization of this user story.
