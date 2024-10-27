@@ -292,7 +292,7 @@ public class AddMachineUI implements Runnable {
 
         while (!answer.equals("Y") && !answer.equals("N")) {
             System.out.print("Please enter 'y' or 'n': ");
-            answer = sc.nextLine().toLowerCase();
+            answer = sc.nextLine().toUpperCase();
         }
 
         return answer;
