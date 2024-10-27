@@ -1,4 +1,4 @@
-# USBD07 - Show Operations.
+# USBD07 - Show materials/components to be ordered to fulfill a given production order.
 
 ### 1. User Story Description
 
@@ -27,9 +27,9 @@ material/component.
     select o.ORDER_ID, b.PARTNUMBER as Material, sum(b.QUANTITY * op.AMOUNT_PRODUCT) as Quantity
     from "Order" o, Order_Products op, Product p, BOM b
     where
-    op.OrderORDER_ID = o.ORDER_ID
-    and op.ProductPRODUCT_ID = p.PRODUCT_ID
-    and b.ProductPRODUCT_ID = p.PRODUCT_ID
+      op.OrderORDER_ID = o.ORDER_ID
+      and op.ProductPRODUCT_ID = p.PRODUCT_ID
+      and b.ProductPRODUCT_ID = p.PRODUCT_ID
     group by o.ORDER_ID, b.PARTNUMBER
     order by o.ORDER_ID;
 
