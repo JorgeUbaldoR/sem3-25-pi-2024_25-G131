@@ -10,8 +10,12 @@ public class Simulator {
      * A Simulator class simulates a manufacturing process where items are processed
      * by machines according to specified operations.
      */
-    private final Map<Operation, Queue<Machine>> machineList;
-    private final List<OperationQueue> operationQueueList;
+    private final Map<Operation, Queue<Machine>> machineListMap;
+    private final Map<Operation, OperationQueue> operationQueueMap;
+    private final ArrayList<Machine> machineList;
+
+
+
     private final Map<Operation, Float> operationTime;
     private final Map<Item, Float> waitingTime;
     private final Map<Operation, Float> avgExecutionTime;
@@ -30,10 +34,11 @@ public class Simulator {
      * @param priorityFlag a flag indicating whether priority should be considered in queue processing.
      * @throws IllegalArgumentException if any of the provided lists are null or empty.
      */
-    public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations, boolean priorityFlag) {
+    public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations,ArrayList<Machine> machList,boolean priorityFlag) {
         checkInformation(machines, operations, items);
-        this.machineList = machines;
-        this.operationQueueList = new ArrayList<>();
+        this.machineList = new ArrayList<>(machList);
+        this.operationQueueMap = new HashMap<>();
+        this.machineListMap = machines;
         this.operationTime = new HashMap<>();
         this.waitingTime = new HashMap<>();
         this.itemLinkedList = new LinkedList<>();
@@ -51,8 +56,9 @@ public class Simulator {
      * Initializes an empty map for machine operations and an empty list for operation queues.
      */
     public Simulator() {
-        this.machineList = new HashMap<>();
-        this.operationQueueList = new ArrayList<>();
+        this.machineList = new ArrayList<>();
+        this.operationQueueMap = new HashMap<>();
+        this.machineListMap = new HashMap<>();
         this.operationTime = new HashMap<>();
         this.waitingTime = new HashMap<>();
         this.itemLinkedList = new LinkedList<>();
@@ -72,7 +78,7 @@ public class Simulator {
      */
     private void addOperationToQueue(List<Operation> operations, boolean priorityFlag) {
         for (Operation operation : operations) {
-            operationQueueList.add(new OperationQueue(operation, priorityFlag));
+            operationQueueMap.put(operation, new OperationQueue(operation, priorityFlag));
         }
     }
 
@@ -84,13 +90,10 @@ public class Simulator {
      * @param items a list of items to be added to the operation queues.
      */
     private void createQueues(List<Item> items) {
-        for (OperationQueue operationQueue : operationQueueList) {
-            Operation currentOperation = operationQueue.getOperation();
-            for (Item item : items) {
-                if (currentOperation.equals(item.getCurrentOperation())) {
-                    operationQueue.addItemToQueue(item);
-                }
-            }
+        for (Item item : items) {
+            Operation currentOperation = item.getCurrentOperation();
+            OperationQueue operationQueue = operationQueueMap.get(currentOperation);
+            operationQueue.addItemToQueue(item);
         }
     }
 
@@ -101,35 +104,40 @@ public class Simulator {
      */
     public void startSimulation() {
         int time = 0;
-        while (checkOperationQueue() || checkTimeOperations()) {
-            System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-            System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                     %s||%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, time, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
-            System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+        while (checkItemsLeftProcesses() || checkTimeOperations()) {
+            printInitialSimulationStatus(time);
+
             System.out.printf("%n• Updates:%n");
             updateMachines();
+
             System.out.printf("%n• Queue:%n");
             printQueue();
+
             System.out.printf("%n• Status:%n");
             printMachineStatus();
 
             System.out.printf("%n• New Processing:%n");
-            for (OperationQueue operationQueue : operationQueueList) {
-                if (!operationQueue.isEmpty()) {
-                    assignItemToMachine(operationQueue, machineList.get(operationQueue.getOperation()));
-                }
-            }
+            assignItemToMachine();
 
             if (time > 0) {
-                fillWaitingTime(operationQueueList);
+                fillWaitingTime(operationQueueMap);
             }
 
             System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             time++;
             //sleep(1000);
         }
+
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printStatistics();
 
+    }
+
+    private void printInitialSimulationStatus(int time) {
+        System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                     %s||%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, time, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 
     /**
@@ -155,7 +163,7 @@ public class Simulator {
      * </p>
      */
     private void printQueue() {
-        for (OperationQueue operationQueue : operationQueueList) {
+        for (OperationQueue operationQueue : operationQueueMap.values()) {
             System.out.printf("%s%n", operationQueue.toString());
         }
     }
@@ -164,19 +172,23 @@ public class Simulator {
     /**
      * Assigns the next item from the operation queue to an available machine.
      *
-     * @param operationQueue the operation queue from which the item is retrieved.
-     * @param machineList    the queue of machines available for processing the item.
      */
-    private void assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList) {
-        if (machineList != null && !machineList.isEmpty()) {
-            for (Machine currentMachine : machineList) {
-                if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
-                    currentMachine.processItem(operationQueue.getNextItem());
-                    fillExecutionPerOperation(currentMachine.getOperation());
+    private void assignItemToMachine() {
+        for (OperationQueue operationQueue : operationQueueMap.values()) {
+            if (!operationQueue.isEmpty()) {
+                Queue<Machine> listMachineOp = machineListMap.get(operationQueue.getOperation());
+                if (listMachineOp != null && !listMachineOp.isEmpty()) {
+                    for (Machine currentMachine : listMachineOp) {
+                        if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
+                            currentMachine.processItem(operationQueue.getNextItem());
+                            fillExecutionPerOperation(currentMachine.getOperation());
+                        }
+                    }
+                } else {
+                    //Case doesn't exist machine for item to be process
+                    operationQueue.getNextItem();
                 }
             }
-        } else {
-            operationQueue.getNextItem();
         }
     }
 
@@ -186,51 +198,35 @@ public class Simulator {
      * for any items that have finished processing.
      */
     private void updateMachines() {
-        for (Operation operation : machineList.keySet()) {
-            Queue<Machine> machines = machineList.get(operation);
-            for (Machine machine : machines) {
-                boolean finished = machine.updateMachine();
-                if (finished) {
-                    addExecutionTimesOperation(operation, machine.getProcessingSpeed());
-                    addExecutionTimesMachine(machine, machine.getProcessingSpeed());
-                    Item currentItem = machine.getCurrentProcessingItem();
-                    Operation newOperation = currentItem.getNextOperation();
-                    itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
-                    itemLinkedListMap.get(currentItem).add(machine.getId_machine());
-                    if (newOperation != null) {
-                        OperationQueue operationQueue = findOperationInQueue(newOperation);
-                        if (operationQueue != null) {
-                            operationQueue.addItemToQueue(currentItem);
-                        }
-                    } else {
-                        itemLinkedList.add(currentItem);
-                    }
+        for (Machine machine : machineList) {
+            boolean finished = machine.updateMachine();
+            if (finished) {
+                Item currentItem = machine.getCurrentProcessingItem();
+                Operation nextOperation = currentItem.getNextOperation();
+                extraMethods(currentItem, machine);
+                if (nextOperation != null) {
+                    OperationQueue operationQueue = operationQueueMap.get(nextOperation);
+                    operationQueue.addItemToQueue(currentItem);
+                } else {
+                    itemLinkedList.add(currentItem);
                 }
             }
         }
     }
 
-    /**
-     * Finds the operation queue corresponding to the given operation.
-     *
-     * @param newOperation the operation to search for.
-     * @return the operation queue associated with the operation, or null if not found.
-     */
-    private OperationQueue findOperationInQueue(Operation newOperation) {
-        for (OperationQueue operationQueue : operationQueueList) {
-            if (operationQueue.getOperation().equals(newOperation)) {
-                return operationQueue;
-            }
-        }
-        return null;
+    private void extraMethods(Item currentItem, Machine machine) {
+        addExecutionTimesOperation(machine.getOperation(), machine.getProcessingSpeed());
+        addExecutionTimesMachine(machine, machine.getProcessingSpeed());
+        itemLinkedListMap.putIfAbsent(currentItem, new LinkedList<>());
+        itemLinkedListMap.get(currentItem).add(machine.getId_machine());
     }
 
     /**
      * Prints the status of all machines in the simulator.
      */
     private void printMachineStatus() {
-        for (Operation operation : machineList.keySet()) {
-            for (Machine machine : machineList.get(operation)) {
+        for (Operation operation : machineListMap.keySet()) {
+            for (Machine machine : machineListMap.get(operation)) {
                 machine.printStatus();
             }
         }
@@ -241,8 +237,8 @@ public class Simulator {
      *
      * @return true if there are items in any of the operation queues; false otherwise.
      */
-    private boolean checkOperationQueue() {
-        for (OperationQueue operationQueue : operationQueueList) {
+    private boolean checkItemsLeftProcesses() {
+        for (OperationQueue operationQueue : operationQueueMap.values()) {
             if (!operationQueue.isEmpty()) {
                 return true;
             }
@@ -256,12 +252,11 @@ public class Simulator {
      * @return true if any machine has time left to finish processing; false otherwise.
      */
     private boolean checkTimeOperations() {
-        for (Queue<Machine> machines : machineList.values()) {
-            for (Machine machine : machines) {
-                if (machine.getTimeLeftToFinish() != 0)
-                    return true;
-            }
+        for (Machine machine : machineList) {
+            if (machine.getTimeLeftToFinish() != 0)
+                return true;
         }
+
         return false;
     }
 
@@ -600,10 +595,10 @@ public class Simulator {
      * Fills the waitingTime map with the waiting time of each item in the operation queue list.
      * If an item is already present, increments its waiting time by 1 second.
      *
-     * @param operationQueueList The list of operation queues to process for waiting time.
+     * @param operationQueueMap
      */
-    void fillWaitingTime(List<OperationQueue> operationQueueList) {
-        for (OperationQueue operationQueue : operationQueueList) {
+    void fillWaitingTime(Map<Operation, OperationQueue> operationQueueMap) {
+        for (OperationQueue operationQueue : operationQueueMap.values()) {
             if (!operationQueue.isEmpty()) {
                 Queue<Item> items = operationQueue.getItemList();
 

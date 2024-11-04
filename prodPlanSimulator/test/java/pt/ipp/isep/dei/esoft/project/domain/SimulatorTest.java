@@ -98,26 +98,26 @@ class SimulatorTest {
     void testConstructor() {
         System.out.println("Testing constructor");
         simulator = new Simulator();
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
-        simulator = new Simulator(machineListMap,itemList,operationList,true);
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(null,itemList,operationList,true));
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(new HashMap<>(),itemList,operationList,true));
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,null,operationList,true));
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,new ArrayList<>(),operationList,true));
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,null,true));
-        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,new ArrayList<>(),true));
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,true);
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(null,itemList,operationList,(ArrayList<Machine>) machineList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(new HashMap<>(),itemList,operationList,(ArrayList<Machine>) machineList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,null,operationList,(ArrayList<Machine>) machineList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,new ArrayList<>(),operationList,(ArrayList<Machine>) machineList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,null,(ArrayList<Machine>) machineList,true));
+        assertThrows(IllegalArgumentException.class , () -> new Simulator(machineListMap,itemList,new ArrayList<>(),(ArrayList<Machine>) machineList,true));
     }
 
     @Test
     void testStartSimulation(){
         System.out.println("Testing Start Simulation");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
         simulator.startSimulation();
     }
 
     @Test
     void getMachineRouteTest() {
-        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator = new Simulator(machineListMap, itemList, operationList,(ArrayList<Machine>) machineList, false);
         simulator.startSimulation();
         simulator.printMachineRoute();
 
@@ -136,7 +136,7 @@ class SimulatorTest {
     @Test
     void testFillExecutionPerOperation() {
         System.out.println("Testing Fill Execution Per Operation");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
         Operation operation = new Operation("Op1");
 
 
@@ -150,7 +150,7 @@ class SimulatorTest {
     @Test
     void testCalculateAverageExecutionTimes() {
         System.out.println("Testing Calculate Average Execution Times");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
         Operation operation = new Operation("Op1");
 
         simulator.getPpk().put(operation, 10f);
@@ -164,17 +164,18 @@ class SimulatorTest {
     @Test
     void testFillWaitingTime() {
         System.out.println("Testing Fill Waiting Time");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
 
         operationQueue.addItem(itemList.get(1));
-        List<OperationQueue> queues = Collections.singletonList(operationQueue);
+        Map<Operation, OperationQueue> operationQueueMap = new HashMap<>();
+        operationQueueMap.put(operationQueue.getOperation(), operationQueue);
 
-        simulator.fillWaitingTime(queues);
+        simulator.fillWaitingTime(operationQueueMap);
 
         assertEquals(1f, simulator.getWaitingTime().get(itemList.get(0)), 0.001);
         assertEquals(1f, simulator.getWaitingTime().get(itemList.get(1)), 0.001);
 
-        simulator.fillWaitingTime(queues);
+        simulator.fillWaitingTime(operationQueueMap);
 
         assertEquals(2f, simulator.getWaitingTime().get(itemList.get(0)), 0.001);
         assertEquals(2f, simulator.getWaitingTime().get(itemList.get(1)), 0.001);
@@ -183,7 +184,7 @@ class SimulatorTest {
     @Test
     void testAscendingOrderAvgExecutionTime() {
         System.out.println("Testing Ascending Order Avg Execution Time");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
 
         simulator.getAvgExecutionTime().put(operationList.get(0), 5f);
         simulator.getAvgExecutionTime().put(operationList.get(1), 10f);
@@ -196,7 +197,7 @@ class SimulatorTest {
     @Test
     void testAscendingOrderWaitingTime() {
         System.out.println("Testing Ascending Order Waiting Time");
-        simulator = new Simulator(machineListMap,itemList,operationList,false);
+        simulator = new Simulator(machineListMap,itemList,operationList,(ArrayList<Machine>) machineList,false);
 
         simulator.getWaitingTime().put(itemList.get(0), 2f);
         simulator.getWaitingTime().put(itemList.get(1), 4f);
@@ -208,7 +209,7 @@ class SimulatorTest {
 
     @Test
     public void testPrintExecutionTimesOperation() {
-        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator = new Simulator(machineListMap, itemList, operationList,(ArrayList<Machine>) machineList, false);
         simulator.startSimulation();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
@@ -228,7 +229,7 @@ class SimulatorTest {
 
     @Test
     public void testPrintMachineRoute() {
-        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator = new Simulator(machineListMap, itemList, operationList,(ArrayList<Machine>) machineList, false);
         simulator.startSimulation();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
@@ -248,7 +249,7 @@ class SimulatorTest {
 
     @Test
     public void testPrintItemRoute() {
-        simulator = new Simulator(machineListMap, itemList, operationList, false);
+        simulator = new Simulator(machineListMap, itemList, operationList,(ArrayList<Machine>) machineList, false);
         simulator.startSimulation();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));

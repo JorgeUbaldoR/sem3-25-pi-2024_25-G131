@@ -77,15 +77,21 @@ public class SimulatorController {
      * Starts the simulation without considering priority in the operation queues.
      */
     public void startSimulationWithOutPriority(){
-        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),false);
+        long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
+
+        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
         this.simulator.startSimulation();
+
+        long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
+        double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+        System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
     }
 
     /**
      * Starts the simulation considering priority in the operation queues.
      */
     public void startSimulationWithPriority(){
-        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),true);
+        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
         this.simulator.startSimulation();
     }
 
@@ -127,6 +133,8 @@ public class SimulatorController {
     public List<Operation> getOperationList(){
         return getOperationRepository().getOperations();
     }
+
+    public List<Machine> getMachineList(){return getMachineRepository().getMachineList();}
 
 
 }
