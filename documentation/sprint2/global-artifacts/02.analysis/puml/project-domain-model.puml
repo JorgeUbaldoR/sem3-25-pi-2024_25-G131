@@ -1,0 +1,101 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+'left to right direction
+
+class ProductionOrder {
+    ProductOrder_ID
+    Order_ID
+    Product_ID
+    StartDate
+    EndDate
+    Status
+    Priority
+    ListOfProductBOM_ID
+    ListOfProductBOO_ID
+}
+
+class ListOfProduct {
+    Order_ID
+    Product_ID
+    Amount_Product
+}
+
+class Product {
+    Product_ID
+    Family_ID
+    Name
+    Description
+    Category
+}
+
+class ProductFamily {
+    Family_ID
+}
+
+class BOM {
+    BOM_ID
+    Product_ID
+    Quantity
+}
+
+class Component {
+    Component_ID
+    Name
+    Stock
+    StockMin
+    Description
+}
+
+class Operation {
+    Operation_ID
+    Description
+    Duration
+}
+
+class Workstation {
+    Workstation_ID
+    Sector_ID
+    Name
+}
+
+class Sector {
+    Sector_ID
+    Name
+    Description
+}
+
+class BOO {
+    BOO_ID
+    sequence
+}
+
+class Company {
+    Company_ID
+    Name
+}
+
+Class Factory {
+    Factory_ID
+    Company_ID
+    Address
+}
+
+Company "1" - "1..*" Factory : posses >
+Factory "1" - "1..*" Sector: has >
+Sector "1" - "1..*" Workstation: includes >
+Workstation "1" - "1" Operation: does >
+Operation "1" ---- "1" BOO: belongs >
+ProductFamily "1" - "1" BOO: has >
+Product "1" --- "1" ProductFamily : belongs to >
+Product "1" - "1" BOM : has >
+ListOfProduct "1" - "1..*" Product : contains >
+ProductionOrder "1" - "1" ListOfProduct : contains >
+Workstation "1" -- "*" ProductionOrder: has >
+BOM "1" - "1..*" Component : contains >
+
+@enduml
