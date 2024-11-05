@@ -134,6 +134,12 @@ public class SimulatorController {
         return getOperationRepository().getOperations();
     }
 
+    /**
+     * Method that returns the list of machines.
+     * It accesses the machines repository and retrieves all stored machines.
+     *
+     * @return List of machines present in the repository.
+     */
     public List<Machine> getMachineList(){return getMachineRepository().getMachineList();}
 
 

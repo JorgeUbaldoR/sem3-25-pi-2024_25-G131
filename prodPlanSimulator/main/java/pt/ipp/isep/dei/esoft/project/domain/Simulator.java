@@ -9,6 +9,14 @@ public class Simulator {
     /**
      * A Simulator class simulates a manufacturing process where items are processed
      * by machines according to specified operations.
+     *
+     * <p>This class handles the operations of machines, the queuing of items for
+     * processing, and tracks execution times and waiting times during the
+     * simulation. It allows for simulation of various manufacturing scenarios
+     * with a specified set of operations and available machines.</p>
+     *
+     * @param <Operation> The type representing an operation in the manufacturing process.
+     * @param <Item> The type representing an item that undergoes processing.
      */
     private final Map<Operation, Queue<Machine>> machineListMap;
     private final Map<Operation, OperationQueue> operationQueueMap;
@@ -28,10 +36,11 @@ public class Simulator {
      * Constructs a Simulator instance with the provided machines, items, and operations.
      * Initializes the machine list, operation queue list, and operation time map.
      *
-     * @param machines     a map of operations to queues of machines available for processing.
-     * @param items        a list of items to be processed in the simulation.
-     * @param operations   a list of operations to be executed during the simulation.
-     * @param priorityFlag a flag indicating whether priority should be considered in queue processing.
+     * @param machines     A map of operations to queues of machines available for processing.
+     * @param items        A list of items to be processed in the simulation.
+     * @param operations   A list of operations to be executed during the simulation.
+     * @param machList     A list of machines that will be part of the simulation.
+     * @param priorityFlag A flag indicating whether priority should be considered in queue processing.
      * @throws IllegalArgumentException if any of the provided lists are null or empty.
      */
     public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations,ArrayList<Machine> machList,boolean priorityFlag) {
@@ -49,7 +58,6 @@ public class Simulator {
         addOperationToQueue(operations, priorityFlag);
         createQueues(items);
     }
-
 
     /**
      * Constructs a Simulator instance with default settings.
@@ -73,8 +81,8 @@ public class Simulator {
      * Adds a list of operations to the operation queue list, creating
      * an OperationQueue for each operation.
      *
-     * @param operations   the list of operations to be added to the operation queue.
-     * @param priorityFlag a flag indicating whether priority should be applied to the queues.
+     * @param operations   The list of operations to be added to the operation queue.
+     * @param priorityFlag A flag indicating whether priority should be applied to the queues.
      */
     private void addOperationToQueue(List<Operation> operations, boolean priorityFlag) {
         for (Operation operation : operations) {
@@ -87,7 +95,7 @@ public class Simulator {
      * Creates operation queues for the given items based on their current operation.
      * Items are assigned to the appropriate operation queue according to their current operation.
      *
-     * @param items a list of items to be added to the operation queues.
+     * @param items A list of items to be added to the operation queues.
      */
     private void createQueues(List<Item> items) {
         for (Item item : items) {
@@ -134,6 +142,11 @@ public class Simulator {
 
     }
 
+    /**
+     * Prints the initial status of the simulation at the current time.
+     *
+     * @param time The current time of the simulation.
+     */
     private void printInitialSimulationStatus(int time) {
         System.out.printf("%s===========================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s||%s              %sSIMULATION - TIME: %d%s                     %s||%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, time, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -141,7 +154,7 @@ public class Simulator {
     }
 
     /**
-     * Print statistical information.
+     * Prints statistical information about the simulation.
      */
     private void printStatistics() {
         printExecutionTimesMachine();
@@ -154,13 +167,12 @@ public class Simulator {
 
     /**
      * Prints the current state of all operation queues to the console.
-     * <p>
-     * This method iterates through the list of operation queues and
+     *
+     * <p>This method iterates through the list of operation queues and
      * prints the string representation of each queue using the
      * {@link OperationQueue#toString()} method. Each queue will be
      * displayed on a new line, providing a clear overview of the
-     * items waiting to be processed in each operation queue.
-     * </p>
+     * items waiting to be processed in each operation queue.</p>
      */
     private void printQueue() {
         for (OperationQueue operationQueue : operationQueueMap.values()) {
@@ -214,6 +226,12 @@ public class Simulator {
         }
     }
 
+    /**
+     * Processes additional methods related to the current item and machine.
+     *
+     * @param currentItem The current item being processed by the machine.
+     * @param machine     The machine that is processing the current item.
+     */
     private void extraMethods(Item currentItem, Machine machine) {
         addExecutionTimesOperation(machine.getOperation(), machine.getProcessingSpeed());
         addExecutionTimesMachine(machine, machine.getProcessingSpeed());
@@ -595,7 +613,15 @@ public class Simulator {
      * Fills the waitingTime map with the waiting time of each item in the operation queue list.
      * If an item is already present, increments its waiting time by 1 second.
      *
-     * @param operationQueueMap
+     * <p>
+     * This method iterates through each operation queue provided in the operationQueueMap.
+     * For each item in the queue, it checks if the item is already recorded in the waitingTime map.
+     * If the item is not present, it adds it with a waiting time of 1 second. If the item is already present,
+     * its waiting time is incremented by 1 second to reflect the additional wait.
+     * </p>
+     *
+     * @param operationQueueMap a map of operations to their corresponding operation queues.
+     *                           Each queue contains items that are currently waiting to be processed.
      */
     void fillWaitingTime(Map<Operation, OperationQueue> operationQueueMap) {
         for (OperationQueue operationQueue : operationQueueMap.values()) {
