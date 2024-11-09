@@ -2,7 +2,7 @@
 
 Template Repository for Integrative Project LEI-ISEP 3.Semester
 
-plantFloorManager - application to manage Plant Floor - PL/SQL scripts for Oracle
+plantFloorMachineManager - application to manage Plant Floor - PL/SQL scripts for Oracle
 
 machineSupervisor - application to supervise and operate machines on Plant Floor - C and Assembly
 
