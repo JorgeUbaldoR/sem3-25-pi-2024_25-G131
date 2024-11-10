@@ -3,9 +3,10 @@
 
 
 int main(){
-    char str [] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80 ";
-    char token [] = "HUm";
-    char unit [20];
+    char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
+    //char str2[] = "HUM&unit:percentage&value:80#TEMP&unit:celsius&value:20";
+    char token [] = "TEmP";
+    char unit[20];
     int value ;
 
     int res = extract_data (str,token,unit,&value) ;
