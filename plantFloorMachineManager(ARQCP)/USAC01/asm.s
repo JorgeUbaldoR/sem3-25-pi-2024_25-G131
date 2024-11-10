@@ -121,9 +121,14 @@ prepare_string:
 
 correct_string:
     movq $0, %r10
-
     call get_unit
+    movb $0, (%rdx,%r10,1)
+    
+    addq %r10, %rdi
+    movq $0, %r10
+    
     call get_value
+    movl %eax, (%rcx)
 
     ret
 
@@ -147,9 +152,40 @@ get_unit:
     skip_unit:
         addq $1, %rdi
         jmp get_unit
-    
 
 
+get_value:
+    cmpb $INDICATOR_AND, -1(%rdi)
+    jne skip_value
+    cmpb $'v', (%rdi)
+    jne skip_value
+
+    addq $6, %rdi
+    movl $0, %eax
+
+    copy_value:
+        cmpb $SEPARATOR, (%rdi,%r10,1)
+        je exit
+        cmpb $0, (%rdi,%r10,1)
+        je exit
+
+        movb (%rdi,%r10,1), %bl
+        movsbl %bl, %ebx
+        call calculate_num
+        
+        incq %r10  
+        jmp copy_value
+
+    skip_value:
+        addq $1, %rdi
+        jmp get_value
+
+calculate_num:
+    movl $10, %r15d
+    mull %r15d
+    subl $'0',%ebx
+    addl %ebx, %eax
+    ret
 
 error:
     movl $0, %eax
