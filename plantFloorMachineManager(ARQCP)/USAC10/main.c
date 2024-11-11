@@ -5,9 +5,8 @@
 int main(){
     int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6
     int length1 = sizeof(vec1)/sizeof(int);
-    int me1 = 89;
+    int me1 = 0;
 
-    printf("%p\n",(void*)&me1);
     int res = median(vec1,length1,&me1);
     printf("%d: %d\n", res,me1);
 
@@ -17,4 +16,12 @@ int main(){
 
     res = median(vec2,length2,&me2);
     printf("%d: %d\n", res,me2);
+    
+
+    int vec3[] = {};
+    int length3 = sizeof(vec3)/sizeof(int);
+    int me3 = 0;
+
+    res = median(vec3,length3,&me3);
+    printf("%d: %d\n", res,me3);
 }
