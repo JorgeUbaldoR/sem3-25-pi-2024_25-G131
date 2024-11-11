@@ -1,11 +1,11 @@
-main: main.o asm.o
-	gcc main.o asm.o -z noexecstack -o main
+main: main.o usac09.o
+	gcc main.o usac09.o -z noexecstack -o main
 	
-main.o: main.c asm.h
+main.o: main.c 
 	gcc -g -Wall -Wextra -fanalyzer -c main.c -o main.o
 	
-asm.o: asm.s
-	gcc -g -Wall -Wextra -fanalyzer -c asm.s -o asm.o
+usac09.o: usac09.s
+	gcc -g -Wall -Wextra -fanalyzer -c usac09.s -o usac09.o
 
 run: main
 	./main
