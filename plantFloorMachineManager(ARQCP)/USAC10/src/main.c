@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "asm.h"
+#include "../include/asm.h"
 
 
 int main(){
@@ -17,11 +17,17 @@ int main(){
     res = median(vec2,length2,&me2);
     printf("%d: %d\n", res,me2);
     
-
     int vec3[] = {};
     int length3 = sizeof(vec3)/sizeof(int);
     int me3 = 0;
 
     res = median(vec3,length3,&me3);
     printf("%d: %d\n", res,me3);
+
+
+    int* vec4 = NULL;
+    int length4 = sizeof(vec4)/sizeof(int*);
+    int me4 = 0;
+    res = median(vec4,length4,&me4);
+    printf("%d: %d\n", res,me4);
 }

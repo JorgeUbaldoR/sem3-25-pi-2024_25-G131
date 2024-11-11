@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "asm.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "t_usac10.C": "cpp"
     }
 }

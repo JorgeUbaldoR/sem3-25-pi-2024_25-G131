@@ -12,6 +12,8 @@ median:
    jmp check_length
 
 check_length:
+   test %rdi, %rdi                  # Check if pointer is null
+   jz error                         # If zero flag is zero then pointer is null
    cmpl $0, %esi                    # Check if length is less than or equal to zero
    jle error                        # If length <= 0, jump to error
 
@@ -38,7 +40,7 @@ get_median:                         # Calculate the midpoint index for odd-lengt
    cmpl $0, %edx                    # Check if length is even (if remainder %edx is 0)
    je length_even                   # If even, jump to length_even handling
 
-   # If length is odd, get the element at the midpoint index as the median
+                                    # If length is odd, get the element at the midpoint index as the median
    movl (%rdi,%r8,4), %ebx          # Load the value at vec[midpoint] into %ebx
    movl %ebx, (%r15)                # Store this value into the location pointed to by %r15 (me)
 
