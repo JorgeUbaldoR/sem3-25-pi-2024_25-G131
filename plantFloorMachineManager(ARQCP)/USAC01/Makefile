@@ -1,14 +1,15 @@
-executable: main.o usac01.o
-	gcc main.o usac01.o -z noexecstack -o executable
+executable: files/main.o files/usac01.o | files
+	gcc files/main.o files/usac01.o -z noexecstack -o files/executable
 
-main.o: main.c
-	gcc -g -Wall -Wextra -fanalyzer -c main.c -o main.o
+files/main.o: src/main.c | files
+	gcc -g -Wall -Wextra -fanalyzer -c src/main.c -o files/main.o
 
-usac01.o: usac01.s
-	gcc -g -Wall -Wextra -fanalyzer -c usac01.s -o usac01.o
+files/usac01.o: src/usac01.s
+	gcc -g -Wall -Wextra -fanalyzer -c src/usac01.s -o files/usac01.o
 
 clean:
-	rm -f *.o executable
+	rm -f files/*.o files/executable
 
 run: executable
-	./executable
+	files/./executable
+
