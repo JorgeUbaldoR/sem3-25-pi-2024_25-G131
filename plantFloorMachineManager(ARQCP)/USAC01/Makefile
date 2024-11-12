@@ -4,9 +4,8 @@ executable: files/main.o files/usac01.o | files
 files/main.o: src/main.c | files
 	gcc -g -Wall -Wextra -fanalyzer -c src/main.c -o files/main.o
 
-files/usac01.o: src/usac01.s
+files/usac01.o: src/usac01.s | files 
 	gcc -g -Wall -Wextra -fanalyzer -c src/usac01.s -o files/usac01.o
-
 
 files/test_usac01.o: tests/test_usac01.c | files
 	gcc -g -Wall -Wextra -fanalyzer -c tests/test_usac01.c -o files/test_usac01.o
@@ -14,12 +13,19 @@ files/test_usac01.o: tests/test_usac01.c | files
 files/unity.o: ../unity_folder/unity.c | files
 	gcc -g -Wall -Wextra -fanalyzer -c ../unity_folder/unity.c -o files/unity.o
 
-tests: files/test_usac01.o files/unity.o files/usac01.o 
+tests: files/test_usac01.o files/unity.o files/usac01.o | files
 	gcc files/test_usac01.o files/usac01.o files/unity.o -o files/test_executable
 
 
+
+files:
+	mkdir -p files
+
 clean:
 	rm -f files/*.o files/executable files/test_executable
+
+
+
 
 run: executable
 	files/./executable

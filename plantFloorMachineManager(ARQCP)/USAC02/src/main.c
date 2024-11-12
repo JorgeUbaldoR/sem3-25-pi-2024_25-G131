@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "asm.h"
+#include "../include/asm.h"
 
 
 int main(){
