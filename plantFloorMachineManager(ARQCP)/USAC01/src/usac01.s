@@ -84,9 +84,8 @@ loop_temp:
 # If token is valid ("TEMP" or "HUM"), proceed to extract unit and value
 valid_token:
     movq $0, %r10                      # Initialize loop counter
-    call get_informations              # Call function to extract unit and value
+    jmp get_informations               # Jmp function to extract unit and value
 
-    movl $1, %eax                      # Set return value to 1 (success)
     ret
 
 
@@ -123,7 +122,10 @@ prepare_string:
 # Function to handle extraction of unit (e.g., "u")
 correct_string:
     movq $0, %r10                       # Initialize loop counter
+    
     call get_unit                       # Call get_unit to extract unit
+    cmpb $0, (%rdx)                     # Check if unit prefix actually exist
+    je error                            # Jump error
     movb $0, (%rdx,%r10,1)              # Null-terminate the unit string
     
     addq %r10, %rdi                     # Move rdi forward by unit length
@@ -132,16 +134,22 @@ correct_string:
     call get_value                      # Call get_value to extract value
     movl %eax, (%rcx)                   # Store the value in the provided location
 
+    movl $1, %eax                      # Set return value to 1 (success)
     ret
+
 
 # Function to extract unit information (e.g., "u")
 get_unit:
+    cmpb $SEPARATOR, (%rdi)             # Check if current byte is '#'
+    je error                            # If TRUE then means that no unit prefix was found
     cmpb $INDICATOR_AND, -1(%rdi)       # Check if last byte before current position is '&'
     jne skip_unit                       # If not '&', skip
     cmpb $'u', (%rdi)                   # Check if the unit is 'u'
     jne skip_unit                       # If not 'u', skip
+    
 
     addq $5, %rdi                       # Move pointer past "u" prefix
+
 copy_unit:
     cmpb $INDICATOR_AND, (%rdi,%r10,1)  # Check if unit extraction is complete ('&' found)
     je exit                             # Exit if '&' is encountered
@@ -150,6 +158,7 @@ copy_unit:
     movb %bl, (%rdx,%r10,1)             # Store byte in unit string
     incq %r10                           # Increment loop counter
     jmp copy_unit                       # Repeat unit copy
+
 
 skip_unit:
     addq $1, %rdi                       # Skip one byte and check again
@@ -172,12 +181,25 @@ copy_value:
     cmpb $0, (%rdi,%r10,1)              # Check for null terminator
     je exit                             # Exit if null terminator is found
 
+    jmp check_number                    # Check if the actual character is a number
+
+check_number:
+    cmpb $'0', (%rdi,%r10,1)            # If the actual character is less than '0' -> 48 ASCII
+    jl next_number                      # If TRUE then it jumps to next number
+    cmpb $'9', (%rdi,%r10,1)            # If the actual character is greater than '9' -> 57 ASCII
+    jg next_number                      # If TRUE then it jumps to next number
+
     movb (%rdi,%r10,1), %bl             # Copy byte from string to %bl
     movsbl %bl, %ebx                    # Sign-extend byte into %ebx
     call calculate_num                  # Call function to calculate the numeric value
 
     incq %r10                           # Increment loop counter
     jmp copy_value                      # Repeat value copy
+
+next_number:
+    incq %r10                           # Increment loop counter
+    jmp copy_value                      # Repeat value copy
+
 
 skip_value:
     addq $1, %rdi                       # Skip one byte and check again

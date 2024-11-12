@@ -7,204 +7,194 @@ void setUp(void) {
 void tearDown(void) {
 }
 
-void test_median_even_length(void) {
-    int arr[] = {3, 1, 2, 4};
-    int length = 4;
-    int median_value;
+void test_extract_data_with_valid_temp_token(void) {
+    char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
+    char token[] = "temp";                    
+    char unit[20];
+    int value;
 
-    int result = median(arr, length,&median_value);
-    int expected_median = 2;                    
-    int expected_result = 1;                    
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value);
-    TEST_ASSERT_EQUAL_INT(expected_result,result);
+    int res = extract_data(str, token, unit, &value);
+
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);
+    TEST_ASSERT_EQUAL(20, value);             
 }
 
-void test_median_even_length_2(void) {
-    int arr[] = {10, 20, 30, 40};
-    int length = 4;
-    int median_value;
+void test_extract_data_with_valid_hum_token(void) {
+    char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
+    char token[] = "HUM";
+    char unit[20];
+    int value;
 
-    int result = median(arr, length,&median_value);
-    int expected_median = 25;                    
-    int expected_result = 1;                    
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value);
-    TEST_ASSERT_EQUAL_INT(expected_result,result);
+    int res = extract_data(str, token, unit, &value);
+
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("percentage", unit); 
+    TEST_ASSERT_EQUAL(80, value);             
 }
 
+void test_extract_data_with_invalid_token(void) {
+    char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
+    char token[] = "PRES";                    
+    char unit[20] = "INVALID";                
+    int value = -1;                           
 
-void test_median_odd_length(void) {
-    int vec[] = {3, 1, 2};
-    int length = 3;
-    int median_value;
-    int result = median(vec,length,&median_value);
+    int res = extract_data(str, token, unit, &value);
 
-    int expected_median = 2;
-    int expected_result = 1;
-
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(0, res);                
+    TEST_ASSERT_EQUAL_STRING("", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
-void test_median_odd_length_2(void){
-    int vec[] = {3, 1, 4, 1, 5};
-    int length = 5;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_no_value(void) {
+    char str[] = "TEMP&unit:celsius&value:#HUM&unit:percentage&value:80"; 
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 3;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
-void test_median_equal_elements(void){
-    int vec[] = {5, 5, 5, 5, 5};
-    int length = 5;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_invalid_format(void) {
+    char str[] = "TEMP unit celsius value 20"; 
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 5;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(0, res);                
+    TEST_ASSERT_EQUAL_STRING("", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
-void test_median_length_zero(void){
-    int vec[] = {};
-    int length = 0;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_mixed_case_token(void) {
+    char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
+    char token[] = "tEmP";                    
+    char unit[20];
+    int value;
 
-    int expected_median = 0;
-    int expected_result = 0;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);
+    TEST_ASSERT_EQUAL(20, value);             
 }
 
+void test_extract_data_with_extra_characters_in_string(void) {
+    char str[] = "TEMP&unit:celsius&value:20extra#HUM&unit:percentage&value:80";
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-void test_median_negative_elements_odd(void){
-    int vec[] = {-10, -20, -30, -40, -50};
-    int length = 5;
-    int median_value;
-    int result = median(vec,length,&median_value);
+    int res = extract_data(str, token, unit, &value);
 
-    int expected_median = -30;
-    int expected_result = 1;
-
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);
+    TEST_ASSERT_EQUAL(20, value);             
 }
 
-void test_median_negative_elements_even(void){
-    int vec[] = {-10, -20, -30, -40, -50,-60};
-    int length = 6;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_large_value(void) {
+    char str[] = "TEMP&unit:celsius&value:99999#HUM&unit:percentage&value:80";
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = -35;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);
+    TEST_ASSERT_EQUAL(99999, value);          
 }
 
-void test_median_mix_elements_odd(void){
-    int vec[] = {-3, 2, -1, 4, 1,2};
-    int length = 6;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_no_unit(void) {
+    char str[] = "TEMP&value:25#HUM&unit:percentage&value:80"; 
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 1;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(0, res);                
+    TEST_ASSERT_EQUAL_STRING("", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
-void test_median_mix_elements_odd_2(void){
-    int vec[] = {-3, 2, -1, 4, 1,-2};
-    int length = 6;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_special_characters_in_unit(void) {
+    char str[] = "TEMP&unit:%cel!sius&value:20#HUM&unit:percentage&value:80";
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 0;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("%cel!sius", unit); 
+    TEST_ASSERT_EQUAL(20, value);             
 }
 
-void test_median_negative_length(void){
-    int vec[] = {1,2};
-    int length = -1;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_partial_match_in_string(void) {
+    char str[] = "TEMPERATURE&unit:celsius&value:30#HUM&unit:percentage&value:80";
+    char token[] = "TEMP";                    
+    char unit[20];
+    int value;
 
-    int expected_median = 0;
-    int expected_result = 0;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(0, res);                
+    TEST_ASSERT_EQUAL_STRING("", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
-void test_median_length_one(void){
-    int vec[] = {1};
-    int length = 1;
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_multiple_tokens_of_same_type(void) {
+    char str[] = "TEMP&unit:celsius&value:20#TEMP&unit:kelvin&value:273";
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 1;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(1, res);                
+    TEST_ASSERT_EQUAL_STRING("celsius", unit);
+    TEST_ASSERT_EQUAL(20, value);            
 }
 
-void test_median_null_vec(void){
-    int vec[] = {0,0,0};
-    int length = sizeof(vec)/sizeof(int);
-    int median_value;
-    int result = median(vec,length,&median_value);
+void test_extract_data_with_empty_string(void) {
+    char str[] = "";                          
+    char token[] = "TEMP";
+    char unit[20];
+    int value;
 
-    int expected_median = 0;
-    int expected_result = 1;
+    int res = extract_data(str, token, unit, &value);
 
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
-}
-
-void test_median_null_vec_2(void){
-    int* vec = NULL;
-    int length = sizeof(vec)/sizeof(int*);
-    int median_value;
-    int result = median(vec,length,&median_value);
-
-    int expected_median = 0;
-    int expected_result = 0;
-
-    TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
-    TEST_ASSERT_EQUAL_INT(expected_result,result); 
+    TEST_ASSERT_EQUAL(0, res);                
+    TEST_ASSERT_EQUAL_STRING("", unit);       
+    TEST_ASSERT_EQUAL(0, value);              
 }
 
 
 int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_median_even_length);
-    RUN_TEST(test_median_even_length_2);
-    RUN_TEST(test_median_odd_length);
-    RUN_TEST(test_median_odd_length_2);
-    RUN_TEST(test_median_equal_elements);
-    RUN_TEST(test_median_length_zero);
-    RUN_TEST(test_median_negative_elements_odd);
-    RUN_TEST(test_median_negative_elements_even);
-    RUN_TEST(test_median_mix_elements_odd);
-    RUN_TEST(test_median_mix_elements_odd_2);
-    RUN_TEST(test_median_negative_length);
-    RUN_TEST(test_median_length_one);
-    RUN_TEST(test_median_null_vec);
-    RUN_TEST(test_median_null_vec_2);
+
+    RUN_TEST(test_extract_data_with_valid_temp_token);
+    RUN_TEST(test_extract_data_with_valid_hum_token);
+    RUN_TEST(test_extract_data_with_invalid_token);
+    RUN_TEST(test_extract_data_with_no_value);
+    RUN_TEST(test_extract_data_with_invalid_format);
+    RUN_TEST(test_extract_data_with_mixed_case_token);
+
+
+    RUN_TEST(test_extract_data_with_extra_characters_in_string);
+    RUN_TEST(test_extract_data_with_large_value);
+    RUN_TEST(test_extract_data_with_no_unit);
+    RUN_TEST(test_extract_data_with_special_characters_in_unit);
+    RUN_TEST(test_extract_data_with_partial_match_in_string);
+    RUN_TEST(test_extract_data_with_multiple_tokens_of_same_type);
+    RUN_TEST(test_extract_data_with_empty_string);
+
     return UNITY_END();
 }

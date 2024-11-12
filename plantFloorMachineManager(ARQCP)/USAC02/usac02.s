@@ -25,7 +25,7 @@ initialize_zeros:
     cmpq $SIZE, %r8                 # Compare index with SIZE
     jge exit_zeros                  # If index >= SIZE, exit
     
-    movb $0, (%rsi, %r8, 1)         # Store zero at the memory location pointed by %rsi + index
+    movb $'0', (%rsi, %r8, 1)         # Store zero at the memory location pointed by %rsi + index
     incq %r8                        # Increment the index register
     jmp initialize_zeros            # Repeat the loop
     
@@ -44,7 +44,7 @@ get_binary:
     test %edx, %edx                 # Test if the remainder is zero
     jz skip                         # If remainder is zero, skip the next step
 
-    movb $1, (%rsi, %r8, 1)         # If remainder is 1, store it in the array at the current index
+    movb $'1', (%rsi, %r8, 1)         # If remainder is 1, store it in the array at the current index
 
 skip:
     decq %r8                        # Decrement the index
@@ -55,5 +55,6 @@ end_binary:
     ret                             # Return from the function
 
 error:
+    movb $0, (%rsi)
     movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
     ret                             # Return from the function
