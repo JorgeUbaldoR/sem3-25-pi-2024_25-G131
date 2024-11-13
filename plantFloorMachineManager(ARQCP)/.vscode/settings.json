@@ -3,6 +3,7 @@
         "asm.h": "c",
         "stdio.h": "c",
         "t_usac10.C": "cpp",
-        "type_traits": "c"
+        "type_traits": "c",
+        "UI.C": "cpp"
     }
 }
