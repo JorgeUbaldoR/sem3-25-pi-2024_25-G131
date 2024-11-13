@@ -7,7 +7,7 @@ int main(){
     char bits [5];
     
     int res = get_number_binary (value,bits);
-    printf ("%d : [%c,%c,%c,%c,%c]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 0;
     res = get_number_binary (value,bits);
