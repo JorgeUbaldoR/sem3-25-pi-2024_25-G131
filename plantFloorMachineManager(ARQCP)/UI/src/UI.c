@@ -1,18 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "USAC01/include/asm.h"
-#include "USAC02/include/asm.h"
-#include "USAC03/include/asm.h"
-#include "USAC06/include/asm.h"
-#include "USAC07/include/asm.h"
-#include "USAC09/include/asm.h"
-#include "USAC10/include/asm.h"
+#include "../include/asm.h"
+
 
 void loginUI(char * username, char * password);
 int login(char *username, char *password);
 void showTeam();
-void us_ui();
+int us_ui();
 void usac_01();
 void usac_02();
 void usac_03();
@@ -58,7 +53,7 @@ int main() {
 
 }
 
-void us_ui(){
+int us_ui(){
     int option;
     while (1) {
         printf("\n════════════════════════════\n");
@@ -109,8 +104,8 @@ void us_ui(){
                 break;
 
             case 0:
-                printf("Exit...\n");
-                main();
+                printf("\nExit...\n\n");
+                return 0;
             default:
                 printf("Invalid choice. Try again...\n");
         }
@@ -188,12 +183,12 @@ void usac_01() {
 
 void usac_02() {
 
-int value = 26;
+    int value = 26;
     char bits [5];
 
-    printf("Decimal value: %d\n", value);
+    printf("\nDecimal value: %d\n", value);
     int res = get_number_binary (value,bits);
-    printf ("\n%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 0;
     printf("Decimal value: %d\n", value);
@@ -281,20 +276,20 @@ void usac_06() {
 
 void usac_07() {
 
-int buffer[] = {2,45,3,26,34,321,65,2,75};
-int lenght = (sizeof(buffer) / sizeof(int));
-int* tail = buffer + 4;
-int* head = buffer + 1;
+    int buffer[] = {2,45,3,26,34,321,65,2,75};
+    int lenght = (sizeof(buffer) / sizeof(int));
+    int* tail = buffer + 4;
+    int* head = buffer + 1;
 
-printf("\nBuffer: [ ");
-for(int* i = head; i < tail; i++) {
-    printf("%d ", *i);
-}
-printf(" ]\n");
+    printf("\nBuffer: [ ");
+    for(int* i = head; i < tail; i++) {
+        printf("%d ", *i);
+    }
+    printf(" ]\n");
 
-int res = get_n_element(buffer, lenght, tail, head);
+    int res = get_n_element(buffer, lenght, tail, head);
 
-printf("The buffer has %d elements now.\n", res);
+    printf("The buffer has %d elements now.\n", res);
 
 
 }
@@ -302,32 +297,32 @@ printf("The buffer has %d elements now.\n", res);
 
 void usac_09() {
 
-printf("\n\n╔══════════════════════════╗");
-printf("\n║          Sort            ║  \n");
-printf("╚══════════════════════════╝\n");
-int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18};
-int lenght = sizeof(buffer) / sizeof(int);
-char c;
+    printf("\n\n╔══════════════════════════╗");
+    printf("\n║          Sort            ║  \n");
+    printf("╚══════════════════════════╝\n");
+    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18};
+    int lenght = sizeof(buffer) / sizeof(int);
+    char c;
 
-printf("Buffer : [ ");
-    for(int* i = buffer; i < buffer + lenght; i++) {
-    printf("%d ", *i);
-    }
-printf(" ]\n");
+    printf("Buffer : [ ");
+        for(int* i = buffer; i < buffer + lenght; i++) {
+        printf("%d ", *i);
+        }
+    printf(" ]\n");
 
-do {
-	printf("Select '0' for descending order or '1' for ascending: ");
-	scanf("%hhd", &c);
-} while ( c!= 0 && c!= 1);
+    do {
+        printf("Select '0' for descending order or '1' for ascending: ");
+        scanf("%hhd", &c);
+    } while ( c!= 0 && c!= 1);
 
-int res = sort_array(buffer, lenght, c);
+    int res = sort_array(buffer, lenght, c);
 
-printf("Sorted Buffer (descending): [ ");
-    for(int* i = buffer; i < buffer + lenght; i++) {
-		    printf("%d ", *i);
-	}
-printf(" ]\n");
-printf("Return value: %d\n", res);
+    printf("Sorted Buffer (descending): [ ");
+        for(int* i = buffer; i < buffer + lenght; i++) {
+                printf("%d ", *i);
+        }
+    printf(" ]\n");
+    printf("Return value: %d\n", res);
 }
 
 
@@ -335,31 +330,37 @@ void usac_10() {
 
     int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6
     int length1 = sizeof(vec1)/sizeof(int);
-    int me1 = 0;
+    int me1 = 1;
 
     int res = median(vec1,length1,&me1);
-    printf("%d: %d\n", res,me1);
+    
+    printf("\nVec = [");
+    for (int i = 0; i < length1; i++){
+        printf("%d,", *(vec1+i));
+    }
+    printf("]\n%d: %d\n", res,me1);
 
     int vec2[] = {1,2,3,4,5};
     int length2 = sizeof(vec2)/sizeof(int);
-    int me2 = 0;
+    int me2 = 1;
 
     res = median(vec2,length2,&me2);
-    printf("%d: %d\n", res,me2);
+    printf("\nVec = [");
+    for (int i = 0; i < length2; i++){
+        printf("%d,", *(vec2+i));
+    }
+    printf("]\n%d: %d\n", res,me2);
 
     int vec3[] = {};
     int length3 = sizeof(vec3)/sizeof(int);
-    int me3 = 0;
+    int me3 = 1;
 
     res = median(vec3,length3,&me3);
-    printf("%d: %d\n", res,me3);
-
-
-    int* vec4 = NULL;
-    int length4 = sizeof(vec4)/sizeof(int*);
-    int me4 = 0;
-    res = median(vec4,length4,&me4);
-    printf("%d: %d\n", res,me4);
+    printf("\nVec = [");
+    for (int i = 0; i < length3; i++){
+        printf("%d, ", *(vec3+i));
+    }
+    printf("]\n%d: %d\n", res,me3);
 
 }
 
