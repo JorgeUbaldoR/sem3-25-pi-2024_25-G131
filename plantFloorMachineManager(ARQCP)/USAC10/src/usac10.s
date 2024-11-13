@@ -2,12 +2,17 @@
    .global median  
    .global sort_array
 
-                                    # Parameters:
-                                    # %rdi -- vec (pointer to the array)
-                                    # %esi -- length (number of elements in the array)
-                                    # %rdx -- me (pointer to where the median will be stored)
+
+# Parameters:
+# %rdi -- vec (pointer to the array)
+# %esi -- length (number of elements in the array)
+# %rdx -- me (pointer to where the median will be stored)
 
 median:
+   # prologue
+   pushq %rbp                       # save the original value of RBP
+   movq %rsp,%rbp                   # copy the current stack pointer to RBP
+
    movq %rdx, %r15                  # Save the pointer to `me` (from %rdx) in %r15 for later use
    jmp check_length
 
@@ -57,8 +62,13 @@ length_even:                        # If length is even, calculate median as the
 
 success:                            # If everything succeeded, set return value to 1 (indicating success)
    movl $1, %eax
-   ret
+   jmp epilogue
 
 error:                              # If there was an error (length <= 0 or sort_array failure), return 0
    movl $0, %eax
-   ret
+   jmp epilogue
+
+epilogue:
+   movq %rbp, %rsp                  # retrieve the original RSP value
+   popq %rbp                        # restore the original RBP value
+   ret                              # Return from the function

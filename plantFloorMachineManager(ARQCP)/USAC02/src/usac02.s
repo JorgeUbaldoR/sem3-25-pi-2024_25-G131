@@ -8,6 +8,10 @@
 
 
 get_number_binary:
+    # prologue
+    pushq %rbp                      # save the original value of RBP
+    movq %rsp,%rbp                  # copy the current stack pointer to RBP
+
     movq $0, %r8                    # Initialize index register to 0
     call initialize_zeros           # Call a function to initialize the array to zeros
     
@@ -52,9 +56,15 @@ skip:
 
 end_binary:
     movl $1, %eax                   # Set %eax to 1 to indicate successful conversion
-    ret                             # Return from the function
+    jmp epilogue                             
 
 error:
     movb $0, (%rsi)
     movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
-    ret                             # Return from the function
+    jmp epilogue                             
+
+
+epilogue:
+    movq %rbp, %rsp                    # retrieve the original RSP value
+    popq %rbp                          # restore the original RBP value
+    ret                                # Return from the function

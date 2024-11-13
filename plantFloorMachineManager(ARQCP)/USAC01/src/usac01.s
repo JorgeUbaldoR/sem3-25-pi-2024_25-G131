@@ -19,6 +19,10 @@ TOKEN_HUM:
 # %rcx -- VALUE (Pointer to store value data)
 
 extract_data:
+    # prologue
+    pushq %rbp                        # save the original value of RBP
+    movq %rsp , %rbp                  # copy the current stack pointer to RBP
+    
     call uppercase_token               # Convert TOKEN string to uppercase
     jmp check_token                    # Jump to token validation check
 
@@ -133,9 +137,10 @@ correct_string:
     
     call get_value                      # Call get_value to extract value
     movl %eax, (%rcx)                   # Store the value in the provided location
-
+    
     movl $1, %eax                      # Set return value to 1 (success)
-    ret
+    jmp epilogue
+
 
 
 # Function to extract unit information (e.g., "u")
@@ -218,7 +223,10 @@ error:
     movl $0, %eax                      # Set return value to 0 (indicating failure)
     movb $0, (%rdx)                    # Set the first byte of UNIT to null (empty string) 
     movl $0, (%rcx)                    # Set VALUE to 0 to indicate no valid value was found
+    jmp epilogue                         
+
+
+epilogue:
+    movq %rbp, %rsp                    # retrieve the original RSP value
+    popq %rbp                          # restore the original RBP value
     ret                                # Return from function
-
-
-
