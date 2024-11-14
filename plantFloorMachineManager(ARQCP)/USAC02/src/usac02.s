@@ -55,7 +55,7 @@ skip:
     jmp get_binary                  # Repeat the binary conversion loop
 
 end_binary:
-    movl $1, %eax                   # Set %eax to 1 to indicate successful conversion
+    movl $1, %eax                   # Set %eax to 1 to indicate successful conversion 
     jmp epilogue                             
 
 error:

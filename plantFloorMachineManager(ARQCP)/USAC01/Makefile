@@ -28,7 +28,7 @@ clean:
 
 
 run: executable
-	files/./executablesdsdsd
+	files/./executable
 
 unity_tests: tests
 	files/./test_executable
