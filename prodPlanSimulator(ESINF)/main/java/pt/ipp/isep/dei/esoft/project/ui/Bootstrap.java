@@ -18,9 +18,9 @@ public class Bootstrap implements Runnable {
     private static final String PROD_MANAGER_PASSWORD = "manager";
 
     // Operation
-    private final Operation opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
-    private final Operation opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
-    private final Operation opPainting = new Operation("Painting", "Painting the surface", 1.5f);
+    private final Operation opCutting = new Operation("Cutting",new ID(1,TypeID.OPERATION) ,"Cutting raw materials");
+    private final Operation opWelding = new Operation("Welding", new ID(2,TypeID.OPERATION),"Welding metal parts");
+    private final Operation opPainting = new Operation("Painting", new ID(3,TypeID.OPERATION),"Painting the surface");
     private final Operation opTesting = new Operation("Testing");
 
 

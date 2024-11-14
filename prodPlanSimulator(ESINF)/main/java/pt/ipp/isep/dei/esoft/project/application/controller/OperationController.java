@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
@@ -92,8 +93,8 @@ public class OperationController {
      * @param description The description of the operation to be registered.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */
-    public Optional<Operation> registerOperation(String name, String description) {
-        return operationRepository.registerOperation(name, description);
+    public Optional<Operation> registerOperation(String name, String description, ID operationID) {
+        return operationRepository.registerOperation(name, description, operationID);
     }
 
     /**
@@ -102,8 +103,8 @@ public class OperationController {
      * @param name The name of the operation to be registered.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */
-    public Optional<Operation> registerOperation(String name) {
-        return operationRepository.registerOperation(name);
+    public Optional<Operation> registerOperation(String name, ID operationID) {
+        return operationRepository.registerOperation(name,operationID);
     }
 }
 

@@ -1,8 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.application.controller.OperationController;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
-import pt.ipp.isep.dei.esoft.project.domain.Machine;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
 import java.util.*;
@@ -93,10 +92,10 @@ public class OperationRepository {
      * @param description The description of the operation.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */
-    public Optional<Operation> registerOperation(String name, String description) {
+    public Optional<Operation> registerOperation(String name, String description, ID operationID) {
         Optional<Operation> optionalValue = Optional.empty();
 
-        Operation operation = new Operation(name, description);
+        Operation operation = new Operation(name,operationID,description);
 
         if (operations.add(operation)) {
             optionalValue = Optional.of(operation);
@@ -111,10 +110,10 @@ public class OperationRepository {
      * @param name The name of the operation to be registered.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */
-    public Optional<Operation> registerOperation(String name) {
+    public Optional<Operation> registerOperation(String name,ID operationID) {
         Optional<Operation> optionalValue = Optional.empty();
 
-        Operation operation = new Operation(name);
+        Operation operation = new Operation(name,operationID);
 
         if (operations.add(operation)) {
             optionalValue = Optional.of(operation);

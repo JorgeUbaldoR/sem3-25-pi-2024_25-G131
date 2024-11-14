@@ -25,12 +25,15 @@ class ItemTest {
     private Operation opCutting;
     private Operation opWelding;
     private Operation opPainting;
+    private final ID id1 = new ID(1,TypeID.OPERATION);
+    private final ID id2 = new ID(2,TypeID.OPERATION);
+    private final ID id3 = new ID(3,TypeID.OPERATION);
 
     @BeforeEach
     void setUp() {
-        opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
-        opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
-        opPainting = new Operation("Painting", "Painting the surface", 1.5f);
+        opCutting = new Operation("Cutting", id1,"Cutting raw materials");
+        opWelding = new Operation("Welding", id2,"Welding metal parts");
+        opPainting = new Operation("Painting", id3,"Painting the surface");
 
         Queue<Operation> operationListItem1 = new LinkedList<>();
         operationListItem1.add(opCutting);

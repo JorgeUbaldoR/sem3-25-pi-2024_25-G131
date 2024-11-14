@@ -1,9 +1,12 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.OperationController;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 
+import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -63,10 +66,14 @@ public class AddOperationUI implements Runnable {
      * @param typedOperationName The name entered by the user.
      */
     private void displayTypedName(String typedOperationName) {
-        System.out.printf("%nTyped name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]%n"
+        System.out.printf("Typed name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]%n"
                 , typedOperationName);
     }
 
+    private void displayTypedID(ID operationID) {
+        System.out.printf("Typed ID -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]%n"
+                , operationID);
+    }
 
     /**
      * Displays the typed operation description to the user.
@@ -85,17 +92,38 @@ public class AddOperationUI implements Runnable {
      * @param description The description of the operation, which can be null.
      * @return An Optional containing the registered Operation if successful, otherwise empty.
      */
-    private Optional<Operation> confirmOperationSubmission(String name, String description) {
+    private Optional<Operation> confirmOperationSubmission(String name, String description, ID operationID) {
         System.out.print("Do you wish to save the operation? (y/n): ");
         String answer = yesNoConfirmation();
 
         if (answer.equalsIgnoreCase("y")) {
-            return description != null ? getController().registerOperation(name, description)
-                    : getController().registerOperation(name);
+            return description != null ? getController().registerOperation(name,description,operationID)
+                    : getController().registerOperation(name, operationID);
         }
 
         return Optional.empty();
     }
+
+
+    private ID requestOperationID() {
+        Scanner scanner = new Scanner(System.in);
+        int id = 0;
+        boolean invalidID;
+        do {
+            invalidID = false;
+            try{
+                System.out.print("Enter the operation ID: ");
+                id = scanner.nextInt();
+            }catch (InputMismatchException e) {
+                scanner.nextLine();
+                invalidID = true;
+                System.out.println(ANSI_BRIGHT_YELLOW+"Invalid ID, enter a valid serial number.\n"+ANSI_RESET);
+            }
+        }while(invalidID);
+
+        return new ID(id, TypeID.OPERATION);
+    }
+
 
     /**
      * Handles the confirmation and submission of the operation.
@@ -104,16 +132,19 @@ public class AddOperationUI implements Runnable {
         String name = requestOperationName();
         displayTypedName(name);
 
+        ID operationID = requestOperationID();
+        displayTypedID(operationID);
+
         System.out.print("Do you wish to add an operation description to this operation? (y/n): ");
         String d = yesNoConfirmation();
-        String description = null;
+        String description = ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET;
 
         if (d.equalsIgnoreCase("y")) {
             description = requestOperationDescription();
             displayTypedDescription(description);
         }
 
-        Optional<Operation> operation = confirmOperationSubmission(name, description);
+        Optional<Operation> operation = confirmOperationSubmission(name, description, operationID);
 
         if (operation.isPresent()) {
             System.out.println(ANSI_BRIGHT_GREEN + "Operation successfully registered!" + ANSI_RESET);

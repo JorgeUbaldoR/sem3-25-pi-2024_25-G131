@@ -22,6 +22,9 @@ class SimulatorTest {
     private List<Operation> operationList;
     private List<Machine> machineList;
     private Map<Operation, Integer> executionPerOperation;
+    private final ID ido1 = new ID(1,TypeID.OPERATION);
+    private final ID ido2 = new ID(2,TypeID.OPERATION);
+    private final ID ido3 = new ID(3,TypeID.OPERATION);
 
     @BeforeEach
     void setUp() {
@@ -35,9 +38,9 @@ class SimulatorTest {
         ID idItem3 = new ID(12, TypeID.ITEM);
         ID idItem4 = new ID(13, TypeID.ITEM);
 
-        Operation cutting = new Operation("Cutting","",2);
-        Operation welding = new Operation("welding","",7);
-        Operation painting = new Operation("Painting","",5);
+        Operation cutting = new Operation("Cutting",ido1,"");
+        Operation welding = new Operation("welding",ido2,"");
+        Operation painting = new Operation("Painting",ido3,"");
 
         Machine machineCutting = new Machine(idMachine1,cutting,2);
         Machine machineCutting2 = new Machine(idMachine1,cutting,5);

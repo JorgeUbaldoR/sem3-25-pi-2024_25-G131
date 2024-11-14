@@ -2,6 +2,7 @@ package pt.ipp.isep.dei.esoft.project.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_BRIGHT_RED;
@@ -13,32 +14,30 @@ public class OperationTest {
 
     @BeforeEach
     public void setUp() {
-        operation = new Operation("Cutting", "This operation cuts materials", 10.0f);
+        operation = new Operation("Cutting", new ID(1, TypeID.OPERATION),"This operation cuts materials");
     }
 
     @Test
     public void testConstructor_AllParameters() {
         assertEquals("Cutting", operation.getOperationName());
         assertEquals("This operation cuts materials", operation.getOperationDescription());
-        assertEquals(10.0f, operation.getDuration(), 0.01);
+        assertEquals(1,operation.getOperationId().getSerial());
     }
 
     @Test
     public void testConstructor_NameAndDuration() {
-        Operation operation = new Operation("Welding", 5.0f);
+        Operation operation = new Operation("Welding");
 
         assertEquals("Welding", operation.getOperationName());
-        assertNull(operation.getOperationDescription());
-        assertEquals(5.0f, operation.getDuration(), 0.01);
+        assertEquals(operation.getOperationDescription(),ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET);
     }
 
     @Test
     public void testConstructor_NameAndDescription() {
-        Operation operation = new Operation("Assembling", "This operation assembles parts");
+        Operation operation = new Operation("Assembling", new ID(1, TypeID.OPERATION),"This operation assembles parts");
 
         assertEquals("Assembling", operation.getOperationName());
         assertEquals("This operation assembles parts", operation.getOperationDescription());
-        assertEquals(0.0f, operation.getDuration(), 0.01);
     }
 
     @Test
@@ -73,12 +72,6 @@ public class OperationTest {
         assertFalse(result);
     }
 
-    @Test
-    public void testSetDuration() {
-        operation.setDuration(7.5f);
-
-        assertEquals(7.5f, operation.getDuration(), 0.01);
-    }
 
     @Test
     public void testEquals_SameObject() {
@@ -87,16 +80,16 @@ public class OperationTest {
 
     @Test
     public void testEquals_DifferentObject_SameName() {
-        Operation operation2 = new Operation("Cutting", "Different description", 5.0f);
+        Operation operation2 = new Operation("Cutting", new ID(1, TypeID.OPERATION),"Different description");
 
-        assertTrue(operation.equals(operation2));
+        assertEquals(operation, operation2);
     }
 
     @Test
     public void testEquals_DifferentObject_DifferentName() {
-        Operation operation2 = new Operation("Drilling", "Different description", 5.0f);
+        Operation operation2 = new Operation("Drilling", new ID(1, TypeID.OPERATION),"Different description");
 
-        assertFalse(operation.equals(operation2));
+        assertNotEquals(operation, operation2);
     }
 
     @Test
@@ -126,6 +119,6 @@ public class OperationTest {
         assertEquals(operation, clonedOperation);
         assertEquals(operation.getOperationName(), clonedOperation.getOperationName());
         assertEquals(operation.getOperationDescription(), clonedOperation.getOperationDescription());
-        assertEquals(operation.getDuration(), clonedOperation.getDuration(), 0.01);
+        assertEquals(operation.getOperationId(), clonedOperation.getOperationId());
     }
 }

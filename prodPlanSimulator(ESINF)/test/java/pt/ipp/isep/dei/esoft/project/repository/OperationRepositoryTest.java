@@ -16,9 +16,12 @@ public class OperationRepositoryTest {
 
     private OperationRepository operationRepository;
     private List<Item> items;
-    private final Operation opCutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
-    private final Operation opWelding = new Operation("Welding", "Welding metal parts", 3.0f);
-    private final Operation opPainting = new Operation("Painting", "Painting the surface", 1.5f);
+    private final ID id1 = new ID(1,TypeID.OPERATION);
+    private final ID id2 = new ID(2,TypeID.OPERATION);
+    private final ID id3 = new ID(3,TypeID.OPERATION);
+    private final Operation opCutting = new Operation("Cutting", id1,"Cutting raw materials");
+    private final Operation opWelding = new Operation("Welding", id2,"Welding metal parts");
+    private final Operation opPainting = new Operation("Painting", id3,"Painting the surface");
     private final Queue<Operation> operationListItem1 = new LinkedList<>();
     private final Queue<Operation> operationListItem2 = new LinkedList<>();
 
@@ -30,7 +33,7 @@ public class OperationRepositoryTest {
 
     @Test
     public void testAddOperation_Success() {
-        Operation operation = new Operation("Operation Test");
+        Operation operation = new Operation("Operation Test", id1);
 
         Optional<Operation> result = operationRepository.addOperation(operation);
 
@@ -40,7 +43,7 @@ public class OperationRepositoryTest {
 
     @Test
     public void testAddOperation_Duplicate() {
-        Operation operation = new Operation("Operation Test");
+        Operation operation = new Operation("Operation Test",id1);
         operationRepository.addOperation(operation);
 
         Optional<Operation> result = operationRepository.addOperation(operation);
@@ -83,8 +86,8 @@ public class OperationRepositoryTest {
 
     @Test
     public void testGetAllOperations_NonEmpty() {
-        Operation operation1 = new Operation("Operation1");
-        Operation operation2 = new Operation("Operation2");
+        Operation operation1 = new Operation("Operation1",new ID(4,TypeID.OPERATION));
+        Operation operation2 = new Operation("Operation2",new ID(5,TypeID.OPERATION));
 
         operationRepository.addOperation(operation1);
         operationRepository.addOperation(operation2);
@@ -97,25 +100,29 @@ public class OperationRepositoryTest {
 
     @Test
     public void testRegisterOperation_Success() {
-        Optional<Operation> result = operationRepository.registerOperation("Cutting", "This operation cuts materials");
+        ID id = new ID(6,TypeID.OPERATION);
+        Optional<Operation> result = operationRepository.registerOperation("Cutting", "This operation cuts materials",id);
 
         assertTrue(result.isPresent());
         assertEquals("Cutting", result.get().getOperationName());
+        assertEquals(id,result.get().getOperationId());
         assertEquals("This operation cuts materials", result.get().getOperationDescription());
     }
 
     @Test
     public void testRegisterOperation_Duplicate() {
-        operationRepository.registerOperation("Cutting", "First operation");
-        Optional<Operation> result = operationRepository.registerOperation("Cutting", "Second operation");
+        ID id = new ID(7,TypeID.OPERATION);
+        operationRepository.registerOperation("Cutting","First operation",id);
+        Optional<Operation> result = operationRepository.registerOperation("Cutting", "Second operation",id);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     public void testRegisterOperation_Duplicate2() {
-        operationRepository.registerOperation("Cutting");
-        Optional<Operation> result = operationRepository.registerOperation("Cutting");
+        ID id = new ID(8,TypeID.OPERATION);
+        operationRepository.registerOperation("Cutting",id);
+        Optional<Operation> result = operationRepository.registerOperation("Cutting",id);
 
         assertFalse(result.isPresent());
     }

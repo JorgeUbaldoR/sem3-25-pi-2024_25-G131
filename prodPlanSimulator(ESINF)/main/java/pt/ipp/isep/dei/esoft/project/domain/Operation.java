@@ -8,48 +8,30 @@ public class Operation {
 
     private static final String NO_DESCRIPTION = ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET;
 
+    private ID operationId;
     private String operationName;
     private String operationDescription;
-    private float duration;
 
-    /**
-     * @param operationName        the name of the operation
-     * @param operationDescription description of the operation
-     * @param duration             duration of operation
-     *                             <p>
-     *                             Operation class constructor that receives all its parameters.
-     */
-    public Operation(String operationName, String operationDescription, float duration) {
-        this.operationName = operationName;
-        this.operationDescription = operationDescription;
-        this.duration = duration;
-    }
 
-    /**
-     * @param operationName the name of the operation
-     * @param duration      duration of operation
-     *                      <p>
-     *                      Operation class constructor that receives the name and duration of the operation.
-     */
-    public Operation(String operationName, float duration) {
+    public Operation(String operationName,ID operationId,String operationDescription) {
         this.operationName = operationName;
-        this.duration = duration;
-    }
-
-    public Operation(String operationName, String operationDescription) {
-        this.operationName = operationName;
+        this.operationId = operationId;
         this.operationDescription = operationDescription;
     }
 
-    /**
-     * @param operationName the name of the operation
-     *                      <p>
-     *                      Constructor of Operation class that receives only the name
-     */
+
+    public Operation(String operationName, ID operationId) {
+        this.operationName = operationName;
+        this.operationId = operationId;
+    }
+
+
     public Operation(String operationName) {
         this.operationName = operationName;
+        this.operationId = null;
         this.operationDescription = NO_DESCRIPTION;
     }
+
 
 
     /**
@@ -59,6 +41,15 @@ public class Operation {
      */
     public String getOperationName() {
         return operationName;
+    }
+
+    /**
+     * Getter method for operationID
+     *
+     * @return the ID of the operation
+     */
+    public ID getOperationId() {
+        return operationId;
     }
 
     /**
@@ -92,23 +83,7 @@ public class Operation {
         return false;
     }
 
-    /**
-     * Getter method for duration
-     *
-     * @return the duration of the operation
-     */
-    public float getDuration() {
-        return duration;
-    }
 
-    /**
-     * Setter method for duration
-     *
-     * @param duration the new duration of the operation
-     */
-    public void setDuration(float duration) {
-        this.duration = duration;
-    }
 
     /**
      * @param o the object to compare
@@ -145,6 +120,6 @@ public class Operation {
      * @return a new instance of Operation with the same parameters
      */
     public Operation clone() {
-        return new Operation(operationName, operationDescription, duration);
+        return new Operation(operationName,operationId,operationDescription);
     }
 }

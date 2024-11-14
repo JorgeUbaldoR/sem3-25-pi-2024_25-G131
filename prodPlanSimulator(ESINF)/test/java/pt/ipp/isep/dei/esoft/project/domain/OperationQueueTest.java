@@ -31,14 +31,16 @@ class OperationQueueTest {
     OperationQueue operationQueue1;
     OperationQueue operationQueue2;
     OperationQueue operationQueue3;
-
+    private final ID ido1 = new ID(1,TypeID.OPERATION);
+    private final ID ido2 = new ID(2,TypeID.OPERATION);
+    private final ID ido3 = new ID(3,TypeID.OPERATION);
 
     @BeforeEach
     void setUp() {
 
-        cutting = new Operation("Cutting", "Cutting raw materials", 2.5f);
-        painting = new Operation("Painting", "Welding metal parts", 3.0f);
-        welling = new Operation("Welling", "Painting the surface", 1.5f);
+        cutting = new Operation("Cutting", ido1,"Cutting raw materials");
+        painting = new Operation("Painting", ido2,"Welding metal parts");
+        welling = new Operation("Welling", ido3,"Painting the surface");
 
 
         id1 = new ID(101, TypeID.ITEM);
