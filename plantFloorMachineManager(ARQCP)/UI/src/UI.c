@@ -11,6 +11,8 @@ int us_ui();
 void usac_01();
 void usac_02();
 void usac_03();
+void usac_04();
+void usac_05();
 void usac_06();
 void usac_07();
 void usac_09();
@@ -82,10 +84,10 @@ int us_ui(){
             case 3: usac_03();
                 break;
 
-            case 4:
+            case 4: usac_04();
                 break;
 
-            case 5:
+            case 5: usac_05();
                 break;
 
             case 6: usac_06();
@@ -225,20 +227,68 @@ void usac_02() {
 
 void usac_03() {
 
-int value;
-char str[] = "  89  ";
+    int value;
+    char str[] = "  89  ";
 
-printf("\n\nValid string before method: %s\n", str);
+    printf("\n\nValid string before method: %s\n", str);
 
-int res = get_number(str, &value);
-printf("Return value: %d\n", res);
-printf("Number: %d\n", value);
+    int res = get_number(str, &value);
+    printf("Return value: %d\n", res);
+    printf("Number: %d\n", value);
 
-char str1[] = "	8--9 ";
-printf("\nInvalid string before method: %s\n", str1);
+    char str1[] = "	8--9 ";
+    printf("\nInvalid string before method: %s\n", str1);
 
-res = get_number(str1, &value);
-printf("Return value: %d\n", res);
+    res = get_number(str1, &value);
+    printf("Return value: %d\n", res);
+
+}
+
+
+void usac_04() {
+
+	int value = 26;
+	char str[] = " oN ";
+	char cmd[20];
+	int res = format_command(str, value, cmd) ;
+	printf("%d: %s\n", res, cmd); // 1: ON ,1 ,1 ,0 ,1 ,0
+
+	char str2[] = " aaa ";
+	int result = format_command(str2, value, cmd) ;
+	printf("%d: %s\n", result, cmd); // 0:
+
+}
+
+void usac_05() {
+
+    int buffer[] = {2, 32, 5, 23, 4, 6, 19, 29, 43, 27, 7, 43, 55, 32, 3, 12, 2, 5, 7, 9, 12, 16, 18, 21};
+    int length = sizeof(buffer) / sizeof(int);
+    int head = 0;            // Head index
+    int tail = 23;   		// Tail index
+    int value = 99;          // Value to insert
+
+    printf("---Before method---\n");
+    printf("Buffer: [ ");
+    for (int i = 0; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d (index)\n", head);
+    printf("Tail: %d (index)\n", tail);
+    printf("Length: %d\n", length);
+
+    int ret = enqueue_value(buffer, length, &tail, &head, value);
+
+    printf("\n---After method---\n");
+    printf("Buffer: [ ");
+    for (int i = 0; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d (index)\n", head);
+    printf("Tail: %d (index)\n", tail);
+    printf("Length: %d\n", length);
+    printf("Output (Buffer Full Status): %d\n", ret);
 
 }
 

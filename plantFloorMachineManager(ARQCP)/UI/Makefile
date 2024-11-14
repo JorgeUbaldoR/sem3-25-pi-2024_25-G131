@@ -10,7 +10,9 @@ OBJ = files/UI.o \
       ../USAC06/files/usac06.o \
       ../USAC07/files/usac07.o \
       ../USAC09/files/usac09.o \
-      ../USAC10/files/usac10.o
+      ../USAC10/files/usac10.o \
+	  ../USAC04/files/usac04.o \
+	  ../USAC05/files/usac05.o
 
 # Target executable
 TARGET = UI
@@ -29,6 +31,12 @@ files/UI.o: src/UI.c
 
 ../USAC03/files/usac03.o: ../USAC03/src/usac03.s
 	$(CC) $(CFLAGS) -c ../USAC03/src/usac03.s -o ../USAC03/files/usac03.o
+
+../USAC04/files/usac04.o: ../USAC04/src/usac04.s
+	$(CC) $(CFLAGS) -c ../USAC04/src/usac04.s -o ../USAC04/files/usac04.o
+
+../USAC05/files/usac05.o: ../USAC05/src/usac05.s
+	$(CC) $(CFLAGS) -c ../USAC05/src/usac05.s -o ../USAC05/files/usac05.o
 
 ../USAC06/files/usac06.o: ../USAC06/src/usac06.s
 	$(CC) $(CFLAGS) -c ../USAC06/src/usac06.s -o ../USAC06/files/usac06.o

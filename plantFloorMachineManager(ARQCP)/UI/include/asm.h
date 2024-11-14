@@ -7,4 +7,6 @@ int dequeue_value (int* a, int b, int** c, int* d, int* e);
 int get_n_element (int* a, int b, int* c, int* d);
 int sort_array (int* a, int b, char c);
 int median(int* vec, int length, int* me);
+int format_command(char* op, int n, char *cmd);
+int enqueue_value(int* buffer, int length, int*tail, int* head, int value);
 #endif
