@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
-        new FileWriter(UML_FILE_PATH);
+        //new FileWriter(UML_FILE_PATH);
         System.out.printf("%n%sDo login with:%n • %-9s -> %s%n • %-9s -> %s%s", ANSI_BRIGHT_BLACK, "User", "prodm@this.app", "Password", "manager", ANSI_RESET);
 
 

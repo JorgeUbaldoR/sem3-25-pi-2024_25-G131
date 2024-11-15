@@ -9,8 +9,10 @@ import java.util.*;
  * and a list of operations it needs to undergo.
  */
 public class Item implements Comparable<Item> {
-    private ID itemID;
-    private Priority priority;
+
+    private final String name;
+    private final ID itemID;
+    private final Priority priority;
     private Queue<Operation> operationList;
     private Operation currentOperation;
 
@@ -25,10 +27,36 @@ public class Item implements Comparable<Item> {
      */
     public Item(ID itemID, Priority priority, Queue<Operation> operationList) {
         checkInfomation(itemID, priority, operationList);
+        this.name = "Without Name";
         this.itemID = itemID;
         this.priority = priority;
         this.operationList = new LinkedList<>(operationList);
         this.currentOperation = this.operationList.peek();
+    }
+
+    public Item(ID itemID,String name, Priority priority, Queue<Operation> operationList) {
+        checkInfomation(itemID, priority, operationList);
+        this.name = name;
+        this.itemID = itemID;
+        this.priority = priority;
+        this.operationList = new LinkedList<>(operationList);
+        this.currentOperation = this.operationList.peek();
+    }
+
+    /**
+     * Constructs an Item with the specified ID,name, default priority, and list of operations.
+     *
+     * @param itemID        the unique identifier for the item.
+     * @param name          the name of the item.
+     * @throws IllegalArgumentException if itemID is null.
+     */
+    public Item(ID itemID,String name) {
+        checkInfomation(itemID, Priority.NORMAL, new LinkedList<>());
+        this.name = name;
+        this.itemID = itemID;
+        this.priority = Priority.LOW;
+        this.operationList = new LinkedList<>();
+        this.currentOperation = null;
     }
 
     /**
@@ -88,12 +116,21 @@ public class Item implements Comparable<Item> {
     }
 
     /**
+     * Gets the item name.
+     *
+     * @return the item name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Creates a clone of this item.
      *
      * @return a new Item object that is a copy of this item.
      */
     public Item clone() {
-        return new Item(itemID, priority, new LinkedList<>(operationList));
+        return new Item(itemID,name,priority, new LinkedList<>(operationList));
     }
 
     /**

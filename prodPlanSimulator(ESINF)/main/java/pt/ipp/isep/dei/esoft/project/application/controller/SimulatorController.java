@@ -11,6 +11,9 @@ import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.util.*;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_BRIGHT_RED;
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
+
 
 /**
  * Controller class that manages the simulation of operations involving machines and items.
@@ -78,21 +81,34 @@ public class SimulatorController {
      */
     public void startSimulationWithOutPriority(){
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
+        try{
+            this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
+            this.simulator.startSimulation();
 
-        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
-        this.simulator.startSimulation();
+            long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
+            double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+            System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
+        } catch (IllegalArgumentException e) {
+            System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
+        }
 
-        long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
-        double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-        System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
     }
 
     /**
      * Starts the simulation considering priority in the operation queues.
      */
     public void startSimulationWithPriority(){
-        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
-        this.simulator.startSimulation();
+        long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
+        try{
+            this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
+            this.simulator.startSimulation();
+
+            long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
+            double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+            System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
+        } catch (IllegalArgumentException e) {
+            System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
+        }
     }
 
 

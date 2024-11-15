@@ -40,10 +40,10 @@ public class ShowInformationUI implements Runnable {
         System.out.printf("%n%s• OPERATIONS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
         List<Operation> operationList = getSimulationController().getOperationList();
-        System.out.printf("%s%-20s %-17s%s%n", ANSI_BRIGHT_WHITE, "Name", "Description", ANSI_RESET);
+        System.out.printf("%s%-26s %s%s%n", ANSI_BRIGHT_WHITE, "Name", "Description", ANSI_RESET);
         System.out.printf("%s-----------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
         for (Operation operation : operationList) {
-            System.out.printf("%-13s %-3s%n", operation.getOperationName(), operation.getOperationDescription());
+            System.out.printf("%-20s %s%n", operation.getOperationName(), operation.getOperationDescription());
         }
     }
 
@@ -52,7 +52,7 @@ public class ShowInformationUI implements Runnable {
         System.out.printf("%n%s• ITEMS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s--------------------------------------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
         List<Item> listItem = getSimulationController().getItemList();
-        System.out.printf("%s%-13s %-20s %s%s%n", ANSI_BRIGHT_WHITE, "ID","Priority" ,"Operation", ANSI_RESET);
+        System.out.printf("%s%-14s %-17s %-17s %s%s%n", ANSI_BRIGHT_WHITE, "ID","Name","Priority" ,"Operation", ANSI_RESET);
         System.out.printf("%s--------------------------------------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
 
         for (Item item : listItem) {
@@ -60,7 +60,7 @@ public class ShowInformationUI implements Runnable {
             if (!item.getOperationList().isEmpty()) {
                 flag = false;
 
-                System.out.printf("%-14s %-13s [", item.getItemID(),item.getPriority());
+                System.out.printf("%-11s %-21s %-11s [", item.getItemID(),item.getName(),item.getPriority());
                 for (Operation operation : item.getOperationList()) {
                     if (item.getOperationList().indexOf(operation) != item.getOperationList().size() - 1) {
                         System.out.printf("%s, ", operation.getOperationName());
@@ -75,7 +75,7 @@ public class ShowInformationUI implements Runnable {
 
             for (Item item : listItem) {
                 if (item.getOperationList().isEmpty()) {
-                    System.out.printf("%-13s [%s%s%s]%n", item.getItemID(), ANSI_BRIGHT_WHITE, "Operations completed", ANSI_RESET);
+                    System.out.printf("%-10s %-23s %-17s [__]%n", item.getItemID(),item.getName(),item.getPriority());
                 }
 
             }

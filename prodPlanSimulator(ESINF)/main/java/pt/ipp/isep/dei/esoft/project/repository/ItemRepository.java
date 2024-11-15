@@ -7,7 +7,9 @@ import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.getOpOrItem;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -24,7 +26,24 @@ public class ItemRepository {
      */
     public ItemRepository() {
         itemList = new HashMap<>();
+        //fillItems();
         fillInventory();
+    }
+
+    private void fillItems() {
+        try{
+            String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
+            List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
+            for (String[] importedItem : itemsDetails) {
+
+                ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
+                String itemName = importedItem[1].trim();
+
+                addItem(new Item(itemID,itemName));
+            }
+        }catch (IOException e) {
+            System.out.println("Error reading operations from file");
+        }
     }
 
     /**

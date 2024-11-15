@@ -8,7 +8,7 @@ public class Operation {
 
     private static final String NO_DESCRIPTION = ANSI_BRIGHT_RED + "No description provided!" + ANSI_RESET;
 
-    private ID operationId;
+    private final ID operationId;
     private String operationName;
     private String operationDescription;
 
@@ -23,6 +23,7 @@ public class Operation {
     public Operation(String operationName, ID operationId) {
         this.operationName = operationName;
         this.operationId = operationId;
+        this.operationDescription = NO_DESCRIPTION;
     }
 
 

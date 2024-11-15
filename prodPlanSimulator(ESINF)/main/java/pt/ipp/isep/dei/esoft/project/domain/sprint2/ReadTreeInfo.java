@@ -8,10 +8,9 @@ import java.util.Scanner;
 
 public class ReadTreeInfo {
     private static final int NUMBER_OF_DETAILS = 2;
-    private static final Scanner ler = new Scanner(System.in);
 
 
-    public static List<String[]> getDetails(String path) throws IOException {
+    public static List<String[]> getOpOrItem(String path) throws IOException {
             Scanner scanner = new Scanner(new File(path));
             List<String[]> itemsDetails = new ArrayList<>();
 

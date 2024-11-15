@@ -3,15 +3,18 @@ package pt.ipp.isep.dei.esoft.project.repository;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
+import java.io.IOException;
 import java.util.*;
+
+import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.getOpOrItem;
 
 /**
  * Repository class that manages operations associated with machines.
  * This class allows for the addition and retrieval of operations.
  */
 public class OperationRepository {
-
     private final Set<Operation> operations;
 
     /**
@@ -22,6 +25,7 @@ public class OperationRepository {
      */
     public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
+        //fillOperations();
         fillOperations(items);
     }
 
@@ -60,6 +64,24 @@ public class OperationRepository {
             }
         }
     }
+
+
+    public void fillOperations() {
+        try{
+            String PATH_OPERATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/operations.csv";
+            List<String[]> itemsDetails = getOpOrItem(PATH_OPERATIONS);
+            for (String[] importedItem : itemsDetails) {
+                ID operationID = new ID(Integer.parseInt(importedItem[0]), TypeID.OPERATION);
+                String operationName = importedItem[1].trim();
+                Operation newOperation = new Operation(operationName,operationID);
+                addOperation(newOperation);
+            }
+        }catch (IOException e) {
+            System.out.println("Error reading operations from file");
+        }
+    }
+
+
 
     /**
      * Retrieves a list of all operations in the repository.
