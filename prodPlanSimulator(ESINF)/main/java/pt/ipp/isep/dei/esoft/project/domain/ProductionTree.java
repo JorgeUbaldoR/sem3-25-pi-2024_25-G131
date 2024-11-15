@@ -5,6 +5,7 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,11 @@ import java.util.Map;
 public class ProductionTree {
 
     String pdtTreeName;
-    Map<Integer, Node> nodesOfTree;
+    List<Node> nodesOfTree;
 
     public ProductionTree() {
         this.pdtTreeName = "No Name";
-        nodesOfTree = new HashMap<>();
+        nodesOfTree = new ArrayList<>();
     }
 
     public boolean getInformations(String path) {
@@ -46,11 +47,11 @@ public class ProductionTree {
                     materialMap.put(new ID(Integer.parseInt(arrayMaterials[j]), TypeID.ITEM), Float.parseFloat(arrayMaterials[j+1].replace(",", ".")));
                 }
                 Node node = new Node(operationID,itemID,qtd,operationMap,materialMap);
-                nodesOfTree.put(i,node);
+                nodesOfTree.add(node);
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("File not found...");
         }
         return true;
     }
@@ -59,7 +60,7 @@ public class ProductionTree {
         this.pdtTreeName = pdtTreeName;
     }
 
-    public Map<Integer, Node> getNodesOfTree() {
+    public List<Node> getNodesOfTree() {
         return nodesOfTree;
     }
 }

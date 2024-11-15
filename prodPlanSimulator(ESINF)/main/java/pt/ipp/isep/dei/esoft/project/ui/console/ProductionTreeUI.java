@@ -2,9 +2,13 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 
 
 import pt.ipp.isep.dei.esoft.project.application.controller.ProductionTreeController;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.ProductionTree;
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
@@ -36,34 +40,74 @@ public class ProductionTreeUI implements Runnable {
 
     }
 
-    private void showTree(ProductionTree productionTree) {
-        for (Node node : productionTree.getNodesOfTree().values()){
-            System.out.println(node);
+    private void showTree(ProductionTree productionTree, String name) {
+        System.out.printf("%n%n══════════|PRODUCTION TREE: %s%s%s|══════════%n%n",ANSI_BRIGHT_WHITE,name,ANSI_RESET);
+        for (Node node : productionTree.getNodesOfTree()){
+            printNode(node,1);
         }
     }
 
-    private void displayOption(String name) {
-        System.out.printf("%nChosen Name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]", name);
+
+    private void printNode(Node node, int level) {
+        String indent = "  ".repeat(level - 1) + (level > 1 ? "├─ " : "");
+
+        System.out.println(indent + ANSI_BRIGHT_WHITE+"Operation: " + node.getOperationID()+ANSI_RESET);
+
+        System.out.println(indent + ANSI_BRIGHT_BLACK+"│  └─"+ANSI_RESET+" Item: " + node.getItemID() + ", Quantity: " + node.getItem_qtd());
+
+        System.out.println(indent +  ANSI_BRIGHT_BLACK+"│  ├─"+ANSI_RESET +" Operations:");
+
+        if (!node.getOperationMap().isEmpty()) {
+            for (Map.Entry<ID, Float> entry : node.getOperationMap().entrySet()) {
+                System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     ├─ "+ ANSI_RESET+ entry.getKey() + ": " + entry.getValue());
+            }
+        } else {
+            System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     └─"+ANSI_RESET +" (No operations)");
+        }
+
+        System.out.println(indent +  ANSI_BRIGHT_BLACK+"│  └─"+ANSI_RESET+" Materials:");
+        if (!node.getMaterialMap().isEmpty()) {
+            for (Map.Entry<ID, Float> entry : node.getMaterialMap().entrySet()) {
+                System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     ├─ "+ANSI_RESET + entry.getKey() + ": " + entry.getValue());
+            }
+        } else {
+            System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     └─"+ANSI_RESET+" (No materials)");
+        }
+    }
+
+
+    private void displayOption(String name,int flag) {
+        if (flag == 0) {
+            System.out.printf("%nChosen Name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]", name);
+        }else{
+            System.out.printf("%nChosen Operation -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]", name);
+        }
     }
 
 
     private void confirmationData(String name, String path) {
-        displayOption(name);
-        displayOption(path);
+        displayOption(name,0);
+        displayOption(path,1);
 
         System.out.print("\nDo you wish to save the operation? (y/n): ");
         String answer = yesNoConfirmation();
 
         if(answer.equalsIgnoreCase("y")){
             getProductionTreeController().setName(name);
-            if(getProductionTreeController().getInformations(path)){
-                showTree(getProductionTreeController().getProductionTree());
-                System.out.println(ANSI_BRIGHT_GREEN + "Production Tree successfully generated!" + ANSI_RESET);
-            }else{
-                System.out.println(ANSI_BRIGHT_RED + "Operation canceled - File doesn't have information to be read" + ANSI_RESET);
+            try{
+                if(getProductionTreeController().getInformations(path)){
+                    showTree(getProductionTreeController().getProductionTree(),name);
+                    System.out.println(ANSI_BRIGHT_GREEN + "%nProduction Tree successfully generated!" + ANSI_RESET);
+                }else{
+                    System.out.println(ANSI_BRIGHT_RED + "%nOperation canceled - File doesn't have information to be read" + ANSI_RESET);
+                }
+
+            } catch (Exception e) {
+                System.out.println(ANSI_BRIGHT_RED +e.getMessage()+ ANSI_RESET);
             }
+
         }else{
-            System.out.println(ANSI_BRIGHT_RED + "Operation canceled." + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_RED + "%nOperation canceled." + ANSI_RESET);
         }
 
     }

@@ -2,7 +2,6 @@ package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 
-import java.util.List;
 import java.util.Map;
 
 public class Node{
