@@ -300,54 +300,149 @@ void usac_05() {
 
 void usac_06() {
 
-    int buffer[] = {1,2,3,4,5,6,7,8,9};
-    int length = sizeof(buffer) / sizeof(int);
-    int* tail = buffer + 4;
-    int* head = buffer + 1 ;
-    int value;
+    int buffer[] = {0,1,2,3,4,5,6,7,8,9};
+int length = sizeof(buffer) / sizeof(int);
+int head;
+int tail;
+int value;
+
+printf("Full buffer: [ ");
+for (int* i = buffer; i < buffer + length; i++) {
+    printf("%d ", *i);
+}
+printf(" ]\n");
+printf("Length: %d\n", length);
+
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
+do {
+    printf("Choose tail: ");
+    if (scanf("%d", &tail) != 1 || tail < 0 || tail >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
 
     printf("\n--- Before method ---\n");
+
+    //Head before tail
+    if (head < tail) {
     printf("Buffer: [ ");
-    for(int* i = head; i <= tail; i++) {
-        printf("%d ", *i);
+    for(int i = head; i <= tail; i++) {
+        printf("%d ", buffer[i]);
     }
     printf("]\n");
-    printf("Head: %d\n", *head);
-    printf("Tail: %d\n", *tail);
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
 
-    int ret = dequeue_value(buffer, length, &tail, head, &value);
+    }
 
-    printf("\n--- After method ---\n");
+    //Head equals tail
+    if (head == tail) {
+    printf("Buffer: [ ]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+    //Head after tail
+    if (head > tail) {
     printf("Buffer: [ ");
-    for(int* i = head; i < tail; i++) {
-        printf("%d ", *i);
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for(int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+    int ret = dequeue_value(buffer, length, &tail, &head, &value);
+
+    //Head before tail
+    printf("\n--- After method ---\n");
+    if (head != tail && head < tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i <= tail; i++) {
+        printf("%d ", buffer[i]);
     }
     printf("]\n");
     printf("Value removed: %d\n", value);
-    printf("New Head: %d\n", *head);
-    printf("Tail: %d\n", *tail);
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+}
+    if (head == tail) {
+	printf("Buffer: [ ]\n");
+	}
+
+    if (head > tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for(int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
     printf("Output: %d\n", ret);
 
 }
 
 void usac_07() {
 
-    int buffer[] = {2,45,3,26,34,321,65,2,75};
-    int lenght = (sizeof(buffer) / sizeof(int));
-    int* tail = buffer + 4;
-    int* head = buffer + 1;
+    int buffer[] = {0,1,2,3,4,5,6,7,8,9};
+	int length = sizeof(buffer) / sizeof(int);
+    int head;
+	int tail;
 
-    printf("\nBuffer: [ ");
-    for(int* i = head; i < tail; i++) {
+    printf("Full buffer: [ ");
+    for(int* i = buffer; i < buffer + length; i++) {
         printf("%d ", *i);
     }
     printf(" ]\n");
+    printf("Length: %d\n", length);
 
-    int res = get_n_element(buffer, lenght, tail, head);
+    do {
+        printf("Choose head: ");
+        if(scanf("%d", &head) != 1 || head < 0 || head >= length) {
+            printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+            while (getchar() != '\n');
+            continue;
+        }
+        break;
+    } while (1);
 
-    printf("The buffer has %d elements now.\n", res);
+    do {
+        printf("Choose tail: ");
+        if(scanf("%d", &tail) != 1 || tail < 0 || tail >= length) {
+            printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+            while (getchar() != '\n');
+            continue;
+        }
+        break;
+    } while (1);
 
-
+	int n = get_n_element(buffer, length, &tail, &head);
+	printf("Number of elements: %d\n", n);
 }
 
 
