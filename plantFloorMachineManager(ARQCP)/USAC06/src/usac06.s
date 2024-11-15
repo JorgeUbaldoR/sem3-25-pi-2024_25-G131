@@ -2,29 +2,42 @@
 .global dequeue_value
 
 dequeue_value:
-    cmpq %rdx, %rcx
-    je empty
-
-  
-    movl (%rcx), %eax       
-    movl %eax, (%r8)
-
+	pushq %r8
+	pushq %rsi
+    call get_n_element
+    popq %rsi
+    popq %r8
+	
+    cmpl $0, %eax
+    jle fail
     
-shift_loop:
-    movl 4(%rdi), %eax      
-    movl %eax, (%rdi)       
-    addq $4, %rdi           
-    cmpq %rdi, (%rdx)         
-    jne shift_loop
+    movl (%rcx), %ebx
+	incl %ebx
+    cmpl %esi, %ebx
+    je head_at_end
+	
 
-    
-    movl $0, (%rdx)
-    #subq $4, %rdx
-    movq %rdi, (%rdx)
 
-    movl $1, %eax
-    ret
+move_head:
+	decl %ebx
+	movslq %ebx, %rbx
+	movl (%rdi, %rbx, 4), %r9d
+	movl %r9d, (%r8)
+	incl (%rcx)
+	movl $1, %eax
+	ret
 
-empty:
-    movl $0, %eax
-    ret
+head_at_end:
+	decl %ebx
+	movslq %ebx, %rbx
+	movl (%rdi, %rbx, 4), %r9d
+	movl %r9d, (%r8)
+	movq $0, %rbx
+	movl (%rdi, %rbx, 4), %r9d
+	movl %r9d, (%rcx)
+	movl $1, %eax
+	ret
+	
+fail:
+	ret
+
