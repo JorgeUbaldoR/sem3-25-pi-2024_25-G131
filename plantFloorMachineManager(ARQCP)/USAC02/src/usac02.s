@@ -11,6 +11,9 @@ get_number_binary:
     # prologue
     pushq %rbp                      # save the original value of RBP
     movq %rsp,%rbp                  # copy the current stack pointer to RBP
+    
+    cmpq $0, %rsi                   # check if the pointer passed by parameter is NULL
+    je null_pointer_error           # if TRUE then jump into pointer ERROR
 
     movq $0, %r8                    # Initialize index register to 0
     call initialize_zeros           # Call a function to initialize the array to zeros
@@ -63,6 +66,9 @@ error:
     movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
     jmp epilogue                             
 
+null_pointer_error:
+    movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
+    jmp epilogue  
 
 epilogue:
     movq %rbp, %rsp                    # retrieve the original RSP value
