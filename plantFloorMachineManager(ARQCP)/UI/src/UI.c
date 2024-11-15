@@ -306,7 +306,7 @@ int head;
 int tail;
 int value;
 
-printf("Full buffer: [ ");
+printf("\nFull buffer: [ ");
 for (int* i = buffer; i < buffer + length; i++) {
     printf("%d ", *i);
 }
@@ -440,6 +440,28 @@ void usac_07() {
         }
         break;
     } while (1);
+
+    if (head < tail) {
+
+    printf("New buffer: [ ");
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    }
+
+      if (head > tail) {
+
+    printf("New buffer: [ ");
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for(int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    }
+
 
 	int n = get_n_element(buffer, length, &tail, &head);
 	printf("Number of elements: %d\n", n);
