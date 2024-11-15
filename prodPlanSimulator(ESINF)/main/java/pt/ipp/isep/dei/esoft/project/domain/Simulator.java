@@ -56,7 +56,9 @@ public class Simulator {
         this.avgExecutionTime = new HashMap<>();
         this.executionPerOperation = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
-        createQueues(items);
+        if(!createQueues(items)){
+            throw new IllegalArgumentException("No items in queue.");
+        }
     }
 
     /**
@@ -97,12 +99,17 @@ public class Simulator {
      *
      * @param items A list of items to be added to the operation queues.
      */
-    private void createQueues(List<Item> items) {
+    private boolean createQueues(List<Item> items) {
+        boolean haveItems = false;
         for (Item item : items) {
-            Operation currentOperation = item.getCurrentOperation();
-            OperationQueue operationQueue = operationQueueMap.get(currentOperation);
-            operationQueue.addItemToQueue(item);
+            if(item.getCurrentOperation() != null) {
+                haveItems = true;
+                Operation currentOperation = item.getCurrentOperation();
+                OperationQueue operationQueue = operationQueueMap.get(currentOperation);
+                operationQueue.addItemToQueue(item);
+            }
         }
+        return haveItems;
     }
 
 
