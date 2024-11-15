@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "../include/asm.h"
 
@@ -72,7 +73,12 @@ int us_ui(){
         printf(" 10. USAC10\n");
         printf(" 0. Exit  \n");
         printf("Select a option: ");
-        scanf("%d", &option);
+
+         if (scanf("%d", &option) != 1) {
+             printf("Invalid input. Please enter a number.\n");
+              while (getchar() != '\n');
+              continue;
+         }
 
         switch (option) {
             case 1: usac_01();
