@@ -1,0 +1,88 @@
+package pt.ipp.isep.dei.esoft.project.ui.console;
+
+
+import pt.ipp.isep.dei.esoft.project.application.controller.ProductionTreeController;
+import pt.ipp.isep.dei.esoft.project.domain.ProductionTree;
+import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.Node;
+
+import java.util.Scanner;
+
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
+public class ProductionTreeUI implements Runnable {
+
+    private ProductionTreeController controller;
+
+    public ProductionTreeUI() {
+        controller = new ProductionTreeController();
+    }
+
+    private ProductionTreeController getProductionTreeController() {
+        return controller;
+    }
+
+    @Override
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n\n══════════════════════════════════════════");
+        System.out.println(ANSI_BRIGHT_WHITE + "            Production Tree                 " + ANSI_RESET + "\n");
+
+        System.out.printf("Enter a name to your production tree:");
+        String name = scanner.nextLine();
+        System.out.printf("Enter the path to the boo.csv:");
+        String path = scanner.nextLine();
+        confirmationData(name,path);
+
+
+    }
+
+    private void showTree(ProductionTree productionTree) {
+        for (Node node : productionTree.getNodesOfTree().values()){
+            System.out.println(node);
+        }
+    }
+
+    private void displayOption(String name) {
+        System.out.printf("%nChosen Name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]", name);
+    }
+
+
+    private void confirmationData(String name, String path) {
+        displayOption(name);
+        displayOption(path);
+
+        System.out.print("\nDo you wish to save the operation? (y/n): ");
+        String answer = yesNoConfirmation();
+
+        if(answer.equalsIgnoreCase("y")){
+            getProductionTreeController().setName(name);
+            if(getProductionTreeController().getInformations(path)){
+                showTree(getProductionTreeController().getProductionTree());
+                System.out.println(ANSI_BRIGHT_GREEN + "Production Tree successfully generated!" + ANSI_RESET);
+            }else{
+                System.out.println(ANSI_BRIGHT_RED + "Operation canceled - File doesn't have information to be read" + ANSI_RESET);
+            }
+        }else{
+            System.out.println(ANSI_BRIGHT_RED + "Operation canceled." + ANSI_RESET);
+        }
+
+    }
+
+
+    /**
+     * Prompts the user for a yes or no confirmation.
+     *
+     * @return The user's answer as a lowercase string, either "y" or "n".
+     */
+    private String yesNoConfirmation() {
+        Scanner sc = new Scanner(System.in);
+        String answer = sc.nextLine().toUpperCase();
+
+        while (!answer.equals("Y") && !answer.equals("N")) {
+            System.out.print("Please enter 'y' or 'n': ");
+            answer = sc.nextLine().toUpperCase();
+        }
+
+        return answer;
+    }
+}
