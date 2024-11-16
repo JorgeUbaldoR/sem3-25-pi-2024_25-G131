@@ -9,6 +9,8 @@ void loginUI(char * username, char * password);
 int login(char *username, char *password);
 void showTeam();
 int us_ui();
+void print_buffer_before(int* buffer, int length, int tail, int head);
+void print_buffer_after(int* buffer, int length, int tail, int head);
 void usac_01();
 void usac_02();
 void usac_03();
@@ -267,40 +269,69 @@ void usac_04() {
 
 void usac_05() {
 
-    int buffer[] = {2, 32, 5, 23, 4, 6, 19, 29, 43, 27, 7, 43, 55, 32, 3, 12, 2, 5, 7, 9, 12, 16, 18, 21};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;            // Head index
-    int tail = 23;   		// Tail index
-    int value = 99;          // Value to insert
+int buffer[] = {0,1,2,3,4,5,6,7,8,9};
+int length = sizeof(buffer) / sizeof(int);
+int head;
+int tail;
+int value;
 
-    printf("---Before method---\n");
-    printf("Buffer: [ ");
-    for (int i = 0; i < length; i++) {
-        printf("%d ", buffer[i]);
+printf("\nFull buffer: [ ");
+for (int* i = buffer; i < buffer + length; i++) {
+    printf("%d ", *i);
+}
+printf(" ]\n");
+printf("Length: %d\n", length);
+
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
     }
-    printf("]\n");
-    printf("Head: %d (index)\n", head);
-    printf("Tail: %d (index)\n", tail);
-    printf("Length: %d\n", length);
+    break;
+} while (1);
+
+do {
+    printf("Choose tail: ");
+    if (scanf("%d", &tail) != 1 || tail < 0 || tail >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
+    printf("\n--- Before Insertion ---\n");
+
+    print_buffer_before(buffer,length,tail,head);
+
+do {
+    printf("Choose value to insert: ");
+    if (scanf("%d", &value) != 1) {
+        printf("Invalid input. Please enter a valid number\n");
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
 
     int ret = enqueue_value(buffer, length, &tail, &head, value);
 
-    printf("\n---After method---\n");
-    printf("Buffer: [ ");
-    for (int i = 0; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d (index)\n", head);
-    printf("Tail: %d (index)\n", tail);
-    printf("Length: %d\n", length);
-    printf("Output (Buffer Full Status): %d\n", ret);
+
+    printf("\n--- After Insertion ---\n");
+
+    print_buffer_after(buffer,length,tail,head);
+
+    printf("Output: %d\n", ret);
+
 
 }
 
 void usac_06() {
 
-    int buffer[] = {0,1,2,3,4,5,6,7,8,9};
+int buffer[] = {0,1,2,3,4,5,6,7,8,9};
 int length = sizeof(buffer) / sizeof(int);
 int head;
 int tail;
@@ -334,76 +365,16 @@ do {
 } while (1);
 
 
-    printf("\n--- Before method ---\n");
+    printf("\n--- Before Dequeue ---\n");
 
-    //Head before tail
-    if (head < tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
-
-    //Head equals tail
-    if (head == tail) {
-    printf("Buffer: [ ]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
-
-    //Head after tail
-    if (head > tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
+    print_buffer_before(buffer,length,tail,head);
 
     int ret = dequeue_value(buffer, length, &tail, &head, &value);
 
-    //Head before tail
-    printf("\n--- After method ---\n");
-    if (head != tail && head < tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Value removed: %d\n", value);
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-}
-    if (head == tail) {
-	printf("Buffer: [ ]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-	}
 
-    if (head > tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
+    printf("\n--- After Dequeue ---\n");
 
-    }
+    print_buffer_after(buffer,length,tail,head);
 
     printf("Output: %d\n", ret);
 
@@ -508,7 +479,7 @@ void usac_10() {
     int me1 = 1;
 
     int res = median(vec1,length1,&me1);
-    
+
     printf("\nVec = [");
     for (int i = 0; i < length1; i++){
         printf("%d,", *(vec1+i));
@@ -538,5 +509,86 @@ void usac_10() {
     printf("]\n%d: %d\n", res,me3);
 
 }
+
+
+void print_buffer_before(int* buffer, int length, int tail, int head) {
+
+    //Head before tail
+    if (head < tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+    //Head equals tail
+    if (head == tail) {
+    printf("Buffer: [ ]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+    //Head after tail
+    if (head > tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for(int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+}
+
+
+void print_buffer_after(int* buffer, int length, int tail, int head) {
+
+ if (head != tail && head < tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+    }
+
+    if (head == tail) {
+	printf("Buffer: [ ]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+	}
+
+    if (head > tail) {
+    printf("Buffer: [ ");
+    for(int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for(int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
+
+    }
+
+
+}
+
+
+
+
 
 

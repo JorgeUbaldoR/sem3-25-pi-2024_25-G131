@@ -49,7 +49,7 @@ public class OperationRepository {
 
     /**
      * Populates the operations list with operations extracted from the provided items.
-
+     * <p>
      * This method iterates over each item in the provided list and retrieves the list of operations
      * associated with each item. Each operation is cloned to ensure that the original operation objects
      * are not modified when added to the operations list. The cloned operations are then added to the
@@ -67,20 +67,19 @@ public class OperationRepository {
 
 
     public void fillOperations() {
-        try{
+        try {
             String PATH_OPERATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/operations.csv";
             List<String[]> itemsDetails = getOpOrItem(PATH_OPERATIONS);
             for (String[] importedItem : itemsDetails) {
                 ID operationID = new ID(Integer.parseInt(importedItem[0]), TypeID.OPERATION);
                 String operationName = importedItem[1].trim();
-                Operation newOperation = new Operation(operationName,operationID);
+                Operation newOperation = new Operation(operationName, operationID);
                 addOperation(newOperation);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error reading operations from file");
         }
     }
-
 
 
     /**
@@ -117,7 +116,7 @@ public class OperationRepository {
     public Optional<Operation> registerOperation(String name, String description, ID operationID) {
         Optional<Operation> optionalValue = Optional.empty();
 
-        Operation operation = new Operation(name,operationID,description);
+        Operation operation = new Operation(name, operationID, description);
 
         if (operations.add(operation)) {
             optionalValue = Optional.of(operation);
@@ -130,12 +129,13 @@ public class OperationRepository {
      * Registers a new operation with the given name.
      *
      * @param name The name of the operation to be registered.
+     * @param operationID The id  of the operation to be registered.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */
-    public Optional<Operation> registerOperation(String name,ID operationID) {
+    public Optional<Operation> registerOperation(String name, ID operationID) {
         Optional<Operation> optionalValue = Optional.empty();
 
-        Operation operation = new Operation(name,operationID);
+        Operation operation = new Operation(name, operationID);
 
         if (operations.add(operation)) {
             optionalValue = Optional.of(operation);
