@@ -387,6 +387,8 @@ do {
 }
     if (head == tail) {
 	printf("Buffer: [ ]\n");
+    printf("Head: %d\n", buffer[head]);
+    printf("Tail: %d\n", buffer[tail]);
 	}
 
     if (head > tail) {
