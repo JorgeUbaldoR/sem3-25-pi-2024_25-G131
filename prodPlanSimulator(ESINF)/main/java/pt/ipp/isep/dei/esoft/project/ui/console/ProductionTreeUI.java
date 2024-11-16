@@ -6,13 +6,15 @@ import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.ProductionTree;
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.Node;
 
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class ProductionTreeUI implements Runnable {
-
+    private final String DEFAULT_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+    private final Scanner in = new Scanner(System.in);
     private ProductionTreeController controller;
 
     public ProductionTreeUI() {
@@ -25,18 +27,69 @@ public class ProductionTreeUI implements Runnable {
 
     @Override
     public void run() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "            Production Tree                 " + ANSI_RESET + "\n");
 
-        System.out.printf("Enter a name to your production tree:");
-        String name = scanner.nextLine();
-        System.out.printf("Enter the path to the boo.csv:");
-        String path = scanner.nextLine();
-        confirmationData(name,path);
-
+        System.out.printf("Select a option:%n");
+        System.out.printf("     %s(1)%s - Use Default File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("     %s(2)%s - Insert Path File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("     %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        doChoice(getChoice());
 
     }
+    private void doChoice(int choice) {
+        Scanner in = new Scanner(System.in);
+        String name;
+        switch (choice) {
+            case 1:
+                System.out.println(ANSI_BRIGHT_GREEN + "\n\n         GENERATING BOO | DEFAULT FILE" + ANSI_RESET+"\n");
+                System.out.print("Enter a name to your production tree:");
+                name = in.nextLine();
+                confirmationData(name,DEFAULT_PATH);
+                break;
+
+            case 2:
+                System.out.println(ANSI_BRIGHT_GREEN + "\n\n         GENERATING BOO | SPECIFIC FILE" + ANSI_RESET+"\n");
+                System.out.print("Enter a name to your production tree:");
+                name = in.nextLine();
+                System.out.print("Enter the path to the boo.csv:");
+                String path = in.nextLine();
+                confirmationData(name,path);
+                break;
+
+            default:
+                System.out.println(ANSI_BRIGHT_RED + "\nLEAVING..." + ANSI_RESET);
+                break;
+        }
+    }
+
+    private int getChoice () {
+        int choice = 0;
+        boolean valid = false;
+        do {
+            System.out.print("Type your choice: ");
+            try {
+                choice = in.nextInt();
+
+                if (choice < 0 || choice > 2) {
+                    System.out.println(ANSI_LIGHT_RED + "Select a valid number: " + ANSI_RESET);
+                } else {
+                    valid = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(ANSI_LIGHT_RED + "Invalid choice. Please try again: " + ANSI_RESET);
+                in.next();
+
+            }
+        } while (!valid);
+        return choice;
+    }
+
+
+
+
+
+
 
     private void showTree(ProductionTree productionTree, String name) {
         System.out.printf("%n%n══════════|PRODUCTION TREE: %s%s%s|══════════%n%n",ANSI_BRIGHT_WHITE,name,ANSI_RESET);
@@ -73,7 +126,6 @@ public class ProductionTreeUI implements Runnable {
         }
     }
 
-
     private void displayOption(String name,int flag) {
         if (flag == 0) {
             System.out.printf("%nChosen Name -> [" + ANSI_GREEN + "%s" + ANSI_RESET + "]", name);
@@ -95,17 +147,17 @@ public class ProductionTreeUI implements Runnable {
             try{
                 if(getProductionTreeController().getInformations(path)){
                     showTree(getProductionTreeController().getProductionTree(),name);
-                    System.out.println(ANSI_BRIGHT_GREEN + "%nProduction Tree successfully generated!" + ANSI_RESET);
+                    System.out.println("\n"+ANSI_BRIGHT_GREEN + "Production Tree successfully generated!" + ANSI_RESET);
                 }else{
-                    System.out.println(ANSI_BRIGHT_RED + "%nOperation canceled - File doesn't have information to be read" + ANSI_RESET);
+                    System.out.println("\n"+ANSI_BRIGHT_RED + "Operation canceled - File doesn't have information to be read" + ANSI_RESET);
                 }
 
             } catch (Exception e) {
-                System.out.println(ANSI_BRIGHT_RED +e.getMessage()+ ANSI_RESET);
+                System.out.println("\n"+ANSI_BRIGHT_RED +e.getMessage()+ ANSI_RESET);
             }
 
         }else{
-            System.out.println(ANSI_BRIGHT_RED + "%nOperation canceled." + ANSI_RESET);
+            System.out.println("\n"+ANSI_BRIGHT_RED + "Operation canceled." + ANSI_RESET);
         }
 
     }
