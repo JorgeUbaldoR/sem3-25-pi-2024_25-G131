@@ -37,7 +37,13 @@ public class Node{
         return materialMap;
     }
 
+    public void setOperationMap(Map<ID, Float> operationMap) {
+        this.operationMap = operationMap;
+    }
 
+    public void setMaterialMap(Map<ID, Float> materialMap) {
+        this.materialMap = materialMap;
+    }
 
     @Override
     public String toString() {

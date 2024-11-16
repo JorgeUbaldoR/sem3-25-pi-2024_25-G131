@@ -13,11 +13,14 @@ import java.util.Map;
 public class ProductionTree {
 
     String pdtTreeName;
+    Map<Integer, List<Node>> heightMap;
     List<Node> nodesOfTree;
+    int treeHeight = 0;
 
     public ProductionTree() {
         this.pdtTreeName = "No Name";
         nodesOfTree = new ArrayList<>();
+        heightMap = new HashMap<>();
     }
 
     public boolean getInformations(String path) {
@@ -53,8 +56,41 @@ public class ProductionTree {
         } catch (IOException e) {
             throw new IllegalArgumentException("File not found...");
         }
+        fillTreeHeight(nodesOfTree.get(0), 0);
         return true;
     }
+
+
+    private void fillTreeHeight(Node node, int height) {
+        if (node == null) {
+            return;
+        }
+
+        heightMap.putIfAbsent(height, new ArrayList<>());
+        heightMap.get(height).add(node);
+
+        treeHeight = Math.max(treeHeight, height + 1);
+
+        for (ID id : node.getOperationMap().keySet()) {
+            Node childNode = findNodeByOperation(id);
+            if (childNode != null) {
+                fillTreeHeight(childNode, height + 1);
+            }
+        }
+    }
+
+
+
+    private Node findNodeByOperation(ID id) {
+        for (Node node : nodesOfTree) {
+            if (node.getOperationID().equals(id)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+
 
     public void setPdtTreeName(String pdtTreeName) {
         this.pdtTreeName = pdtTreeName;
@@ -62,5 +98,9 @@ public class ProductionTree {
 
     public List<Node> getNodesOfTree() {
         return nodesOfTree;
+    }
+
+    public Map<Integer, List<Node>> getHeightMap() {
+        return heightMap;
     }
 }
