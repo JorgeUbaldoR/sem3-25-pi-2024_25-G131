@@ -21,6 +21,7 @@ public class DataBaseUI implements Runnable {
         options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
         options.add(new MenuItem("Show Information", new ShowInformationUI()));
         options.add(new MenuItem("Show Production Tree", new ProductionTreeUI()));
+        options.add(new MenuItem("Generate Diagram", new DiagramGenerationUI()));
         options.add(new MenuItem("Show Quality Checks", new QualityChecksUI()));
 
         int option = 0;

@@ -10,10 +10,8 @@ import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,21 +24,20 @@ public class WriterTree {
     static private List<Item> itemList;
 
 
-    public WriterTree(String path) throws IOException {
-        productionTree = new ProductionTree();
-        productionTree.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+    public WriterTree(ProductionTree productionTree) {
+        this.productionTree = productionTree;
         operationRepository = Repositories.getInstance().getOperationRepository();
         itemRepository = Repositories.getInstance().getItemRepository();
         itemList = new ArrayList<>(itemRepository.getItemList());
         operationList = new ArrayList<>(operationRepository.getOperations());
-        writeToUmlFile(path);
+
     }
 
 
-    public static void writeToUmlFile(String path) throws IOException {
+    public static void writeBOOToUmlFile() {
         List<Node> boo = productionTree.getNodesOfTree();
         try {
-            treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree.puml");
+            treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOO.puml");
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
             for (Node node : boo) {
@@ -81,6 +78,56 @@ public class WriterTree {
             System.out.println("File write error: " + exception.getMessage());
         }
     }
+
+    public static void writeBOMToUmlFile() {
+        List<Node> bom = productionTree.getNodesOfTree();
+        try {
+            treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOM.puml");
+            treePrintWriter.println("@startuml");
+            treePrintWriter.println("graph TreeDiagram {");
+
+            for (Node node : bom) {
+                String itmName = getItmName(node.getItemID());
+
+                if (!node.getOperationMap().isEmpty()){
+                    for (Map.Entry<ID,Float> operation : node.getOperationMap().entrySet()) {
+                        String otherItem = getItmName(findeNextItemID(operation.getKey(),bom));
+                        treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.1f]%n",
+                                itmName,
+                                otherItem,
+                                operation.getValue());
+                    }
+                }
+
+                if (!node.getMaterialMap().isEmpty()){
+                    for (Map.Entry<ID,Float> mat : node.getMaterialMap().entrySet()) {
+                        String material = getItmName(mat.getKey());
+                        treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.3f]%n",
+                                itmName,
+                                material,
+                                mat.getValue());
+                        treePrintWriter.printf("\"%s\" [shape=hexagon]%n", material);
+                    }
+                }
+
+            }
+            treePrintWriter.printf("}%n");
+            treePrintWriter.println("@enduml");
+            treePrintWriter.close();
+        } catch (FileNotFoundException exception) {
+            System.out.println("File write error: " + exception.getMessage());
+        }
+    }
+
+    private static ID findeNextItemID(ID key,List<Node> bom) {
+        for (Node node : bom){
+            if(node.getOperationID().equals(key)){
+                return node.getItemID();
+            }
+        }
+        return null;
+    }
+
 
     private static String getItmName(ID id) {
         for (Item item : itemList) {
