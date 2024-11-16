@@ -42,9 +42,9 @@ public class AddOperationDescriptionUI implements Runnable {
         System.out.printf("%s(%d)%s - %s%n", ANSI_BRIGHT_BLACK, 0, ANSI_RESET, "Cancel");
         for (Operation operation : operationList) {
             if (operation.getOperationDescription() != null) {
-                System.out.printf("%s(%d)%s - %-10s %s %s\"%s%s\"%s%n",
+                System.out.printf("%s(%d)%s - %-20s %s %s\"%1s%s\"%s%n",
                         ANSI_BRIGHT_BLACK, c++, ANSI_RESET,
-                        operation.getOperationName(), ":",
+                        operation.getOperationName(),"->",
                         ANSI_FOREST_GREEN,
                         operation.getOperationDescription(),
                         ANSI_FOREST_GREEN,

@@ -9,30 +9,28 @@ import java.util.List;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_BRIGHT_WHITE;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
 
-public class ProductionManagerUI implements Runnable {
+public class DataBaseUI implements Runnable {
 
-    public ProductionManagerUI() {
+
+    public DataBaseUI() {
     }
 
 
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("| Extras UI", new ExtrasUI()));
-        options.add(new MenuItem("| Database UI", new DataBaseUI()));
-        options.add(new MenuItem("Simulation", new SimulatorUI()));
-
-
-
+        options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
+        options.add(new MenuItem("Show Information", new ShowInformationUI()));
+        options.add(new MenuItem("Show Production Tree", new ProductionTreeUI()));
 
         int option = 0;
         do {
             System.out.println("\n\n╔════════════════════════════════════════╗");
-            option = Utils.showAndSelectIndex(options, "║" + ANSI_BRIGHT_WHITE + "        PRODUCTION MANAGER MENU   " + ANSI_RESET + "      ║");
+            option = Utils.showAndSelectIndex(options, "║" + ANSI_BRIGHT_WHITE + "         PM MENU | DATABASE UI    " + ANSI_RESET + "      ║");
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
             }
         } while (option != -1);
     }
-}
 
+}
