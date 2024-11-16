@@ -143,4 +143,13 @@ public class OperationRepository {
         return optionalValue;
     }
 
+    public String getNameByID(ID id) {
+        for (Operation operation : operations) {
+            if (operation.getOperationId().equals(id)) {
+                return operation.getOperationName();
+            }
+        }
+        return null;
+    }
+
 }
