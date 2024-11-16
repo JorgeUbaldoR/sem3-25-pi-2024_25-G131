@@ -2,6 +2,8 @@
 .global get_n_element
 
 get_n_element:
+	cmpl $0, %esi
+	je is_empty
 	cmpl $0, (%rdx)
 	jl fail
 	cmpl $0, (%rcx)
@@ -10,10 +12,10 @@ get_n_element:
 	je check_head_tail
 continue:
 	cmpl %esi, (%rdx)
-	jg fail
+	jge fail
 	
 	cmpl %esi, (%rcx)
-	jg fail
+	jge fail
 	
 	movl $0, %eax
 	movl (%rdx), %r8d
