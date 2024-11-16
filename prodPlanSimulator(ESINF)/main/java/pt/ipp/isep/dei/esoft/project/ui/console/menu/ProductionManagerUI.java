@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.ui.console.menu;
 
-import pt.ipp.isep.dei.esoft.project.domain.ProductionTree;
 import pt.ipp.isep.dei.esoft.project.ui.console.*;
 import pt.ipp.isep.dei.esoft.project.ui.console.utils.Utils;
 

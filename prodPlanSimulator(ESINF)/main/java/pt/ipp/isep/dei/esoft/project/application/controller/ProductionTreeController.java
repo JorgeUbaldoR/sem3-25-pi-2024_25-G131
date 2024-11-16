@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.domain.ProductionTree;
+import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.ProductionTree;
 
 public class ProductionTreeController {
     private ProductionTree productionTree;

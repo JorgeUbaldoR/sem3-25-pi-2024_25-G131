@@ -3,11 +3,9 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.ProductionTreeController;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
-import pt.ipp.isep.dei.esoft.project.domain.ProductionTree;
+import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.ProductionTree;
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.Node;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 

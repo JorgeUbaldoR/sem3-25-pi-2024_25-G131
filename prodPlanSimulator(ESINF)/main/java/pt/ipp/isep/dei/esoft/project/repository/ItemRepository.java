@@ -26,8 +26,8 @@ public class ItemRepository {
      */
     public ItemRepository() {
         itemList = new HashMap<>();
-        //fillItems();
-        fillInventory();
+        fillItems();
+        //fillInventory();
     }
 
     private void fillItems() {
