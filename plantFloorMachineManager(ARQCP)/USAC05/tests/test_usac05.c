@@ -36,7 +36,7 @@ void test_enqueue_from_partial_buffer(void) {
     int tail = 9;
     int value = 10;
 
-    int expected_output = 1;
+    int expected_output = 0;
     int expected_tail = 0;
     int expected_head = 3;
     int expected_value_in_tail = 10;
@@ -99,7 +99,7 @@ void test_enqueue_into_partial_buffer_tail_first(void) {
     int tail = 2;
     int value = 10;
 
-    int expected_output = 1;
+    int expected_output = 0;
     int expected_tail = 3;
     int expected_head = 5;
 

@@ -23,7 +23,7 @@ tail_wrap_check:
     movl %r8d, (%rax, %r12, 4)  # Insert value at buffer[new tail]
     movl %r12d, (%rdx)          # Update tail position
     movl %r11d, (%rcx)          # Keep head unchanged
-    movl $1, %eax               # Return 1
+    movl $0, %eax               # Return 0
     ret
 
 buffer_full:
@@ -39,7 +39,7 @@ head_wrap_check:
     cmpl %r12d, %r11d           # Compare incremented tail with head
     je end                      # If equal, buffer is full
     movl %r11d, (%rcx)          # Update head position
-    movl $0, %eax               # Return 1
+    movl $0, %eax               # Return 0
     ret
 
 end:
