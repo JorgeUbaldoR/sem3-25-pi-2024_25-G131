@@ -17,12 +17,19 @@ enqueue_value:
     movl $0, %r12d          # Wrap tail to 0 if it reached length
 
 tail_wrap_check:
-    cmpl %r12d, %r11d       # Compare incremented tail with head
-    je buffer_full          # If equal, buffer is full
 
     movl %r8d, (%rax, %r12, 4)  # Insert value at buffer[new tail]
     movl %r12d, (%rdx)          # Update tail position
     movl %r11d, (%rcx)          # Keep head unchanged
+    subl $1, %r9d               # Subtract 1 from length
+    cmpl %r12d, %r9d            # If it is equal to my position means that it got to he last position (buffer is full)
+    je ending
+    cmpl %r12d, %r11d           # Compare incremented tail with head
+    je buffer_full              # If equal, buffer is full
+    movl %r11d, %r15d           # Copy head to %r15d
+    subl $1, %r15d              # Subtract 1 from head
+    cmpl %r12d, %r15d           # Compare if head and tail are equal
+    je end
     movl $0, %eax               # Return 0
     ret
 
@@ -48,5 +55,12 @@ end:
 	ret
 
 empty_buffer:
+    addl $1, %r10d              # Increment tail index
+    movl %r10d, (%rdx)          # Update tail position
+    movl %r8d, (%rax, %r10, 4)  # Insert value at buffer[tail]
 	movl $0, %eax               # Return 0
 	ret
+
+ending:
+	movl %r12d, (%rdx)          # Update tail position
+	jmp end
