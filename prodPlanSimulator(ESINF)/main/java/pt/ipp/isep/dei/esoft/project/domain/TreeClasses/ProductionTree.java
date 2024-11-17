@@ -18,12 +18,14 @@ public class ProductionTree {
     int treeHeight = 0;
 
     Map<ID, Float> materialsInventory;
+    Map<ID, Node> operationNodeID;
 
     public ProductionTree() {
         this.pdtTreeName = "No Name";
         nodesOfTree = new ArrayList<>();
         heightMap = new HashMap<>();
         materialsInventory = new HashMap<>();
+        operationNodeID = new HashMap<>();
     }
 
     public boolean getInformations(String path) {
@@ -59,6 +61,7 @@ public class ProductionTree {
                 }
                 Node node = new Node(operationID,itemID,qtd,operationMap,materialMap);
                 nodesOfTree.add(node);
+                operationNodeID.put(operationID,node);
 
             }
         } catch (IOException e) {
@@ -76,6 +79,7 @@ public class ProductionTree {
 
         heightMap.putIfAbsent(height, new ArrayList<>());
         heightMap.get(height).add(node);
+        node.setHeigthInTree(height);
 
         treeHeight = Math.max(treeHeight, height + 1);
 
@@ -88,7 +92,6 @@ public class ProductionTree {
     }
 
 
-
     private Node findNodeByOperation(ID id) {
         for (Node node : nodesOfTree) {
             if (node.getOperationID().equals(id)) {
@@ -97,7 +100,6 @@ public class ProductionTree {
         }
         return null;
     }
-
 
 
     public void setPdtTreeName(String pdtTreeName) {
@@ -112,7 +114,7 @@ public class ProductionTree {
         return heightMap;
     }
 
-    public Map<ID, Float> getMaterialsInventory() {
-        return materialsInventory;
+    public Map<ID, Node> getOperationNodeID() {
+        return operationNodeID;
     }
 }

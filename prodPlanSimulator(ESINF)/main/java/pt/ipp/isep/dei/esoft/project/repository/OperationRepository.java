@@ -16,7 +16,7 @@ import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.getOpOrI
  */
 public class OperationRepository {
     private final Set<Operation> operations;
-
+    private final Map<ID,Operation> idToOperation;
     /**
      * Constructs an OperationRepository instance.
      * Initializes the set to hold operations.
@@ -25,6 +25,7 @@ public class OperationRepository {
      */
     public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
+        this.idToOperation = new HashMap<>();
         fillOperations();
         //fillOperations(items);
     }
@@ -40,6 +41,7 @@ public class OperationRepository {
         if (!operations.contains(operation)) {
             op = Optional.of(operation.clone());
             operations.add(operation);
+            idToOperation.put(operation.getOperationId(), operation);
         } else {
             return op;
         }
@@ -152,4 +154,7 @@ public class OperationRepository {
         return null;
     }
 
+    public Map<ID, Operation> getIdToOperation() {
+        return idToOperation;
+    }
 }

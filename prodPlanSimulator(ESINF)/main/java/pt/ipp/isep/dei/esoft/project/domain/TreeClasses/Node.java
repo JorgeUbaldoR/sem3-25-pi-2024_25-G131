@@ -8,6 +8,7 @@ public class Node{
 
     ID operationID;
     ID itemID;
+    int heigthInTree;
     float item_qtd;
     Map<ID, Float> operationMap;
     Map<ID, Float> materialMap;
@@ -19,6 +20,7 @@ public class Node{
         this.operationMap = operationMap;
         this.item_qtd = item_qtd;
         this.itemID = itemID;
+        this.heigthInTree = 0;
     }
 
     public ID getOperationID() {
@@ -43,6 +45,14 @@ public class Node{
 
     public void setMaterialMap(Map<ID, Float> materialMap) {
         this.materialMap = materialMap;
+    }
+
+    public void setHeigthInTree(int heigthInTree) {
+        this.heigthInTree = heigthInTree;
+    }
+
+    public int getHeigthInTree() {
+        return heigthInTree;
     }
 
     @Override
