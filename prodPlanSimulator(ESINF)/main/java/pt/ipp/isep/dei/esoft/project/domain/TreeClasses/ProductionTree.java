@@ -17,10 +17,13 @@ public class ProductionTree {
     List<Node> nodesOfTree;
     int treeHeight = 0;
 
+    Map<ID, Float> materialsInventory;
+
     public ProductionTree() {
         this.pdtTreeName = "No Name";
         nodesOfTree = new ArrayList<>();
         heightMap = new HashMap<>();
+        materialsInventory = new HashMap<>();
     }
 
     public boolean getInformations(String path) {
@@ -37,6 +40,7 @@ public class ProductionTree {
                 ID operationID = new ID(Integer.parseInt(firstThreeValues[0]), TypeID.OPERATION);
                 ID itemID = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float qtd = Float.parseFloat(firstThreeValues[2]);
+                materialsInventory.put(itemID,qtd);
 
 
                 Map<ID, Float> operationMap = new HashMap<>();
@@ -47,7 +51,11 @@ public class ProductionTree {
 
                 Map<ID, Float> materialMap = new HashMap<>();
                 for(int j = 1; j < arrayMaterials.length; j += 2){
-                    materialMap.put(new ID(Integer.parseInt(arrayMaterials[j]), TypeID.ITEM), Float.parseFloat(arrayMaterials[j+1].replace(",", ".")));
+                    ID newID = new ID(Integer.parseInt(arrayMaterials[j]),TypeID.ITEM);
+                    Float newQtd = Float.parseFloat(arrayMaterials[j+1].replace(",", "."));
+
+                    materialMap.put(newID,newQtd);
+                    materialsInventory.put(newID,newQtd);
                 }
                 Node node = new Node(operationID,itemID,qtd,operationMap,materialMap);
                 nodesOfTree.add(node);
@@ -102,5 +110,9 @@ public class ProductionTree {
 
     public Map<Integer, List<Node>> getHeightMap() {
         return heightMap;
+    }
+
+    public Map<ID, Float> getMaterialsInventory() {
+        return materialsInventory;
     }
 }
