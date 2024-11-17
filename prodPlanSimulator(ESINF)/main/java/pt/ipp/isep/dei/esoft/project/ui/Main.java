@@ -1,6 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
-import pt.ipp.isep.dei.esoft.project.domain.sprint2.WriterTree;
+import pt.ipp.isep.dei.esoft.project.domain.QualityChecks;
+
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.MainMenuUI;
 
 import java.io.IOException;
