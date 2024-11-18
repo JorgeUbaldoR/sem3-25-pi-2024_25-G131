@@ -23,26 +23,33 @@ public class WriterTree {
     static private List<Operation> operationList;
     static private List<Item> itemList;
 
-
+    /**
+     * Constructor to initialize the WriterTree with the given ProductionTree.
+     * Time Complexity: O(M + N), where M is the number of operations and N is the number of items.
+     */
     public WriterTree(ProductionTree productionTree) {
         this.productionTree = productionTree;
         operationRepository = Repositories.getInstance().getOperationRepository();
         itemRepository = Repositories.getInstance().getItemRepository();
-        itemList = new ArrayList<>(itemRepository.getItemList());
-        operationList = new ArrayList<>(operationRepository.getOperations());
-
+        itemList = new ArrayList<>(itemRepository.getItemList()); // O(N)
+        operationList = new ArrayList<>(operationRepository.getOperations()); // O(M)
     }
 
-
+    /**
+     * Writes the BOO (Bill of Operations) production tree to a UML file.
+     * Time Complexity: O(P * (O + M)), where P is the number of nodes,
+     * O is the maximum size of the operation map, and M is the maximum size of the material map for a node.
+     */
     public static void writeBOOToUmlFile() {
-        List<Node> boo = productionTree.getNodesOfTree();
+        List<Node> boo = productionTree.getNodesOfTree(); // O(P)
         try {
             treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOO.puml");
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
-            for (Node node : boo) {
-                String opName = getOpName(node.getOperationID());
-                String itmName = getItmName(node.getItemID());
+
+            for (Node node : boo) { // O(P)
+                String opName = getOpName(node.getOperationID()); // O(M)
+                String itmName = getItmName(node.getItemID()); // O(N)
 
                 treePrintWriter.printf("\"%s\" [shape=rectangle]%n", opName);
                 treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.1f]%n",
@@ -50,18 +57,18 @@ public class WriterTree {
                         itmName,
                         node.getItem_qtd());
 
-                if (!node.getOperationMap().isEmpty()){
-                    for (Map.Entry<ID,Float> operation : node.getOperationMap().entrySet()) {
+                if (!node.getOperationMap().isEmpty()) { // O(O)
+                    for (Map.Entry<ID, Float> operation : node.getOperationMap().entrySet()) {
                         treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.1f]%n",
                                 opName,
-                                getOpName(operation.getKey()),
+                                getOpName(operation.getKey()), // O(M)
                                 operation.getValue());
                     }
                 }
 
-                if (!node.getMaterialMap().isEmpty()){
-                    for (Map.Entry<ID,Float> mat : node.getMaterialMap().entrySet()) {
-                        String material = getItmName(mat.getKey());
+                if (!node.getMaterialMap().isEmpty()) { // O(M)
+                    for (Map.Entry<ID, Float> mat : node.getMaterialMap().entrySet()) {
+                        String material = getItmName(mat.getKey()); // O(N)
                         treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.3f]%n",
                                 opName,
                                 material,
@@ -69,7 +76,6 @@ public class WriterTree {
                         treePrintWriter.printf("\"%s\" [shape=hexagon]%n", material);
                     }
                 }
-
             }
             treePrintWriter.printf("}%n");
             treePrintWriter.println("@enduml");
@@ -79,19 +85,24 @@ public class WriterTree {
         }
     }
 
+    /**
+     * Writes the BOM (Bill of Materials) production tree to a UML file.
+     * Time Complexity: O(P * (O + M)), where P is the number of nodes,
+     * O is the maximum size of the operation map, and M is the maximum size of the material map for a node.
+     */
     public static void writeBOMToUmlFile() {
-        List<Node> bom = productionTree.getNodesOfTree();
+        List<Node> bom = productionTree.getNodesOfTree(); // O(P)
         try {
             treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOM.puml");
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
 
-            for (Node node : bom) {
-                String itmName = getItmName(node.getItemID());
+            for (Node node : bom) { // O(P)
+                String itmName = getItmName(node.getItemID()); // O(N)
 
-                if (!node.getOperationMap().isEmpty()){
-                    for (Map.Entry<ID,Float> operation : node.getOperationMap().entrySet()) {
-                        String otherItem = getItmName(findeNextItemID(operation.getKey(),bom));
+                if (!node.getOperationMap().isEmpty()) { // O(O)
+                    for (Map.Entry<ID, Float> operation : node.getOperationMap().entrySet()) {
+                        String otherItem = getItmName(findeNextItemID(operation.getKey(), bom)); // O(P * N)
                         treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.1f]%n",
                                 itmName,
                                 otherItem,
@@ -99,9 +110,9 @@ public class WriterTree {
                     }
                 }
 
-                if (!node.getMaterialMap().isEmpty()){
-                    for (Map.Entry<ID,Float> mat : node.getMaterialMap().entrySet()) {
-                        String material = getItmName(mat.getKey());
+                if (!node.getMaterialMap().isEmpty()) { // O(M)
+                    for (Map.Entry<ID, Float> mat : node.getMaterialMap().entrySet()) {
+                        String material = getItmName(mat.getKey()); // O(N)
                         treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.3f]%n",
                                 itmName,
                                 material,
@@ -109,7 +120,6 @@ public class WriterTree {
                         treePrintWriter.printf("\"%s\" [shape=hexagon]%n", material);
                     }
                 }
-
             }
             treePrintWriter.printf("}%n");
             treePrintWriter.println("@enduml");
@@ -119,18 +129,32 @@ public class WriterTree {
         }
     }
 
-    private static ID findeNextItemID(ID key,List<Node> bom) {
-        for (Node node : bom){
-            if(node.getOperationID().equals(key)){
+    /**
+     * Finds the item ID corresponding to the next operation in the production tree.
+     * Time Complexity: O(P), where P is the number of nodes in the production tree.
+     *
+     * @param key the ID of the operation to find.
+     * @param bom the list of nodes in the production tree.
+     * @return the ID of the next item, or null if not found.
+     */
+    private static ID findeNextItemID(ID key, List<Node> bom) {
+        for (Node node : bom) { // O(P)
+            if (node.getOperationID().equals(key)) {
                 return node.getItemID();
             }
         }
         return null;
     }
 
-
+    /**
+     * Gets the name of an item by its ID.
+     * Time Complexity: O(N), where N is the number of items.
+     *
+     * @param id the ID of the item.
+     * @return the name of the item, or an empty string if not found.
+     */
     private static String getItmName(ID id) {
-        for (Item item : itemList) {
+        for (Item item : itemList) { // O(N)
             if (item.getItemID().equals(id)) {
                 return item.getName();
             }
@@ -138,13 +162,19 @@ public class WriterTree {
         return "";
     }
 
+    /**
+     * Gets the name of an operation by its ID.
+     * Time Complexity: O(M), where M is the number of operations.
+     *
+     * @param id the ID of the operation.
+     * @return the name of the operation, or an empty string if not found.
+     */
     private static String getOpName(ID id) {
-        for (Operation operation : operationList) {
-            if(operation.getOperationId().equals(id)){
+        for (Operation operation : operationList) { // O(M)
+            if (operation.getOperationId().equals(id)) {
                 return operation.getOperationName();
             }
         }
         return "";
     }
-
 }
