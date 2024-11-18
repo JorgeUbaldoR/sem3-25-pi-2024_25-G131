@@ -41,7 +41,7 @@ public class QualityChecksUI implements Runnable {
     private void printQualityChecks() {
         PriorityQueue<Map<Integer, List<ID>>> qualityChecks = getQualityChecks();
         qualityChecks.comparator().reversed();
-        System.out.println(ANSI_DARK_ORANGE + "A higher number indicates a higher priority" + ANSI_RESET);
+        System.out.println(ANSI_DARK_ORANGE + "A lower number indicates a higher priority" + ANSI_RESET);
         while (!qualityChecks.isEmpty()) {
             Map<Integer, List<ID>> entry = qualityChecks.poll();
             for (Map.Entry<Integer, List<ID>> mapEntry : entry.entrySet()) {
