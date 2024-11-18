@@ -1,84 +1,114 @@
 #include <stdio.h>
 #include "../include/asm.h"
 
-int main () {
-    int buffer[] = {0,1,2,3,4,5,6,7,8,9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 5;
-    int tail = 6;
-    int value;  
-	
+int main() {
+    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int length = sizeof(buffer) / sizeof(int); // Tamanho do buffer circular
+    int array[length]; // Array onde os elementos mais antigos serão movidos
 
-    printf("--- Before method ---\n");
+    int head = 3;
+    int tail = 9;
 
-    //Head before tail
-    if (head < tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
+    int n = 5; // Quantidade de elementos a serem movidos
 
-    } 
+    printf("=== Before Method ===\n");
 
-    //Head equals tail
-    if (head == tail) {
+	if (head == tail) {
     printf("Buffer: [ ]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
+    printf("Head: %d\n", head);
+    printf("Tail: %d\n", tail);
 
-    } 
-
-    //Head after tail
-    if (head > tail) {
+	} else if (head < tail) {
     printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
+    for (int i = head; i <= tail; i++) {
         printf("%d ", buffer[i]);
     }
     printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
+    printf("Head -> %d\n", buffer[head]);
+    printf("Tail -> %d\n", buffer[tail]);
 
-    } 
-
-    int ret = dequeue_value(buffer, length, &tail, &head, &value); 
-
-    //Head before tail
-    printf("\n--- After method ---\n");
-    if (head != tail && head < tail) {
+	} else { // head > tail
     printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
+
+    for (int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+
+    for (int i = 0; i <= tail; i++) {
         printf("%d ", buffer[i]);
     }
     printf("]\n");
-    printf("Value removed: %d\n", value);
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-} 
-    if (head == tail) {
-	printf("Buffer: [ ]\n");
-	}
+    printf("Head -> %d\n", buffer[head]);
+    printf("Tail -> %d\n", buffer[tail]);
+}
 
-    if (head > tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
+	printf("=====================\n");
+
+	printf("\n");
+
+	// Chamada da função
+	int ret = move_n_to_array(buffer, length, &tail, &head, n, array);
+
+	printf("=== OPERAÇÃO: MOVER ELEMENTOS ===\n");
+printf("Quantidade de elementos a mover: %d\n", n);
+
+printf("\n");
+
+if (ret) {
+    printf("> Elementos movidos para o array: [");
+    for (int i = 0; i < n; i++) {
+        printf("%d", array[i]);
+        if (i < n - 1) printf(", ");
     }
     printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
+} else {
+    printf("Could not move %d elements (not enough elements).\n", n);
+}
 
-    } 
+printf("=====================\n");
 
-    printf("Output: %d\n", ret);
-    
+printf("\n");
+
+	printf("=== After Method ===\n");
+
+	if (head == tail) {
+    printf("Buffer: [ ]\n");
+	printf("Head: %d\n", head);
+    printf("Tail: %d\n", tail);
+
+	} else if (head < tail) {
+    printf("Buffer: [ ");
+
+    for (int i = head; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+
+    printf("]\n");
+    printf("Head -> %d\n", buffer[head]);
+    printf("Tail -> %d\n", buffer[tail]);
+
+	} else { // head > tail
+    printf("Buffer: [ ");
+    for (int i = head; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    for (int i = 0; i <= tail; i++) {
+        printf("%d ", buffer[i]);
+    }
+
+    printf("]\n");
+    printf("Head -> %d\n", buffer[head]);
+    printf("Tail -> %d\n", buffer[tail]);
+}
+
+	printf("=====================\n");
+printf("Operation Result: %s\n", ret ? "Success" : "Failure");
+
+if (!ret) {
+    printf("Could not move %d elements (not enough elements).\n", n);
+}
+
+printf("=====================\n");
+
     return 0;
 }
