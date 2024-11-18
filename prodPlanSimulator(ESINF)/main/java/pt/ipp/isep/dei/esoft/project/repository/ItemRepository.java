@@ -107,4 +107,8 @@ public class ItemRepository {
         }
         return items;
     }
+
+    public Map<ID, Item> getMapItemList() {
+        return itemList;
+    }
 }

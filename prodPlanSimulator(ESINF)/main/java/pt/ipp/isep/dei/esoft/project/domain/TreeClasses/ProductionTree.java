@@ -17,14 +17,16 @@ public class ProductionTree {
     List<Node> nodesOfTree;
     int treeHeight = 0;
 
-    Map<ID, Float> materialsInventory;
+    Map<ID, Node> materials;
+    Map<ID, Node> rawMaterials;
     Map<ID, Node> operationNodeID;
 
     public ProductionTree() {
         this.pdtTreeName = "No Name";
         nodesOfTree = new ArrayList<>();
         heightMap = new HashMap<>();
-        materialsInventory = new HashMap<>();
+        materials = new HashMap<>();
+        rawMaterials = new HashMap<>();
         operationNodeID = new HashMap<>();
     }
 
@@ -42,7 +44,6 @@ public class ProductionTree {
                 ID operationID = new ID(Integer.parseInt(firstThreeValues[0]), TypeID.OPERATION);
                 ID itemID = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float qtd = Float.parseFloat(firstThreeValues[2]);
-                materialsInventory.put(itemID,qtd);
 
 
                 Map<ID, Float> operationMap = new HashMap<>();
@@ -51,17 +52,20 @@ public class ProductionTree {
                     operationMap.put(new ID(Integer.parseInt(arrayOperations[j]), TypeID.OPERATION), Float.parseFloat(arrayOperations[j+1].replace(",", ".")));
                 }
 
+                Node node = new Node(operationID,itemID,qtd,operationMap,null);
+
                 Map<ID, Float> materialMap = new HashMap<>();
                 for(int j = 1; j < arrayMaterials.length; j += 2){
                     ID newID = new ID(Integer.parseInt(arrayMaterials[j]),TypeID.ITEM);
                     Float newQtd = Float.parseFloat(arrayMaterials[j+1].replace(",", "."));
 
                     materialMap.put(newID,newQtd);
-                    materialsInventory.put(newID,newQtd);
+                    rawMaterials.put(newID,node);
                 }
-                Node node = new Node(operationID,itemID,qtd,operationMap,materialMap);
+                node.setMaterialMap(materialMap);
                 nodesOfTree.add(node);
                 operationNodeID.put(operationID,node);
+                materials.put(itemID,node);
 
             }
         } catch (IOException e) {
@@ -116,5 +120,13 @@ public class ProductionTree {
 
     public Map<ID, Node> getOperationNodeID() {
         return operationNodeID;
+    }
+
+    public Map<ID, Node> getMaterials() {
+        return materials;
+    }
+
+    public Map<ID, Node> getRawMaterials() {
+        return rawMaterials;
     }
 }

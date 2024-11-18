@@ -68,8 +68,18 @@ public class ProductionTreeController {
         return map;
     }
 
+    public boolean isRawMaterial(ID selectedOperationID) {
+        return getProductionTree().getRawMaterials().containsKey(selectedOperationID);
+    }
+    
+    public Node getItemNode(ID selectedOperationID, boolean rawMaterial) {
+        if(rawMaterial) {
+            return getProductionTree().getRawMaterials().get(selectedOperationID);
+        }
+        return getProductionTree().getMaterials().get(selectedOperationID);
+    }
 
-    public Node getNode(ID selectedOperationID) {
+    public Node getOperationNode(ID selectedOperationID) {
         return getProductionTree().getOperationNodeID().get(selectedOperationID);
     }
 
@@ -88,5 +98,25 @@ public class ProductionTreeController {
 
     public String findNameOperation(ID operationID) {
         return getOperationRepository().getIdToOperation().get(operationID).getOperationName();
+    }
+
+    public String findParentItem(Node node, boolean rawMaterial) {
+        if(rawMaterial) {
+            return findNameItem(node.getItemID());
+        }
+        int heigth = node.getHeigthInTree();
+        if(heigth != 0) {
+            List<Node> nodesByHeigth = getProductionTree().getHeightMap().get(node.getHeigthInTree() - 1);
+            for (Node nodeInList : nodesByHeigth) {
+                if (nodeInList.getOperationMap().containsKey(node.getOperationID())) {
+                    return findNameItem(nodeInList.getItemID());
+                }
+            }
+        }
+        return null;
+    }
+
+    public String findNameItem(ID itemID) {
+        return getItemRepository().getMapItemList().get(itemID).getName();
     }
 }

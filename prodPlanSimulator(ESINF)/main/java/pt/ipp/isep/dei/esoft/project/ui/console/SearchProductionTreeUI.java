@@ -2,7 +2,6 @@ package pt.ipp.isep.dei.esoft.project.ui.console;
 
 import pt.ipp.isep.dei.esoft.project.application.controller.ProductionTreeController;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
-import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.Node;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
@@ -67,7 +66,8 @@ public class SearchProductionTreeUI implements Runnable {
             if (getProductionTreeController().getInformations(path)) {
                 switch (choice) {
                     case 1:
-                        Item selectedMaterial = showAndSelectMaterial();
+                        ID selectedItemID = showAndSelectMaterial();
+                        searchInfItem(selectedItemID);
                         break;
                     case 2:
                         ID selectedOperationID = showAndSelectOperation();
@@ -80,7 +80,7 @@ public class SearchProductionTreeUI implements Runnable {
                         ID id = getInputID();
                         if (id != null) {
                             if(id.getTypeID() == TypeID.ITEM){
-
+                                searchInfItem(id);
                             }else{
                                 searchInfOperation(id);
                             }
@@ -100,10 +100,31 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+    private void searchInfItem(ID selectedItemID) {
+        boolean rawMaterial = getProductionTreeController().isRawMaterial(selectedItemID);
+        Node node = getProductionTreeController().getItemNode(selectedItemID,rawMaterial);
+        String parentName = getProductionTreeController().findParentItem(node,rawMaterial);
+        printNodeItemInf(node,parentName,selectedItemID);
+    }
+
+    private void printNodeItemInf(Node node, String parentName,ID selectedItemID) {
+        System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("     %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "MATERIAL", ANSI_RESET);
+        System.out.printf("%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s•%s Name Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE,getProductionTreeController().findNameItem(selectedItemID), ANSI_RESET);
+        System.out.printf("%s•%s ID Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, selectedItemID, ANSI_RESET);
+        System.out.printf("%s•%s Quantity: %sN/A%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET);
+        if (parentName == null) {
+            System.out.printf("%s•%s Parent Operation: %sNone%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_RED, ANSI_RESET);
+        } else {
+            System.out.printf("%s•%s Parent Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, parentName, ANSI_RESET);
+        }
+    }
+
     private void searchInfOperation(ID selectedOperationID) {
-        Node node = getProductionTreeController().getNode(selectedOperationID);
+        Node node = getProductionTreeController().getOperationNode(selectedOperationID);
         String parentName = getProductionTreeController().findParentOperation(node);
-        printNodeOperationInf("OPERATION", node, parentName);
+        printNodeOperationInf(node, parentName,selectedOperationID);
     }
 
     private ID getInputID() {
@@ -137,20 +158,18 @@ public class SearchProductionTreeUI implements Runnable {
                 inputID.charAt(1) == '-' && Character.isDigit(inputID.charAt(2));
     }
 
-    private void printNodeOperationInf(String type, Node node, String parentName) {
+    private void printNodeOperationInf(Node node, String parentName,ID selectedOperationID) {
         System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("   %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, type, ANSI_RESET);
+        System.out.printf("   %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "OPERATION", ANSI_RESET);
         System.out.printf("%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s•%s Name Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, getProductionTreeController().findNameOperation(node.getOperationID()), ANSI_RESET);
-        System.out.printf("%s•%s ID Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, node.getOperationID(), ANSI_RESET);
+        System.out.printf("%s•%s ID Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, selectedOperationID, ANSI_RESET);
         System.out.printf("%s•%s Quantity: %sN/A%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET);
         if (parentName == null) {
             System.out.printf("%s•%s Parent Operation: %sNone%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_RED, ANSI_RESET);
         } else {
             System.out.printf("%s•%s Parent Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, parentName, ANSI_RESET);
         }
-
-
     }
 
     private ID showAndSelectOperation() {
@@ -179,13 +198,14 @@ public class SearchProductionTreeUI implements Runnable {
         return options;
     }
 
-    private Item showAndSelectMaterial() {
+    private ID showAndSelectMaterial() {
         System.out.printf("%n%s• MATERIALS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         Map<ID, String> listMaterials = getProductionTreeController().getListToShow(1);
-        showOptions(listMaterials);
+
+        Map<Integer, Map.Entry<ID, String>> options = showOptions(listMaterials);
         int choice = getChoice(listMaterials.size() - 1);
-        return null;
-        //return getProductionTreeController().findItemByName(listMaterials.get(choice));
+
+        return options.get(choice).getKey();
     }
 }
