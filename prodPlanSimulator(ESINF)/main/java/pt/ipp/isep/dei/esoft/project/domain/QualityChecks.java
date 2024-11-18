@@ -11,10 +11,12 @@ import java.util.*;
 public class QualityChecks {
 
     private final PriorityQueue<Map<Integer, List<ID>>> priorityQueue;
+    private Map<Map<Integer, List<ID>>, Boolean> checkedOperations;
 
 
     public QualityChecks() {
         priorityQueue = fillOperationsPriorityQueue();
+        checkedOperations = new HashMap<>();
 
     }
 
@@ -24,8 +26,7 @@ public class QualityChecks {
         Map<Integer, List<Node>> heightMap = pdt.getHeightMap();
 
         PriorityQueue<Map<Integer, List<ID>>> operationsPriorityQueue =
-                new PriorityQueue<>((map1, map2) ->
-                        Integer.compare(map2.keySet().iterator().next(), map1.keySet().iterator().next()));
+                new PriorityQueue<>(Comparator.comparingInt(map -> map.keySet().iterator().next()));
 
 
         for (Map.Entry<Integer, List<Node>> entry : heightMap.entrySet()) {
@@ -103,15 +104,24 @@ public class QualityChecks {
                     }
                 }
 
-
+                sleep(1000);
 
             }
-
+            checkedOperations = checksMap;
             System.out.printf("%n%sAll operations have been checked!%s%n", ANSI_BRIGHT_GREEN, ANSI_RESET);
 
         } else {
-            System.out.println(ANSI_LIGHT_RED + "Quality checked not performed!" + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "Quality check not performed!" + ANSI_RESET);
         }
 
+    }
+
+    private void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Thread interrupted", e);
+        }
     }
 }
