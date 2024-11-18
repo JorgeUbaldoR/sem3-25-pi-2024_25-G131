@@ -11,20 +11,34 @@ import java.util.Queue;
 
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
+/**
+ * ShowInformationUI class is responsible for displaying information about operations, items, and machines
+ * in the simulation process. It fetches data from the `SimulatorController` and presents it in a console interface.
+ */
 public class ShowInformationUI implements Runnable {
-
 
     private SimulatorController controller;
 
+    /**
+     * Constructor initializes the SimulatorController instance.
+     */
     public ShowInformationUI() {
         controller = new SimulatorController();
     }
 
+    /**
+     * Returns the instance of the SimulatorController.
+     *
+     * @return controller instance.
+     */
     private SimulatorController getSimulationController() {
         return controller;
     }
 
-
+    /**
+     * Starts the UI and displays information about machines, items, and operations.
+     * It sequentially calls methods to show each type of information on the console.
+     */
     @Override
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
@@ -36,6 +50,9 @@ public class ShowInformationUI implements Runnable {
         showOperations();
     }
 
+    /**
+     * Displays information about operations, including their names and descriptions.
+     */
     private void showOperations() {
         System.out.printf("%n%s• OPERATIONS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
@@ -47,6 +64,10 @@ public class ShowInformationUI implements Runnable {
         }
     }
 
+    /**
+     * Displays information about items, including their IDs, names, priorities, and associated operations.
+     * If an item has no associated operations, it displays [__] under the operations column.
+     */
     private void showItems() {
         boolean flag = true;
         System.out.printf("%n%s• ITEMS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
@@ -82,7 +103,9 @@ public class ShowInformationUI implements Runnable {
         }
     }
 
-
+    /**
+     * Displays information about machines, including their IDs, associated operations, and processing times.
+     */
     private void showMachines() {
         System.out.printf("%s• MACHINES:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------------------%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET);
@@ -96,4 +119,3 @@ public class ShowInformationUI implements Runnable {
         }
     }
 }
-

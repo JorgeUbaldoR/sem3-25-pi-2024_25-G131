@@ -93,38 +93,53 @@ public class ProductionTreeUI implements Runnable {
 
     private void showTree(ProductionTree productionTree, String name) {
         System.out.printf("%n%n══════════|PRODUCTION TREE: %s%s%s|══════════%n%n",ANSI_BRIGHT_WHITE,name,ANSI_RESET);
-        for (Node node : productionTree.getNodesOfTree()){
-            printNode(node,1);
-        }
+        printNode(productionTree.getNodesOfTree().get(0), 0, "");  // Inicia a árvore com o primeiro nó, nível 1, e indentação vazia
+
     }
 
 
-    private void printNode(Node node, int level) {
-        String indent = "  ".repeat(level - 1) + (level > 1 ? "├─ " : "");
+    private void printNode(Node node, int level, String indent) {
+        // Define a indentação do nível atual e cria a linha de conexão para dependências
+        String currentIndent = indent + (level > 1 ? "├─ " : "");
 
-        System.out.println(indent + ANSI_BRIGHT_WHITE+"Operation: " + node.getOperationID()+ANSI_RESET);
+        // Imprime as informações do nó (operação)
+        System.out.println(currentIndent + ANSI_BRIGHT_WHITE + "Operation: " + node.getOperationID() + ANSI_RESET);
+        System.out.println(currentIndent + "  Item: " + node.getItemID() + ", Quantity: " + node.getItem_qtd());
 
-        System.out.println(indent + ANSI_BRIGHT_BLACK+"│  └─"+ANSI_RESET+" Item: " + node.getItemID() + ", Quantity: " + node.getItem_qtd());
-
-        System.out.println(indent +  ANSI_BRIGHT_BLACK+"│  ├─"+ANSI_RESET +" Operations:");
-
+        // Imprime as operações dependentes
         if (!node.getOperationMap().isEmpty()) {
+            System.out.println(currentIndent + "  Operations:");
             for (Map.Entry<ID, Float> entry : node.getOperationMap().entrySet()) {
-                System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     ├─ "+ ANSI_RESET+ entry.getKey() + ": " + entry.getValue());
+                // Imprime a dependência
+                System.out.println(currentIndent + "    ├─ " + entry.getKey() + ": " + entry.getValue());
+
+                // Busca o nó dependente (filho) e chama recursivamente
+                Node childNode = controller.getNodeByOperationID(entry.getKey());
+                if (childNode != null) {
+                    // Linha de conexão para a operação dependente
+                    String newIndent = currentIndent + "    │  ";
+                    printNode(childNode, level + 1, newIndent);  // Chama a impressão do nó filho
+                } else {
+                    // Caso a operação dependente não seja encontrada
+                    System.err.println(currentIndent + "    └─ Warning: Missing operation node for ID " + entry.getKey());
+                }
             }
         } else {
-            System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     └─"+ANSI_RESET +" (No operations)");
+            System.out.println(currentIndent + "  (No operations)");
         }
 
-        System.out.println(indent +  ANSI_BRIGHT_BLACK+"│  └─"+ANSI_RESET+" Materials:");
+        // Imprime os materiais (folhas)
         if (!node.getMaterialMap().isEmpty()) {
+            System.out.println(currentIndent + "  Materials:");
             for (Map.Entry<ID, Float> entry : node.getMaterialMap().entrySet()) {
-                System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     ├─ "+ANSI_RESET + entry.getKey() + ": " + entry.getValue());
+                System.out.println(currentIndent + "    ├─ " + entry.getKey() + ": " + entry.getValue());
             }
         } else {
-            System.out.println(indent +  ANSI_BRIGHT_BLACK+"│     └─"+ANSI_RESET+" (No materials)");
+            System.out.println(currentIndent + "  (No materials)");
         }
     }
+
+
 
     private void displayOption(String name,int flag) {
         if (flag == 0) {

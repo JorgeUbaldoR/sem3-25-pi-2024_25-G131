@@ -10,18 +10,43 @@ import java.util.*;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
 
+/**
+ * The {@code SearchProductionTreeUI} class provides a user interface for searching and displaying
+ * information about materials and operations in the production tree.
+ * It interacts with the {@link ProductionTreeController} to retrieve the data and display it to the user.
+ * <p>
+ * The user can search for materials, operations, or by ID, view the selected item's or operation's information,
+ * and choose between a default or custom input file.
+ * </p>
+ *
+ * <p>
+ * This class implements the {@link Runnable} interface, allowing it to be executed as part of a larger system.
+ * </p>
+ */
 public class SearchProductionTreeUI implements Runnable {
     private final Scanner in = new Scanner(System.in);
     private final ProductionTreeController controller;
 
+    /**
+     * Constructs a {@code SearchProductionTreeUI} object that interacts with the {@link ProductionTreeController}.
+     */
     public SearchProductionTreeUI() {
         controller = new ProductionTreeController();
     }
 
+    /**
+     * Returns the {@link ProductionTreeController} associated with this UI.
+     *
+     * @return the production tree controller
+     */
     private ProductionTreeController getProductionTreeController() {
         return controller;
     }
 
+    /**
+     * Starts the user interface for searching the production tree.
+     * It displays the search options and processes the user's choices.
+     */
     @Override
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
@@ -48,6 +73,13 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+
+    /**
+     * Prompts the user for a choice and validates the input.
+     *
+     * @param max the maximum number of valid options
+     * @return the user's choice
+     */
     private int getChoice(int max) {
         int choice = 0;
         boolean valid = false;
@@ -70,6 +102,12 @@ public class SearchProductionTreeUI implements Runnable {
         return choice;
     }
 
+    /**
+     * Processes the user's choice and performs the corresponding search operation.
+     *
+     * @param choice the user's search choice
+     * @param path the path to the data file
+     */
     private void doChoice(int choice, String path) {
         try {
             if (getProductionTreeController().getInformations(path)) {
@@ -109,6 +147,12 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+
+    /**
+     * Searches and displays information about the selected material.
+     *
+     * @param selectedItemID the ID of the selected material
+     */
     private void searchInfItem(ID selectedItemID) {
         boolean rawMaterial = getProductionTreeController().isRawMaterial(selectedItemID);
         Node node = getProductionTreeController().getItemNode(selectedItemID,rawMaterial);
@@ -116,6 +160,15 @@ public class SearchProductionTreeUI implements Runnable {
         printNodeItemInf(node,parentAndQtd[0],selectedItemID,parentAndQtd[1]);
     }
 
+
+    /**
+     * Displays detailed information about the selected material node.
+     *
+     * @param node the material node
+     * @param parentName the name of the parent operation (if any)
+     * @param selectedItemID the ID of the selected material
+     * @param qtd the quantity of the material
+     */
     private void printNodeItemInf(Node node, String parentName,ID selectedItemID,String qtd) {
         System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("     %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "MATERIAL", ANSI_RESET);
@@ -130,12 +183,22 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+    /**
+     * Searches and displays information about the selected operation.
+     *
+     * @param selectedOperationID the ID of the selected operation
+     */
     private void searchInfOperation(ID selectedOperationID) {
         Node node = getProductionTreeController().getOperationNode(selectedOperationID);
         String parentName = getProductionTreeController().findParentOperation(node);
         printNodeOperationInf(node, parentName,selectedOperationID);
     }
 
+    /**
+     * Prompts the user to enter an ID (either item or operation) and validates the input.
+     *
+     * @return the ID entered by the user, or null if invalid input is provided
+     */
     private ID getInputID() {
         Scanner scanner = new Scanner(System.in);
         String inputID;
@@ -167,6 +230,13 @@ public class SearchProductionTreeUI implements Runnable {
                 inputID.charAt(1) == '-' && Character.isDigit(inputID.charAt(2));
     }
 
+    /**
+     * Displays detailed information about the selected operation node.
+     *
+     * @param node the operation node
+     * @param parentName the name of the parent operation (if any)
+     * @param selectedOperationID the ID of the selected operation
+     */
     private void printNodeOperationInf(Node node, String parentName,ID selectedOperationID) {
         System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("   %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "OPERATION", ANSI_RESET);
@@ -181,6 +251,11 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+    /**
+     * Displays a list of available operations and allows the user to select one.
+     *
+     * @return the ID of the selected operation
+     */
     private ID showAndSelectOperation() {
         System.out.printf("%n%s• OPERATIONS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
@@ -207,6 +282,11 @@ public class SearchProductionTreeUI implements Runnable {
         return options;
     }
 
+    /**
+     * Displays a list of available materials and allows the user to select one.
+     *
+     * @return the ID of the selected material
+     */
     private ID showAndSelectMaterial() {
         System.out.printf("%n%s• MATERIALS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
         System.out.printf("%s-----------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
