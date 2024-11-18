@@ -1,8 +1,11 @@
 package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
 import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo;
+import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
+import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,14 +20,16 @@ import java.util.Map;
  */
 public class ProductionTree {
 
+    private ItemRepository itemRepository;
+
     private String pdtTreeName; // Name of the production tree.
-    private Map<Integer, List<Node>> heightMap; // Maps tree levels (heights) to lists of nodes.
-    private List<Node> nodesOfTree; // List of all nodes in the tree.
+    private final Map<Integer, List<Node>> heightMap; // Maps tree levels (heights) to lists of nodes.
+    private final List<Node> nodesOfTree; // List of all nodes in the tree.
     private int treeHeight = 0; // Height of the tree.
 
-    private Map<ID, Node> materials; // Map of item IDs to corresponding nodes.
-    private Map<ID, Node> rawMaterials; // Map of raw material IDs to corresponding nodes.
-    private Map<ID, Node> operationNodeID; // Map of operation IDs to corresponding nodes.
+    private final Map<ID, Node> materials; // Map of item IDs to corresponding nodes.
+    private final Map<ID, Node> rawMaterials; // Map of raw material IDs to corresponding nodes.
+    private final Map<ID, Node> operationNodeID; // Map of operation IDs to corresponding nodes.
 
     /**
      * Constructs an empty production tree with default values.
@@ -38,6 +43,21 @@ public class ProductionTree {
         materials = new HashMap<>();
         rawMaterials = new HashMap<>();
         operationNodeID = new HashMap<>();
+        getItemRepository();
+    }
+
+    /**
+     * Retrieves the ItemRepository instance.
+     *
+     * @return the ItemRepository instance
+     */
+    private ItemRepository getItemRepository() {
+        if(itemRepository == null) {
+            Repositories repositories = Repositories.getInstance();
+            itemRepository = repositories.getItemRepository();
+        }
+        return itemRepository;
+
     }
 
     /**
@@ -65,6 +85,8 @@ public class ProductionTree {
                 ID itemID = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float qtd = Float.parseFloat(firstThreeValues[2]);
 
+                associatedQtdToItem(itemID,qtd);
+
                 // Process operation map
                 Map<ID, Float> operationMap = new HashMap<>();
                 for (int j = 1; j < arrayOperations.length; j += 2) {
@@ -78,9 +100,10 @@ public class ProductionTree {
                 Map<ID, Float> materialMap = new HashMap<>();
                 for (int j = 1; j < arrayMaterials.length; j += 2) {
                     ID newID = new ID(Integer.parseInt(arrayMaterials[j]), TypeID.ITEM);
-                    Float newQtd = Float.parseFloat(arrayMaterials[j + 1].replace(",", "."));
+                    float newQtd = Float.parseFloat(arrayMaterials[j + 1].replace(",", "."));
                     materialMap.put(newID, newQtd);
                     rawMaterials.put(newID, node);
+                    associatedQtdToItem(newID,newQtd);
                 }
                 node.setMaterialMap(materialMap);
                 nodesOfTree.add(node);
@@ -93,6 +116,10 @@ public class ProductionTree {
 
         fillTreeHeight(nodesOfTree.get(0), 0);
         return true;
+    }
+
+    private void associatedQtdToItem(ID itemID, float qtd) {
+        getItemRepository().getMapItemList().get(itemID).setQuantity(qtd);
     }
 
     /**

@@ -5,25 +5,18 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import java.util.*;
 
 /**
- * Represents an item with a unique ID, priority level, and a list of operations it undergoes.
- * The class supports operations management and comparisons based on priority and ID.
+ * Represents an item within a production simulation system.
+ * Each item is uniquely identified and is associated with a priority level,
+ * a quantity, and a sequence of operations it undergoes.
  */
 public class Item implements Comparable<Item> {
 
-    /** The name of the item. */
     private final String name;
-
-    /** The unique identifier for the item. */
     private final ID itemID;
-
-    /** The priority level of the item. */
     private final Priority priority;
-
-    /** A queue of operations the item will undergo. */
     private Queue<Operation> operationList;
-
-    /** The current operation being processed by the item. */
     private Operation currentOperation;
+    private float quantity;
 
     /**
      * Constructs an Item with the specified ID, priority, and list of operations.
@@ -41,6 +34,7 @@ public class Item implements Comparable<Item> {
         this.priority = priority;
         this.operationList = new LinkedList<>(operationList);
         this.currentOperation = this.operationList.peek();
+        this.quantity = 0;
     }
 
     /**
@@ -60,6 +54,7 @@ public class Item implements Comparable<Item> {
         this.priority = priority;
         this.operationList = new LinkedList<>(operationList);
         this.currentOperation = this.operationList.peek();
+        this.quantity = 0;
     }
 
     /**
@@ -77,6 +72,7 @@ public class Item implements Comparable<Item> {
         this.priority = Priority.LOW;
         this.operationList = new LinkedList<>();
         this.currentOperation = null;
+        this.quantity = 0;
     }
 
     /**
@@ -140,6 +136,26 @@ public class Item implements Comparable<Item> {
     }
 
     /**
+     * Gets the quantity associated with this item.
+     *
+     * @return the item's quantity.
+     * @complexity O(1), as it directly accesses the field.
+     */
+    public float getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Sets the quantity associated with this item.
+     *
+     * @param quantity the new quantity.
+     * @complexity O(1), as it directly modifies the field.
+     */
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
      * Gets the name of this item.
      *
      * @return the item's name.
@@ -194,7 +210,7 @@ public class Item implements Comparable<Item> {
      */
     @Override
     public String toString() {
-        return String.format("%s -> %s -> %s", itemID, priority, operationList.peek());
+        return String.format("%s -> %s -> %s -> %f", itemID, priority, operationList.peek(), quantity);
     }
 
     /**

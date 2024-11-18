@@ -101,13 +101,14 @@ public class ItemRepository {
      * @return a List containing all Item objects in the repository
      */
     public List<Item> getItemList() {
-        ArrayList<Item> items = new ArrayList<>();
-        for (Item item : itemList.values()) {
-            items.add(item.clone());
-        }
-        return items;
+        return new ArrayList<>(itemList.values());
     }
 
+    /**
+     * Retrieves the map of items from the repository.
+     *
+     * @return a Map containing all Item objects in the repository
+     */
     public Map<ID, Item> getMapItemList() {
         return itemList;
     }
