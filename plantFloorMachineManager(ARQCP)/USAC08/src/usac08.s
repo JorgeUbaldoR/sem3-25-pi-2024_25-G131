@@ -1,61 +1,92 @@
 .section .text
-.global sort_array
 
-sort_array:             
-    movl $0, %eax
-	cmpl %esi, %eax
-	je fail
+.global move_n_to_array
 
-loop1:
-    cmpl %esi, %eax               
-    jge end 
-    movslq %eax, %r10             
-    movl (%rdi, %r10, 4), %ecx                
-    movl %eax, %r8d               
-    addl $1, %r8d      
-                      
-loop2:
-    cmpl %esi, %r8d                
-    jge next_value                       
-         
-    movslq %r8d, %r11             
-    movl (%rdi, %r11, 4), %r9d     
-
-	cmpb $1, %dl
-	je verify
-    cmpl %ecx, %r9d
-    jg swap_descending
-
-return:
-    incl %r8d                     
-    jmp loop2                      
-
-swap_descending:
-    movl %ecx, (%rdi, %r11, 4)      
-    movl %r9d, (%rdi, %r10, 4)  
-    movl %r9d, %ecx   
-    jmp loop2
-
-swap_ascending:
-	movl %ecx, (%rdi, %r11, 4)      
-    movl %r9d, (%rdi, %r10, 4)  
-    movl %r9d, %ecx
-    jmp loop2
+move_n_to_array:
 	
-
-next_value:
-    incl %eax                      
-    jmp loop1  
-
-verify:
-	cmpl %ecx, %r9d         
-	jl swap_ascending
-	jmp return
-
-end:
-	movl $1, %eax
-    ret                             
+	pushq %r8
+	pushq %rsi
+	
+    call get_n_element
     
-fail:
-	ret
+    popq %rsi
+    popq %r8
+    
+    cmpl $0, %eax
+    jle error
+    
+    cmpl %eax, %r8d
+    jg error
+    
+    cmpl $0, %r8d
+    jl error
+    
+    movl (%rcx), %ebx # HEAD
+    movl $0, %r10d # CONTADOR PARA ELEMENTOS REMOVIDOS
+    
+    subl $1, %esi
+    
+    cmpl (%rdx), %ebx
+    jg tail_first
+    
+    
+loop_head_first:
+	
+	cmpl %r10d, %r8d
+	je loop_end
+	
+	movl (%rdi, %rbx, 4), %r11d
+	movl %r11d, (%r9, %r10, 4)
+	
+	incl %ebx   #PROXIMO ELEMENTO DO BUFFER
+	incl %r10d  #INCREMENTA O CONTADOR  
+	
+	jmp loop_head_first
+	
+tail_first:
 
+	cmpl %r8d, %r10d
+	je loop_end
+	
+	movl (%rdi, %rbx, 4), %r11d
+	movl %r11d, (%r9, %r10, 4)
+	
+	cmpl %ebx, %esi
+	je head_restart
+	
+	incl %ebx   #PROXIMO ELEMENTO DO BUFFER
+	incl %r10d  #INCREMENTA O CONTADOR
+	
+	jmp tail_first
+	
+head_restart:
+	
+	movl $0, %ebx    #MOVER A HEAD PARA O INICIO
+	incl %r10d       #INCREMENTA O CONTADOR 
+	
+	jmp tail_first
+
+    
+loop_end:
+	
+	cmpl %r8d, %eax
+    je end_remove_all
+
+	movl %ebx, (%rcx) #ATUALIZANDO O VALOR DA CABEÇA
+	movl $1, %eax     # SUCESSO
+	
+	ret
+	
+end_remove_all:
+	
+	decl %ebx
+	movl %ebx, (%rcx) #ATUALIZANDO O VALOR DA CABEÇA
+	movl $1, %eax     # SUCESSO
+	
+	ret
+    
+error:
+	
+	movl $0, %eax
+	
+	ret
