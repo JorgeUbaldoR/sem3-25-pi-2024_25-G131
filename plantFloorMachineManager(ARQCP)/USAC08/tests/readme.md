@@ -1,117 +1,96 @@
-### **Test Setup and Teardown**
+# **Test Documentation for `move_n_to_array` Function**
 
-- **`setUp`**: This function is defined but empty because no specific initialization is required before each test case
-  in this context.
+## **Test Setup and Teardown**
+
+- **`setUp`**: This function is defined but empty because no specific initialization is required before each test case.
 - **`tearDown`**: Similarly, this function is empty as no specific cleanup is necessary after each test case.
 
-### **Test Cases**
+---
 
-Each test case evaluates the `sort_array` function under different conditions to ensure it behaves correctly across a
-variety of input scenarios:
+## **Test Cases**
 
-1. **`test_ascending_order_positive_vec`**:
-    - **Description**: Tests the sorting of an array with positive values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [2, 4, 6, 9, 25, 65], and the return value should be 1.
-    - **Explanation**: This verifies that the function correctly sorts a typical positive integer array when order = 1 (
-      ascending).
+Each test case evaluates the `move_n_to_array` function under different conditions to ensure it behaves correctly across a variety of input scenarios.
 
-2. **`test_descending_order_positive_vec`**:
-    - **Description**: Tests the sorting of an array with positive values in descending order.
-    - **Expected Outcome**: The array should be sorted as [65, 25, 9, 6, 4, 2], and the return value should be 1.
-    - **Explanation**: Confirms that the function sorts a positive integer array in descending order with order = 0 (
-      descending).
+### **Test Case 1: `test_1`**
+- **Description**: Tests moving 5 elements from a full buffer with `head = 0` and `tail = 9`.
+- **Expected Outcome**: Moves the first 5 elements to the array and updates `head` to 5.
+- **Explanation**: Validates basic behavior when moving multiple elements from a linear buffer.
 
-3. **`test_ascending_order_negative_vec`**:
-    - **Description**: Tests sorting an array with only negative values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [-65, -25, -9, -6, -4, -2], with a return value of 1.
-    - **Explanation**: Ensures the function handles negative numbers properly in ascending order.
+---
 
-4. **`test_descending_order_negative_vec`**:
-    - **Description**: Tests sorting an array with only negative values in descending order.
-    - **Expected Outcome**: The sorted array should be [-2, -4, -6, -9, -25, -65], with a return value of 1.
-    - **Explanation**: Confirms that the function correctly sorts an array with negative numbers in descending order.
+### **Test Case 2: `test_n_is_zero`**
+- **Description**: Tests moving 0 elements (trivial case).
+- **Expected Outcome**: Moves no elements; `head` and `tail` remain unchanged.
+- **Explanation**: Ensures the function handles cases where `n` equals zero correctly.
 
-5. **`test_descending_order_negative_and_positive_vec`**:
-    - **Description**: Tests sorting an array with a mix of positive and negative values in descending order.
-    - **Expected Outcome**: The array should be sorted as [25, 9, -2, -4, -6, -65], with a return value of 1.
-    - **Explanation**: Validates sorting in descending order with mixed positive and negative values.
+---
 
-6. **`test_ascending_order_negative_and_positive_vec`**:
-    - **Description**: Tests sorting an array with mixed negative and positive values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [-65, -6, -4, -2, 9, 25], with a return value of 1.
-    - **Explanation**: Confirms proper sorting in ascending order for an array with mixed sign values.
+### **Test Case 3: `test_single_element_buffer`**
+- **Description**: Tests moving 1 element from a buffer containing only one element (`head = tail`).
+- **Expected Outcome**: Moves the single element to the array and updates `head` and `tail` to indicate the buffer is empty.
+- **Explanation**: Validates correct behavior for buffers of size 1.
 
-7. **`test_ascending_order_empty_array`**:
-   - **Description**: Tests sorting an empty array in ascending order.
-   - **Expected Outcome**: The return value should be 0.
-   - **Explanation**: Ensures that the function recognizes an empty array and returns 0, indicating no sorting is needed.
+---
 
-8. **`test_descending_order_empty_array`**:
+### **Test Case 4: `test_full_circular_buffer`**
+- **Description**: Tests moving 5 elements from a "full" circular buffer (`head > tail`).
+- **Expected Outcome**: Moves the 5 oldest elements to the array, updating `head` correctly.
+- **Explanation**: Ensures the function handles full circular buffers properly.
 
-   - **Description**: Tests sorting an empty array in descending order.
-   - **Expected Outcome**: The return value should be 0.
-   - **Explanation**: Ensures that the function recognizes an empty array and returns 0, indicating no sorting is needed.
+---
 
-9. **`test_single_element_array_ascending`**:
+### **Test Case 5: `test_n_exceeds_buffer_size`**
+- **Description**: Tests attempting to move more elements (`n = 15`) than are available in the buffer.
+- **Expected Outcome**: Fails, returning 0; `head` and `tail` remain unchanged.
+- **Explanation**: Ensures the function detects when `n` exceeds the number of available elements.
 
-   - **Description**: Tests sorting an array with a single element in ascending order.
-   - **Expected Outcome**: The array remains [42], and the return value is 1.
-   - **Explanation**: Verifies that an array with one element is handled correctly and that the function returns 1.
+---
 
-10. **`test_single_element_array_descending`**:
+### **Test Case 6: `test_negative_n`**
+- **Description**: Tests moving elements with a negative `n`.
+- **Expected Outcome**: Fails, returning 0; `head` and `tail` remain unchanged.
+- **Explanation**: Verifies that the function rejects invalid values for `n`.
 
-    - **Description**: Tests sorting an array with a single element in descending order.
-    - **Expected Outcome**: The array remains [42], and the return value is 1.
-    - **Explanation**: Confirms that a single-element array is handled appropriately in descending order.
+---
 
-11. **`test_duplicate_elements_array_ascending`**:
+### **Test Case 7: `test_head_after_tail`**
+- **Description**: Tests a circular buffer where `head > tail`.
+- **Expected Outcome**: Moves the oldest elements from the buffer to the array, updating `head` correctly.
+- **Explanation**: Confirms correct behavior for circular buffers with wrap-around.
 
-    - **Description**: Tests sorting an array with duplicate elements in ascending order.
-    - **Expected Outcome**: The array should be [3, 3, 3, 3, 3], with a return value of 1.
-    - **Explanation**: Ensures the function correctly sorts an array with identical elements without modifying their order.
+---
 
-12. **`test_duplicate_elements_array_descending`**:
+### **Test Case 8: `test_insufficient_elements`**
+- **Description**: Tests attempting to move more elements (`n = 6`) than are available in the buffer.
+- **Expected Outcome**: Fails, returning 0; `head` and `tail` remain unchanged.
+- **Explanation**: Ensures the function handles insufficient elements properly.
 
-    - **Description**: Tests sorting an array with duplicate elements in descending order.
-    - **Expected Outcome**: The array should be [3, 3, 3, 3, 3], with a return value of 1.
-    - **Explanation**: Checks that the function handles duplicate elements correctly in descending order.
+---
 
-13. **`test_already_sorted_array_ascending`**:
+### **Test Case 9: `test_empty_buffer`**
+- **Description**: Tests moving elements from an empty buffer (`head == tail`).
+- **Expected Outcome**: Fails, returning 0; `head` and `tail` remain unchanged.
+- **Explanation**: Ensures the function handles empty buffers correctly.
 
-    - **Description**: Tests sorting an array already sorted in ascending order.
-    - **Expected Outcome**: The array remains [1, 2, 3, 4, 5], with a return value of 1.
-    - **Explanation**: Confirms that the function recognizes an already sorted array in ascending order and doesn’t alter it
-      unnecessarily.
+---
 
-14. **`test_already_sorted_array_descending`**:
+### **Test Case 10: `test_move_all_elements`**
+- **Description**: Tests moving all elements from the buffer (`n` equal to the total number of elements).
+- **Expected Outcome**: Moves all elements to the array, updating `head` to match `tail`.
+- **Explanation**: Confirms correct behavior when completely emptying the buffer.
 
-    - **Description**: Tests sorting an array already sorted in descending order.
-    - **Expected Outcome**: The array remains [5, 4, 3, 2, 1], with a return value of 1.
-    - **Explanation**: Similar to the ascending test, it ensures that the function identifies a sorted array in descending
-      order.
+---
 
-15. **`test_reverse_sorted_array_ascending`**:
+## **Main Function**
 
-    - **Description**: Tests sorting an array that is reverse-ordered (in descending order) to ascending order.
-    - **Expected Outcome**: The sorted array should be [1, 2, 3, 4, 5], with a return value of 1.
-    - **Explanation**: Confirms that the function can correctly sort a descending-ordered array into ascending order.
+- **Description**: The `main` function initializes the Unity test framework, runs all defined test cases, and concludes the testing session with the results.
+- **Flow**: Test results will indicate whether the `move_n_to_array` function passes all conditions, providing feedback on its correctness.
 
-16. **`test_reverse_sorted_array_descending:`**:
+---
 
-    - **Description**: Tests sorting an array that is reverse-ordered (in ascending order) to descending order.
-    - **Expected Outcome**: The sorted array should be [5, 4, 3, 2, 1], with a return value of 1.
-    - **Explanation**: Ensures that the function can reverse a sorted ascending array into descending order.
+## **Key Assumptions**
 
-### **Main Function**
-
-- **Description**: The main function initializes the Unity test framework, runs all defined test cases, and concludes
-  the testing session with the results.
-- **Flow**: The test results will indicate whether the `sort_array` function passes all these conditions, providing
-  feedback on its correctness.
-
-### **Key Assumptions**
-
-- The `sort_array` function is assumed to return `1` for success and `0` for failure.
-- The function correctly handles various edge cases, such as empty arrays, negative values, arrays with all equal
-  elements, etc.
-- The function correctly sorts the array by ascending or descending order.
+- The `move_n_to_array` function:
+    - Handles circular buffers correctly, including cases with wrap-around (`head > tail`).
+    - Returns 1 for success (successful movement) and 0 for failure (insufficient elements or invalid input).
+    - Updates the `head` and `tail` pointers correctly when elements are removed.

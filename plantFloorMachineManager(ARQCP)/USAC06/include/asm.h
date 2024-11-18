@@ -1,7 +1,5 @@
 #ifndef ASM_H
 #define ASM_H
-
-int move_n_to_array(int* buffer, int length, int *tail, int *head, int n, int* array);
+int dequeue_value (int* a, int b, int* c, int* d, int* e);
 int get_n_element (int* a, int b, int* c, int* d);
-
 #endif
