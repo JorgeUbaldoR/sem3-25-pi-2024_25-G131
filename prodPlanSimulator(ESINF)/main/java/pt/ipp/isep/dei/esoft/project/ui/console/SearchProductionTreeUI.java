@@ -26,17 +26,26 @@ public class SearchProductionTreeUI implements Runnable {
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "        SEARCH OPERATION/MATERIAL                 " + ANSI_RESET + "\n");
-        Scanner otherin = new Scanner(System.in);
-        //System.out.printf("%s%s%s%n",ANSI_BRIGHT_BLACK,"prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv",ANSI_RESET);
-        //System.out.print("Enter the path to the boo.csv:");
-        //String path = otherin.nextLine();
-        System.out.printf("Select the processing order to be used:%n");
+
+        System.out.printf("Select type of search:%n");
         System.out.printf(" %s(1)%s - Search Material%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf(" %s(2)%s - Search Operation%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf(" %s(3)%s - Search by ID%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf(" %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        doChoice(getChoice(3), "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+        int searchChoice = getChoice(3);
 
+        System.out.printf("%n!IMPORTANT! Select your preference:%n");
+        System.out.printf(" %s(1)%s - Use Default File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf(" %s(2)%s - Insert Path File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        int preferenceChoice = getChoice(2);
+        if(preferenceChoice == 1) {
+            doChoice(searchChoice, "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+        }else {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter path: ");
+            String path = scanner.nextLine();
+            doChoice(searchChoice,path );
+        }
     }
 
     private int getChoice(int max) {
@@ -103,17 +112,17 @@ public class SearchProductionTreeUI implements Runnable {
     private void searchInfItem(ID selectedItemID) {
         boolean rawMaterial = getProductionTreeController().isRawMaterial(selectedItemID);
         Node node = getProductionTreeController().getItemNode(selectedItemID,rawMaterial);
-        String parentName = getProductionTreeController().findParentItem(node,rawMaterial);
-        printNodeItemInf(node,parentName,selectedItemID);
+        String[] parentAndQtd = getProductionTreeController().findParentItem(node,rawMaterial,selectedItemID);
+        printNodeItemInf(node,parentAndQtd[0],selectedItemID,parentAndQtd[1]);
     }
 
-    private void printNodeItemInf(Node node, String parentName,ID selectedItemID) {
+    private void printNodeItemInf(Node node, String parentName,ID selectedItemID,String qtd) {
         System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("     %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "MATERIAL", ANSI_RESET);
         System.out.printf("%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s•%s Name Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE,getProductionTreeController().findNameItem(selectedItemID), ANSI_RESET);
         System.out.printf("%s•%s ID Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, selectedItemID, ANSI_RESET);
-        System.out.printf("%s•%s Quantity: %sN/A%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET);
+        System.out.printf("%s•%s Quantity: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE,qtd ,ANSI_RESET);
         if (parentName == null) {
             System.out.printf("%s•%s Parent Operation: %sNone%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_RED, ANSI_RESET);
         } else {

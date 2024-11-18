@@ -100,23 +100,34 @@ public class ProductionTreeController {
         return getOperationRepository().getIdToOperation().get(operationID).getOperationName();
     }
 
-    public String findParentItem(Node node, boolean rawMaterial) {
+    public String[] findParentItem(Node node, boolean rawMaterial, ID selectedOperationID) {
+        String[] parentAndQtd = new String[2];
         if(rawMaterial) {
-            return findNameItem(node.getItemID());
+            parentAndQtd[0] = findNameItem(node.getItemID());
+            parentAndQtd[1] = String.valueOf(node.getMaterialMap().get(selectedOperationID));
+            //return findNameItem(node.getItemID());
+            return parentAndQtd;
         }
         int heigth = node.getHeigthInTree();
         if(heigth != 0) {
             List<Node> nodesByHeigth = getProductionTree().getHeightMap().get(node.getHeigthInTree() - 1);
             for (Node nodeInList : nodesByHeigth) {
                 if (nodeInList.getOperationMap().containsKey(node.getOperationID())) {
-                    return findNameItem(nodeInList.getItemID());
+                    parentAndQtd[0] = findNameItem(nodeInList.getItemID());
+                    parentAndQtd[1] = String.valueOf(nodeInList.getItem_qtd());
+                    return parentAndQtd;
+                    //return findNameItem(nodeInList.getItemID());
                 }
             }
         }
-        return null;
+        parentAndQtd[0] = null;
+        parentAndQtd[1] = String.valueOf(node.getItem_qtd());
+        return parentAndQtd;
     }
 
     public String findNameItem(ID itemID) {
         return getItemRepository().getMapItemList().get(itemID).getName();
     }
+
+
 }
