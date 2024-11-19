@@ -14,15 +14,41 @@ system
 and return success or an error. A customer with orders that have not yet been
 delivered/fulfilled cannot be deactivated.
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
-
+      CREATE OR REPLACE FUNCTION deactivate_costumer(p_costumer_id Costumer.COSTUMER_ID%TYPE)
+      RETURN VARCHAR2
+      IS
+         v_exists NUMBER(1);  -- Variable to check if the customer exists and is active
+         result_message varchar2(255);
+      BEGIN
+         SELECT COUNT(1)
+         INTO v_exists
+         FROM Costumer C
+         WHERE C.COSTUMER_ID = p_costumer_id;
+   
+         IF v_exists = 0 THEN
+             RETURN 'Error: Customer with ID ' || p_costumer_id || ' does not exist.';
+         END IF;
+   
+         BEGIN
+             INSERT INTO "Deactivated Costumers"(CostumerCOSTUMER_ID) VALUES (p_costumer_id);
+      
+             result_message := 'Success: Order with ID ' || p_costumer_id || ' deactivated successfully.';
+             RETURN result_message;
+      
+         EXCEPTION
+             WHEN OTHERS THEN
+                 RETURN 'Error: ' || SQLERRM;
+         END;	
+      END;
+      /
+      
+      DECLARE
+         result_message VARCHAR2(255);
+      BEGIN
+         result_message := deactivate_costumer(785);
+         DBMS_OUTPUT.PUT_LINE(result_message);
+      END;
+      /
 
 ### 3. Resolution
 
