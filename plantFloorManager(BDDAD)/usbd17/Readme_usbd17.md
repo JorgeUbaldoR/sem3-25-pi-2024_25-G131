@@ -12,14 +12,53 @@
 the Order ID or an error. An order must be from an active customer and a
 product in the current line-up.
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
+      CREATE OR REPLACE FUNCTION register_order (
+         p_order_id "Order".ORDER_ID%TYPE, 
+         p_costumer_id "Order".CostumerCOSTUMER_ID%TYPE,  
+         p_delivery_date "Order".DELIVERY_DATE%TYPE,  
+         p_order_date "Order".ORDER_DATE%TYPE 
+      )
+      RETURN VARCHAR2
+      IS
+         v_exists NUMBER(1); 
+         result_message VARCHAR2(255);  
+      BEGIN
+         SELECT COUNT(1)
+         INTO v_exists
+         FROM Costumer C
+         LEFT JOIN "Deactivated Costumers" DC
+         ON DC.CostumerCOSTUMER_ID = C.COSTUMER_ID
+         WHERE C.COSTUMER_ID = p_costumer_id
+         AND DC.CostumerCOSTUMER_ID IS NULL;
+         
+          IF v_exists = 0 THEN
+              RETURN 'Error: Customer with ID ' || p_costumer_id || ' is not active or does not exist.';
+          END IF;
+
+          BEGIN
+              INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE)
+              VALUES (p_order_id, p_costumer_id, p_delivery_date, p_order_date);
+      
+              result_message := 'Success: Order with ID ' || p_order_id || ' registered successfully.';
+              RETURN result_message;
+
+          EXCEPTION
+              WHEN DUP_VAL_ON_INDEX THEN
+                  RETURN 'Error: Order with ID ' || p_order_id || ' already exists.';
+              WHEN OTHERS THEN
+                  RETURN 'Error: ' || SQLERRM;
+          END;
+      END;
+      /
+      
+      
+      DECLARE
+         result_message VARCHAR2(255);
+      BEGIN
+         result_message := register_order(9999, 785, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'));
+         DBMS_OUTPUT.PUT_LINE(result_message);  -- Output the result message
+      END;
+      /
 
 
 ### 3. Resolution

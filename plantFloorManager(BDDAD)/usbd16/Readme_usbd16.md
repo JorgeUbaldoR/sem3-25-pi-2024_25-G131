@@ -11,14 +11,52 @@
 > 
 >**AC2:** A function should be used to create the product and to return success or an error.
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
+      CREATE OR REPLACE FUNCTION register_product (
+          p_product_id Product.PRODUCT_ID%TYPE,  
+          p_prod_family_id Product.Prod_FamilyFAMILY_ID%TYPE, 
+          p_name Product.NAME%TYPE,  
+          p_description Product.DESCRIPTION%TYPE,  
+          p_partnumber Product.PartPARTNUMBER%TYPE 
+      )
+      RETURN VARCHAR2
+      IS
+         v_exists NUMBER(1); 
+         result_message VARCHAR2(255);  
+      BEGIN
+         SELECT COUNT(1)
+         INTO v_exists
+         FROM Prod_Family
+         WHERE FAMILY_ID = p_prod_family_id;
+      
+         IF v_exists = 0 THEN
+             RETURN 'Error: Product Family with ID ' || p_prod_family_id || ' does not exist.';
+         END IF;
+   
+         BEGIN
+             INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
+             VALUES (p_product_id, p_prod_family_id, p_name, p_description, p_partnumber);
+      
+             result_message := 'Success: Product with ID ' || p_product_id || ' registered successfully.';
+             RETURN result_message;
+      
+         EXCEPTION
+             WHEN DUP_VAL_ON_INDEX THEN
+                 RETURN 'Error: Product with ID ' || p_product_id || ' already exists.';
+             WHEN OTHERS THEN
+                 RETURN 'Error: ' || SQLERRM;
+         END;
+      END;
+      /
+   
+   
+      DECLARE
+         result_message VARCHAR2(255);
+      BEGIN
+         result_message := register_product('AS9999T99', 130,'TESTE', 'TESTE', NULL);
+         DBMS_OUTPUT.PUT_LINE(result_message);  -- Output the result message
+      END;
+      /
+
 
 
 ### 3. Resolution
