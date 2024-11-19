@@ -1,8 +1,8 @@
-# USBD02 - Relational model (logical level).
+# USBD10 - Update Relational model (logical level).
 
 ### 1. User Story Description
 
-> As a Product Owner, I want the relational model to be created (logical level).
+> As a Product Owner, I want an updated relational data model of the system / logical and physical level)
 
 
 ### 2. Customer Specifications and Clarifications
@@ -25,8 +25,9 @@
 
 >* **AC2:** Minimum expected requirement: a complete model in Visual Paradigm, including all connections and constraints, which allows the physical model
    script to be automatically generated.
+
 >#### Relational Model - (Logical Model)
->![System Sequence Diagram - Alternative One](svg/USBD10-relational-model.png)
+>![System Sequence Diagram - Alternative One](svg/USBD02-relational-model.svg)
 
 
 >* **AC3:** Minimum requirement above the expected: the presentation of a conceptual
