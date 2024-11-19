@@ -1,7 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
 import pt.ipp.isep.dei.esoft.project.domain.TreeClasses.ProductionTree;
-import pt.ipp.isep.dei.esoft.project.domain.sprint2.WriterTree;
+import pt.ipp.isep.dei.esoft.project.domain.data.WriterTree;
 
 /**
  * Controlador responsável pela geração de diagramas a partir de uma árvore de produção.
