@@ -16,7 +16,8 @@ import static pt.ipp.isep.dei.esoft.project.domain.data.ReadTreeInfo.getOpOrItem
  */
 public class OperationRepository {
     private final Set<Operation> operations;
-    private final Map<ID,Operation> idToOperation;
+    private final Map<ID, Operation> idToOperation;
+
     /**
      * Constructs an OperationRepository instance.
      * Initializes the set to hold operations.
@@ -26,8 +27,8 @@ public class OperationRepository {
     public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
         this.idToOperation = new HashMap<>();
-        fillOperations();
-        //fillOperations(items);
+        //fillOperations();
+        fillOperations(items);
     }
 
     public OperationRepository() {
@@ -65,10 +66,30 @@ public class OperationRepository {
      * @param items a list of Item objects from which operations are extracted and added to the operations list.
      */
     public void fillOperations(List<Item> items) {
-        for (Item item : items) {
-            for (Operation operation : item.getOperationList()) {
-                operations.add(operation.clone());
+        try {
+            String PATH_OPERATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/operations.csv";
+            List<String[]> operationDetails = getOpOrItem(PATH_OPERATIONS);
+
+
+            for (Item item : items) {
+                List<Operation> queue = item.getOperationList();
+
+                for (Operation operation : queue) {
+
+                    for (String[] operationDetail : operationDetails) {
+
+                        if (operation.getOperationId().getSerial() == Integer.parseInt(operationDetail[0])) {
+                            operation.setOperationName(operationDetail[1]);
+                            break;
+                        }
+
+                    }
+                }
             }
+
+
+        } catch (IOException e) {
+            System.out.println("Error reading operations from file");
         }
     }
 
@@ -135,7 +156,7 @@ public class OperationRepository {
     /**
      * Registers a new operation with the given name.
      *
-     * @param name The name of the operation to be registered.
+     * @param name        The name of the operation to be registered.
      * @param operationID The id  of the operation to be registered.
      * @return An Optional containing the registered operation if successful; otherwise, an empty Optional.
      */

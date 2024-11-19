@@ -103,6 +103,7 @@ public class QualityChecks {
                         System.out.printf("[%d] %s%s were checked%s%n", p3, operations3, ANSI_BRIGHT_GREEN, ANSI_RESET);
                     }
                 }
+                System.out.printf("%n%n");
 
                 sleep(1000);
 

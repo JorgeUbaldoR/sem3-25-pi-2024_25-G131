@@ -12,7 +12,7 @@ import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class QualityChecksUI implements Runnable {
 
-    private QualityChecksController controller;
+    private final QualityChecksController controller;
 
     public QualityChecksUI() {
         controller = new QualityChecksController();
