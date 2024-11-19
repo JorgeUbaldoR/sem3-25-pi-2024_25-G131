@@ -9,4 +9,5 @@ int sort_array (int* a, int b, char c);
 int median(int* vec, int length, int* me);
 int format_command(char* op, int n, char *cmd);
 int enqueue_value(int* buffer, int length, int*tail, int* head, int value);
+int move_n_to_array(int* buffer, int length, int *tail, int *head, int n, int* array);
 #endif

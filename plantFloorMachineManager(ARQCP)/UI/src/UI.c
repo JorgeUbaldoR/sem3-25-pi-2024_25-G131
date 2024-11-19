@@ -18,6 +18,7 @@ void usac_04();
 void usac_05();
 void usac_06();
 void usac_07();
+void usac_08();
 void usac_09();
 void usac_10();
 
@@ -104,7 +105,7 @@ int us_ui(){
             case 7: usac_07();
                 break;
 
-            case 8:
+            case 8: usac_08();
                 break;
 
             case 9: usac_09();
@@ -439,6 +440,78 @@ void usac_07() {
 	int n = get_n_element(buffer, length, &tail, &head);
 	printf("Number of elements: %d\n", n);
 }
+
+
+void usac_08() {
+
+int buffer[] = {0,1,2,3,4,5,6,7,8,9};
+int length = sizeof(buffer) / sizeof(int);
+int head;
+int tail;
+int n;
+int arr[length];
+
+printf("\nFull buffer: [ ");
+for (int* i = buffer; i < buffer + length; i++) {
+    printf("%d ", *i);
+}
+printf(" ]\n");
+printf("Length: %d\n", length);
+
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
+do {
+    printf("Choose tail: ");
+    if (scanf("%d", &tail) != 1 || tail < 0 || tail >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
+
+    printf("\n--- Before Move ---\n");
+
+    print_buffer_before(buffer,length,tail,head);
+
+    do {
+    printf("Choose number of elements to move: ");
+    if (scanf("%d", &n) != 1 || n < 0 || n > length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
+
+    int ret = move_n_to_array(buffer, length, &tail, &head, n, arr);
+
+    if (ret != 0) {
+
+    printf("\n--- After Move ---\n");
+    printf("Array: [ ");
+    for(int* i = arr; i < arr + n; i++) {
+        printf("%d ", *i);
+    }
+    printf("]\n");
+
+    }
+
+    printf("Output: %d\n", ret);
+
+
+
+}
+
 
 
 void usac_09() {
