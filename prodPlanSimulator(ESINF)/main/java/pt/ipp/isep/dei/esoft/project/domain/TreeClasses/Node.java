@@ -84,6 +84,10 @@ public class Node {
         return materialMap;
     }
 
+    public float getItemQtdByID (ID id) {
+        return materialMap.get(id);
+    }
+
     /**
      * Sets the map of dependent operations and their quantities.
      *

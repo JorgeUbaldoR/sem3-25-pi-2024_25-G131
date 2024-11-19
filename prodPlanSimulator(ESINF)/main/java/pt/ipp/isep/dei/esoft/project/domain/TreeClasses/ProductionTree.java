@@ -222,4 +222,27 @@ public class ProductionTree {
     public Map<ID, Node> getRawMaterials() {
         return rawMaterials;
     }
+
+    public Map<ID, Float> getTotalRequiredMaterials() {
+
+        getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+
+        Map<ID, Float> totalRequiredMaterials = new HashMap<>();
+
+        System.out.println(rawMaterials.size());
+
+        for (Map.Entry<ID, Node> rawMaterial : rawMaterials.entrySet()){
+            Node materialNode = rawMaterial.getValue();
+            ID materialID = rawMaterial.getKey();
+
+            float itemQtd = materialNode.getItem_qtd();
+
+            float totalQtd = itemQtd * materialNode.getItemQtdByID(materialID);
+
+            totalRequiredMaterials.put(materialID, totalQtd);
+        }
+
+        return totalRequiredMaterials;
+
+    }
 }
