@@ -240,6 +240,15 @@ public class Item implements Comparable<Item> {
         return List.copyOf(operationList);
     }
 
+    public boolean hasOperationWithID(ID operationId) {
+        for (Operation op : operationList) {
+            if (op.getOperationId().equals(operationId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Compares this item to another item based on priority and ID.
      *
