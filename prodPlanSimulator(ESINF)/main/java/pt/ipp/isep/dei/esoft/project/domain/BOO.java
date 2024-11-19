@@ -1,20 +1,26 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
-
 import java.util.*;
 
 public class BOO {
 
-
     private final TreeMap<Integer, List<ID>> boo;
-
+    private boolean isInitialized;
 
     public BOO() {
-        boo = treeMapFilling();
+        boo = new TreeMap<>(Collections.reverseOrder());
+        isInitialized = false;
     }
 
-    private TreeMap<Integer, List<ID>> treeMapFilling() {
-        TreeMap<Integer, List<ID>> boo = new TreeMap<>(Comparator.reverseOrder());
+    public TreeMap<Integer, List<ID>> getTreeMap() {
+        if (!isInitialized) {
+            initializeTreeMap();
+            isInitialized = true;
+        }
+        return boo;
+    }
+
+    private void initializeTreeMap() {
         QualityChecks qc = new QualityChecks();
         PriorityQueue<Map<Integer, List<ID>>> pq = qc.fillOperationsPriorityQueue();
 
@@ -26,8 +32,22 @@ public class BOO {
                 boo.computeIfAbsent(priority, k -> new ArrayList<>()).addAll(ids);
             }
         }
-
-        return boo;
     }
 
+    public void printTreeMap(TreeMap<Integer, List<ID>> treeMap) {
+        System.out.println("Operations sorted by priority (Highest to Lowest):");
+        System.out.println("==================================================");
+
+        for (Map.Entry<Integer, List<ID>> entry : treeMap.entrySet()) {
+            Integer priority = entry.getKey();
+            List<ID> ids = entry.getValue();
+
+            System.out.printf("Priority: %d%n", priority);
+            for (ID id : ids) {
+                System.out.printf("  -> %s%n", id);
+            }
+        }
+
+        System.out.println("==================================================");
+    }
 }

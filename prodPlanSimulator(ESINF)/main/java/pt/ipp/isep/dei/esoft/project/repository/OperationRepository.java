@@ -80,6 +80,8 @@ public class OperationRepository {
 
                         if (operation.getOperationId().getSerial() == Integer.parseInt(operationDetail[0])) {
                             operation.setOperationName(operationDetail[1]);
+                            idToOperation.put(operation.getOperationId(), operation);
+                            operations.add(operation);
                             break;
                         }
 

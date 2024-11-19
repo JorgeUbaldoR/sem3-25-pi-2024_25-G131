@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
+import pt.ipp.isep.dei.esoft.project.domain.BOO;
 import pt.ipp.isep.dei.esoft.project.domain.data.FileDataReader;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
@@ -28,14 +29,16 @@ public class ItemRepository {
      */
     public ItemRepository() {
         itemList = new HashMap<>();
-        fillItems();
-        //fillInventory();
+        try {
+            fillItems();
+        } catch (Exception e) {
+            System.out.println("Error during initialization: " + e.getMessage());
+        }
     }
 
 
-
     private void fillItems() {
-        try{
+        try {
             String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
             String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
 
@@ -45,40 +48,39 @@ public class ItemRepository {
                 ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
                 String itemName = importedItem[1].trim();
 
-                addItem(new Item(itemID,itemName,new LinkedList<>()));
+                addItem(new Item(itemID, itemName, new LinkedList<>()));
             }
 
             List<String[]> booItems = readBoo(PATH_BOO);
-            for (int i = 0; i < booItems.size(); i += 3){
+            for (int i = 0; i < booItems.size(); i += 3) {
                 String[] firstThreeValues = booItems.get(i);
 
-                ID idOp = new ID(Integer.parseInt(firstThreeValues[0]),TypeID.OPERATION);
-                ID idItem = new ID(Integer.parseInt(firstThreeValues[1]),TypeID.ITEM);
+                ID idOp = new ID(Integer.parseInt(firstThreeValues[0]), TypeID.OPERATION);
+                ID idItem = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float quantity = Float.parseFloat(firstThreeValues[2].trim());
 
-                if(getMapItemList().containsKey(idItem)){
+                if (getMapItemList().containsKey(idItem)) {
                     Item item = getMapItemList().get(idItem);
                     item.setQuantity(quantity);
                     item.setRawMaterial(false);
                     item.addOpToItem(new Operation(idOp));
                 }
 
-                String[] rawMaterials = booItems.get(i+2);
+                String[] rawMaterials = booItems.get(i + 2);
 
-                for (int j = 1; j < rawMaterials.length; j += 2){
+                for (int j = 1; j < rawMaterials.length; j += 2) {
                     ID rawMaterial = new ID(Integer.parseInt(rawMaterials[j]), TypeID.ITEM);
-                    if (getMapItemList().containsKey(rawMaterial)){
+                    if (getMapItemList().containsKey(rawMaterial)) {
                         Item item = getMapItemList().get(rawMaterial);
-                        item.setQuantity(Float.parseFloat(rawMaterials[j+1].replace(",", ".")));
+                        item.setQuantity(Float.parseFloat(rawMaterials[j + 1].replace(",", ".")));
                     }
                 }
-
 
 
             }
 
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error reading operations from file");
         }
     }
@@ -149,4 +151,32 @@ public class ItemRepository {
     public Map<ID, Item> getMapItemList() {
         return itemList;
     }
+
+
+    public Map<Integer, Queue<Item>> associateItemsWithBoo() {
+        BOO boo = new BOO();
+        Map<Integer, Queue<Item>> itemMap = new LinkedHashMap<>();
+        TreeMap<Integer, List<ID>> treeMap = boo.getTreeMap();
+
+
+        for (Map.Entry<Integer, List<ID>> entry : treeMap.entrySet()) {
+
+            Queue<Item> associatedItems = new LinkedList<>();
+            int height = entry.getKey();
+            List<ID> idList = entry.getValue();
+
+            for (Map.Entry<ID, Item> itemEntry : itemList.entrySet()) {
+                Item item = itemEntry.getValue();
+                for (ID id : idList) {
+                    if (item.hasOperationWithID(id)) {
+                        associatedItems.add(item);
+                    }
+
+                }
+                itemMap.put(height, associatedItems);
+            }
+        }
+        return itemMap;
+    }
+
 }
