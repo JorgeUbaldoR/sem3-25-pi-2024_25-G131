@@ -52,6 +52,7 @@ public class OperationRepositoryTest {
 
     @Test
     public void testFillOperationsFromItems() {
+        OperationRepository operationRepository1 = new OperationRepository();
         // Create operations
         operationListItem1.add(opCutting);
         operationListItem1.add(opWelding);
@@ -67,9 +68,9 @@ public class OperationRepositoryTest {
         items.add(item1);
         items.add(item2);
 
-        operationRepository.fillOperations(items);
+        operationRepository1.fillOperations(items);
 
-        List<Operation> operations = operationRepository.getOperations();
+        List<Operation> operations = operationRepository1.getOperations();
         assertEquals(3, operations.size());
         assertTrue(operations.contains(opCutting));
         assertTrue(operations.contains(opPainting));
@@ -79,20 +80,23 @@ public class OperationRepositoryTest {
 
     @Test
     public void testGetOperations_EmptyRepository() {
-        List<Operation> operations = operationRepository.getOperations();
+        OperationRepository operationRepository1 = new OperationRepository();
+        List<Operation> operations = operationRepository1.getOperations();
 
         assertTrue(operations.isEmpty());
     }
 
     @Test
     public void testGetAllOperations_NonEmpty() {
+        OperationRepository operationRepository1 = new OperationRepository();
+
         Operation operation1 = new Operation("Operation1",new ID(4,TypeID.OPERATION));
         Operation operation2 = new Operation("Operation2",new ID(5,TypeID.OPERATION));
 
-        operationRepository.addOperation(operation1);
-        operationRepository.addOperation(operation2);
+        operationRepository1.addOperation(operation1);
+        operationRepository1.addOperation(operation2);
 
-        Optional<List<Operation>> operations = operationRepository.getAllOperations();
+        Optional<List<Operation>> operations = operationRepository1.getAllOperations();
 
         assertTrue(operations.isPresent());
         assertEquals(2, operations.get().size());

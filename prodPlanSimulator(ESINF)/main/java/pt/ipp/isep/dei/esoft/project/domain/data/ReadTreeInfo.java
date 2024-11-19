@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.domain.sprint2;
+package pt.ipp.isep.dei.esoft.project.domain.data;
 
 import java.io.File;
 import java.io.IOException;

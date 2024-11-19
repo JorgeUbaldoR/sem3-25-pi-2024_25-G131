@@ -84,7 +84,7 @@ public class Item implements Comparable<Item> {
      * @throws IllegalArgumentException if itemID, priority, or operationList is null.
      * @complexity O(1), as it only performs null checks.
      */
-    private void validateInformation(ID itemID, Priority priority, Queue<Operation> operationList) {
+    public void validateInformation(ID itemID, Priority priority, Queue<Operation> operationList) {
         if (itemID == null) throw new IllegalArgumentException("Cannot create Item because ID is null.");
         if (priority == null) throw new IllegalArgumentException("Cannot create Item because Priority is null.");
         if (operationList == null) throw new IllegalArgumentException("Cannot create Item because operation list is null.");

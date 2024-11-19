@@ -8,7 +8,7 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import java.io.IOException;
 import java.util.*;
 
-import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.getOpOrItem;
+import static pt.ipp.isep.dei.esoft.project.domain.data.ReadTreeInfo.getOpOrItem;
 
 /**
  * Repository class that manages operations associated with machines.
@@ -28,6 +28,11 @@ public class OperationRepository {
         this.idToOperation = new HashMap<>();
         fillOperations();
         //fillOperations(items);
+    }
+
+    public OperationRepository() {
+        this.operations = new HashSet<>();
+        this.idToOperation = new HashMap<>();
     }
 
     /**

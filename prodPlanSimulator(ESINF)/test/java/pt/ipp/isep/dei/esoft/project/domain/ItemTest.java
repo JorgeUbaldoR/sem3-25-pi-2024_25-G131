@@ -124,9 +124,9 @@ class ItemTest {
     @Test
     void testCheckInformation(){
         System.out.println("Test Check Information");
-        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(null,Priority.HIGH,new LinkedList<>()));
-        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem2,null,new LinkedList<>()));
-        assertThrows(IllegalArgumentException.class, () -> item1.checkInfomation(idItem1,Priority.HIGH,null ));
+        assertThrows(IllegalArgumentException.class, () -> item1.validateInformation(null,Priority.HIGH,new LinkedList<>()));
+        assertThrows(IllegalArgumentException.class, () -> item1.validateInformation(idItem2,null,new LinkedList<>()));
+        assertThrows(IllegalArgumentException.class, () -> item1.validateInformation(idItem1,Priority.HIGH,null ));
     }
 
     @Test

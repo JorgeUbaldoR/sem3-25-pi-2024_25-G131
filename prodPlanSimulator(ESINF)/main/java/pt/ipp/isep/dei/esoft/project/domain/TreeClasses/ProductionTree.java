@@ -1,9 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
 import pt.ipp.isep.dei.esoft.project.domain.ID;
-import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
-import pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo;
+import pt.ipp.isep.dei.esoft.project.domain.data.ReadTreeInfo;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
