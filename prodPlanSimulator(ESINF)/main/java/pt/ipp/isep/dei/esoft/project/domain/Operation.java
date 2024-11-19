@@ -69,7 +69,7 @@ public class Operation {
      * @return the operation's name.
      */
     public String getOperationName() {
-        return operationName;
+        return operationName.trim();
     }
 
     /**

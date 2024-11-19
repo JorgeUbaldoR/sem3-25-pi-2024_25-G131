@@ -27,7 +27,7 @@ public class OperationRepository {
     public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
         this.idToOperation = new HashMap<>();
-        //fillOperations();
+        fillOperations();
         fillOperations(items);
     }
 

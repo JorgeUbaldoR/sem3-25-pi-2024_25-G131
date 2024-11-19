@@ -91,16 +91,16 @@ public class ShowInformationUI implements Runnable {
     private void showItems() {
         boolean flag = true; // Tracks whether all items without operations have been displayed
         System.out.printf("%n%s• ITEMS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
-        System.out.printf("%s-------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s-------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         List<Item> listItem = getShowInfController().getItemList();
         System.out.printf("%s%-14s %-17s %-17s %-17s %s%s%n", ANSI_BRIGHT_WHITE, "ID", "Name", "Quantity", "Priority", "Operation", ANSI_RESET);
-        System.out.printf("%s-------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s-------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Item item : listItem) {
             flag = true;
             if (!item.getOperationList().isEmpty()) {
                 flag = false;
-                System.out.printf("%-11s %-21s %-11s %-11s [", item.getItemID(), item.getName(), item.getQuantity(), item.getPriority());
+                System.out.printf("%-10s %-23s %-17s %-13s [", item.getItemID(), item.getName(), item.getQuantity(), item.getPriority());
                 for (Operation operation : item.getOperationList()) {
                     if (item.getOperationList().indexOf(operation) != item.getOperationList().size() - 1) {
                         System.out.printf("%s, ", operation.getOperationName());
