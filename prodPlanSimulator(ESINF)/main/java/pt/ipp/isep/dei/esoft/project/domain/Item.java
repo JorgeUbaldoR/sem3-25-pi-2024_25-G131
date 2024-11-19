@@ -65,12 +65,12 @@ public class Item implements Comparable<Item> {
      * @throws IllegalArgumentException if itemID is null.
      * @complexity O(1), as it performs simple initialization.
      */
-    public Item(ID itemID, String name) {
+    public Item(ID itemID, String name, Queue<Operation> operationList) {
         validateInformation(itemID, Priority.LOW, new LinkedList<>());
         this.name = name;
         this.itemID = itemID;
         this.priority = Priority.LOW;
-        this.operationList = new LinkedList<>();
+        this.operationList = operationList;
         this.currentOperation = null;
         this.quantity = 0;
     }

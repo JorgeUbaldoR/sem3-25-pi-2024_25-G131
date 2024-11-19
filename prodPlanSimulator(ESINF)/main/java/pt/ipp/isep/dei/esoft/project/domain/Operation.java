@@ -57,6 +57,11 @@ public class Operation {
         this.operationId = null;
         this.operationDescription = NO_DESCRIPTION;
     }
+    public Operation(ID operationId) {
+        this.operationName = "Not provided yet";
+        this.operationId = operationId;
+        this.operationDescription = NO_DESCRIPTION;
+    }
 
     /**
      * Gets the name of the operation.

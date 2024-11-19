@@ -6,8 +6,10 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
+
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.getOpOrItem;
+import static pt.ipp.isep.dei.esoft.project.domain.sprint2.ReadTreeInfo.readBoo;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,17 +33,33 @@ public class ItemRepository {
     }
 
     private void fillItems() {
-        try{
+        try {
             String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
+            String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
-            for (String[] importedItem : itemsDetails) {
+            List<String[]> booItems = readBoo(PATH_BOO);
 
-                ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
-                String itemName = importedItem[1].trim();
 
-                addItem(new Item(itemID,itemName));
+            for (int i = 0; i < booItems.size(); i += 3) {
+                String[] firstThreeValues = booItems.get(i);
+                int idOp = Integer.parseInt(firstThreeValues[0]);
+                int idItem = Integer.parseInt(firstThreeValues[1]);
+
+                for (String[] importedItem : itemsDetails) {
+                    if (idItem == Integer.parseInt(importedItem[0])) {
+                        ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
+                        String itemName = importedItem[1].trim();
+                        ID opId = new ID(idOp, TypeID.OPERATION);
+                        Operation operation = new Operation(opId);
+                        Queue<Operation> opQueue = new LinkedList<>();
+                        opQueue.add(operation);
+                        addItem(new Item(itemID, itemName, opQueue));
+                        break;
+                    }
+
+                }
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error reading operations from file");
         }
     }
@@ -51,7 +69,7 @@ public class ItemRepository {
      *
      * @param item the Item to be added to the repository
      * @return an Optional containing a clone of the added item if successful,
-     *         or an empty Optional if the item already exists
+     * or an empty Optional if the item already exists
      */
     public Optional<Item> addItem(Item item) {
         Optional<Item> newItem = Optional.empty();
