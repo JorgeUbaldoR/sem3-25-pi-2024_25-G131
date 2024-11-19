@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
+import pt.ipp.isep.dei.esoft.project.domain.Item;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +12,17 @@ import java.util.Map;
  * @author DEI-ESINF
  */
 
-public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E> {
+public class BinarySearchTree  {
 
 
     /**
      * Nested static class for a binary search tree node.
      */
 
-    protected static class Node<E> {
-        private E element;          // an element stored at this node
-        private Node<E> left;       // a reference to the left child (if any)
-        private Node<E> right;      // a reference to the right child (if any)
+    protected static class Node<ObjectBST> {
+        private ObjectBST element;          // an element stored at this node
+        private Node<ObjectBST> left;       // a reference to the left child (if any)
+        private Node<ObjectBST> right;      // a reference to the right child (if any)
 
         /**
          * Constructs a node with the given element and neighbors.
@@ -29,42 +31,42 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
          * @param leftChild  reference to a left child node
          * @param rightChild reference to a right child node
          */
-        public Node(E e, Node<E> leftChild, Node<E> rightChild) {
+        public Node(ObjectBST e, Node<ObjectBST> leftChild, Node<ObjectBST> rightChild) {
             element = e;
             left = leftChild;
             right = rightChild;
         }
 
         // accessor methods
-        public E getElement() {
+        public ObjectBST getElement() {
             return element;
         }
 
-        public Node<E> getLeft() {
+        public Node<ObjectBST> getLeft() {
             return left;
         }
 
-        public Node<E> getRight() {
+        public Node<ObjectBST> getRight() {
             return right;
         }
 
         // update methods
-        public void setElement(E e) {
+        public void setElement(ObjectBST e) {
             element = e;
         }
 
-        public void setLeft(Node<E> leftChild) {
+        public void setLeft(Node<ObjectBST> leftChild) {
             left = leftChild;
         }
 
-        public void setRight(Node<E> rightChild) {
+        public void setRight(Node<ObjectBST> rightChild) {
             right = rightChild;
         }
     }
 
     //----------- end of nested Node class -----------
 
-    protected Node<E> root = null;     // root of the tree
+    protected Node<ObjectBST> root = null;     // root of the tree
 
 
     /* Constructs an empty binary search tree. */
@@ -75,7 +77,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
     /*
      * @return root Node of the tree (or null if tree is empty)
      */
-    protected Node<E> root() {
+    protected Node<ObjectBST> root() {
         return root;
     }
 
@@ -98,7 +100,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * subclasses avoiding recoding.
      * So its access level is protected
      */
-    protected Node<E> find(Node<E> node, E element) {
+    protected Node<ObjectBST> find(Node<ObjectBST> node, ObjectBST element) {
         if (node == null) {
             return null;
         }
@@ -117,22 +119,24 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
     /*
      * Inserts an element in the tree.
      */
-    public void insert(E element) {
-        root = insert(element, root());
+    public void insert(Item item) {
+        root = insert(item, root());
     }
 
-    private Node<E> insert(E element, Node<E> node) {
+    private Node<ObjectBST> insert(Item item, Node<ObjectBST> node) {
 
         if (node == null) {
-            return new Node(element, null, null);
+            ObjectBST newObject = new ObjectBST(new HashMap<>(),item.getQuantity());
+            newObject.getItemsWithQuantity().put(item.getItemID(), item);
+            return new Node(newObject, null, null);
         }
-        if(node.getElement().compareTo(element) == 0) {
-            node.setElement(element);
+        if(node.getElement().getQuantityOfElements() == item.getQuantity()) {
+            node.getElement().addItem(item);
             return node;
-        }else if (node.getElement().compareTo(element) > 0) {
-            node.setLeft(insert(element, node.getLeft()));
-        } else if (node.getElement().compareTo(element) < 0) {
-            node.setRight(insert(element, node.getRight()));
+        }else if (node.getElement().getQuantityOfElements() > item.getQuantity()) {
+            node.setLeft(insert(item, node.getLeft()));
+        } else if (node.getElement().getQuantityOfElements() < item.getQuantity()) {
+            node.setRight(insert(item, node.getRight()));
         }
 
         return node;
@@ -141,11 +145,11 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
     /**
      * Removes an element from the tree maintaining its consistency as a Binary Search Tree.
      */
-    public void remove(E element) {
+    public void remove(ObjectBST element) {
         root = remove(element, root());
     }
 
-    private Node<E> remove(E element, Node<E> node) {
+    private Node<ObjectBST> remove(ObjectBST element, Node<ObjectBST> node) {
 
         if (node == null) {
             return null;    //throw new IllegalArgumentException("Element does not exist");
@@ -161,7 +165,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
             if (node.getRight() == null) {  //has only left child
                 return node.getLeft();
             }
-            E min = smallestElement(node.getRight());
+            ObjectBST min = smallestElement(node.getRight());
             node.setElement(min);
             node.setRight(remove(min, node.getRight()));
         } else if (element.compareTo(node.getElement()) < 0)
@@ -180,7 +184,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
         return size(root);
     }
 
-    private int size(Node<E> node) {
+    private int size(Node<ObjectBST> node) {
         if (node != null) {
             return 1 + size(node.getLeft()) + size(node.getRight());
         }
@@ -200,7 +204,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * @param node A valid Node within the tree
      * @return height
      */
-    protected int height(Node<E> node) {
+    protected int height(Node<ObjectBST> node) {
         if(node == null) {
             return -1;
         }
@@ -216,11 +220,11 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      *
      * @return the smallest element within the tree
      */
-    public E smallestElement() {
+    public ObjectBST smallestElement() {
         return smallestElement(root());
     }
 
-    protected E smallestElement(Node<E> node) {
+    protected ObjectBST smallestElement(Node<ObjectBST> node) {
         if (node.getLeft() == null) {
             return node.getElement();
         }
@@ -231,8 +235,8 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * Returns an iterable collection of elements of the tree, reported in in-order.
      * @return iterable collection of the tree's elements reported in in-order
      */
-    public Iterable<E> inOrder() {
-        List<E> snapshot = new ArrayList<>();
+    public Iterable<ObjectBST> inOrder() {
+        List<ObjectBST> snapshot = new ArrayList<>();
         if (root != null)
             inOrderSubtree(root, snapshot);   // fill the snapshot recursively
         return snapshot;
@@ -245,7 +249,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * @param node     Node serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void inOrderSubtree(Node<E> node, List<E> snapshot) {
+    private void inOrderSubtree(Node<ObjectBST> node, List<ObjectBST> snapshot) {
         if (node == null)
             return;
         inOrderSubtree(node.getLeft(), snapshot);
@@ -253,13 +257,44 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
         inOrderSubtree(node.getRight(), snapshot);
     }
 
+
+
+    /*
+     * Returns an iterable collection of elements of the tree, reported in in-order.
+     * @return iterable collection of the tree's elements reported in in-order
+     */
+    public Iterable<ObjectBST> inOrderReverse() {
+        List<ObjectBST> snapshot = new ArrayList<>();
+        if (root != null)
+            inOrderSubtreeReverse(root, snapshot);   // fill the snapshot recursively
+        return snapshot;
+    }
+
+    /**
+     * Adds elements of the subtree rooted at Node node to the given
+     * snapshot using an in-order traversal
+     *
+     * @param node     Node serving as the root of a subtree
+     * @param snapshot a list to which results are appended
+     */
+    private void inOrderSubtreeReverse(Node<ObjectBST> node, List<ObjectBST> snapshot) {
+        if (node == null)
+            return;
+
+        inOrderSubtreeReverse(node.getRight(), snapshot);
+        snapshot.add(node.getElement());
+        inOrderSubtreeReverse(node.getLeft(), snapshot);
+    }
+
+
+
     /**
      * Returns an iterable collection of elements of the tree, reported in pre-order.
      *
      * @return iterable collection of the tree's elements reported in pre-order
      */
-    public Iterable<E> preOrder() {
-        List<E> snapshot = new ArrayList<>();
+    public Iterable<ObjectBST> preOrder() {
+        List<ObjectBST> snapshot = new ArrayList<>();
         if (root != null)
             preOrderSubtree(root, snapshot);   // fill the snapshot recursively
         return snapshot;
@@ -272,7 +307,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * @param node     Node serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void preOrderSubtree(Node<E> node, List<E> snapshot) {
+    private void preOrderSubtree(Node<ObjectBST> node, List<ObjectBST> snapshot) {
         if (node == null)
             return;
         snapshot.add(node.getElement());
@@ -285,8 +320,8 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      *
      * @return iterable collection of the tree's elements reported in post-order
      */
-    public Iterable<E> posOrder() {
-        List<E> snapshot = new ArrayList<>();
+    public Iterable<ObjectBST> posOrder() {
+        List<ObjectBST> snapshot = new ArrayList<>();
         if(root != null) {
             posOrderSubtree(root, snapshot);
         }
@@ -300,7 +335,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * @param node     Node serving as the root of a subtree
      * @param snapshot a list to which results are appended
      */
-    private void posOrderSubtree(Node<E> node, List<E> snapshot) {
+    private void posOrderSubtree(Node<ObjectBST> node, List<ObjectBST> snapshot) {
         if(node == null){
             return;
         }
@@ -313,8 +348,8 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
      * Returns a map with a list of nodes by each tree level.
      * @return a map with a list of nodes by each tree level
      */
-    public Map<Integer, List<E>> nodesByLevel() {
-        Map<Integer, List<E>> nodesByLevel = new HashMap<>();
+    public Map<Integer, List<ObjectBST>> nodesByLevel() {
+        Map<Integer, List<ObjectBST>> nodesByLevel = new HashMap<>();
 
         if (root != null) {
             processBstByLevel(root, nodesByLevel, 0);
@@ -323,7 +358,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
         return nodesByLevel;
     }
 
-    private void processBstByLevel(Node<E> node, Map<Integer, List<E>> result, int level) {
+    private void processBstByLevel(Node<ObjectBST> node, Map<Integer, List<ObjectBST>> result, int level) {
         if (node == null) {
             return;
         }
@@ -348,7 +383,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements BSTInterface<E
         return sb.toString();
     }
 
-    private void toStringRec(Node<E> root, int level, StringBuilder sb) {
+    private void toStringRec(Node<ObjectBST> root, int level, StringBuilder sb) {
         if (root == null)
             return;
         toStringRec(root.getRight(), level + 1, sb);
