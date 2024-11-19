@@ -32,34 +32,53 @@ public class ItemRepository {
         //fillInventory();
     }
 
+
+
     private void fillItems() {
-        try {
+        try{
             String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
             String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
-            List<String[]> booItems = readBoo(PATH_BOO);
+            for (String[] importedItem : itemsDetails) {
 
+                ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
+                String itemName = importedItem[1].trim();
 
-            for (int i = 0; i < booItems.size(); i += 3) {
-                String[] firstThreeValues = booItems.get(i);
-                int idOp = Integer.parseInt(firstThreeValues[0]);
-                int idItem = Integer.parseInt(firstThreeValues[1]);
-
-                for (String[] importedItem : itemsDetails) {
-                    if (idItem == Integer.parseInt(importedItem[0])) {
-                        ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
-                        String itemName = importedItem[1].trim();
-                        ID opId = new ID(idOp, TypeID.OPERATION);
-                        Operation operation = new Operation(opId);
-                        Queue<Operation> opQueue = new LinkedList<>();
-                        opQueue.add(operation);
-                        addItem(new Item(itemID, itemName, opQueue));
-                        break;
-                    }
-
-                }
+                addItem(new Item(itemID,itemName,new LinkedList<>()));
             }
-        } catch (IOException e) {
+
+            List<String[]> booItems = readBoo(PATH_BOO);
+            for (int i = 0; i < booItems.size(); i += 3){
+                String[] firstThreeValues = booItems.get(i);
+
+                ID idOp = new ID(Integer.parseInt(firstThreeValues[0]),TypeID.OPERATION);
+                ID idItem = new ID(Integer.parseInt(firstThreeValues[1]),TypeID.ITEM);
+                float quantity = Float.parseFloat(firstThreeValues[2].trim());
+
+                if(getMapItemList().containsKey(idItem)){
+                    Item item = getMapItemList().get(idItem);
+                    item.setQuantity(quantity);
+                    item.setRawMaterial(false);
+                    item.addOpToItem(new Operation(idOp));
+                }
+
+                String[] rawMaterials = booItems.get(i+2);
+
+                for (int j = 1; j < rawMaterials.length; j += 2){
+                    ID rawMaterial = new ID(Integer.parseInt(rawMaterials[j]), TypeID.ITEM);
+                    if (getMapItemList().containsKey(rawMaterial)){
+                        Item item = getMapItemList().get(rawMaterial);
+                        item.setQuantity(Float.parseFloat(rawMaterials[j+1].replace(",", ".")));
+                    }
+                }
+
+
+
+            }
+
+
+        }catch (IOException e) {
             System.out.println("Error reading operations from file");
         }
     }

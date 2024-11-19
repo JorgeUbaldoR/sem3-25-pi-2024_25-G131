@@ -17,6 +17,7 @@ public class Item implements Comparable<Item> {
     private Queue<Operation> operationList;
     private Operation currentOperation;
     private float quantity;
+    private boolean isRawMaterial;
 
     /**
      * Constructs an Item with the specified ID, priority, and list of operations.
@@ -35,6 +36,7 @@ public class Item implements Comparable<Item> {
         this.operationList = new LinkedList<>(operationList);
         this.currentOperation = this.operationList.peek();
         this.quantity = 0;
+        this.isRawMaterial = true;
     }
 
     /**
@@ -55,6 +57,7 @@ public class Item implements Comparable<Item> {
         this.operationList = new LinkedList<>(operationList);
         this.currentOperation = this.operationList.peek();
         this.quantity = 0;
+        this.isRawMaterial = true;
     }
 
     /**
@@ -73,6 +76,20 @@ public class Item implements Comparable<Item> {
         this.operationList = operationList;
         this.currentOperation = null;
         this.quantity = 0;
+        this.isRawMaterial = true;
+    }
+
+
+    public boolean isRawMaterial() {
+        return isRawMaterial;
+    }
+
+    public void setRawMaterial(boolean rawMaterial) {
+        isRawMaterial = rawMaterial;
+    }
+
+    public boolean addOpToItem(Operation op) {
+        return operationList.add(op);
     }
 
     /**
