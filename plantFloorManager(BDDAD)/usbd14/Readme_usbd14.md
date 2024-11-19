@@ -8,14 +8,45 @@
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
    legacy system.
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
+      CREATE OR REPLACE FUNCTION list_product_haveALL_operations
+      RETURN SYS_REFCURSOR
+      AS
+         product_haveAll_operations_cursor SYS_REFCURSOR;
+      BEGIN
+         OPEN product_haveAll_operations_cursor FOR
+            SELECT P.PRODUCT_ID
+            FROM Product P
+            JOIN Operation O ON P.PRODUCT_ID = O.BOOProductPRODUCT_ID
+            GROUP BY P.PRODUCT_ID
+            HAVING COUNT(O.OPERATION_ID) = (
+               SELECT MAX(op_count)
+               FROM (
+                  SELECT COUNT(OPERATION_ID) AS op_count
+                  FROM Operation
+                  GROUP BY BOOProductPRODUCT_ID
+               ) subquery
+            );
+         RETURN product_haveAll_operations_cursor;
+      END;
+      /
+      
+      DECLARE
+      product_haveAll_operations_cursor SYS_REFCURSOR;
+      
+          p Product.PRODUCT_ID%TYPE;
+      BEGIN
+      product_haveAll_operations_cursor := list_product_haveALL_operations();
+      
+          LOOP
+              FETCH product_haveAll_operations_cursor INTO p;
+              EXIT WHEN product_haveAll_operations_cursor%NOTFOUND;
+      
+              DBMS_OUTPUT.PUT_LINE('Product: ' || p);
+          END LOOP;
+      
+          CLOSE product_haveAll_operations_cursor;
+      END;
+      /
 
 
 ### 3. Resolution

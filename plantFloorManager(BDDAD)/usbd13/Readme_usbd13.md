@@ -8,18 +8,56 @@
 ### 2. Resolution
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
 legacy system.
+> 
 >**AC2:** A function should return a cursor with all product operations. When a part is a subproduct made at the factory, its list of operations
 should be included. For each operation, the inputs and outputs should be included.
 
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
+    CREATE OR REPLACE FUNCTION list_operations_and_workstationTypes(
+        product_id IN Product.PRODUCT_ID%TYPE
+    )
+    RETURN SYS_REFCURSOR
+    AS
+        operation_worstationTypes_cursor SYS_REFCURSOR;
+    BEGIN
+        OPEN operation_worstationTypes_cursor FOR
+            SELECT O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID
+            FROM Operation O
+            JOIN Workstation_Type_Operation_TYPE WtOp
+            ON WtOp.Operation_TYPEOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
+            WHERE O.BOOProductPRODUCT_ID = product_id
+    
+            UNION ALL
+            
+            SELECT O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID
+            FROM Operation O
+            JOIN BOO_INPUT BI ON O.OPERATION_ID = BI.OperationOPERATION_ID
+            JOIN Workstation_Type_Operation_TYPE WtOp 
+                ON WtOp.Operation_typeOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
+            WHERE BI.PartPARTNUMBER IN (
+                SELECT PartPARTNUMBER FROM BOO_INPUT WHERE OperationOPERATION_ID = (SELECT OPERATION_ID FROM Operation WHERE BOOProductPRODUCT_ID = product_id)
+            );
+        RETURN operation_worstationTypes_cursor;
+    END;
+    /
+    
+    DECLARE
+        operation_workstationTypes_cursor SYS_REFCURSOR;
+        op Operation.OPERATION_ID%TYPE;
+        wT Workstation_Type_Operation_TYPE.Workstation_TypeWS_TYPE_ID%TYPE;
+    BEGIN
+        operation_workstationTypes_cursor := list_operations_and_workstationTypes('AS12945S22');
+    
+        LOOP
+            FETCH operation_workstationTypes_cursor INTO op, wT;
+            EXIT WHEN operation_workstationTypes_cursor%NOTFOUND;
+    
+            DBMS_OUTPUT.PUT_LINE('Operation: ' || op || ', Workstation Type: ' || wT);
+        END LOOP;
+    
+        CLOSE operation_workstationTypes_cursor;
+    END;
+    /
 
 
 ### 3. Resolution

@@ -9,14 +9,19 @@
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
    legacy system.
 
-      select p.NAME as Product_Name, o.ORDER_ID as ORDER_ID, c.NAME as Costumer_Name, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      from Costumer c, "Order" o, Order_Products op, Product p, Prod_Family pf
-      where p.Prod_FamilyFAMILY_ID = pf.FAMILY_ID
-      and op.ProductPRODUCT_ID =  p.PRODUCT_ID
-      and op.OrderORDER_ID = o.ORDER_ID
-      and o.CostumerCOSTUMER_ID = c.COSTUMER_ID
-      group by p.NAME, o.ORDER_ID, c.NAME, op.AMOUNT_PRODUCT, o.ORDER_DATE
-      order by o.ORDER_ID asc;
+      SELECT ProductPRODUCT_ID,
+      COUNT(O.OPERATION_ID) AS operation_count
+      FROM BOO B
+      JOIN Operation O ON B.ProductPRODUCT_ID = O.BOOProductPRODUCT_ID
+      GROUP BY ProductPRODUCT_ID
+      HAVING COUNT(O.OPERATION_ID) = (
+         SELECT MAX(operation_count)
+         FROM (
+            SELECT COUNT(OPERATION_ID) AS operation_count
+            FROM Operation
+            GROUP BY BOOProductPRODUCT_ID
+         )
+      );
 
 
 ### 3. Resolution
