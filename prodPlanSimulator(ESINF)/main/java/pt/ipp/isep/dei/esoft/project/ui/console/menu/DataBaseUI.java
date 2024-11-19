@@ -24,7 +24,7 @@ public class DataBaseUI implements Runnable {
         options.add(new MenuItem("Search Operation/Material", new SearchProductionTreeUI()));
         options.add(new MenuItem("Generate Diagram", new DiagramGenerationUI()));
         options.add(new MenuItem("Show Quality Checks", new QualityChecksUI()));
-        options.add(new MenuItem("Material Qtd", new ViewTotalMaterialUI()));
+        options.add(new MenuItem("Quantity BY Material", new BSTUI()));
 
         int option = 0;
         do {

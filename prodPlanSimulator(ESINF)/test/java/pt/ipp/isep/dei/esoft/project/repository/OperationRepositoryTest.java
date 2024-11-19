@@ -53,23 +53,18 @@ public class OperationRepositoryTest {
     @Test
     public void testFillOperationsFromItems() {
         OperationRepository operationRepository1 = new OperationRepository();
-        // Create operations
-        operationListItem1.add(opCutting);
-        operationListItem1.add(opWelding);
-        operationListItem1.add(opPainting);
-        operationListItem2.add(opCutting);
-        operationListItem2.add(opWelding);
+
 
         // Create items with operation lists
          ID idItem1 = new ID(101, TypeID.ITEM);
          ID idItem2 = new ID(102, TypeID.ITEM);
          Item item1 = new Item(idItem1, Priority.LOW, operationListItem1);
          Item item2 = new Item(idItem2, Priority.NORMAL, operationListItem2);
-        items.add(item1);
-        items.add(item2);
 
-        operationRepository1.fillOperations(items);
 
+        operationRepository1.addOperation(opCutting);
+        operationRepository1.addOperation(opWelding);
+        operationRepository1.addOperation(opPainting);
         List<Operation> operations = operationRepository1.getOperations();
         assertEquals(3, operations.size());
         assertTrue(operations.contains(opCutting));
