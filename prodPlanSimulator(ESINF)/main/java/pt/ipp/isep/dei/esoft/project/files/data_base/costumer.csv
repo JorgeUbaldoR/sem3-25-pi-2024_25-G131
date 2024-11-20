@@ -1,5 +1,5 @@
-﻿IDClient;Name;VATIN;Addess;ZIP;Town;Country;Email;Phone
-456;Carvalho & Carvalho, Lda;PT501245987;Tv. Augusto Lessa 23;4200-047;Porto;Portugal;idont@care.com;003518340500
-785;Tudo para a casa, Lda;PT501245488;R. Dr. Barros 93;4465-219;São Mamede de Infesta;Portugal;me@neither.com;003518340500
-657;Sair de Cena;PT501242417;EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88;4400-023;Vila Nova de Gaia;Portugal;some@email.com;003518340500
-348;U Fleku;CZ6451237810;Křemencova 11;110 00;Nové Město;Czechia;some.random@email.cz;004201234567
+﻿COSTUMER_ID;VAT;NAME;ADDRESS;CITY;COUNTRY;ZIP;PHONE;EMAIL
+456;PT501245987;Carvalho & Carvalho, Lda;Tv. Augusto Lessa 23;Porto;Portugal;4200-047;3518340500;idont@care.com
+785;PT501245488;Tudo para a Casa, Lda;R. Dr. Barros 93;São Mamede de Infesta;Portugal;4465-219;3518340500;me@neither.com
+657;PT501242417;Sair de Cena;Edifício Cristal lj18, R. António Correia de Carvalho 88;Vila Nova de Gaia;Portugal;4400-023;3518340500;some@email.com
+348;CZ6451237810;U Fleku;Křemencova 11;Nové Město;Czechia;110 00;4201234567;some.random@email.cz
