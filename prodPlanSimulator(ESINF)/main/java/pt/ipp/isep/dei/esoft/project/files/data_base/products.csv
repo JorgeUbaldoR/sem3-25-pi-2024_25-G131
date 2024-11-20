@@ -1,7 +1,12 @@
-﻿AS12945T22;La Belle 22 5l pot;5l 22 cm aluminium and teflon non stick pot;130
-AS12945S22;Pro 22 5l pot;5l 22 cm stainless steel pot;125
-AS12945S20;Pro 20 3l pot;3l 20 cm stainless steel pot;125
-AS12945S17;Pro 17 2l pot;2l 17 cm stainless steel pot;125
-AS12945P17;Pro 17 2l sauce pan;2l 17 cm stainless steel souce pan;132
-AS12945S48;Pro 17 lid;17 cm stainless steel lid;145
-AS12945G48;Pro Clear 17 lid;17 cm glass lid;146
+﻿PRODUCT_ID;Prod_FamilyFAMILY_ID;NAME;DESCRIPTION;PartPARTNUMBER
+AS12945T22;130;La Belle 22 5L Pot;5L 22cm aluminium and Teflon non-stick pot;AS12945T22
+AS12945S22;125;Pro 22 5L Pot;5L 22cm stainless steel pot;AS12945S22
+AS12945S20;125;Pro 20 3L Pot;3L 20cm stainless steel pot;AS12945S20
+AS12945S17;125;Pro 17 2L Pot;2L 17cm stainless steel pot;AS12945S17
+AS12945P17;132;Pro 17 2L Sauce Pan;2L 17cm stainless steel sauce pan;AS12945P17
+AS12945S48;145;Pro 17 Lid;17cm stainless steel lid;AS12945S48
+AS12945G48;146;Pro Clear 17 Lid;17cm glass lid;AS12945G48
+AS12946S22;125;Pro 22 5L Pot Bottom;5L 22cm stainless steel pot bottom;AS12946S22
+AS12947S22;145;Pro 22 Lid;22cm stainless steel lid;AS12947S22
+AS12946S20;125;Pro 20 3L Pot Bottom;3L 20cm stainless steel pot bottom;AS12946S20
+AS12947S20;145;Pro 20 Lid;20cm stainless steel lid;AS12947S20

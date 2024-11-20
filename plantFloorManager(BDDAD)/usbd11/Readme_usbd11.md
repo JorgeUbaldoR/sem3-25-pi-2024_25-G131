@@ -429,424 +429,230 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
 
 ```java
 public class SQLGenerator {
-  private static final String BOM = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/bom.csv";
-  private static final String BOO = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/boo.csv";
-  private static final String COSTUMER = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/costumer.csv";
-  private static final String OPERATIONS = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/operations.csv";
-  private static final String ORDERS = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/orders.csv";
-  private static final String PROD_FAMILY = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/product_family.csv";
-  private static final String PRODUCTS = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/products.csv";
-  private static final String WORKSTATIONS = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/workstation.csv";
-  private static final String WORKSTATION_TYPES = "prodPlanSimulator/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/workstation_types.csv";
-
+  /* EXEMPLE
+  private static final String BOM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/bom.csv";
+  */
+  private static final String COSTUMER = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/costumer.csv";
+  private static final String ORDER = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/orders.csv";
+  private static final String PROD_FAMILY = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/product_family.csv";
+  private static final String PRODUCT = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/products.csv";
+  private static final String PART = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/part.csv";
+  private static final String ORDER_PRODUCTS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/order_products.csv";
+  private static final String WORKSTATION_TYPES = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/workstation_types.csv";
+  private static final String WORKSTATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/workstation.csv";
+  private static final String OPERATION = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/operations.csv";
+  private static final String BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/boo.csv";
+  private static final String BOO_INPUT = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/boo_input.csv";
+  private static final String BOO_OUTPUT = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/boo_output.csv";
+  private static final String BOO_TEMPLATE = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/boo_template.csv";
+  private static final String COMPONENT = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/component.csv";
+  private static final String INTERMEDIATE_PRODUCT = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/intermediate_product.csv";
+  private static final String OPERATION_TYPE = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/operation_type.csv";
+  private static final String RAW_MATERIAL = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/raw_material.csv";
+  private static final String WORKSTATION_TYPE_OPERATION_TYPE = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/workstation_type_operation.csv";
 
   public static void main(String[] args) {
-
     costumer();
-    order();
     prodFamily();
+    part();
     product();
+    order();
     orderProducts();
-    workstationTypes();
-    workstation();
-    operation();
-    bom();
+    operationType();
+    booTemplate();
+    workstationType();
+    workStation();
+    workstationTypeOperationType();
     boo();
-    workstationTypeOperation();
+    component();
+    intermediateProduct();
+    rawMaterial();
+    operation();
+    booInput();
+    booOutput();
   }
 
 
-  private static void order() {
-    try {
 
-      Scanner scanner = new Scanner(new File(SQLGenerator.ORDERS));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String orderId = columns[0];
-        String customerId = columns[1];
-        String orderDate = columns[4];
-        String deliveryDate = columns[5];
-
-
-        String sql = "INSERT INTO \"Order\" (OrderORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE) VALUES ("
-                + orderId + ", " + customerId + ", TO_DATE('" + orderDate + "', 'dd/mm/yyyy'), TO_DATE('" + deliveryDate + "', 'dd/mm/yyyy'));";
-
-
-        System.out.println(sql);
-      }
-      System.out.println();
-
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+  private static void boo() {
+    processCSV(BOO, "--Inserts for boo", columns -> {
+      String sql = "INSERT INTO boo (ProductPRODUCT_ID) VALUES ('"
+              + columns[0] + "');";
+      System.out.println(sql);
+    });
   }
 
+  private static void booInput() {
+    processCSV(BOO_INPUT, "--Inserts for boo_input", columns -> {
+      String sql = "INSERT INTO boo_input (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', " + columns[2] + ", '" + columns[3] + "');";
+      System.out.println(sql);
+    });
+  }
+
+  private static void booOutput() {
+    processCSV(BOO_OUTPUT, "--Inserts for boo_output", columns -> {
+      String sql = "INSERT INTO boo_output (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', " + columns[2] + ", '" + columns[3] + "');";
+      System.out.println(sql);
+    });
+  }
+
+  private static void booTemplate() {
+    processCSV(BOO_TEMPLATE, "--Inserts for boo_template", columns -> {
+      String sql = "INSERT INTO boo_template (OPNUMBER, OperationOPERATION_ID, Prod_FamilyFAMILY_ID) VALUES ("
+              + columns[0] + ", " + columns[1] + ", " + columns[2] + ");";
+      System.out.println(sql);
+    });
+  }
+
+  private static void component() {
+    processCSV(COMPONENT, "--Inserts for component", columns -> {
+      String sql = "INSERT INTO component (PartPARTNUMBER) VALUES ('"
+              + columns[0] + "');";
+      System.out.println(sql);
+    });
+  }
 
   private static void costumer() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.COSTUMER));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String name = columns[1];
-        String vat = columns[2];
-        String address = columns[3];
-        String zip = columns[4];
-        String city = columns[5];
-        String country = columns[6];
-        String email = columns[7];
-        String phone = columns[8];
-
-
-        String sql = "INSERT INTO costumer (COSTUMER_ID, NAME, VAT, ADDRESS, ZIP, CITY, COUNTRY, EMAIL, PHONE) VALUES ("
-                + id + ", '" + name + "', '" + vat + "', '" + address + "', '" + zip + "', '" + city + "', '"
-                + country + "', '" + email + "', " + phone + ");";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+    processCSV(COSTUMER, "--Inserts for costumer", columns -> {
+      String sql = "INSERT INTO costumer (COSTUMER_ID, VAT, NAME, ADDRESS, CITY, COUNTRY, ZIP, PHONE, EMAIL) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', '" + columns[2] + "', '" + columns[3] + "', '"
+              + columns[4] + "', '" + columns[5] + "', '" + columns[6] + "', " + columns[7] + ", '"
+              + columns[8] + "');";
+      System.out.println(sql);
+    });
   }
 
-  private static void prodFamily() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.PROD_FAMILY));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String name = columns[1];
-
-
-        String sql = "INSERT INTO prod_family (FAMILY_ID, NAME) VALUES ("
-                + id + ", '" + name + "');";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+  private static void intermediateProduct() {
+    processCSV(INTERMEDIATE_PRODUCT, "--Inserts for intermediate product", columns -> {
+      String sql = "INSERT INTO intermediate_product (PartPARTNUMBER) VALUES ('"
+              + columns[0] + "');";
+      System.out.println(sql);
+    });
   }
 
+  private static void operation() {
+    processCSV(OPERATION, "--Inserts for operation", columns -> {
+      String sql = "INSERT INTO operation (OPERATION_ID, DESCRIPTION, BOOProductPRODUCT_ID, Operation_TYPEOPTYPE_ID, NEXTSTEP) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', '" + columns[2] + "', " + columns[3] + ", " + columns[4] + ");";
+      System.out.println(sql);
+    });
+  }
 
-  private static void product() {
-    try {
+  private static void operationType() {
+    processCSV(OPERATION_TYPE, "--Inserts for operation_type", columns -> {
+      String sql = "INSERT INTO operation_type (OPTYPE_ID, DESCRIPTION) VALUES ("
+              + columns[0] + ", '" + columns[1] + "');";
+      System.out.println(sql);
+    });
+  }
 
-      Scanner scanner = new Scanner(new File(SQLGenerator.PRODUCTS));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String name = columns[1];
-        String description = columns[2];
-        String family = columns[3];
-
-
-        String sql = "INSERT INTO product (PRODUCT_ID, NAME, DESCRIPTION, Prod_FamilyFAMILY_ID) VALUES ('"
-                + id + "', '" + name + "', '" + description + "', " + family + ");";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+  private static void order() {
+    processCSV(ORDER, "--Inserts for order", columns -> {
+      String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE) VALUES ("
+              + columns[0] + ", " + columns[1] + ", TO_DATE('" + columns[2] + "', 'dd/mm/yyyy'), TO_DATE('"
+              + columns[3] + "', 'dd/mm/yyyy'));";
+      System.out.println(sql);
+    });
   }
 
   private static void orderProducts() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.ORDERS));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String order = columns[0];
-        String product = columns[2];
-        String quantity = columns[3];
-
-
-        String sql = "INSERT INTO order_products (OrderORDER_ID, ProductPRODUCT_ID, AMOUNT_PRODUCT) VALUES ("
-                + order + ", '" + product + "', " + quantity + ");";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+    processCSV(ORDER_PRODUCTS, "--Inserts for order_products", columns -> {
+      String sql = "INSERT INTO order_products (OrderORDER_ID, ProductPRODUCT_ID, AMOUNT_PRODUCT) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', " + columns[2] + ");";
+      System.out.println(sql);
+    });
   }
 
-  private static void workstationTypes() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.WORKSTATION_TYPES));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String name = columns[1];
-
-
-        String sql = "INSERT INTO workstation_type (WS_TYPE_ID, NAME) VALUES ('"
-                + id + "', '" + name + "');";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+  private static void part() {
+    processCSV(PART, "--Inserts for part", columns -> {
+      String sql = "INSERT INTO part (PARTNUMBER, DESCRIPTION) VALUES ('"
+              + columns[0] + "', '" + columns[1] + "');";
+      System.out.println(sql);
+    });
   }
 
+  private static void prodFamily() {
+    processCSV(PROD_FAMILY, "--Inserts for prod_family", columns -> {
+      String sql = "INSERT INTO prod_family (FAMILY_ID, NAME) VALUES ("
+              + columns[0] + ", '" + columns[1] + "');";
+      System.out.println(sql);
+    });
+  }
 
-  private static void workstation() {
-    try {
+  private static void product() {
+    processCSV(PRODUCT, "--Inserts for product", columns -> {
+      String sql = "INSERT INTO product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER) VALUES ('"
+              + columns[0] + "', " + columns[1] + ", '" + columns[2] + "', '" + columns[3] + "', '"
+              + columns[4] + "');";
+      System.out.println(sql);
+    });
+  }
 
-      Scanner scanner = new Scanner(new File(SQLGenerator.WORKSTATIONS));
+  private static void rawMaterial() {
+    processCSV(RAW_MATERIAL, "--Inserts for raw_material", columns -> {
+      String sql = "INSERT INTO raw_material (PartPARTNUMBER) VALUES ('"
+              + columns[0] + "');";
+      System.out.println(sql);
+    });
+  }
 
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
+  private static void workStation() {
+    processCSV(WORKSTATIONS, "--Inserts for work_station", columns -> {
+      String sql = "INSERT INTO work_station (WS_ID, Workstation_TypeWS_TYPE_ID, NAME, DESCRIPTION) VALUES ("
+              + columns[0] + ", '" + columns[1] + "', '" + columns[2] + "', '" + columns[3] + "');";
+      System.out.println(sql);
+    });
+  }
 
-      while (scanner.hasNextLine()) {
+  private static void workstationType() {
+    processCSV(WORKSTATION_TYPES, "--Inserts for workstation_type", columns -> {
+      String sql = "INSERT INTO workstation_type (WS_TYPE_ID, NAME) VALUES ('"
+              + columns[0] + "', '" + columns[1] + "');";
+      System.out.println(sql);
+    });
+  }
 
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String typeId = columns[1];
-        String name = columns[2];
-        String description = columns[3];
-
-
-        String sql = "INSERT INTO work_station (WS_ID, Workstation_TypeWS_TYPE_ID, NAME, DESCRIPTION) VALUES ("
-                + id + ", '" + name + "', '" + typeId + "', '" + description + "');";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
+  private static void workstationTypeOperationType() {
+    processCSV(WORKSTATION_TYPE_OPERATION_TYPE, "--Inserts for workstation_type_operation_type", columns -> {
+      String sql = "INSERT INTO workstation_type_operation_type (Workstation_TypeWS_TYPE_ID, Operation_TYPEOPTYPE_ID) VALUES ('"
+              + columns[0] + "', " + columns[1] + ");";
+      System.out.println(sql);
+    });
   }
 
 
-  private static void operation() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.OPERATIONS));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String description = columns[1];
-
-
-        String sql = "INSERT INTO operation (OPERATION_ID, DESCRIPTION) VALUES ("
-                + id + ", '" + description + "');";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
-  }
-
-  private static void bom() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.BOM));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String id = columns[0];
-        String partNumber = columns[1];
-        String description = columns[2];
-        String quantity = columns[3];
-
-
-        String sql = "INSERT INTO bom (ProductPRODUCT_ID, PARTNUMBER, DESCRIPTION, QUANTITY) VALUES ('"
-                + id + "', '" + partNumber + "', '" + description + "', '" + quantity + "');";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
-  }
-
-  private static void boo() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.BOO));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-
-
-        String family = columns[0];
-        String operation = columns[1];
-        String opNumber = columns[2];
-
-
-        String sql = "INSERT INTO boo (Prod_FamilyFAMILY_ID, OperationOPERATION_ID, OPNUMBER) VALUES ("
-                + family + ", " + operation + ", " + opNumber + ");";
-
-
-        System.out.println(sql);
-      }
-
-      System.out.println();
-      scanner.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + e.getMessage());
-    }
-  }
-
-
-  private static void workstationTypeOperation() {
-    try {
-
-      Scanner scanner = new Scanner(new File(SQLGenerator.OPERATIONS));
-
-      if (scanner.hasNextLine()) {
-        scanner.nextLine();
-      }
-
-      while (scanner.hasNextLine()) {
-
-        String line = scanner.nextLine();
-        String[] columns = line.split(";");
-        if (columns.length == 3) {
-          String id = columns[0];
-          String wt = columns[2];
-          String sql = "INSERT INTO workstation_type_operation (OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES ("
-                  + id + ", '" + wt + "');";
-          System.out.println(sql);
-        } else if (columns.length > 3) {
-          for (int i = 2; i < columns.length; i++) {
-            String id = columns[0];
-            String wt = columns[i];
-            String sql = "INSERT INTO workstation_type_operation (OperationOPERATION_ID, Workstation_TypeWS_TYPE_ID) VALUES ("
-                    + id + ", '" + wt + "');";
+    /* EXEMPLO
+    private static void bom() {
+        processCSV(BOM, "--Inserts for bom", columns -> {
+            String sql = "INSERT INTO bom (ProductPRODUCT_ID, PARTNUMBER, DESCRIPTION, QUANTITY) VALUES ('"
+                    + columns[0] + "', '" + columns[1] + "', '" + columns[2] + "', " + columns[3] + ");";
             System.out.println(sql);
-          }
-        }
+        });
+    }*/
 
-
+  private static void processCSV(String filePath, String header, CSVProcessor processor) {
+    try {
+      Scanner scanner = new Scanner(new File(filePath));
+      if (scanner.hasNextLine()) scanner.nextLine(); // Skip header
+      System.out.println(header);
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        String[] columns = line.split(";");
+        processor.process(columns);
       }
-
+      System.out.println();
       scanner.close();
     } catch (FileNotFoundException e) {
       System.out.println("File not found: " + e.getMessage());
     }
   }
 
+  @FunctionalInterface
+  private interface CSVProcessor {
+    void process(String[] columns);
+  }
 }
 ```
 
