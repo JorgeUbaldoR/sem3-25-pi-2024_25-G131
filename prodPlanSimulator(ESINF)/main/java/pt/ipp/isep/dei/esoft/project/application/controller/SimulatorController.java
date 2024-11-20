@@ -1,9 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.domain.Item;
-import pt.ipp.isep.dei.esoft.project.domain.Machine;
-import pt.ipp.isep.dei.esoft.project.domain.Simulator;
-import pt.ipp.isep.dei.esoft.project.domain.Operation;
+import pt.ipp.isep.dei.esoft.project.domain.*;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.MachineRepository;
 import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
@@ -25,6 +22,7 @@ public class SimulatorController {
     private MachineRepository machineRepository;
     private OperationRepository operationRepository;
     private Simulator simulator;
+    private BOO boo;
 
     /**
      * Constructs a SimulatorController instance.
@@ -82,12 +80,12 @@ public class SimulatorController {
     public void startSimulationWithOutPriority(){
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try{
-            this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
+            this.simulator = new Simulator(getMachinesMap(), getItemListFromBoo(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
             this.simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-            System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
+            System.out.printf("Execution time: %.3f seconds", durationInSeconds);
         } catch (IllegalArgumentException e) {
             System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
         }
@@ -100,12 +98,12 @@ public class SimulatorController {
     public void startSimulationWithPriority(){
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try{
-            this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
+            this.simulator = new Simulator(getMachinesMap(), getItemListFromBoo(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
             this.simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-            System.out.printf("Tempo de execução: %.3f segundos", durationInSeconds);
+            System.out.printf("Execution time: %.3f seconds", durationInSeconds);
         } catch (IllegalArgumentException e) {
             System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
         }
@@ -140,6 +138,11 @@ public class SimulatorController {
         return getItemRepository().getItemList();
     }
 
+    public List<Item> getItemListFromBoo() {
+        this.boo = new BOO();
+        return boo.getItemsAtHeightList();
+    }
+
     /**
      * Method that returns the list of operations.
      * It accesses the operation repository and retrieves all stored operations.
@@ -157,6 +160,7 @@ public class SimulatorController {
      * @return List of machines present in the repository.
      */
     public List<Machine> getMachineList(){return getMachineRepository().getMachineList();}
+
 
 
 }

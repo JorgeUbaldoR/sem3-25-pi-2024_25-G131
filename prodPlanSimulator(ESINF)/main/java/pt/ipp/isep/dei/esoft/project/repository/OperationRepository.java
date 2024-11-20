@@ -27,7 +27,7 @@ public class OperationRepository {
     public OperationRepository(List<Item> items) {
         this.operations = new HashSet<>();
         this.idToOperation = new HashMap<>();
-        fillOperations();
+        //fillOperations();
         fillOperations(items);
     }
 
@@ -79,7 +79,7 @@ public class OperationRepository {
                     for (String[] operationDetail : operationDetails) {
 
                         if (operation.getOperationId().getSerial() == Integer.parseInt(operationDetail[0])) {
-                            operation.setOperationName(operationDetail[1]);
+                            operation.setOperationName(operationDetail[1].trim());
                             idToOperation.put(operation.getOperationId(), operation);
                             operations.add(operation);
                             break;

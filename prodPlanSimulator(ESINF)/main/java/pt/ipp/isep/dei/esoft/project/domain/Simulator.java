@@ -23,7 +23,6 @@ public class Simulator {
     private final ArrayList<Machine> machineList;
 
 
-
     private final Map<Operation, Float> operationTime;
     private final Map<Item, Float> waitingTime;
     private final Map<Operation, Float> avgExecutionTime;
@@ -43,7 +42,7 @@ public class Simulator {
      * @param priorityFlag A flag indicating whether priority should be considered in queue processing.
      * @throws IllegalArgumentException if any of the provided lists are null or empty.
      */
-    public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations,ArrayList<Machine> machList,boolean priorityFlag) {
+    public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations, ArrayList<Machine> machList, boolean priorityFlag) {
         checkInformation(machines, operations, items);
         this.machineList = new ArrayList<>(machList);
         this.operationQueueMap = new HashMap<>();
@@ -56,7 +55,7 @@ public class Simulator {
         this.avgExecutionTime = new HashMap<>();
         this.executionPerOperation = new HashMap<>();
         addOperationToQueue(operations, priorityFlag);
-        if(!createQueues(items)){
+        if (!createQueues(items)) {
             throw new IllegalArgumentException("No items in queue.");
         }
     }
@@ -102,7 +101,7 @@ public class Simulator {
     private boolean createQueues(List<Item> items) {
         boolean haveItems = false;
         for (Item item : items) {
-            if(item.getCurrentOperation() != null) {
+            if (item.getCurrentOperation() != null) {
                 haveItems = true;
                 Operation currentOperation = item.getCurrentOperation();
                 OperationQueue operationQueue = operationQueueMap.get(currentOperation);
@@ -190,12 +189,13 @@ public class Simulator {
 
     /**
      * Assigns the next item from the operation queue to an available machine.
-     *
      */
     private void assignItemToMachine() {
         for (OperationQueue operationQueue : operationQueueMap.values()) {
+            //System.out.println(operationQueue + "--------------------------------------");
             if (!operationQueue.isEmpty()) {
                 Queue<Machine> listMachineOp = machineListMap.get(operationQueue.getOperation());
+//                System.out.println(operationQueue.getOperation() + ": " + listMachineOp);
                 if (listMachineOp != null && !listMachineOp.isEmpty()) {
                     for (Machine currentMachine : listMachineOp) {
                         if (currentMachine.isAvailable() && !operationQueue.isEmpty()) {
@@ -392,7 +392,7 @@ public class Simulator {
 
 
         System.out.println("\n\n\n═══════════════════════════════════════════════");
-        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET+"\n");
+        System.out.print(ANSI_BRIGHT_WHITE + "                  Statistics                 " + ANSI_RESET + "\n");
         System.out.println("═══════════════════════════════════════════════\n");
 
 
@@ -628,7 +628,7 @@ public class Simulator {
      * </p>
      *
      * @param operationQueueMap a map of operations to their corresponding operation queues.
-     *                           Each queue contains items that are currently waiting to be processed.
+     *                          Each queue contains items that are currently waiting to be processed.
      */
     void fillWaitingTime(Map<Operation, OperationQueue> operationQueueMap) {
         for (OperationQueue operationQueue : operationQueueMap.values()) {
@@ -697,7 +697,7 @@ public class Simulator {
             for (Map.Entry<ID, Integer> toMachineEntry : toMachines.entrySet()) {
                 ID toMachine = toMachineEntry.getKey();
                 int count = toMachineEntry.getValue();
-                transitionStrings.add("(" + toMachine.getKeyID()+ "," + count + ")");
+                transitionStrings.add("(" + toMachine.getKeyID() + "," + count + ")");
             }
             System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, fromMachine.getKeyID(), String.join(", ", transitionStrings));
         }
@@ -705,7 +705,6 @@ public class Simulator {
     }
 
     /**
-     *
      * @return a Map that stores all the transitions of the machines
      */
     public Map<ID, Map<ID, Integer>> getMachineRoute() {

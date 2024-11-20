@@ -177,6 +177,46 @@ void test_extract_data_with_empty_string(void) {
 }
 
 
+
+void run_test(char* str, char* tok, int exp_res, char* exp_unit, int exp_value){
+    char unit[20];
+    int value;
+
+    int res = extract_data(str,tok, unit, &value);
+
+
+    TEST_ASSERT_EQUAL(exp_res, res);                
+    TEST_ASSERT_EQUAL_STRING(exp_unit, unit);       
+    TEST_ASSERT_EQUAL(exp_value, value);  
+}
+
+//Testes PI Sprint 2
+void test_Null()
+{ 
+    run_test("","",0,"",0); 
+}
+void test_One()
+{ 
+    run_test("TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80","TEMP",1,"celsius",20); 
+}
+void test_Zero()
+{ 
+    run_test("TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80","HUM",1,"percentage",80); 
+}
+void test_Three()
+{ 
+    run_test("TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80","LEN",0,"",0); 
+}
+void test_Four()
+{ 
+    run_test("TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80","EMP",0,"",0); 
+}
+void test_Five()
+{ 
+    run_test("TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80","UM",0,"",0); 
+}
+
+
 int main(void) {
     UNITY_BEGIN();
 
@@ -186,8 +226,6 @@ int main(void) {
     RUN_TEST(test_extract_data_with_no_value);
     RUN_TEST(test_extract_data_with_invalid_format);
     RUN_TEST(test_extract_data_with_mixed_case_token);
-
-
     RUN_TEST(test_extract_data_with_extra_characters_in_string);
     RUN_TEST(test_extract_data_with_large_value);
     RUN_TEST(test_extract_data_with_no_unit);
@@ -195,6 +233,13 @@ int main(void) {
     RUN_TEST(test_extract_data_with_partial_match_in_string);
     RUN_TEST(test_extract_data_with_multiple_tokens_of_same_type);
     RUN_TEST(test_extract_data_with_empty_string);
+
+    RUN_TEST(test_Null);
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Four);
+    RUN_TEST(test_Five);
 
     return UNITY_END();
 }
