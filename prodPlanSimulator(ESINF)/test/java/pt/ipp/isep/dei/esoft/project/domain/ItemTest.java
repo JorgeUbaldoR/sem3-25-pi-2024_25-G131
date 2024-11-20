@@ -137,4 +137,45 @@ class ItemTest {
         assertFalse(item5.compareTo(item1) < 0);
         assertTrue(item1.compareTo(item5) < 0);
     }
+
+    @Test
+    void irRawMaterial() {
+        System.out.println("Test Is Raw Material");
+        Item itemRaw = new Item(new ID(1212, TypeID.ITEM),"DryWall",new LinkedList<>());
+        assertTrue(itemRaw.isRawMaterial());
+        itemRaw.setRawMaterial(false);
+        assertFalse(itemRaw.isRawMaterial());
+    }
+
+
+    @Test
+    void getName() {
+        System.out.println("Test Name");
+        Item itemRaw = new Item(new ID(1212, TypeID.ITEM),"DryWall",new LinkedList<>());
+        String name = itemRaw.getName();
+        assertEquals("DryWall",name);
+    }
+
+    @Test
+    void getQuantity() {
+        System.out.println("Test Get Quantity");
+        Item itemRaw = new Item(new ID(1212, TypeID.ITEM),"DryWall",new LinkedList<>());
+        itemRaw.setQuantity(1);
+        assertEquals(1,itemRaw.getQuantity());
+        Item itemRaw2 = new Item(new ID(1212, TypeID.ITEM),"DryWall",new LinkedList<>());
+        assertEquals(0, itemRaw2.getQuantity());
+    }
+
+    @Test
+    void hasOPerationWithID(){
+        System.out.println("Test Has Operation With ID");
+        LinkedList<Operation> operationList = new LinkedList<>();
+        operationList.add(opCutting);
+        operationList.add(opWelding);
+
+        Item item = new Item(idItem1,Priority.HIGH,operationList);
+        assertTrue(item.hasOperationWithID(id1));
+        assertTrue(item.hasOperationWithID(id2));
+        assertFalse(item.hasOperationWithID(id3));
+    }
 }

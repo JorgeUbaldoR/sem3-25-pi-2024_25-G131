@@ -52,4 +52,8 @@ public class BSTController {
     public Iterable<ObjectBST> generateTreeDecrescingOrder(){
         return binarySearchTree.inOrderReverse();
     }
+
+    public BinarySearchTree getBinarySearchTree() {
+        return binarySearchTree;
+    }
 }

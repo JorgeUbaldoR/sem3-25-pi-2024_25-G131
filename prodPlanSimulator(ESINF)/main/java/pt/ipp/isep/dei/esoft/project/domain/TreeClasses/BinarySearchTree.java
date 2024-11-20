@@ -74,6 +74,10 @@ public class BinarySearchTree  {
         root = null;
     }
 
+    public Node<ObjectBST> getRoot() {
+        return root;
+    }
+
     /*
      * @return root Node of the tree (or null if tree is empty)
      */
