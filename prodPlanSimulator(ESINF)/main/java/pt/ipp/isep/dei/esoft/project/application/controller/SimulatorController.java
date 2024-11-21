@@ -40,7 +40,7 @@ public class SimulatorController {
      * @return the ItemRepository instance
      */
     private ItemRepository getItemRepository() {
-        if(itemRepository == null) {
+        if (itemRepository == null) {
             Repositories repositories = Repositories.getInstance();
             itemRepository = repositories.getItemRepository();
         }
@@ -54,7 +54,7 @@ public class SimulatorController {
      * @return the MachineRepository instance
      */
     private MachineRepository getMachineRepository() {
-        if(machineRepository == null) {
+        if (machineRepository == null) {
             Repositories repositories = Repositories.getInstance();
             machineRepository = repositories.getMachineRepository();
         }
@@ -67,7 +67,7 @@ public class SimulatorController {
      * @return the OperationRepository instance
      */
     private OperationRepository getOperationRepository() {
-        if(operationRepository == null) {
+        if (operationRepository == null) {
             Repositories repositories = Repositories.getInstance();
             operationRepository = repositories.getOperationRepository();
         }
@@ -77,17 +77,17 @@ public class SimulatorController {
     /**
      * Starts the simulation without considering priority in the operation queues.
      */
-    public void startSimulationWithOutPriority(){
+    public void startSimulationWithOutPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
-        try{
-            this.simulator = new Simulator(getMachinesMap(), getItemListFromBoo(),getOperationList(), (ArrayList<Machine>) getMachineList(),false);
+        try {
+            this.simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), false);
             this.simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
             System.out.printf("Execution time: %.3f seconds", durationInSeconds);
         } catch (IllegalArgumentException e) {
-            System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
+            System.out.printf("%n%s%s%s%s", ANSI_BRIGHT_RED, e.getMessage(), " End of simulation...", ANSI_RESET);
         }
 
     }
@@ -95,17 +95,17 @@ public class SimulatorController {
     /**
      * Starts the simulation considering priority in the operation queues.
      */
-    public void startSimulationWithPriority(){
+    public void startSimulationWithPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
-        try{
-            this.simulator = new Simulator(getMachinesMap(), getItemListFromBoo(),getOperationList(), (ArrayList<Machine>) getMachineList(),true);
+        try {
+            this.simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), true);
             this.simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
             System.out.printf("Execution time: %.3f seconds", durationInSeconds);
         } catch (IllegalArgumentException e) {
-            System.out.printf("%n%s%s%s%s",ANSI_BRIGHT_RED,e.getMessage()," End of simulation...",ANSI_RESET);
+            System.out.printf("%n%s%s%s%s", ANSI_BRIGHT_RED, e.getMessage(), " End of simulation...", ANSI_RESET);
         }
     }
 
@@ -118,10 +118,10 @@ public class SimulatorController {
     public Map<Operation, Queue<Machine>> getMachinesMap() {
         Map<Operation, Queue<Machine>> machinesMap = new HashMap<>();
         for (Machine machine : getMachineRepository().getMachineList()) {
-            if(!machinesMap.containsKey(machine.getOperation())) {
+            if (!machinesMap.containsKey(machine.getOperation())) {
                 machinesMap.put(machine.getOperation(), new PriorityQueue<>());
                 machinesMap.get(machine.getOperation()).add(machine);
-            }else {
+            } else {
                 machinesMap.get(machine.getOperation()).add(machine);
             }
         }
@@ -134,13 +134,13 @@ public class SimulatorController {
      *
      * @return List of items present in the repository.
      */
-    public List<Item> getItemList(){
+    public List<Item> getItemList() {
         return getItemRepository().getItemList();
     }
 
-    public List<Item> getItemListFromBoo() {
+    public TreeMap<Integer, Queue<Map<Item, Float>>> getBoo() {
         this.boo = new BOO();
-        return boo.getItemsAtHeightList();
+        return boo.getBoo();
     }
 
     /**
@@ -149,7 +149,7 @@ public class SimulatorController {
      *
      * @return List of operations present in the repository.
      */
-    public List<Operation> getOperationList(){
+    public List<Operation> getOperationList() {
         return getOperationRepository().getOperations();
     }
 
@@ -159,8 +159,9 @@ public class SimulatorController {
      *
      * @return List of machines present in the repository.
      */
-    public List<Machine> getMachineList(){return getMachineRepository().getMachineList();}
-
+    public List<Machine> getMachineList() {
+        return getMachineRepository().getMachineList();
+    }
 
 
 }
