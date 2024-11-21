@@ -14,6 +14,7 @@ system
 and return success or an error. A customer with orders that have not yet been
 delivered/fulfilled cannot be deactivated.
 
+
 #### 2.1 Explanation
 > This script defines a PL/SQL function called deactivate_costumer, which deactivates a customer based on their ID if certain conditions are met. The function first checks if the customer exists in the Costumer table. If the customer does not exist, it returns an error message indicating that. It also checks whether the customer has any active orders in the "Order" table that are not delivered. If such orders exist, the function returns an error message stating that the customer cannot be deactivated due to active orders.
 >
