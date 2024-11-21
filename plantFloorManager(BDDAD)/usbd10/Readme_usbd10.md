@@ -19,7 +19,7 @@
 
 ### 3. Acceptance Criteria
 
-* **AC1:** The data model should cover the industrial facility’s activity described in the
+>* **AC1:** The data model should cover the industrial facility’s activity described in the
   document, as well as any additional requirements resulting from the provided
   user stories.
 
@@ -27,12 +27,13 @@
    script to be automatically generated.
 
 >#### Relational Model - (Logical Model)
->![System Sequence Diagram - Alternative One](svg/USBD02-relational-model.svg)
+>![System Sequence Diagram - Alternative One](svg/USBD10-relational-model.png)
 
 
 >* **AC3:** Minimum requirement above the expected: the presentation of a conceptual
    model developed in Visual Paradigm in addition to the expected level.
+
 >#### Relational Model - (Conceptual Model)
->![System Sequence Diagram - Alternative One](svg/USBD02-conceptual-model.svg)
+>![System Sequence Diagram - Alternative One](svg/USBD10-conceptual-model.png)
 
 

@@ -21,6 +21,8 @@ public class Simulator {
     private final Map<Operation, Queue<Machine>> machineListMap;
     private final Map<Operation, OperationQueue> operationQueueMap;
     private final ArrayList<Machine> machineList;
+    private TreeMap<Integer, Queue<Map<Item, Float>>> itemsByHeight;
+
 
 
     private final Map<Operation, Float> operationTime;
@@ -42,7 +44,7 @@ public class Simulator {
      * @param priorityFlag A flag indicating whether priority should be considered in queue processing.
      * @throws IllegalArgumentException if any of the provided lists are null or empty.
      */
-    public Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations, ArrayList<Machine> machList, boolean priorityFlag) {
+    public Simulator(Map<Operation, Queue<Machine>> machines, TreeMap<Integer, Queue<Map<Item, Float>>> items, List<Operation> operations, ArrayList<Machine> machList, boolean priorityFlag) {
         checkInformation(machines, operations, items);
         this.machineList = new ArrayList<>(machList);
         this.operationQueueMap = new HashMap<>();
@@ -54,10 +56,9 @@ public class Simulator {
         this.machineUsage = new HashMap<>();
         this.avgExecutionTime = new HashMap<>();
         this.executionPerOperation = new HashMap<>();
+        this.itemsByHeight = items;
         addOperationToQueue(operations, priorityFlag);
-        if (!createQueues(items)) {
-            throw new IllegalArgumentException("No items in queue.");
-        }
+
     }
 
     /**
@@ -98,16 +99,26 @@ public class Simulator {
      *
      * @param items A list of items to be added to the operation queues.
      */
-    private boolean createQueues(List<Item> items) {
+    private boolean createQueues(TreeMap<Integer, Queue<Map<Item, Float>>> items) {
         boolean haveItems = false;
-        for (Item item : items) {
-            if (item.getCurrentOperation() != null) {
-                haveItems = true;
-                Operation currentOperation = item.getCurrentOperation();
-                OperationQueue operationQueue = operationQueueMap.get(currentOperation);
-                operationQueue.addItemToQueue(item);
+
+        for (Integer height : items.keySet()) {
+            Queue<Map<Item, Float>> itemsAtHeight = items.get(height);
+            if (itemsAtHeight != null && !itemsAtHeight.isEmpty()) {
+                for (Map<Item, Float> itemMap : itemsAtHeight) {
+                    for (Map.Entry<Item, Float> entry : itemMap.entrySet()) {
+                        Item item = entry.getKey();
+                        if (item.getCurrentOperation() != null) {
+                            haveItems = true;
+                            Operation currentOperation = item.getCurrentOperation();
+                            OperationQueue operationQueue = operationQueueMap.get(currentOperation);
+                            operationQueue.addItemToQueue(item);
+                        }
+                    }
+                }
             }
         }
+
         return haveItems;
     }
 
@@ -119,33 +130,46 @@ public class Simulator {
     public void startSimulation() {
         int time = 0;
 
-        while (checkItemsLeftProcesses() || checkTimeOperations()) {
-            printInitialSimulationStatus(time);
+        for (Integer height : itemsByHeight.keySet()) {
+            System.out.printf("Processing height: %d%n", height);
 
-            System.out.printf("%n• Updates:%n");
-            updateMachines();
-
-            System.out.printf("%n• Queue:%n");
-            printQueue();
-
-            System.out.printf("%n• Status:%n");
-            printMachineStatus();
-
-            System.out.printf("%n• New Processing:%n");
-            assignItemToMachine();
-
-            if (time > 0) {
-                fillWaitingTime(operationQueueMap);
+            Queue<Map<Item, Float>> itemsAtHeight = itemsByHeight.get(height);
+            if (itemsAtHeight == null || itemsAtHeight.isEmpty()) {
+                continue;
             }
 
-            System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-            time++;
-            //sleep(1000);
+            if (!createQueues(new TreeMap<>(Map.of(height, itemsAtHeight)))) {
+                System.out.printf("No items at height %d to queue.%n", height);
+                continue;
+            }
+
+
+            while (checkItemsLeftProcesses() || checkTimeOperations()) {
+                printInitialSimulationStatus(time);
+
+                System.out.printf("%n• Updates:%n");
+                updateMachines();
+
+                System.out.printf("%n• Queue:%n");
+                printQueue();
+
+                System.out.printf("%n• Status:%n");
+                printMachineStatus();
+
+                System.out.printf("%n• New Processing:%n");
+                assignItemToMachine();
+
+                if (time > 0) {
+                    fillWaitingTime(operationQueueMap);
+                }
+
+                System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+                time++;
+            }
         }
 
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
         printStatistics();
-
     }
 
     /**
@@ -307,7 +331,7 @@ public class Simulator {
      * @param items      the list of items to check.
      * @throws IllegalArgumentException if any of the lists are null or empty.
      */
-    private void checkInformation(Map<Operation, Queue<Machine>> machines, List<Operation> operations, List<Item> items) {
+    private void checkInformation(Map<Operation, Queue<Machine>> machines, List<Operation> operations, TreeMap<Integer, Queue<Map<Item, Float>>> items) {
         if (machines == null || machines.isEmpty()) {
             throw new IllegalArgumentException("Machine list is null or empty");
         }

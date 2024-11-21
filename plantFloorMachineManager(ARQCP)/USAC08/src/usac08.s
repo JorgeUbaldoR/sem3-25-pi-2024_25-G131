@@ -1,108 +1,81 @@
 .section .text
-
 .global move_n_to_array
 
 move_n_to_array:
+    pushq %r8            # Salva o valor de %r8 na pilha (preservação de registradores usados)
+    pushq %rsi           # Salva o valor de %rsi na pilha (preservação de registradores usados)
 
-    # Salva os registradores r8 e rsi na pilha para preservá-los
-	pushq %r8
-	pushq %rsi
+    call get_n_element   # Chama uma função auxiliar para obter o número de elementos no buffer
 
-    # Chama a função auxiliar para calcular o número de elementos no buffer
-    call get_n_element
+    popq %rsi            # Restaura o valor original de %rsi
+    popq %r8             # Restaura o valor original de %r8
 
-    # Restaura os valores originais de rsi e r8 da pilha
-    popq %rsi
-    popq %r8
+    cmpl $0, %eax        # Verifica se o retorno de get_n_element é <= 0 (nenhum elemento no buffer)
+    jle error            # Se for <= 0, vai para a rotina de erro
 
-    # Verifica se o retorno da função é <= 0 (erro ou buffer vazio)
-    cmpl $0, %eax
-    jle error
+    cmpl %eax, %r8d      # Compara o número de elementos requisitados (%r8d) com a quantidade disponível (%eax)
+    jg error             # Se %r8d for maior que %eax, vai para a rotina de erro
 
-    # Verifica se o número de elementos disponíveis é menor que `n`
-    cmpl %eax, %r8d
-    jg error
+    cmpl $0, %r8d        # Verifica se o número de elementos requisitados (%r8d) é negativo
+    jl error             # Se for negativo, vai para a rotina de erro
 
-    # Verifica se `n` é negativo
-    cmpl $0, %r8d
-    jl error
+    movl (%rdx), %ebx    # Carrega o valor de "tail" do buffer (posição atual de escrita)
+    movl $0, %r10d       # Inicializa o contador de elementos removidos em 0
 
-    # Carrega o valor atual de `head` em ebx
-    movl (%rcx), %ebx  # HEAD
-    movl $0, %r10d     # Inicializa o contador de elementos removidos (r10d)
+    subl $1, %esi        # Ajusta o índice para o limite do buffer (tail - 1)
 
-    # Ajusta o índice máximo do buffer (length - 1)
-    subl $1, %esi      # `length` - 1
+    cmpl (%rcx), %ebx    # Compara a posição atual de leitura (head) com "tail"
+    jg head_first        # Se "tail" já passou pelo fim do buffer, pula para o tratamento específico
 
-    # Compara `head` com `tail` para decidir a ordem de leitura
-    cmpl (%rdx), %ebx
-    jg tail_first      # Se `head > tail`, o buffer está dividido (caso circular)
+loop_tail_first:
+    cmpl %r10d, %r8d     # Verifica se já moveu o número necessário de elementos requisitados
+    je loop_end          # Se o contador de elementos atingiu o necessário, sai do loop
 
-loop_head_first:
-    # Verifica se o número de elementos já foi movido
-    cmpl %r10d, %r8d
-    je loop_end        # Sai do loop se todos os elementos foram processados
+    movl (%rdi, %rbx, 4), %r11d # Carrega o elemento do buffer (%rdi + %rbx * 4)
+    movl %r11d, (%r9, %r10, 4)  # Copia o elemento para o array de destino (%r9 + %r10 * 4)
 
-    # Move o elemento do buffer para o array
-    movl (%rdi, %rbx, 4), %r11d  # Carrega o elemento do buffer
-    movl %r11d, (%r9, %r10, 4)  # Salva no array de destino
+    incl %ebx            # Incrementa a posição do "tail"
+    incl %r10d           # Incrementa o contador de elementos removidos
 
-    # Incrementa `head` e o contador
-    incl %ebx   # Próximo elemento do buffer
-    incl %r10d  # Incrementa o contador de elementos movidos
+    jmp loop_tail_first  # Volta para continuar o loop
 
-    # Continua o loop
-    jmp loop_head_first
+head_first:
+    cmpl %r8d, %r10d     # Verifica se já moveu o número necessário de elementos requisitados
+    je loop_end          # Se o contador de elementos atingiu o necessário, sai do loop
 
-tail_first:
-    # Verifica se o número de elementos já foi movido
-    cmpl %r8d, %r10d
-    je loop_end        # Sai do loop se todos os elementos foram processados
+    movl (%rdi, %rbx, 4), %r11d # Carrega o elemento do buffer
+    movl %r11d, (%r9, %r10, 4)  # Copia o elemento para o array de destino
 
-    # Move o elemento do buffer para o array
-    movl (%rdi, %rbx, 4), %r11d  # Carrega o elemento do buffer
-    movl %r11d, (%r9, %r10, 4)  # Salva no array de destino
+    cmpl %esi, %ebx      # Verifica se "tail" alcançou o final do buffer
+    je tail_restart       # Se sim, reinicia a partir do início do buffer
 
-    # Verifica se `head` atingiu o final do buffer
-    cmpl %ebx, %esi
-    je head_restart    # Reinicia `head` para o início do buffer
+    incl %ebx            # Incrementa a posição do "tail"
+    incl %r10d           # Incrementa o contador de elementos removidos
 
-    # Incrementa `head` e o contador
-    incl %ebx   # Próximo elemento do buffer
-    incl %r10d  # Incrementa o contador de elementos movidos
+    jmp head_first       # Continua o loop
 
-    # Continua o loop
-    jmp tail_first
+tail_restart:
+    movl $0, %ebx        # Reinicia "tail" no início do buffer
+    incl %r10d           # Incrementa o contador de elementos removidos
 
-head_restart:
-    # Reseta `head` para o início do buffer (índice 0)
-    movl $0, %ebx    # Move `head` para o início
-    incl %r10d       # Incrementa o contador de elementos movidos
-
-    # Continua o loop
-    jmp tail_first
+    jmp head_first       # Volta para continuar o loop
 
 loop_end:
-    # Verifica se todos os elementos disponíveis foram movidos
-    cmpl %r8d, %eax
-    je end_remove_all  # Caso especial: remover todos os elementos disponíveis
+    cmpl %r8d, %eax      # Verifica se conseguiu mover o número requisitado de elementos
+    je end_remove_all    # Se sim, vai para a rotina de finalização com sucesso
 
-    # Atualiza o valor de `head` no buffer
-    movl %ebx, (%rcx) # Atualiza `head`
-    movl $1, %eax     # Indica sucesso
+    movl %ebx, (%rdx)    # Atualiza o valor de "tail" no buffer
+    movl $1, %eax        # Define retorno de sucesso (1)
 
-    ret               # Retorna
+    ret                  # Retorna
 
 end_remove_all:
-    # Ajusta `head` para o último elemento processado
-    decl %ebx         # Decrementa `head`
-    movl %ebx, (%rcx) # Atualiza `head` no buffer
-    movl $1, %eax     # Indica sucesso
+    movl %ebx, (%rdx)    # Atualiza o valor de "tail" no buffer
+    movl $1, %eax        # Define retorno de sucesso (1)
 
-    ret               # Retorna
+    ret                  # Retorna
 
 error:
-    # Indica falha
-    movl $0, %eax     # Retorna 0 para indicar erro
+    movl $0, %eax        # Define retorno de erro (0)
 
-    ret               # Retorna
+    ret                  # Retorna

@@ -6,20 +6,20 @@ import java.util.*;
 
 public class BOO {
 
-    private TreeMap<Integer, List<ID>> boo;
-    private Map<Integer, Queue<Item>> itemsAtHeight;
+    private Map<Integer, List<ID>> itemsList;
+    private TreeMap<Integer, Queue<Map<Item, Float>>> boo;
 
 
     public BOO() {
+        itemsList = new LinkedHashMap<>();
         boo = new TreeMap<>(Collections.reverseOrder());
-        itemsAtHeight = new TreeMap<>(Collections.reverseOrder());
         associateItemsWithBoo();
 
     }
 
-    public TreeMap<Integer, List<ID>> getTreeMap() {
-        boo = initializeTreeMap();
-        return boo;
+    public Map<Integer, List<ID>> getTreeMap() {
+        itemsList = initializeTreeMap();
+        return itemsList;
     }
 
     private TreeMap<Integer, List<ID>> initializeTreeMap() {
@@ -44,72 +44,52 @@ public class BOO {
         Map<ID, Item> itemList = itemController.getItemList();
 
         for (Map.Entry<Integer, List<ID>> entry : treeMap.entrySet()) {
-
-            Queue<Item> associatedItems = new LinkedList<>();
+            Map<Item, Float> associatedItems = new LinkedHashMap<>();
+            Queue<Map<Item, Float>> itemQueue = new LinkedList<>();
             Integer height = entry.getKey();
             List<ID> idList = entry.getValue();
 
-            for (Map.Entry<ID, Item> itemEntry : itemList.entrySet()) {
-                Item item = itemEntry.getValue();
-                for (ID id : idList) {
+            for (ID id : idList) {
+                for (Map.Entry<ID, Item> itemEntry : itemList.entrySet()) {
+                    Item item = itemEntry.getValue();
                     if (item.hasOperationWithID(id)) {
-                        associatedItems.add(item);
+                        float quantity = item.getQuantity();
+
+                        if (!associatedItems.containsKey(item)) {
+                            associatedItems.put(item, quantity);
+                        }
                     }
-
                 }
-                itemsAtHeight.put(height, associatedItems);
             }
-        }
 
+            itemQueue.add(new LinkedHashMap<>(associatedItems));
+            boo.put(height, itemQueue);
+        }
     }
 
-    public void printTreeMap(TreeMap<Integer, List<ID>> treeMap) {
-        System.out.println("Operations sorted by priority (Highest to Lowest):");
-        System.out.println("==================================================");
-
-        for (Map.Entry<Integer, List<ID>> entry : treeMap.entrySet()) {
-            Integer priority = entry.getKey();
-            List<ID> ids = entry.getValue();
-
-            System.out.printf("Priority: %d%n", priority);
-            for (ID id : ids) {
-                System.out.printf("  -> %s%n", id);
-            }
-        }
-
-        System.out.println("==================================================");
-    }
 
     public void printItemsAtHeight() {
         System.out.println("Items grouped by height (Priority Levels):");
         System.out.println("=========================================");
-
-        for (Map.Entry<Integer, Queue<Item>> entry : itemsAtHeight.entrySet()) {
+        for (Map.Entry<Integer, Queue<Map<Item, Float>>> entry : boo.entrySet()) {
             Integer height = entry.getKey();
-            Queue<Item> items = entry.getValue();
+            Queue<Map<Item, Float>> itemQueue = entry.getValue();
 
             System.out.printf("Height (Priority Level): %d%n", height);
-            for (Item item : items) {
-                System.out.printf("  -> %s%n", item);
+
+            for (Map<Item, Float> itemMap : itemQueue) {
+                for (Map.Entry<Item, Float> itemEntry : itemMap.entrySet()) {
+                    Item item = itemEntry.getKey();
+                    Float quantity = itemEntry.getValue();
+                    System.out.printf("  -> Item: %s, Quantity: %.2f%n", item, quantity);
+                }
             }
         }
 
         System.out.println("=========================================");
     }
 
-
-    public List<Item> getItemsAtHeightList() {
-        List<Item> items = new ArrayList<>();
-        for (Map.Entry<Integer, Queue<Item>> entry : itemsAtHeight.entrySet()) {
-            Queue<Item> queue = entry.getValue();
-            while (!queue.isEmpty()) {
-                Item item = queue.poll();
-                if (!items.contains(item)) {
-                    items.add(item);
-                }
-            }
-        }
-        return items;
+    public TreeMap<Integer, Queue<Map<Item, Float>>> getBoo() {
+        return boo;
     }
-
 }
