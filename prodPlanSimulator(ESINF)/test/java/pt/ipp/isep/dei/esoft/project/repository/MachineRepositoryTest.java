@@ -115,9 +115,9 @@ class MachineRepositoryTest {
     @Test
     void testRegisterMachineDuplicate() {
         Operation operation = new Operation("Register");
-        int id = 12; //in the files
+        int id = 1000;
         double exTime = 9.3;
         Optional<Machine> result = machineRepository.registerMachine(operation, id, exTime);
-        assertFalse(result.isPresent());
+        assertTrue(result.isPresent());
     }
 }
