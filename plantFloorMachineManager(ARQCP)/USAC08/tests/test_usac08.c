@@ -1,236 +1,85 @@
+#include <string.h>
 #include "../../unity_folder/unity.h"
 #include "../include/asm.h"
 
+
 void setUp(void) {
+    // set stuff up here
 }
 
 void tearDown(void) {
-}
-
-// Teste básico com head antes do tail
-void test_1(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 9;
-    int array[length];
-    int n = 5;
-
-    int expected_output = 1; // Sucesso
-    int expected_tail = 4;   // Tail atualizado após remover os 5 elementos
-    int expected_head = 0;   // Head permanece inalterado
-    int expected_array[] = {9, 8, 7, 6, 5}; // Ordem reversa a partir de `tail`
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, array, n);
-}
-
-// Teste com head após o tail
-void test_head_after_tail(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 7;
-    int tail = 3;
-    int array[length];
-    int n = 6;
-
-    int expected_output = 1;
-    int expected_tail = 7;   // Tail atualizado após mover os 6 elementos
-    int expected_head = 7;   // Head permanece inalterado
-    int expected_array[] = {3, 2, 1, 0, 9, 8}; // Ordem reversa com wrap-around
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, array, n);
-}
-
-// Teste onde o número de elementos a mover excede os disponíveis
-void test_insufficient_elements(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 3;
-    int tail = 5;
-    int array[length];
-    int n = 5;
-
-    int expected_output = 0; // Falha
-    int expected_tail = 5;
-    int expected_head = 3;
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-}
-
-// Teste com buffer inicialmente vazio
-void test_empty_buffer(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 0;
-    int array[length];
-    int n = 3;
-
-    int expected_output = 0; // Falha
-    int expected_tail = 0;
-    int expected_head = 0;
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-}
-
-// Teste onde todos os elementos são movidos
-void test_move_all_elements(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 9;
-    int array[length];
-    int n = 10;
-
-    int expected_output = 1; // Sucesso
-    int expected_tail = 0;
-    int expected_head = 0;   // Buffer vazio após mover todos
-    int expected_array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, array, n);
-}
-
-// Teste onde n é zero (nada deve ser movido)
-void test_n_is_zero(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 2;
-    int tail = 7;
-    int array[length];
-    int n = 0;
-
-    int expected_output = 1; // Sucesso, mesmo sem mover nada
-    int expected_tail = 7;
-    int expected_head = 2;
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-}
-
-// Teste com buffer de tamanho 1 (head == tail)
-void test_single_element_buffer(void) {
-    int buffer[] = {42}; // Apenas um elemento
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 0;
-    int array[length];
-    int n = 1;
-
-    int expected_output = 1; // Sucesso, movendo o único elemento
-    int expected_tail = 0;
-    int expected_head = 0; // Fica vazio
-    int expected_array[] = {42};
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, array, n);
-}
-
-// Teste com buffer circular "cheio" (head é exatamente após tail)
-void test_full_circular_buffer(void) {
-    int buffer[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 2;
-    int tail = 1; // head > tail -> buffer circular cheio
-    int array[length];
-    int n = 5;
-
-    int expected_output = 1; // Sucesso
-    int expected_tail = 6;   // Tail atualizado após mover 5 elementos
-    int expected_head = 2;   // Head permanece inalterado
-    int expected_array[] = {11, 10, 19, 18, 17};
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, array, n);
-}
-
-// Teste onde n é maior que o tamanho do buffer (inválido)
-void test_n_exceeds_buffer_size(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 9;
-    int array[length];
-    int n = 15; // Maior que o número total de elementos no buffer
-
-    int expected_output = 0; // Falha
-    int expected_tail = 9;
-    int expected_head = 0;
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
-}
-
-// Teste onde n é negativo (inválido)
-void test_negative_n(void) {
-    int buffer[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int length = sizeof(buffer) / sizeof(int);
-    int head = 0;
-    int tail = 9;
-    int array[length];
-    int n = -3; // Inválido
-
-    int expected_output = 0; // Falha
-    int expected_tail = 9;
-    int expected_head = 0;
-
-    int output = move_n_to_array(buffer, length, &tail, &head, n, array);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, output);
-    TEST_ASSERT_EQUAL_INT(expected_tail, tail);
-    TEST_ASSERT_EQUAL_INT(expected_head, head);
+    // clean stuff up here
 }
 
 
 
-int main(void) {
+void run_test(int * array, int len, int rd, int wr, int num, 
+			  int exp_res, int * exp_vec, int exp_rd, int exp_wr)
+{
+    int v1[100];
+	// 0 - sentinel  
+	// 1 - read 
+	// 2 - sentinel  
+	// 3 - write 
+    // 4 - sentinel 
+	// 5 - buffer 
+	// 5+length - sentinel 	
+
+    // setup 
+    memset(v1, 0x55, sizeof v1);
+	memcpy(v1+5,array,len*sizeof(int));  // buffer   
+	v1[1]=rd; 
+	v1[3]=wr; 
+	
+	int v2[100]; 
+    memset(v2, 0x55, sizeof v2);    // destination 
+    int res; 
+	res=move_n_to_array (v1+5, len, v1+1, v1+3, num, v2+1);
+    TEST_ASSERT_EQUAL_INT(exp_res,res);    // check result 
+    TEST_ASSERT_EQUAL_INT(0x55555555, v1[0]);    // check sentinel 
+    TEST_ASSERT_EQUAL_INT(0x55555555, v1[2]);    // check sentinel  
+    TEST_ASSERT_EQUAL_INT(0x55555555, v1[4]);    // check sentinel  
+    TEST_ASSERT_EQUAL_INT(0x55555555, v1[len+5]);    // check sentinel  
+    TEST_ASSERT_EQUAL_INT_ARRAY(array, v1+5, len);    // check buffer 
+    TEST_ASSERT_EQUAL_INT(exp_rd, v1[1]);    // check read   
+    TEST_ASSERT_EQUAL_INT(exp_wr, v1[3]);    // check write  
+    // output vector  
+    TEST_ASSERT_EQUAL_INT(0x55555555, v2[0]);    // check sentinel 
+    TEST_ASSERT_EQUAL_INT(0x55555555, v2[num+1]);    // check sentinel  
+    if (exp_res==1) 
+    	TEST_ASSERT_EQUAL_INT_ARRAY(exp_vec,v2+1, num); 
+		// check output
+	else 
+    	TEST_ASSERT_EQUAL_INT(0x55555555, v2[1]);    // check output 
+}
+// void run_test(int * array, int len, int rd, int wr, int num, 
+//			  int exp_res, int * exp_vec, int exp_rd, int exp_wr)
+
+void test_One()
+{ 
+    run_test((int[]){0,0,0},3,0,0,1,0,(int[]){0,0,0},0,0); 
+}
+void test_Zero()
+{ 
+    run_test((int[]){1,0,0},3,0,1,1,1,(int[]){1},1,1); 
+}
+void test_Three()                                            
+{ 
+    run_test((int[]){1,2,3,4},4,3,2,3,1,(int[]){4,1,2},2,2); 
+}
+void test_Five()
+{ 
+    run_test((int[]){1,2,3,4},4,2,1,3,1,(int[]){3,4,1},1,1); 
+}
+
+int main()
+  { 
+
     UNITY_BEGIN();
-    RUN_TEST(test_1);
-    RUN_TEST(test_head_after_tail);
-    RUN_TEST(test_insufficient_elements);
-    RUN_TEST(test_empty_buffer);
-    RUN_TEST(test_move_all_elements);
-    RUN_TEST(test_n_is_zero);
-    RUN_TEST(test_single_element_buffer);
-    RUN_TEST(test_full_circular_buffer);
-    RUN_TEST(test_n_exceeds_buffer_size);
-    RUN_TEST(test_negative_n);
-    
-    return UNITY_END();
-}
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Five);
+    return UNITY_END();  
+
+  } 
