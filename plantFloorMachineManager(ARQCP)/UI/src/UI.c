@@ -184,11 +184,23 @@ void usac_01() {
     printf ("%d:%s ,%d\n",res,unit2,value); // 1: celsius ,20
 
 
-    char unit3[20] = {};
-    char token3 [] = "AAA" ;
+    char str1[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:23";
+    char unit3[20];
+    char token3 [] = "hum";
+
+    printf("\nString: %s\n", str1);
     printf("Token: %s\n", token3);
-    res = extract_data (str,token3,unit3,&value) ;
-    printf ("%d:%s ,%d\n",res,unit3,value); // 0: ,0
+    res = extract_data (str1,token3,unit3,&value) ;
+    printf ("%d:%s ,%d\n",res,unit3,value); // 1: celsius ,20
+
+
+
+    char unit4[20] = {};
+    char token4 [] = "AAA" ;
+    printf("\nString: %s\n", str);
+    printf("Token: %s\n", token4);
+    res = extract_data (str,token4,unit4,&value) ;
+    printf ("%d:%s ,%d\n",res,unit4,value); // 0: ,0
 
 }
 
@@ -199,37 +211,37 @@ void usac_02() {
 
     printf("\nDecimal value: %d\n", value);
     int res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 0;
     printf("Decimal value: %d\n", value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 1;
     printf("Decimal value: %d\n" ,value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 15;
     printf("Decimal value: %d\n", value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 31;
     printf("Decimal value: %d\n", value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = 32;
     printf("Decimal value: %d\n", value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
     value = -1;
     printf("Decimal value: %d\n", value);
     res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[0],bits[1],bits[2],bits[3],bits[4]); // 1: 1 ,1 ,0 ,1 ,0
+    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
 
 }
 
@@ -549,7 +561,7 @@ void usac_10() {
 
     int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6
     int length1 = sizeof(vec1)/sizeof(int);
-    int me1 = 1;
+    int me1 = 0;
 
     int res = median(vec1,length1,&me1);
 
@@ -561,7 +573,7 @@ void usac_10() {
 
     int vec2[] = {1,2,3,4,5};
     int length2 = sizeof(vec2)/sizeof(int);
-    int me2 = 1;
+    int me2 = 0;
 
     res = median(vec2,length2,&me2);
     printf("\nVec = [");
@@ -572,7 +584,7 @@ void usac_10() {
 
     int vec3[] = {};
     int length3 = sizeof(vec3)/sizeof(int);
-    int me3 = 1;
+    int me3 = 0;
 
     res = median(vec3,length3,&me3);
     printf("\nVec = [");
