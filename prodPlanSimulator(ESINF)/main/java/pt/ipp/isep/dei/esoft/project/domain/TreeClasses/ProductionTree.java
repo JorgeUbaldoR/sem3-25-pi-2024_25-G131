@@ -30,6 +30,8 @@ public class ProductionTree {
     private final Map<ID, Node> rawMaterials; // Map of raw material IDs to corresponding nodes.
     private final Map<ID, Node> operationNodeID; // Map of operation IDs to corresponding nodes.
 
+    private final String BOO_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+
     /**
      * Constructs an empty production tree with default values.
      *
@@ -225,11 +227,9 @@ public class ProductionTree {
 
     public Map<ID, Float> getTotalRequiredMaterials() {
 
-        getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+        getInformations(BOO_PATH);
 
         Map<ID, Float> totalRequiredMaterials = new HashMap<>();
-
-        System.out.println(rawMaterials.size());
 
         for (Map.Entry<ID, Node> rawMaterial : rawMaterials.entrySet()){
             Node materialNode = rawMaterial.getValue();

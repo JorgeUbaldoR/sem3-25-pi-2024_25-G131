@@ -226,4 +226,8 @@ public class ProductionTreeController {
     public Node getNodeByOperationID(ID operationID) {
         return getProductionTree().getOperationNodeID().get(operationID);
     }
+
+    public String getItemNameByID(ID itemID) {
+        return getItemRepository().getItemNameByID(itemID);
+    }
 }

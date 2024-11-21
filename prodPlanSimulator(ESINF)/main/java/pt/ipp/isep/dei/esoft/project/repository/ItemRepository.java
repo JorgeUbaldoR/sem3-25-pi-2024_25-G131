@@ -81,7 +81,6 @@ public class ItemRepository {
             }
 
 
-
         } catch (IOException e) {
             System.out.println("Error reading operations from file");
         }
@@ -155,6 +154,10 @@ public class ItemRepository {
         return itemList;
     }
 
+    public String getItemNameByID(ID id) {
+        Item item = getMapItemList().get(id);
 
+        return item.getName();
+    }
 
 }
