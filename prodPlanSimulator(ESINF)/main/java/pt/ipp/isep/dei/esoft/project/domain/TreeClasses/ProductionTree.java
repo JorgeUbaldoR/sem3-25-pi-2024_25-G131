@@ -225,24 +225,29 @@ public class ProductionTree {
         return rawMaterials;
     }
 
+    /**
+     * Calculates the total quantity of required materials for production.
+     *
+     * @return a map where the key is the material ID and the value is the total quantity required
+     *
+     * Time Complexity: O(n), where n is the number of raw materials. The loop iterates through all raw materials,
+     * and the operations inside the loop are O(1) assuming constant-time map operations.
+     */
     public Map<ID, Float> getTotalRequiredMaterials() {
-
         getInformations(BOO_PATH);
 
         Map<ID, Float> totalRequiredMaterials = new HashMap<>();
 
-        for (Map.Entry<ID, Node> rawMaterial : rawMaterials.entrySet()){
+        for (Map.Entry<ID, Node> rawMaterial : rawMaterials.entrySet()) {
             Node materialNode = rawMaterial.getValue();
             ID materialID = rawMaterial.getKey();
 
             float itemQtd = materialNode.getItem_qtd();
-
             float totalQtd = itemQtd * materialNode.getItemQtdByID(materialID);
 
             totalRequiredMaterials.put(materialID, totalQtd);
         }
 
         return totalRequiredMaterials;
-
     }
 }

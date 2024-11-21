@@ -154,9 +154,16 @@ public class ItemRepository {
         return itemList;
     }
 
+    /**
+     * Retrieves the name of an item based on its ID.
+     *
+     * @param id the ID of the item
+     * @return the name of the item
+     *
+     * Time Complexity: O(1), assuming the map lookup and item retrieval operations are constant time.
+     */
     public String getItemNameByID(ID id) {
         Item item = getMapItemList().get(id);
-
         return item.getName();
     }
 
