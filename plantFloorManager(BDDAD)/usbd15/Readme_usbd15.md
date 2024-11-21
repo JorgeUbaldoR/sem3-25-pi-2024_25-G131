@@ -12,6 +12,11 @@
 >**AC2:** Acceptance criteria: A function should be used to create the workstation and
 to return success or an error.
 
+>This script defines a PL/SQL function called register_workstation, which registers a new workstation in the Work_Station table. The function accepts four parameters: workstation ID, workstation type ID, name, and description.
+>
+>The first step in the function is to validate if the provided workstation type ID exists in the Workstation_Type table. If the type ID does not exist, the function returns an error message indicating that the workstation type is invalid. If the type ID is valid, the function proceeds to the next step.
+>
+>The second step is to insert the new workstation details into the Work_Station table. If the insertion is successful, a success message is returned, confirming the workstation has been registered. The function also includes error handling: if a workstation with the same ID already exists, it returns an error message indicating a duplicate ID. If any other error occurs, a generic error message is returned.
 
       CREATE OR REPLACE FUNCTION register_workstation (
          p_ws_id Work_Station.WS_ID%TYPE, 
