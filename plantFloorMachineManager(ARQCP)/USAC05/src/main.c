@@ -2,11 +2,11 @@
 #include "../include/asm.h"
 
 int main() {
-    int buffer[] = {2, 32, 5, 23, 4, 6, 19, 29, 43, 27, 7, 43, 55, 32, 3, 12, 2, 5, 7, 9, 12, 16, 18, 21};
+    int buffer[] = {0,1,2,3,4,5,6,7,8,9};
     int length = sizeof(buffer) / sizeof(int);
-    int head = 2;            // Head index
-    int tail = 0;   		// Tail index
-    int value = 99;          // Value to insert
+    int head = 0;            // Head index
+    int tail = 9;   		// Tail index
+    int value = 5;          // Value to insert
 
     printf("---Before method---\n");
     printf("Buffer: [ ");
