@@ -13,7 +13,7 @@ void test_median_even_length(void) {
     int median_value;
 
     int result = median(arr, length,&median_value);
-    int expected_median = 2;                    
+    int expected_median = 3;                    
     int expected_result = 1;                    
     TEST_ASSERT_EQUAL_INT(expected_median,median_value);
     TEST_ASSERT_EQUAL_INT(expected_result,result);
@@ -112,12 +112,12 @@ void test_median_negative_elements_even(void){
 }
 
 void test_median_mix_elements_odd(void){
-    int vec[] = {-3, 2, -1, 4, 1,2}; 
+    int vec[] = {-3, 2, -1, 4, 1,2}; //-3 -1 1 2 2 4
     int length = 6;
     int median_value;
     int result = median(vec,length,&median_value);
 
-    int expected_median = 1;
+    int expected_median = 2;
     int expected_result = 1;
 
     TEST_ASSERT_EQUAL_INT(expected_median,median_value); 
@@ -125,7 +125,7 @@ void test_median_mix_elements_odd(void){
 }
 
 void test_median_mix_elements_odd_2(void){
-    int vec[] = {-3, 2, -1, 4, 1,-2};
+    int vec[] = {-3, 2, -1, 4, 1,-2}; 
     int length = 6;
     int median_value;
     int result = median(vec,length,&median_value);
@@ -223,7 +223,7 @@ void test_Five()
 }
 void test_Six()
 { 
-    run_test((int[]){0,3000,10,20,0,300},6,1,15); 
+    run_test((int[]){0,3000,10,20,0,300},6,1,15);
 }
 
 

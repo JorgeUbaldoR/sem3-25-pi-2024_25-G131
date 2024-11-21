@@ -55,9 +55,24 @@ length_even:                        # If length is even, calculate median as the
    movl (%rdi,%r8,4), %eax          # Load the element at vec[midpoint] into %eax
    addl -4(%rdi,%r8,4), %eax        # Add the element at vec[midpoint - 1] to %eax
 
+   testl %eax, %eax
+   jge positive_number
+
+   addl $-1, %eax
+   
    cdq                              # Sign extend %eax for division
    idivl %ebx                       # Divide by 2 to get the average
-   movl %eax, (%r15)                # Store the average into the location pointed to by %r15 (me)
+   jmp store_result                 # Jump to store_result exit
+
+positive_number:
+   addl $1, %eax
+
+   cdq                              # Sign extend %eax for division
+   idivl %ebx                       # Divide by 2 to get the average
+   jmp store_result                 # Jump to store_result exit
+   
+store_result:
+   movl %eax, (%r15)                # Store the rounded average into the location pointed to by %r15 (me)
    jmp success                      # Jump to success exit
 
 success:                            # If everything succeeded, set return value to 1 (indicating success)

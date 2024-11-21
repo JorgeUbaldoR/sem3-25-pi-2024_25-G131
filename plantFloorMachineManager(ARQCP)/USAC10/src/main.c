@@ -3,7 +3,7 @@
 
 
 int main(){
-    int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6
+    int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6 7 8
     int length1 = sizeof(vec1)/sizeof(int);
     int me1 = 0;
 
