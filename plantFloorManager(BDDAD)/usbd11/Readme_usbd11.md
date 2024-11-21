@@ -14,8 +14,6 @@ This user story covers an ETL process.
 You will be provided a spreadsheet with data from a legacy system, and you will have to import that data into the new database model you are developing. The data will not be normalized and will not fit directly into the new model. You will be required to process that data in order to be able to load it into the new system.
 
 
-
-
 ### 3. Acceptance Criteria
 
 >* **AC1:** Minimum expected requirement: manual creation of the data input scripts.
@@ -43,85 +41,88 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     VALUES (146, 'Pro Clear Lids');
     
     -- Part
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN12344A21', 'Screw M6 35 mm');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN52384R50', '300x300 mm 5 mm stainless steel sheet');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN52384R10', '300x300 mm 1 mm stainless steel sheet');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN18544A21', 'Rivet 6 mm');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN18544C21', 'Stainless steel handle model U6');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN18324C54', 'Stainless steel handle model R12');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN52384R45', '250x250 mm 5mm stainless steel sheet');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN52384R12', '250x250 mm 1mm stainless steel sheet');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN18324C91', 'Stainless steel handle model S26');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN18324C51', 'Stainless steel handle model R11');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945T22', '5l 22 cm aluminium and teflon non stick pot');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945S22', '5l 22 cm stainless steel pot');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12946S22', '5l 22 cm stainless steel pot bottom');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12947S22', '22 cm stainless steel lid');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945S20', '3l 20 cm stainless steel pot');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12946S20', '3l 20 cm stainless steel pot bottom');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12947S20', '20 cm stainless steel lid');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945S17', '2l 17 cm stainless steel pot');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945P17', '2l 17 cm stainless steel sauce pan');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945S48', '17 cm stainless steel lid');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('AS12945G48', '17 cm glass lid');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A01', '250 mm 5 mm stainless steel disc');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A02', '220 mm pot base phase 1');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A03', '220 mm pot base phase 2');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A04', '220 mm pot base final');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A01', '250 mm 1 mm stainless steel disc');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A02', '220 mm lid pressed');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A03', '220 mm lid polished');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A04', '220 mm lid with handle');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A32', '200 mm pot base phase 1');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A33', '200 mm pot base phase 2');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12945A34', '200 mm pot base final');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A32', '200 mm lid pressed');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A33', '200 mm lid polished');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('IP12947A34', '200 mm lid with handle');
-    INSERT INTO Part (PARTNUMBER, DESCRIPTION) VALUES ('PN94561L67', 'Coolube 2210XP');
+    -- Component Parts
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN12344A21', 'Screw M6 35 mm', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN52384R50', '300x300 mm 5 mm stainless steel sheet', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN52384R10', '300x300 mm 1 mm stainless steel sheet', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN18544A21', 'Rivet 6 mm', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN18544C21', 'Stainless steel handle model U6', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN18324C54', 'Stainless steel handle model R12', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN52384R45', '250x250 mm 5mm stainless steel sheet', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN52384R12', '250x250 mm 1mm stainless steel sheet', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN18324C91', 'Stainless steel handle model S26', 'Component');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN18324C51', 'Stainless steel handle model R11', 'Component');
+    -- Product Parts
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945T22', '5l 22 cm aluminium and teflon non stick pot', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945S22', '5l 22 cm stainless steel pot', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12946S22', '5l 22 cm stainless steel pot bottom', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12947S22', '22 cm stainless steel lid', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945S20', '3l 20 cm stainless steel pot', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12946S20', '3l 20 cm stainless steel pot bottom', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12947S20', '20 cm stainless steel lid', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945S17', '2l 17 cm stainless steel pot', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945P17', '2l 17 cm stainless steel sauce pan', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945S48', '17 cm stainless steel lid', 'Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('AS12945G48', '17 cm glass lid', 'Product');
+    -- Intermediate Product Parts
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A01', '250 mm 5 mm stainless steel disc', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A02', '220 mm pot base phase 1', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A03', '220 mm pot base phase 2', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A04', '220 mm pot base final', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A01', '250 mm 1 mm stainless steel disc', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A02', '220 mm lid pressed', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A03', '220 mm lid polished', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A04', '220 mm lid with handle', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A32', '200 mm pot base phase 1', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A33', '200 mm pot base phase 2', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12945A34', '200 mm pot base final', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A32', '200 mm lid pressed', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A33', '200 mm lid polished', 'Intermediate Product');
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('IP12947A34', '200 mm lid with handle', 'Intermediate Product');
+    -- Raw Material Parts
+    INSERT INTO Part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('PN94561L67', 'Coolube 2210XP', 'Raw Material');
+    
     
     -- Product
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945T22', 130, 'La Belle 22 5L Pot', '5L 22cm aluminium and Teflon non-stick pot', 'AS12945T22');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945S22', 125, 'Pro 22 5L Pot', '5L 22cm stainless steel pot', 'AS12945S22');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945S20', 125, 'Pro 20 3L Pot', '3L 20cm stainless steel pot', 'AS12945S20');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945S17', 125, 'Pro 17 2L Pot', '2L 17cm stainless steel pot', 'AS12945S17');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945P17', 132, 'Pro 17 2L Sauce Pan', '2L 17cm stainless steel sauce pan', 'AS12945P17');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945S48', 145, 'Pro 17 Lid', '17cm stainless steel lid', 'AS12945S48');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12945G48', 146, 'Pro Clear 17 Lid', '17cm glass lid', 'AS12945G48');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12946S22', 125, 'Pro 22 5L Pot Bottom', '5L 22cm stainless steel pot bottom', 'AS12946S22');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12947S22', 145, 'Pro 22 Lid', '22cm stainless steel lid', 'AS12947S22');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12946S20', 125, 'Pro 20 3L Pot Bottom', '3L 20cm stainless steel pot bottom', 'AS12946S20');
-    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER)
-    VALUES ('AS12947S20', 145, 'Pro 20 Lid', '20cm stainless steel lid', 'AS12947S20');
-    
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945T22', 130, 'La Belle 22 5L Pot', '5L 22 cm aluminium and Teflon non-stick pot');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945S22', 125, 'Pro 22 5L Pot', '5L 22 cm stainless steel pot');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12946S22', 125, 'Pro 22 5L Pot Bottom', '5L 22 cm stainless steel pot bottom');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12947S22', 145, 'Pro 22 Lid', '22 cm stainless steel lid');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945S20', 125, 'Pro 20 3L Pot', '3L 20 cm stainless steel pot');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12946S20', 125, 'Pro 20 3L Pot Bottom', '3L 20 cm stainless steel pot bottom');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12947S20', 145, 'Pro 20 Lid', '20 cm stainless steel lid');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945S17', 125, 'Pro 17 2L Pot', '2L 17 cm stainless steel pot');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945P17', 132, 'Pro 17 2L Sauce Pan', '2L 17 cm stainless steel sauce pan');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945S48', 145, 'Pro 17 Lid', '17 cm stainless steel lid');
+    INSERT INTO Product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION)
+    VALUES ('AS12945G48', 146, 'Pro Clear 17 Lid', '17 cm glass lid');
     
     
     -- Order
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (1, 785, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (2, 657, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (3, 348, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (4, 785, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (5, 657, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (6, 348, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
-    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE)
-    VALUES (7, 456, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'));
-    
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (1, 785, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('23/09/2024', 'DD/MM/YYYY'), 'Pending');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (2, 657, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 'Shipped');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (3, 348, TO_DATE('15/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 'Delivered');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (4, 785, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 'Pending');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (5, 657, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('25/09/2024', 'DD/MM/YYYY'), 'Shipped');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (6, 348, TO_DATE('18/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 'Delivered');
+    INSERT INTO "Order" (ORDER_ID, CostumerCOSTUMER_ID, ORDER_DATE, DELIVERY_DATE, STATUS)
+    VALUES (7, 456, TO_DATE('21/09/2024', 'DD/MM/YYYY'), TO_DATE('26/09/2024', 'DD/MM/YYYY'), 'Shipped');
     
     
     -- Order Products
@@ -393,9 +394,6 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
     INSERT INTO BOO_INPUT (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES (170, 'AS12946S20', 1, 'unit');
     INSERT INTO BOO_INPUT (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES (170, 'AS12947S20', 1, 'unit');
     
-    
-    
-    
     -- BOO_OUTPUT
     INSERT INTO BOO_OUTPUT (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES (100, 'IP12945A01', 1, 'unit');
     INSERT INTO BOO_OUTPUT (OperationOPERATION_ID, PartPARTNUMBER, QUANTITY, UNIT) VALUES (103, 'IP12945A02', 1, 'unit');
@@ -428,6 +426,10 @@ You will be provided a spreadsheet with data from a legacy system, and you will 
   language, etc.).
 
 ```java
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
+
 public class SQLGenerator {
   /* EXEMPLE
   private static final String BOM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/data_base/bom.csv";
@@ -550,9 +552,9 @@ public class SQLGenerator {
 
   private static void order() {
     processCSV(ORDER, "--Inserts for order", columns -> {
-      String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE) VALUES ("
+      String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE, STATUS) VALUES ("
               + columns[0] + ", " + columns[1] + ", TO_DATE('" + columns[2] + "', 'dd/mm/yyyy'), TO_DATE('"
-              + columns[3] + "', 'dd/mm/yyyy'));";
+              + columns[3] + "', 'dd/mm/yyyy') " + columns[4] + "');";
       System.out.println(sql);
     });
   }
@@ -567,8 +569,8 @@ public class SQLGenerator {
 
   private static void part() {
     processCSV(PART, "--Inserts for part", columns -> {
-      String sql = "INSERT INTO part (PARTNUMBER, DESCRIPTION) VALUES ('"
-              + columns[0] + "', '" + columns[1] + "');";
+      String sql = "INSERT INTO part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('"
+              + columns[0] + "', '" + columns[1] + "', '" + columns[2] + "');";
       System.out.println(sql);
     });
   }
@@ -583,9 +585,8 @@ public class SQLGenerator {
 
   private static void product() {
     processCSV(PRODUCT, "--Inserts for product", columns -> {
-      String sql = "INSERT INTO product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER) VALUES ('"
-              + columns[0] + "', " + columns[1] + ", '" + columns[2] + "', '" + columns[3] + "', '"
-              + columns[4] + "');";
+      String sql = "INSERT INTO product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('"
+              + columns[0] + "', " + columns[1] + ", '" + columns[2] + "', '" + columns[3] + "');";
       System.out.println(sql);
     });
   }
@@ -654,6 +655,7 @@ public class SQLGenerator {
     void process(String[] columns);
   }
 }
+
 ```
 
 

@@ -1,1 +1,8 @@
+Statement processed.
 Success: Order with ID 9999 registered successfully.
+
+Statement processed.
+Error: Order with ID 9999 already exists.
+
+Statement processed.
+Error: Costumer with ID 348 is not active or does not exist.

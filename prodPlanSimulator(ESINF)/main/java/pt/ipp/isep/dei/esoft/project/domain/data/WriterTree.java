@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
+
 public class WriterTree {
     static private PrintWriter treePrintWriter;
     static private ProductionTree productionTree;
@@ -47,10 +49,16 @@ public class WriterTree {
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
 
+            System.out.println();
             for (Node node : boo) { // O(P)
                 String opName = getOpName(node.getOperationID()); // O(M)
                 String itmName = getItmName(node.getItemID()); // O(N)
 
+                System.out.printf("%sProcessing Node%s: Operation -> %s'%-20s%s | Item -> %s'%-20s%s | Quantity -> %s%-5.1f%s%n",
+                        ANSI_BRIGHT_BLACK,ANSI_RESET,
+                        ANSI_BRIGHT_WHITE,opName+"'",ANSI_RESET,
+                        ANSI_BRIGHT_WHITE,itmName+"'",ANSI_RESET,
+                        ANSI_BRIGHT_WHITE,node.getItem_qtd(),ANSI_RESET);
                 treePrintWriter.printf("\"%s\" [shape=rectangle]%n", opName);
                 treePrintWriter.printf("\"%s\" -- \"%s\"[label = %.1f]%n",
                         opName,
@@ -96,9 +104,11 @@ public class WriterTree {
             treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOM.puml");
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
-
+            System.out.println();
             for (Node node : bom) { // O(P)
                 String itmName = getItmName(node.getItemID()); // O(N)
+
+                System.out.printf("%sProcessing Node%s: Item -> %s'%s'%s%n",ANSI_BRIGHT_BLACK,ANSI_RESET,ANSI_BRIGHT_WHITE ,itmName,ANSI_RESET);
 
                 if (!node.getOperationMap().isEmpty()) { // O(O)
                     for (Map.Entry<ID, Float> operation : node.getOperationMap().entrySet()) {

@@ -7,10 +7,10 @@ import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 class ObjectBSTTest {
 
@@ -25,10 +25,10 @@ class ObjectBSTTest {
         itemMap1 = new HashMap<>();
         itemMap2 = new HashMap<>();
 
-        itemMap1.put(new ID(1, TypeID.ITEM), new Item(new ID(1, TypeID.ITEM), "Item1", null));
-        itemMap1.put(new ID(2, TypeID.ITEM), new Item(new ID(2, TypeID.ITEM), "Item2", null));
+        itemMap1.put(new ID(1, TypeID.ITEM), new Item(new ID(1, TypeID.ITEM), "Item1", new LinkedList<>()));
+        itemMap1.put(new ID(2, TypeID.ITEM), new Item(new ID(2, TypeID.ITEM), "Item2", new LinkedList<>()));
 
-        itemMap2.put(new ID(3, TypeID.ITEM), new Item(new ID(3, TypeID.ITEM), "Item3", null));
+        itemMap2.put(new ID(3, TypeID.ITEM), new Item(new ID(3, TypeID.ITEM), "Item3", new LinkedList<>()));
 
         objectBST1 = new ObjectBST(itemMap1, 10.0f);
         objectBST2 = new ObjectBST(itemMap2, 20.0f);
@@ -52,7 +52,7 @@ class ObjectBSTTest {
     @Test
     void testAddItem() {
         System.out.println("Test addItem");
-        Item newItem = new Item(new ID(4, TypeID.ITEM), "NewItem", null);
+        Item newItem = new Item(new ID(4, TypeID.ITEM), "NewItem", new LinkedList<>());
         objectBST1.addItem(newItem);
         assertTrue(objectBST1.getItemsWithQuantity().containsKey(newItem.getItemID()));
         assertEquals(newItem, objectBST1.getItemsWithQuantity().get(newItem.getItemID()));

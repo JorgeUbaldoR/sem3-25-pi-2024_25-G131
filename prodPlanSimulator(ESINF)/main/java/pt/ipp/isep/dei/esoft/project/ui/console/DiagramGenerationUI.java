@@ -61,13 +61,11 @@ public class DiagramGenerationUI implements Runnable {
         String path;
         switch (choice) {
             case 1:
-                System.out.println(ANSI_BRIGHT_GREEN + "\n\n            GENERATING BOO..." + ANSI_RESET);
                 System.out.print("Enter the path to the .csv file: ");
                 path = in.nextLine();
                 confirmationData(path,0);
                 break;
             case 2:
-                System.out.println(ANSI_BRIGHT_GREEN + "\n\n            GENERATING BOM..." + ANSI_RESET);
                 System.out.print("Enter the path to the .csv file: ");
                 path = in.nextLine();
                 confirmationData(path,1);
@@ -93,8 +91,10 @@ public class DiagramGenerationUI implements Runnable {
             try {
                 if (getDiagramController().getInformations(saveFilePath)) {
                     if(flag == 0) {
+                        System.out.println(ANSI_BRIGHT_GREEN + "\n\nGENERATING BOO..." + ANSI_RESET);
                         getDiagramController().writeBooToUmlFile();
                     }else{
+                        System.out.println(ANSI_BRIGHT_GREEN + "\n\nGENERATING BOM..." + ANSI_RESET);
                         getDiagramController().writeBOMToUmlFile();
                     }
                     System.out.println("\n" + ANSI_BRIGHT_GREEN + "Graph successfully generated!" + ANSI_RESET);

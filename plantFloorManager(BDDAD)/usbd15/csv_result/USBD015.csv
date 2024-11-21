@@ -1,1 +1,8 @@
+Statement processed.
 Success: Workstation with ID 9999 registered successfully.
+
+Statement processed.
+Error: Workstation with ID 9999 already exists.
+
+Statement processed.
+Error: Workstation Type with ID 3 does not exist.

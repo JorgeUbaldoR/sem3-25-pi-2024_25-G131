@@ -8,6 +8,11 @@
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
    legacy system.
 
+> This script defines a PL/SQL function called list_product_haveALL_operations, which retrieves a list of products that have the maximum number of associated operations. The function opens a cursor and runs a query that joins the Product and Operation tables, selecting products whose operation count matches the highest number of operations for any product. The function returns a SYS_REFCURSOR, which allows the caller to iterate over the list of products.
+>
+>The function processes the results by fetching each product ID and printing it using DBMS_OUTPUT.PUT_LINE. If no products meet the condition, the cursor will not contain any results. The cursor is closed after all products have been processed.
+
+
       CREATE OR REPLACE FUNCTION list_product_haveALL_operations
       RETURN SYS_REFCURSOR
       AS
@@ -31,11 +36,10 @@
       /
       
       DECLARE
-      product_haveAll_operations_cursor SYS_REFCURSOR;
-      
-          p Product.PRODUCT_ID%TYPE;
+         product_haveAll_operations_cursor SYS_REFCURSOR;
+         p Product.PRODUCT_ID%TYPE;
       BEGIN
-      product_haveAll_operations_cursor := list_product_haveALL_operations();
+         product_haveAll_operations_cursor := list_product_haveALL_operations();
       
           LOOP
               FETCH product_haveAll_operations_cursor INTO p;
