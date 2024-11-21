@@ -15,7 +15,7 @@ public class QualityChecks {
 
 
     public QualityChecks() {
-        priorityQueue = fillOperationsPriorityQueue();
+        priorityQueue = new PriorityQueue<>(Comparator.comparingInt(map -> map.keySet().iterator().next()));
         checkedOperations = new HashMap<>();
 
     }
@@ -25,8 +25,6 @@ public class QualityChecks {
         pdt.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
         Map<Integer, List<Node>> heightMap = pdt.getHeightMap();
 
-        PriorityQueue<Map<Integer, List<ID>>> operationsPriorityQueue =
-                new PriorityQueue<>(Comparator.comparingInt(map -> map.keySet().iterator().next()));
 
 
         for (Map.Entry<Integer, List<Node>> entry : heightMap.entrySet()) {
@@ -42,10 +40,10 @@ public class QualityChecks {
 
             pqNode.put(height, operations);
 
-            operationsPriorityQueue.add(pqNode);
+            priorityQueue.add(pqNode);
         }
 
-        return operationsPriorityQueue;
+        return priorityQueue;
     }
 
     private Map<Map<Integer, List<ID>>, Boolean> prepareQualityChecks() {

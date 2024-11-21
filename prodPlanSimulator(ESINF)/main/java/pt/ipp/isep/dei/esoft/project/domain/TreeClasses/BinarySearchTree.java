@@ -66,12 +66,16 @@ public class BinarySearchTree  {
 
     //----------- end of nested Node class -----------
 
-    protected Node<ObjectBST> root = null;     // root of the tree
+    protected Node<ObjectBST> root;     // root of the tree
 
 
     /* Constructs an empty binary search tree. */
     public BinarySearchTree() {
         root = null;
+    }
+
+    public Node<ObjectBST> getRoot() {
+        return root;
     }
 
     /*
@@ -100,16 +104,19 @@ public class BinarySearchTree  {
      * subclasses avoiding recoding.
      * So its access level is protected
      */
-    protected Node<ObjectBST> find(Node<ObjectBST> node, ObjectBST element) {
+    protected Node<ObjectBST> find(Node<ObjectBST> node, Item element) {
         if (node == null) {
             return null;
         }
 
-        if (node.getElement().equals(element)) {
-            return node;
+        if (node.getElement().getQuantityOfElements() == element.getQuantity()) {
+            if(node.getElement().getItemsWithQuantity().containsKey(element.getItemID())) {
+                return node;
+            }
+            return null;
         }
 
-        if (node.getElement().compareTo(element) > 0) {
+        if (node.getElement().getQuantityOfElements() > element.getQuantity()) {
             return find(node.getLeft(), element);
         } else {
             return find(node.getRight(), element);
@@ -154,7 +161,7 @@ public class BinarySearchTree  {
         if (node == null) {
             return null;    //throw new IllegalArgumentException("Element does not exist");
         }
-        if (element.compareTo(node.getElement()) == 0) {
+        if (element.getQuantityOfElements() - node.getElement().getQuantityOfElements() == 0) {
             // node is the Node to be removed
             if (node.getLeft() == null && node.getRight() == null) { //node is a leaf (has no childs)
                 return null;
@@ -168,7 +175,7 @@ public class BinarySearchTree  {
             ObjectBST min = smallestElement(node.getRight());
             node.setElement(min);
             node.setRight(remove(min, node.getRight()));
-        } else if (element.compareTo(node.getElement()) < 0)
+        } else if (element.getQuantityOfElements() < node.getElement().getQuantityOfElements())
             node.setLeft(remove(element, node.getLeft()));
         else
             node.setRight(remove(element, node.getRight()));
@@ -286,63 +293,6 @@ public class BinarySearchTree  {
         inOrderSubtreeReverse(node.getLeft(), snapshot);
     }
 
-
-
-    /**
-     * Returns an iterable collection of elements of the tree, reported in pre-order.
-     *
-     * @return iterable collection of the tree's elements reported in pre-order
-     */
-    public Iterable<ObjectBST> preOrder() {
-        List<ObjectBST> snapshot = new ArrayList<>();
-        if (root != null)
-            preOrderSubtree(root, snapshot);   // fill the snapshot recursively
-        return snapshot;
-    }
-
-    /**
-     * Adds elements of the subtree rooted at Node node to the given
-     * snapshot using an pre-order traversal
-     *
-     * @param node     Node serving as the root of a subtree
-     * @param snapshot a list to which results are appended
-     */
-    private void preOrderSubtree(Node<ObjectBST> node, List<ObjectBST> snapshot) {
-        if (node == null)
-            return;
-        snapshot.add(node.getElement());
-        preOrderSubtree(node.getLeft(), snapshot);
-        preOrderSubtree(node.getRight(), snapshot);
-    }
-
-    /**
-     * Returns an iterable collection of elements of the tree, reported in post-order.
-     *
-     * @return iterable collection of the tree's elements reported in post-order
-     */
-    public Iterable<ObjectBST> posOrder() {
-        List<ObjectBST> snapshot = new ArrayList<>();
-        if(root != null) {
-            posOrderSubtree(root, snapshot);
-        }
-        return snapshot;
-    }
-
-    /**
-     * Adds positions of the subtree rooted at Node node to the given
-     * snapshot using an post-order traversal
-     *
-     * @param node     Node serving as the root of a subtree
-     * @param snapshot a list to which results are appended
-     */
-    private void posOrderSubtree(Node<ObjectBST> node, List<ObjectBST> snapshot) {
-        if(node == null){
-            return;
-        }
-        posOrderSubtree(node.getLeft(), snapshot);
-        posOrderSubtree(node.getRight(), snapshot);
-        snapshot.add(node.getElement());
-    }
 
     /*
      * Returns a map with a list of nodes by each tree level.

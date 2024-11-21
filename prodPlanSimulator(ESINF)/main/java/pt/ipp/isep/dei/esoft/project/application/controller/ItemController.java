@@ -1,12 +1,15 @@
 package pt.ipp.isep.dei.esoft.project.application.controller;
 
-import pt.ipp.isep.dei.esoft.project.domain.BOO;
+
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
+
 
 /**
  * Controller class that manages the interaction with the Item repository.
@@ -44,6 +47,10 @@ public class ItemController {
      */
     public Optional<Item> addItemController(Item item) {
         return getItemRepository().addItem(item);
+    }
+
+    public Map<ID, Item> getItemList() {
+        return getItemRepository().getMapItemList();
     }
 
 }

@@ -18,6 +18,7 @@ get_number_binary:
     movq $0, %r8                    # Initialize index register to 0
     call initialize_zeros           # Call a function to initialize the array to zeros
     
+    movq $0, %r8                    # Initialize index register to 0
     cmpl $MIN_NUM, %edi             # Compare the input number with the minimum allowed value
     jl error                        # Jump to error if the number is less than MIN_NUM
     cmpl $MAX_NUM, %edi             # Compare the input number with the maximum allowed value
@@ -54,7 +55,7 @@ get_binary:
     movb $1, (%rsi, %r8, 1)         # If remainder is 1, store it in the array at the current index
 
 skip:
-    decq %r8                        # Decrement the index
+    incq %r8                        # Decrement the index
     jmp get_binary                  # Repeat the binary conversion loop
 
 end_binary:

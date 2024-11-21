@@ -226,4 +226,17 @@ public class ProductionTreeController {
     public Node getNodeByOperationID(ID operationID) {
         return getProductionTree().getOperationNodeID().get(operationID);
     }
+
+    /**
+     * Delegates the retrieval of an item name by its ID to the repository layer.
+     *
+     * @param itemID the ID of the item
+     * @return the name of the item
+     *
+     * Time Complexity: Dependent on the implementation of {@code getItemRepository().getItemNameByID(itemID)}.
+     * If it involves a map lookup, it is O(1).
+     */
+    public String getItemNameByID(ID itemID) {
+        return getItemRepository().getItemNameByID(itemID);
+    }
 }

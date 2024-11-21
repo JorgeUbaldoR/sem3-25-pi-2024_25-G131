@@ -73,7 +73,7 @@ public class Item implements Comparable<Item> {
         this.name = name;
         this.itemID = itemID;
         this.priority = Priority.LOW;
-        this.operationList = operationList;
+        this.operationList = new LinkedList<>(operationList);
         this.currentOperation = null;
         this.quantity = 0;
         this.isRawMaterial = true;
@@ -88,8 +88,10 @@ public class Item implements Comparable<Item> {
         isRawMaterial = rawMaterial;
     }
 
-    public boolean addOpToItem(Operation op) {
-        return operationList.add(op);
+    public void addOpToItem(Operation op) {
+        if(operationList.add(op)) {
+            currentOperation = this.operationList.peek();
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
@@ -34,6 +35,18 @@ public class ObjectBST implements Comparable<ObjectBST> {
 
     public void addItem(Item item) {
          getItemsWithQuantity().put(item.getItemID(),item);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ObjectBST objectBST = (ObjectBST) o;
+        return Float.compare(quantityOfElements, objectBST.quantityOfElements) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(quantityOfElements);
     }
 
     @Override

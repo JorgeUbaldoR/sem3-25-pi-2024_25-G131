@@ -94,6 +94,25 @@ public class Utils {
         return selectsIndex(list);
     }
 
+    static public int showAndSelectIndexDataBase(List<?> list, String header) {
+        showListDataBase(list, header);
+        return selectsIndex(list);
+    }
+
+    static public void showListDataBase(List<?> list, String header) {
+        System.out.println(header);
+        System.out.println("╚═════════════════════════════════════════════════╝");
+
+        int index = 0;
+        for (Object o : list) {
+            index++;
+
+            System.out.printf("║    %s(%d)%s -  %-37s %-2s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
+        }
+        System.out.printf("║    %s(0)%s -  %-29s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.println("╚═════════════════════════════════════════════════╝");
+    }
+
     static public void showList(List<?> list, String header) {
         System.out.println(header);
         System.out.println("╚════════════════════════════════════════╝");

@@ -25,12 +25,12 @@ public class DataBaseUI implements Runnable {
         options.add(new MenuItem("Generate Diagram", new DiagramGenerationUI()));
         options.add(new MenuItem("Show Quality Checks", new QualityChecksUI()));
         options.add(new MenuItem("Quantity BY Material", new BSTUI()));
-        options.add(new MenuItem("Material QTD", new ViewOperationsUI()));
+        options.add(new MenuItem("Show Quantity of Required Materials", new ViewTotalMaterialUI()));
 
         int option = 0;
         do {
-            System.out.println("\n\n╔════════════════════════════════════════╗");
-            option = Utils.showAndSelectIndex(options, "║" + ANSI_BRIGHT_WHITE + "         PM MENU | DATABASE UI    " + ANSI_RESET + "      ║");
+            System.out.println("\n\n╔═════════════════════════════════════════════════╗");
+            option = Utils.showAndSelectIndexDataBase(options, "║" + ANSI_BRIGHT_WHITE + "             PM MENU | DATABASE UI    " + ANSI_RESET + "           ║");
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();

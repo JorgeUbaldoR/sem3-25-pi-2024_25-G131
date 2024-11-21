@@ -31,6 +31,7 @@ public class ItemRepository {
         itemList = new HashMap<>();
         try {
             fillItems();
+            //associateItemsWithBoo();
         } catch (Exception e) {
             System.out.println("Error during initialization: " + e.getMessage());
         }
@@ -126,6 +127,7 @@ public class ItemRepository {
                 itemList.put(newId, new Item(newId, priority, operationQueue));
             }
 
+
         } catch (Exception e) {
             System.out.println();
             System.out.println(ANSI_BRIGHT_RED + "Error reading items details from file." + ANSI_RESET);
@@ -152,31 +154,17 @@ public class ItemRepository {
         return itemList;
     }
 
-
-    public Map<Integer, Queue<Item>> associateItemsWithBoo() {
-        BOO boo = new BOO();
-        Map<Integer, Queue<Item>> itemMap = new LinkedHashMap<>();
-        TreeMap<Integer, List<ID>> treeMap = boo.getTreeMap();
-
-
-        for (Map.Entry<Integer, List<ID>> entry : treeMap.entrySet()) {
-
-            Queue<Item> associatedItems = new LinkedList<>();
-            int height = entry.getKey();
-            List<ID> idList = entry.getValue();
-
-            for (Map.Entry<ID, Item> itemEntry : itemList.entrySet()) {
-                Item item = itemEntry.getValue();
-                for (ID id : idList) {
-                    if (item.hasOperationWithID(id)) {
-                        associatedItems.add(item);
-                    }
-
-                }
-                itemMap.put(height, associatedItems);
-            }
-        }
-        return itemMap;
+    /**
+     * Retrieves the name of an item based on its ID.
+     *
+     * @param id the ID of the item
+     * @return the name of the item
+     *
+     * Time Complexity: O(1), assuming the map lookup and item retrieval operations are constant time.
+     */
+    public String getItemNameByID(ID id) {
+        Item item = getMapItemList().get(id);
+        return item.getName();
     }
 
 }

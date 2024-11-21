@@ -112,7 +112,7 @@ void test_median_negative_elements_even(void){
 }
 
 void test_median_mix_elements_odd(void){
-    int vec[] = {-3, 2, -1, 4, 1,2};
+    int vec[] = {-3, 2, -1, 4, 1,2}; 
     int length = 6;
     int median_value;
     int result = median(vec,length,&median_value);
@@ -189,6 +189,44 @@ void test_median_null_vec_2(void){
     TEST_ASSERT_EQUAL_INT(expected_result,result); 
 }
 
+void run_test(int* vec, int in_num, int exp_res , int  exp_med){
+    int median_value;
+    int result = median(vec,in_num,&median_value);
+
+    TEST_ASSERT_EQUAL_INT(exp_res,result); 
+    TEST_ASSERT_EQUAL_INT(exp_med,median_value); 
+}
+
+void test_NullVector()
+{ 
+    run_test((int[]){0},0,0,0); 
+}
+void test_One()
+{ 
+    run_test((int[]){1000},1,1,1000); 
+}
+void test_Zero()
+{ 
+    run_test((int[]){10,0,1},3,1,1); 
+}
+void test_Three()
+{ 
+    run_test((int[]){-1,-3,-2},3,1,-2); 
+}
+void test_Four()
+{ 
+    run_test((int[]){-1,-3,-4,-2},4,1,-3); 
+}
+void test_Five()
+{ 
+    run_test((int[]){1,1,1,1,2},5,1,1); 
+}
+void test_Six()
+{ 
+    run_test((int[]){0,3000,10,20,0,300},6,1,15); 
+}
+
+
 
 int main(void) {
     UNITY_BEGIN();
@@ -206,5 +244,14 @@ int main(void) {
     RUN_TEST(test_median_length_one);
     RUN_TEST(test_median_null_vec);
     RUN_TEST(test_median_null_vec_2);
+
+
+    RUN_TEST(test_NullVector);
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Four);
+    RUN_TEST(test_Five);
+    RUN_TEST(test_Six);
     return UNITY_END();
 }
