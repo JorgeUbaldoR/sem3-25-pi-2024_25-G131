@@ -30,6 +30,7 @@ class ProductionTreeTest {
         assertTrue(map.isEmpty());
         assertTrue(list.isEmpty());
 
+        productionTree.setPdtTreeName("Production Tree");
         assertTrue(productionTree.getNodesOfTree().isEmpty(), "Nodes list should be empty after initialization.");
         assertTrue(productionTree.getRawMaterials().isEmpty(), "Raw materials map should be empty after initialization.");
         assertTrue(productionTree.getMaterials().isEmpty(), "Materials map should be empty after initialization.");

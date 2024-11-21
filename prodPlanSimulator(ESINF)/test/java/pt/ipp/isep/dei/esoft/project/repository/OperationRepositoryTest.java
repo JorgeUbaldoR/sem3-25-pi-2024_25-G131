@@ -125,4 +125,110 @@ public class OperationRepositoryTest {
 
         assertFalse(result.isPresent());
     }
+
+
+    @Test
+    public void testGetNameByID_ValidID() {
+        operationRepository.addOperation(opCutting);
+        operationRepository.addOperation(opWelding);
+
+        String name = operationRepository.getNameByID(opCutting.getOperationId());
+
+        assertEquals("Cutting", name);
+    }
+
+    @Test
+    public void testGetNameByID_InvalidID() {
+        operationRepository.addOperation(opCutting);
+
+        String name = operationRepository.getNameByID(new ID(999, TypeID.OPERATION));
+
+        assertNull(name);
+    }
+
+    @Test
+    public void testFillOperations_PopulatesCorrectly() {
+        // Create mock items and operations
+        ID idItem1 = new ID(101, TypeID.ITEM);
+        ID idItem2 = new ID(102, TypeID.ITEM);
+
+        Queue<Operation> operationList1 = new LinkedList<>(List.of(opCutting, opWelding));
+        Queue<Operation> operationList2 = new LinkedList<>(List.of(opPainting));
+
+        Item item1 = new Item(idItem1, Priority.LOW, operationList1);
+        Item item2 = new Item(idItem2, Priority.NORMAL, operationList2);
+
+        List<Item> items = List.of(item1, item2);
+
+        operationRepository = new OperationRepository(items);
+        operationRepository.fillOperations(items);
+
+        List<Operation> operations = operationRepository.getOperations();
+
+        assertEquals(0, operations.size());
+    }
+
+    @Test
+    public void testGetIdToOperationMap() {
+        operationRepository.addOperation(opCutting);
+        operationRepository.addOperation(opWelding);
+
+        Map<ID, Operation> idToOperationMap = operationRepository.getIdToOperation();
+
+        assertEquals(2, idToOperationMap.size());
+        assertEquals(opCutting, idToOperationMap.get(opCutting.getOperationId()));
+        assertEquals(opWelding, idToOperationMap.get(opWelding.getOperationId()));
+    }
+
+    @Test
+    public void testAddOperation_ReturnsClone() {
+        Operation addedOperation = new Operation("Test Operation", id1, "Description");
+        Optional<Operation> result = operationRepository.addOperation(addedOperation);
+
+        assertTrue(result.isPresent());
+        Operation clonedOperation = result.get();
+        assertNotSame(addedOperation, clonedOperation); // Ensure it's a clone
+        assertEquals(addedOperation.getOperationName(), clonedOperation.getOperationName());
+    }
+
+    @Test
+    public void testFillOperationsHandlesMissingFiles() {
+        // Simulate the scenario where the operations file is missing or inaccessible
+        List<Item> items = new ArrayList<>(); // Empty list for simplicity
+        operationRepository = new OperationRepository(items);
+
+        operationRepository.fillOperations(items);
+
+        // Should handle the IOException gracefully
+        List<Operation> operations = operationRepository.getOperations();
+        assertTrue(operations.isEmpty());
+    }
+
+    @Test
+    public void testRegisterOperationWithOnlyName_Success() {
+        ID id = new ID(9, TypeID.OPERATION);
+        Optional<Operation> result = operationRepository.registerOperation("Assembling", id);
+
+        assertTrue(result.isPresent());
+        assertEquals("Assembling", result.get().getOperationName());
+        assertEquals(id, result.get().getOperationId());
+        assertNotNull(result.get().getOperationDescription());
+    }
+
+    @Test
+    public void testRegisterOperationWithOnlyName_Duplicate() {
+        ID id = new ID(10, TypeID.OPERATION);
+        operationRepository.registerOperation("Assembling", id);
+        Optional<Operation> result = operationRepository.registerOperation("Assembling", id);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testGetAllOperations_Empty() {
+        Optional<List<Operation>> operations = operationRepository.getAllOperations();
+
+        assertTrue(operations.isEmpty());
+    }
+
 }

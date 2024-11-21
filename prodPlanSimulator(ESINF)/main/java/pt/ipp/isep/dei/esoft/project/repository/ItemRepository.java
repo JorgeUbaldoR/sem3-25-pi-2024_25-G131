@@ -38,7 +38,7 @@ public class ItemRepository {
     }
 
 
-    private void fillItems() {
+    public void fillItems() {
         try {
             String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
             String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
@@ -102,38 +102,6 @@ public class ItemRepository {
         }
 
         return newItem;
-    }
-
-    /**
-     * Fills the inventory with items from a data source.
-     * This method reads item details from a file and populates the item list.
-     * It handles IOExceptions that may occur during file reading.
-     */
-    private void fillInventory() {
-        try {
-
-            List<String[]> importedItems = FileDataReader.getItemsDetails();
-            for (String[] importedItem : importedItems) {
-                ID newId = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
-                Priority priority = Priority.fromString(importedItem[1]);
-                Queue<Operation> operationQueue = new LinkedList<>();
-
-                for (int i = 2; i < importedItem.length; i++) {
-                    Operation operation = new Operation(importedItem[i]);
-                    operationQueue.add(operation);
-
-                }
-
-                itemList.put(newId, new Item(newId, priority, operationQueue));
-            }
-
-
-        } catch (Exception e) {
-            System.out.println();
-            System.out.println(ANSI_BRIGHT_RED + "Error reading items details from file." + ANSI_RESET);
-            System.out.println(ANSI_INDIAN_RED + "Shutting down..." + ANSI_RESET);
-            System.exit(1);
-        }
     }
 
     /**
