@@ -1,1 +1,8 @@
-Success: Costumer with ID 785 deactivated successfully.
+Statement processed.
+Error: Customer with ID 1 does not exist.
+
+Statement processed.
+Error: Customer with ID 785 has active orders.
+
+Statement processed.
+Success: Customer with ID 348 deactivated successfully.
