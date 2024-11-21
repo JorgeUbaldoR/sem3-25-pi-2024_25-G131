@@ -124,9 +124,9 @@ public class SQLGenerator {
 
     private static void order() {
         processCSV(ORDER, "--Inserts for order", columns -> {
-            String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE) VALUES ("
+            String sql = "INSERT INTO \"Order\" (ORDER_ID, CostumerCOSTUMER_ID, DELIVERY_DATE, ORDER_DATE, STATUS) VALUES ("
                     + columns[0] + ", " + columns[1] + ", TO_DATE('" + columns[2] + "', 'dd/mm/yyyy'), TO_DATE('"
-                    + columns[3] + "', 'dd/mm/yyyy'));";
+                    + columns[3] + "', 'dd/mm/yyyy') " + columns[4] + "');";
             System.out.println(sql);
         });
     }
@@ -141,8 +141,8 @@ public class SQLGenerator {
 
     private static void part() {
         processCSV(PART, "--Inserts for part", columns -> {
-            String sql = "INSERT INTO part (PARTNUMBER, DESCRIPTION) VALUES ('"
-                    + columns[0] + "', '" + columns[1] + "');";
+            String sql = "INSERT INTO part (PARTNUMBER, DESCRIPTION, TYPE) VALUES ('"
+                    + columns[0] + "', '" + columns[1] + "', '" + columns[2] + "');";
             System.out.println(sql);
         });
     }
@@ -157,9 +157,8 @@ public class SQLGenerator {
 
     private static void product() {
         processCSV(PRODUCT, "--Inserts for product", columns -> {
-            String sql = "INSERT INTO product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION, PartPARTNUMBER) VALUES ('"
-                    + columns[0] + "', " + columns[1] + ", '" + columns[2] + "', '" + columns[3] + "', '"
-                    + columns[4] + "');";
+            String sql = "INSERT INTO product (PRODUCT_ID, Prod_FamilyFAMILY_ID, NAME, DESCRIPTION) VALUES ('"
+                    + columns[0] + "', " + columns[1] + ", '" + columns[2] + "', '" + columns[3] + "');";
             System.out.println(sql);
         });
     }
