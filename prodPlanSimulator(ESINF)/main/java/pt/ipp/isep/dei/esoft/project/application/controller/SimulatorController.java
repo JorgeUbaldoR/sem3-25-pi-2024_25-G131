@@ -22,7 +22,7 @@ public class SimulatorController {
     private MachineRepository machineRepository;
     private OperationRepository operationRepository;
     private static Simulator simulator;
-    private BOO boo;
+    private ItemLevelProcessor boo;
 
     /**
      * Constructs a SimulatorController instance.
@@ -139,8 +139,8 @@ public class SimulatorController {
     }
 
     public TreeMap<Integer, Queue<Map<Item, Float>>> getBoo() {
-        this.boo = new BOO();
-        return boo.getBoo();
+        this.boo = new ItemLevelProcessor();
+        return boo.getTree();
     }
 
     /**
