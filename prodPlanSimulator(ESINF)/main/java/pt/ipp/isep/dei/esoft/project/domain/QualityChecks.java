@@ -11,7 +11,7 @@ import java.util.*;
 public class QualityChecks {
 
     private final PriorityQueue<Map<Integer, List<ID>>> priorityQueue;
-    private Map<Map<Integer, List<ID>>, Boolean> checkedOperations;
+    protected Map<Map<Integer, List<ID>>, Boolean> checkedOperations;
 
 
     public QualityChecks() {
@@ -45,7 +45,7 @@ public class QualityChecks {
         return priorityQueue;
     }
 
-    private Map<Map<Integer, List<ID>>, Boolean> prepareQualityChecks() {
+    public Map<Map<Integer, List<ID>>, Boolean> prepareQualityChecks() {
         Map<Map<Integer, List<ID>>, Boolean> checksMap = new LinkedHashMap<>();
         PriorityQueue<Map<Integer, List<ID>>> pq = fillOperationsPriorityQueue();
 
