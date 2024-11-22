@@ -34,7 +34,7 @@ public class ProductionTree {
 
     /**
      * Constructs an empty production tree with default values.
-     *
+     * <p>
      * Complexity: O(1) - Basic initialization of fields.
      */
     public ProductionTree() {
@@ -53,7 +53,7 @@ public class ProductionTree {
      * @return the ItemRepository instance
      */
     private ItemRepository getItemRepository() {
-        if(itemRepository == null) {
+        if (itemRepository == null) {
             Repositories repositories = Repositories.getInstance();
             itemRepository = repositories.getItemRepository();
         }
@@ -66,7 +66,7 @@ public class ProductionTree {
      *
      * @param path the file path to read data from.
      * @return true if information is successfully read and processed, false otherwise.
-     *
+     * <p>
      * Complexity: O(n * m) - n is the number of records in the file, m is the average
      * number of operations/materials per record.
      */
@@ -86,7 +86,7 @@ public class ProductionTree {
                 ID itemID = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float qtd = Float.parseFloat(firstThreeValues[2]);
 
-                associatedQtdToItem(itemID,qtd);
+                associatedQtdToItem(itemID, qtd);
 
                 // Process operation map
                 Map<ID, Float> operationMap = new HashMap<>();
@@ -104,7 +104,7 @@ public class ProductionTree {
                     float newQtd = Float.parseFloat(arrayMaterials[j + 1].replace(",", "."));
                     materialMap.put(newID, newQtd);
                     rawMaterials.put(newID, node);
-                    associatedQtdToItem(newID,newQtd);
+                    associatedQtdToItem(newID, newQtd);
                 }
                 node.setMaterialMap(materialMap);
                 nodesOfTree.add(node);
@@ -119,6 +119,14 @@ public class ProductionTree {
         return true;
     }
 
+    /**
+     * Associates a quantity with a specific item in the repository.
+     *
+     * @param itemID the ID of the item.
+     * @param qtd    the quantity to associate with the item.
+     *
+     * Complexity: O(1) - Assumes constant-time map access.
+     */
     private void associatedQtdToItem(ID itemID, float qtd) {
         getItemRepository().getMapItemList().get(itemID).setQuantity(qtd);
     }
@@ -128,8 +136,8 @@ public class ProductionTree {
      *
      * @param node   the current node being processed.
      * @param height the height of the current node.
-     *
-     * Complexity: O(n) - Processes each node exactly once.
+     *               <p>
+     *Complexity: O(n) - Processes each node exactly once.
      */
     private void fillTreeHeight(Node node, int height) {
         if (node == null) {
@@ -155,7 +163,7 @@ public class ProductionTree {
      *
      * @param id the operation ID to search for.
      * @return the node corresponding to the operation ID, or null if not found.
-     *
+     * <p>
      * Complexity: O(n) - Searches through the list of nodes.
      */
     private Node findNodeByOperation(ID id) {
@@ -173,8 +181,8 @@ public class ProductionTree {
      * Sets the name of the production tree.
      *
      * @param pdtTreeName the new name of the tree.
-     *
-     * Complexity: O(1) - Simple field assignment.
+     *                    <p>
+     *                    Complexity: O(1) - Simple field assignment.
      */
     public void setPdtTreeName(String pdtTreeName) {
         this.pdtTreeName = pdtTreeName;
@@ -182,7 +190,7 @@ public class ProductionTree {
 
     /**
      * @return the list of nodes in the tree.
-     *
+     * <p>
      * Complexity: O(1) - Simple field access.
      */
     public List<Node> getNodesOfTree() {
@@ -191,7 +199,7 @@ public class ProductionTree {
 
     /**
      * @return the height map of the tree.
-     *
+     * <p>
      * Complexity: O(1) - Simple field access.
      */
     public Map<Integer, List<Node>> getHeightMap() {
@@ -200,7 +208,7 @@ public class ProductionTree {
 
     /**
      * @return the map of operation IDs to nodes.
-     *
+     * <p>
      * Complexity: O(1) - Simple field access.
      */
     public Map<ID, Node> getOperationNodeID() {
@@ -209,7 +217,7 @@ public class ProductionTree {
 
     /**
      * @return the map of material IDs to nodes.
-     *
+     * <p>
      * Complexity: O(1) - Simple field access.
      */
     public Map<ID, Node> getMaterials() {
@@ -218,7 +226,7 @@ public class ProductionTree {
 
     /**
      * @return the map of raw material IDs to nodes.
-     *
+     * <p>
      * Complexity: O(1) - Simple field access.
      */
     public Map<ID, Node> getRawMaterials() {
@@ -229,7 +237,7 @@ public class ProductionTree {
      * Calculates the total quantity of required materials for production.
      *
      * @return a map where the key is the material ID and the value is the total quantity required
-     *
+     * <p>
      * Time Complexity: O(n), where n is the number of raw materials. The loop iterates through all raw materials,
      * and the operations inside the loop are O(1) assuming constant-time map operations.
      */

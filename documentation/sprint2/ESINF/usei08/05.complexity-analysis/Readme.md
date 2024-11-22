@@ -1,305 +1,358 @@
-# USEI02 - Implement a simulator that processes all the items.
+# USEI08 - Production Tree
 
 ##
 
-### **Class SimulatorController Complexity Analysis**
+### **ProductionTreeController Complexity Analysis**
 
-| Method                           | Complexity        |
-|----------------------------------|-------------------|
-| SimulatorController()            | O(1)              |
-| getItemRepository()              | O(1)              |
-| getMachineRepository()           | O(1)              |
-| getOperationRepository()         | O(1)              |
-| startSimulationWithOutPriority() | O (M ⋅ log M + S) |
-| getMachinesMap()                 | O(M⋅log M)        |
-| getItemList()                    | O(N)              |
-| getOperationList()               | O(N)              |
-| getMachineList()                 | O(N)              |
+| Method                                  | Complexity               |
+|-----------------------------------------|--------------------------|
+| ProductionTreeController()              | O(1)                     |
+| getItemRepository()                     | O(1)                     |
+| getOperationRepository()                | O(1)                     |
+| setName(String name)                    | O(1)                     |
+| getProductionTree()                     | O(1)                     |
+| getInformations(String path)            | O(P)                     |
+| getListToShow(int flag)                 | O(N)                     |
+| isRawMaterial(ID selectedOperationID)   | O(1)                     |
+| getItemNode(ID selectedOperationID, boolean rawMaterial) | O(1)  |
+| getOperationNode(ID selectedOperationID) | O(1)                     |
+| findParentOperation(Node node)          | O(N)                     |
+| findNameOperation(ID operationID)      | O(1)                     |
+| findParentItem(Node node, boolean rawMaterial, ID selectedOperationID) | O(H + N) |
+| findNameItem(ID itemID)                 | O(1)                     |
+| getNodeByOperationID(ID operationID)    | O(1)                     |
+| getItemNameByID(ID itemID)              | O(1)                     |
 
-#### 1. Complexity of Repository Methods (`getItemRepository`, `getMachineRepository`, `getOperationRepository`)
+#### 1. **Complexity of Repository Methods (`getItemRepository`, `getOperationRepository`)**
 
-Each of these methods checks if a repository instance exists and, if not, initializes it. These methods have \(O(1)\)
-complexity, as they only perform existence checks and assignments.
+These methods check if the repository is already initialized and return it. The complexity is \(O(1)\) since these methods only perform initialization checks or return existing references.
 
-#### 2. Method `getMachinesMap()`
+#### 2. **Method `getInformations(String path)`**
 
-This method iterates over the list of machines and organizes each machine into a priority queue within a `Map` of
-operations to machines. The complexity of this method can be broken down as follows:
+This method is responsible for loading data into the production tree from a file at the given `path`. Assuming loading involves parsing the file and constructing the tree, the complexity would depend on the size of the file \(P\) (number of lines or operations/items). The worst-case complexity would be \(O(P)\), where \(P\) is the size of the file.
 
-- **Iteration over the list of machines**: \(O(M)\), where \(M\) is the number of machines.
-- **Insertion into `PriorityQueue`**: Each insertion into a `PriorityQueue` has an average complexity of \(O(\log N)\),
-  where \(N\) is the number of elements in the queue.
+#### 3. **Method `getListToShow(int flag)`**
 
-In the worst case, the complexity of `getMachinesMap()` is:
-\[
-O(M * log M)
-\]
+This method iterates over the list of items or operations in the repository. If it iterates over \(N\) items or operations, the complexity is \(O(N)\), where \(N\) is the number of items or operations.
 
-#### 3. Method `getItemList()`, `getOperationList()`, and `getMachineList()`
+#### 4. **Method `isRawMaterial(ID selectedOperationID)`**
 
-These methods retrieve lists directly from the repositories. Assuming that the repositories return the lists directly,
-these methods will have \(O(1)\) complexity. However, if the lists are dynamically built, the complexity would be
-proportional to the list sizes, i.e., \(O(I)\), \(O(O)\), and \(O(M)\), where \(I\) is the number of items, \(O\) is the
-number of operations, and \(M\) is the number of machines.
+This method checks if the `selectedOperationID` is a raw material by accessing the map of raw materials. The map lookup is \(O(1)\) since it uses a hash map.
 
-#### 4. Method `startSimulationWithOutPriority()` and `startSimulationWithPriority()`
+#### 5. **Method `getItemNode(ID selectedOperationID, boolean rawMaterial)`**
 
-These methods start the simulation, passing necessary parameters to the `Simulator` class. The complexity depends on two
-factors:
+This method retrieves a node from either the raw materials or materials map. Both maps are likely hash maps, so the lookup is \(O(1)\).
 
-- **Parameter Construction**: The complexity of building parameters was discussed earlier (e.g., `getMachinesMap` with
-  \(O(M * log M)\)).
-- **Simulation Execution**: The complexity of the simulation itself depends on the implementation within the `Simulator`
-  class. Assuming `startSimulation()` in `Simulator` has a complexity of \(S\), the complexity of the methods
-  `startSimulationWithOutPriority` and `startSimulationWithPriority` will be limited by that complexity.
+#### 6. **Method `getOperationNode(ID selectedOperationID)`**
 
-In the worst case, the complexity of the simulation methods can be estimated as:
-\[
-O(M * log M + S)
-\]
+This method retrieves the operation node from the map. As with other map lookups, this is \(O(1)\).
 
-#### Overall Complexity
+#### 7. **Method `findParentOperation(Node node)`**
 
-For the code as a whole, the complexity depends on the amount of data processed and the `Simulator` implementation. The
-methods with the highest complexity are `getMachinesMap()` and the execution of `Simulator.startSimulation()`.
-Therefore, the overall complexity of the controller is approximately:
+This method finds the parent operation by traversing the tree structure. The height of the tree is denoted by \(H\), and within each level, it looks through a list of nodes. Therefore, the worst-case time complexity is \(O(N)\), where \(N\) is the total number of nodes at all levels.
 
-\[
-O(M * log M + S)
-\]
+#### 8. **Method `findNameOperation(ID operationID)`**
 
-where \(M\) is the number of machines and \(S\) is the complexity of the simulation.
+This method fetches the operation name by looking up the operation ID in a map. Since it uses a map, the lookup time complexity is \(O(1)\).
 
-##
+#### 9. **Method `findParentItem(Node node, boolean rawMaterial, ID selectedOperationID)`**
 
-### **Class ItemRepository Complexity Analysis**
+This method traverses the tree's nodes based on the height of the tree. If the height is \(H\), it will check \(H\) levels in the worst case. Within each level, it checks \(N\) nodes, so the complexity is \(O(H + N)\), where \(H\) is the tree height and \(N\) is the number of nodes at each level.
 
-| Method        | Complexity |
-|---------------|------------|
-| getItemList() | O(N)       |
+#### 10. **Method `findNameItem(ID itemID)`**
 
-#### 1. Method `getItemList`:
+This method fetches the item name by looking up the item ID in a map. Map lookups are \(O(1)\).
 
-- This method returns a new list containing all items stored in `itemList`, which appears to be a `Map`.
-- `itemList.values()` provides a collection of all values in the map. Creating an `ArrayList` from this collection has a
-  complexity of \(O(N)\), where \(N\) is the number of items in the `itemList` map.
+#### 11. **Method `getNodeByOperationID(ID operationID)`**
 
-##
+This method retrieves a node from the operation node map. Map lookups are \(O(1)\).
 
-### **Class MachineRepository Complexity Analysis**
+#### 12. **Method `getItemNameByID(ID itemID)`**
 
-| Method           | Complexity |
-|------------------|------------|
-| getMachineList() | O(N)       |
+This method retrieves the item name by ID, again performing a map lookup. The complexity is \(O(1)\).
 
-#### 1. Method `getMachineList`:
+---
 
-- This method returns a new list containing all machines stored in `machineList`, which also appears to be a `Map`.
-- Similar to `getItemList`, `machineList.values()` returns a collection with all machines, and creating an `ArrayList`
-  from it has a complexity of \(O(N)\), where \(N\) is the number of machines in the `machineList` map.
+### **Overall Complexity Analysis**
 
-##
+The overall complexity of the `ProductionTreeController` depends on the operations being performed. For most methods, the complexity is \(O(1)\), due to efficient data structures like hash maps used for lookups. However, methods like `getInformations` and `findParentOperation` may involve traversing larger datasets, leading to higher complexity.
 
-### **Class OperationRepository Complexity Analysis**
+For methods that traverse the production tree or work with lists (such as `getListToShow` and `findParentOperation`), the overall complexity can be \(O(N)\), where \(N\) is the number of items, operations, or nodes being processed.
 
-| Method          | Complexity |
-|-----------------|------------|
-| getOperations() | O(N)       |
-
-#### 1. Method `getOperations`:
-
-- This method returns a new list containing all elements in `operations`, which appears to be a `List`.
-- Creating a new `ArrayList` from a `List` has a complexity of \(O(N)\), where \(N\) is the number of operations in the
-  `operations` list.
-
-##
-
-### **Class Simulator Complexity Analysis**
-
-| Method                                                                                                                                              | Complexity |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| Simulator(Map<Operation, Queue<Machine>> machines, List<Item> items, List<Operation> operations, ArrayList<Machine> machList, boolean priorityFlag) | O(O + I)   |
-| checkInformation(Map<Operation, Queue<Machine>> machines, List<Operation> operations, List<Item> items)                                             | O(1)       |
-| addOperationToQueue(List<Operation> operations, boolean priorityFlag)                                                                               | O(O)       |
-| createQueues(List<Item> items)                                                                                                                      | O(I)       |
-| checkOperationQueue()                                                                                                                               | O(N)       |
-| checkTimeOperations()                                                                                                                               | O(M)       |
-| updateMachines()                                                                                                                                    | O(M)       |
-| printQueue()                                                                                                                                        | O(N)       |       
-| printMachineStatus()                                                                                                                                | O(M)       |       
-| assignItemToMachine(OperationQueue operationQueue, Queue<Machine> machineList)                                                                      | O(N)       |       
-
-#### 1. Constructor `Simulator`
-
-The constructor initializes various data structures and sets up parameters for the simulation. The overall complexity is
-dominated by the number of operations \(O\) and items \(I\):
-
-- **Parameter Copying**: Constant time operations \(O(1)\).
-- **`checkInformation` Method Call**: \(O(1)\).
-- **`addOperationToQueue` Method Call**: \(O(O)\).
-- **`createQueues` Method Call**: \(O(I)\).
-
-Thus, the overall complexity of the constructor is:
+Thus, the overall complexity is roughly dominated by methods that deal with the tree structure or large lists:
 
 \[
-O(O + I)
+O(N) \quad \text{(for most list-based operations and tree traversals)}
 \]
+##
 
-where \(O\) is the number of operations and \(I\) is the number of items.
 
-#### 2. Method `checkInformation`
+### **ProductionTree Complexity Analysis**
 
-This method verifies that the provided collections are not null or empty. The checks are constant time operations,
-yielding a total complexity of:
+| Method                                   | Complexity                |
+|------------------------------------------|---------------------------|
+| ProductionTree()                         | O(1)                      |
+| getItemRepository()                      | O(1)                      |
+| getInformations(String path)             | O(n * m)                  |
+| associatedQtdToItem(ID itemID, float qtd) | O(1)                      |
+| fillTreeHeight(Node node, int height)    | O(n)                      |
+| findNodeByOperation(ID id)              | O(n)                      |
+| setPdtTreeName(String pdtTreeName)       | O(1)                      |
+| getNodesOfTree()                         | O(1)                      |
+| getHeightMap()                           | O(1)                      |
+| getOperationNodeID()                    | O(1)                      |
+| getMaterials()                           | O(1)                      |
+| getRawMaterials()                        | O(1)                      |
+| getTotalRequiredMaterials()              | O(n)                      |
+
+#### 1. **Constructor (`ProductionTree()`)**
+
+The constructor initializes several data structures (e.g., `heightMap`, `nodesOfTree`, `materials`, `rawMaterials`, `operationNodeID`) and calls `getItemRepository()`. This initialization is done in constant time, so the complexity is:
 
 \[
 O(1)
 \]
 
-#### 3. Method `addOperationToQueue`
+#### 2. **Method `getItemRepository()`**
 
-This method iterates through each operation and adds it to `operationQueueMap`, resulting in:
-
-\[
-O(O)
-\]
-
-#### 4. Method `createQueues`
-
-This method assigns items to their corresponding operation queues. The complexity is:
+This method checks if the `ItemRepository` is initialized. If not, it initializes it by accessing the `Repositories` singleton. This involves a single conditional check and map access, making the complexity:
 
 \[
-O(I)
+O(1)
 \]
 
-#### 5. Method `checkOperationQueue`
+#### 3. **Method `getInformations(String path)`**
 
-Assuming this method checks if any operation queues are non-empty, it will iterate through the `operationQueueMap`,
-which has complexity:
+This method reads information from a file, processes it, and constructs nodes. The complexity depends on the number of records (`n`) and the number of operations/materials per record (`m`). The method iterates over `n` records, and for each record, it processes operations and materials, which adds a factor of `m`. Therefore, the time complexity of this method is:
 
 \[
-O(N)
+O(n * m)
 \]
 
-where \(N\) is the number of operation queues.
+where `n` is the number of records, and `m` is the average number of operations/materials per record.
 
-#### 6. Method `checkTimeOperations`
+#### 4. **Method `associatedQtdToItem(ID itemID, float qtd)`**
 
-This method checks if any machine has remaining time left to finish processing. If \(M\) is the number of machines, the
-complexity is:
+This method updates the quantity of an item in the `ItemRepository`. Since it accesses a map with a constant-time lookup, the complexity is:
 
 \[
-O(M)
+O(1)
 \]
 
-#### 7. Method `updateMachines`
+#### 5. **Method `fillTreeHeight(Node node, int height)`**
 
-This method iterates over all machines to update their status. Its complexity is:
+This method recursively calculates the height of each node in the tree. The complexity depends on the number of nodes in the tree (`n`), as it processes each node exactly once. The worst-case complexity is:
 
 \[
-O(M)
+O(n)
 \]
 
-#### 8. Method `printQueue`
+where `n` is the number of nodes.
 
-This method prints the current state of all operation queues, resulting in a complexity of:
+#### 6. **Method `findNodeByOperation(ID id)`**
+
+This method searches through the `nodesOfTree` list to find a node corresponding to the given operation ID. In the worst case, it checks each node, resulting in a linear search. Therefore, the complexity is:
 
 \[
-O(N)
+O(n)
 \]
 
-#### 9. Method `printMachineStatus`
+where `n` is the number of nodes in the tree.
 
-This method prints the status of each machine. Thus, it has a complexity of:
+#### 7. **Method `setPdtTreeName(String pdtTreeName)`**
+
+This method sets the name of the production tree. Since it involves a simple field assignment, the complexity is:
 
 \[
-O(M)
+O(1)
 \]
 
-#### 10. Method `assignItemToMachine`
+#### 8. **Getter Methods (`getNodesOfTree()`, `getHeightMap()`, `getOperationNodeID()`, `getMaterials()`, `getRawMaterials()`)**
 
-This method assigns the next item from the operation queue to an available machine. Assuming \(N\) is the total number
-of items being processed, the complexity is:
+All these getter methods return simple references to fields. Since no iteration or complex operations are involved, the complexity for each of these methods is:
 
 \[
-O(N)
+O(1)
 \]
 
-#### Overall Complexity Summary
+#### 9. **Method `getTotalRequiredMaterials()`**
 
-The overall complexity for the `Simulator` class can be summarized as follows:
+This method calculates the total quantity of required materials for production. It first calls `getInformations()`, which has a complexity of \(O(n * m)\), and then iterates through the `rawMaterials` map (which has a size of `n`). The complexity of iterating through the raw materials is \(O(n)\), and each operation within the loop is \(O(1)\), making the overall complexity of `getTotalRequiredMaterials()`:
 
-1. **Initialization**: \(O(O + I)\)
-2. **Method Calls**:
-    - `checkInformation`: \(O(1)\)
-    - `addOperationToQueue`: \(O(O)\)
-    - `createQueues`: \(O(I)\)
-    - `checkOperationQueue`: \(O(N)\)
-    - `checkTimeOperations`: \(O(M)\)
-    - `updateMachines`: \(O(M)\)
-    - `printQueue`: \(O(N)\)
-    - `printMachineStatus`: \(O(M)\)
-    - `assignItemToMachine`: \(O(N)\)
+\[
+O(n * m + n)
+\]
 
-The final complexity reflects the class's efficiency in managing operations and items while ensuring that each method
-performs optimally without unnecessary iterations. This comprehensive analysis provides clarity on how the complexity
-scales with varying numbers of operations, items, and machines, thus facilitating potential optimizations in the future.
+Since \(O(n * m)\) dominates \(O(n)\), the final complexity is:
 
-##
+\[
+O(n * m)
+\]
 
-### **Machine Class: Complexity Analysis**
+### **Overall Complexity**
 
-| Method                                                             | Complexity |
-|--------------------------------------------------------------------|------------|
-| Machine(ID id_machine, Operation operation, float processingSpeed) | O(1)       |
-| processItem(Item item)                                             | O(1)       |
-| updateMachine()                                                    | O(1)       |
-| resetMachine()                                                     | O(1)       |
-| printStatus()                                                      | O(1)       |
-| setCurrentProcessingItem(Item item)                                | O(1)       |
-| setNotAvailable()                                                  | O(1)       |
-| setTimeToFinish()                                                  | O(1)       |
-| getOperation()                                                     | O(1)       |
-| getId_machine()                                                    | O(1)       |
-| getProcessingSpeed()                                               | O(1)       |
-| isAvailable()                                                      | O(1)       |
-| getTimeLeftToFinish()                                              | O(1)       |
-| getCurrentProcessingItem()                                         | O(1)       |
+The overall complexity of the `ProductionTree` class is primarily driven by the methods that process the information file (`getInformations()`) and the method that calculates the required materials (`getTotalRequiredMaterials()`). The overall complexity of these operations is \(O(n * m)\), where `n` is the number of records and `m` is the average number of operations/materials per record.
 
-### 1. Method `Machine`
+Therefore, the overall complexity of the `ProductionTree` class is:
 
-- The constructor of the `Machine` class initializes various attributes of the object, such as `id_machine`,
-  `operation`, `processingSpeed`, `available`, `timeLeftToFinish`, and `currentProcessingItem`. All these operations are
-  simple assignments, so the complexity is \(O(1)\).
+\[
+O(n * m)
+\]
 
-### 2. Method `processItem`
+where `n` is the number of records in the file and `m` is the average number of operations/materials per record.
 
-- This method checks if the `operation` of the item matches the machine's `operation`. Both the equality check (
-  `equals`) and setting the current processing item involve constant-time operations, resulting in a complexity of \(O(
-  1)\).
 
-### 3. Method `updateMachine`
 
-- The method updates the machine's status by decrementing `timeLeftToFinish` and checking if the processing is complete.
-  All these operations are straightforward and thus have a complexity of \(O(1)\).
+Here’s a similar complexity analysis for the `Node` class:
 
-### 4. Method `resetMachine`
+### **Node Class: Complexity Analysis**
 
-- This method resets the machine's status and time left to finish to default values. The operations performed are simple
-  assignments, leading to \(O(1)\) complexity.
+| Method                                                   | Complexity |
+|----------------------------------------------------------|------------|
+| Node(ID operationID, ID itemID, float itemQuantity, Map<ID, Float> operationMap, Map<ID, Float> materialMap) | O(1)       |
+| getOperationID()                                         | O(1)       |
+| getItemID()                                              | O(1)       |
+| getItemQuantity()                                        | O(1)       |
+| getOperationMap()                                        | O(1)       |
+| getMaterialMap()                                         | O(1)       |
+| getItemQuantityByID(ID id)                               | O(1)       |
+| setOperationMap(Map<ID, Float> operationMap)             | O(1)       |
+| setMaterialMap(Map<ID, Float> materialMap)               | O(1)       |
+| setHeightInTree(int heightInTree)                        | O(1)       |
+| getHeightInTree()                                        | O(1)       |
+| toString()                                               | O(n + m)   |
 
-### 5. Method `printStatus`
+### 1. Method `Node`
 
-- The method prints the current status of the machine. It checks if the machine is available or currently processing an
-  item and performs printing based on this condition. The checks and print operations are \(O(1)\).
+- The constructor of the `Node` class initializes various attributes of the object, such as `operationID`, `itemID`, `itemQuantity`, `operationMap`, `materialMap`, and `heightInTree`. All these operations are simple assignments or initializations, so the complexity is \(O(1)\).
 
-### 6. Setters and Getters
+### 2. Method `getOperationID`
 
-- All setter and getter methods (e.g., `setCurrentProcessingItem`, `setNotAvailable`, `getOperation`, etc.) perform
-  assignments or return values, resulting in a complexity of \(O(1)\).
+- This method returns the `operationID` field, which is a simple field access operation. The complexity is \(O(1)\).
 
+### 3. Method `getItemID`
+
+- This method returns the `itemID` field, which is another simple field access operation, resulting in \(O(1)\) complexity.
+
+### 4. Method `getItemQuantity`
+
+- This method returns the `itemQuantity` field, which is a constant-time operation. The complexity is \(O(1)\).
+
+### 5. Method `getOperationMap`
+
+- This method returns the `operationMap` field, which is a simple field access operation. The complexity is \(O(1)\).
+
+### 6. Method `getMaterialMap`
+
+- This method returns the `materialMap` field, which is also a simple field access operation. The complexity is \(O(1)\).
+
+### 7. Method `getItemQuantityByID`
+
+- This method performs a lookup on the `materialMap` to retrieve the quantity associated with the provided ID. Since lookups in a hash map are constant time, the complexity is \(O(1)\).
+
+### 8. Method `setOperationMap`
+
+- This method sets the `operationMap` field to a new value. It is a simple assignment operation, so the complexity is \(O(1)\).
+
+### 9. Method `setMaterialMap`
+
+- This method sets the `materialMap` field to a new value. This is a simple assignment operation, so the complexity is \(O(1)\).
+
+### 10. Method `setHeightInTree`
+
+- This method sets the `heightInTree` field to a new value. It is a simple assignment, resulting in \(O(1)\) complexity.
+
+### 11. Method `getHeightInTree`
+
+- This method returns the `heightInTree` field, which is a simple field access operation. The complexity is \(O(1)\).
+
+### 12. Method `toString`
+
+- The `toString` method constructs a string representation of the `Node` object. It iterates over the `operationMap` and `materialMap` to append the values to the string. The complexity of this operation depends on the sizes of the maps, resulting in \(O(n + m)\), where `n` is the size of the `operationMap` and `m` is the size of the `materialMap`.
 
 ### Overall Complexity
 
-Overall, the complexity of all methods in the `Machine` class is \(O(1)\), meaning they all operate in constant time,
-independent of the size of any input data. This indicates that the `Machine` class is efficient in its operations.
+Overall, the complexity of most methods in the `Node` class is \(O(1)\), meaning they operate in constant time. The only exception is the `toString` method, which has a complexity of \(O(n + m)\) due to the iteration over the maps. This indicates that the `Node` class is efficient in its operations for most methods, with the exception of string representation, which depends on the size of the data stored in the maps.
+
+Let me know if you'd like any further adjustments!
+
+
+
+### **Overall Complexity Analysis for Production Tree System**
+
+To summarize the overall complexity of the entire production tree system, we need to consider the various components: `ProductionTreeController`, `ProductionTree`, and `Node` classes. Below is a breakdown of the main factors affecting the complexity:
+
+#### **1. `ProductionTreeController`**
+
+- Most methods in `ProductionTreeController` have **constant time complexity** (\(O(1)\)), particularly those that involve direct lookups or simple assignments, such as `getItemRepository`, `getOperationRepository`, `setName`, `getListToShow`, etc.
+- The more computationally expensive methods include:
+    - `getInformations(String path)`: This method has a complexity of \(O(P)\), where \(P\) is the number of operations/items in the input data file.
+    - `findParentOperation(Node node)`: This method traverses the production tree and has a worst-case complexity of \(O(N)\), where \(N\) is the number of nodes in the tree.
+    - `findParentItem(Node node, boolean rawMaterial, ID selectedOperationID)`: The complexity of this method is \(O(H + N)\), where \(H\) is the height of the tree and \(N\) is the number of nodes at each level.
+
+Thus, the overall complexity of `ProductionTreeController` is dominated by tree traversal and data loading methods, primarily:
+
+\[
+O(N) \quad \text{(tree traversal, list-based operations)}
+\]
+and
+\[
+O(P) \quad \text{(loading data into the tree)}
+\]
+
+#### **2. `ProductionTree`**
+
+- Most methods in `ProductionTree` have **constant time complexity** (\(O(1)\)), such as `getItemRepository`, `getMaterials`, `getRawMaterials`, etc.
+- The method `getInformations(String path)` has a complexity of \(O(n * m)\), where:
+    - `n` is the number of records,
+    - `m` is the average number of operations/materials per record.
+- Methods like `fillTreeHeight(Node node, int height)` and `findNodeByOperation(ID id)` both have complexities of \(O(n)\), where \(n\) is the number of nodes in the tree.
+
+The overall complexity of `ProductionTree` is:
+
+\[
+O(n * m) \quad \text{(for data loading and processing)}
+\]
+and
+\[
+O(n) \quad \text{(for tree traversal and finding nodes)}
+\]
+
+#### **3. `Node` Class**
+
+- The complexity of most methods in the `Node` class is **constant time** (\(O(1)\)), such as methods for accessing fields (`getOperationID`, `getItemID`, etc.) or setting values (`setOperationMap`, `setMaterialMap`, etc.).
+- The only method with non-constant complexity is `toString`, which depends on the size of the `operationMap` and `materialMap`. The complexity of this method is \(O(n + m)\), where `n` is the size of the `operationMap` and `m` is the size of the `materialMap`.
+
+Thus, the overall complexity of `Node` is:
+
+\[
+O(1) \quad \text{(for most methods)}
+\]
+and
+\[
+O(n + m) \quad \text{(for the `toString` method)}
+\]
+
+---
+
+### **Final Overall Complexity**
+
+The overall complexity of the entire system is dominated by the methods in `ProductionTreeController` and `ProductionTree` that process large datasets and traverse trees. Based on the individual complexities of the classes:
+
+- For **data loading** (`getInformations` and similar methods), the complexity is \(O(n * m)\).
+- For **tree traversal and node searches** (`findParentOperation`, `fillTreeHeight`, etc.), the complexity is \(O(N)\).
+
+Thus, the final overall complexity for the system is:
+
+\[
+O(n * m + N)
+\]
+
+Where:
+- \(n\) is the number of records or items,
+- \(m\) is the average number of operations/materials per record,
+- \(N\) is the total number of nodes in the production tree.
+
+This reflects the combined complexity of loading data, processing the tree structure, and handling operations/materials within the system.
+##
+

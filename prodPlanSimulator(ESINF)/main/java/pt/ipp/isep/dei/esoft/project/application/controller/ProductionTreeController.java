@@ -14,19 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A classe {@code ProductionTreeController} é responsável por gerenciar e controlar a árvore de produção
- * de um sistema de planejamento de produção, manipulando operações e materiais através de interações com
- * repositórios de operações e itens. Ela fornece métodos para acessar, manipular e exibir informações sobre
- * a árvore de produção.
+ * The {@code ProductionTreeController} class is responsible for managing and controlling the production tree
+ * of a production planning system, handling operations and materials through interactions with the
+ * operations and items repositories. It provides methods to access, manipulate, and display information
+ * about the production tree.
  */
 public class ProductionTreeController {
 
-    private ProductionTree productionTree;  // Representa a árvore de produção
-    private ItemRepository itemRepository;  // Repositório de itens (materiais)
-    private OperationRepository operationRepository;  // Repositório de operações
+    private ProductionTree productionTree;  // Represents the production tree
+    private ItemRepository itemRepository;  // Item (material) repository
+    private OperationRepository operationRepository;  // Operation repository
 
     /**
-     * Construtor que inicializa a árvore de produção e os repositórios de itens e operações.
+     * Constructor that initializes the production tree and the item and operation repositories.
      */
     public ProductionTreeController() {
         productionTree = new ProductionTree();
@@ -35,9 +35,9 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retorna o repositório de operações.
+     * Returns the operation repository.
      *
-     * @return O repositório de operações.
+     * @return The operation repository.
      */
     private OperationRepository getOperationRepository() {
         if (operationRepository == null) {
@@ -48,9 +48,9 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retorna o repositório de itens.
+     * Returns the item repository.
      *
-     * @return O repositório de itens.
+     * @return The item repository.
      */
     private ItemRepository getItemRepository() {
         if (itemRepository == null) {
@@ -61,28 +61,28 @@ public class ProductionTreeController {
     }
 
     /**
-     * Define o nome da árvore de produção.
+     * Sets the name of the production tree.
      *
-     * @param name O nome da árvore de produção.
+     * @param name The name of the production tree.
      */
     public void setName(String name) {
         productionTree.setPdtTreeName(name);
     }
 
     /**
-     * Retorna a árvore de produção atual.
+     * Returns the current production tree.
      *
-     * @return A árvore de produção.
+     * @return The production tree.
      */
     public ProductionTree getProductionTree() {
         return productionTree;
     }
 
     /**
-     * Obtém informações sobre a árvore de produção a partir de um caminho de arquivo.
+     * Loads information about the production tree from a file path.
      *
-     * @param path O caminho para o arquivo contendo as informações.
-     * @return {@code true} se as informações forem carregadas com sucesso, {@code false} caso contrário.
+     * @param path The file path containing the information.
+     * @return {@code true} if the information is successfully loaded, {@code false} otherwise.
      */
     public boolean getInformations(String path) {
         productionTree = new ProductionTree();
@@ -90,12 +90,12 @@ public class ProductionTreeController {
     }
 
     /**
-     * Obtém uma lista de itens ou operações para exibição, dependendo do valor de {@code flag}.
+     * Retrieves a list of items or operations to be displayed, depending on the flag value.
      *
-     * @param flag Um valor inteiro que determina o que será retornado:
-     *             - {@code 1} para itens.
-     *             - Outro valor para operações.
-     * @return Um mapa de IDs para nomes de itens ou operações.
+     * @param flag An integer value determining what will be returned:
+     *             - {@code 1} for items.
+     *             - Any other value for operations.
+     * @return A map of IDs to item or operation names.
      */
     public Map<ID, String> getListToShow(int flag) {
         Map<ID, String> map = new HashMap<>();
@@ -113,21 +113,21 @@ public class ProductionTreeController {
     }
 
     /**
-     * Verifica se uma operação é um material bruto (matéria-prima).
+     * Checks if an operation is a raw material.
      *
-     * @param selectedOperationID O ID da operação a ser verificada.
-     * @return {@code true} se a operação for um material bruto, {@code false} caso contrário.
+     * @param selectedOperationID The ID of the operation to check.
+     * @return {@code true} if the operation is a raw material, {@code false} otherwise.
      */
     public boolean isRawMaterial(ID selectedOperationID) {
         return getProductionTree().getRawMaterials().containsKey(selectedOperationID);
     }
 
     /**
-     * Retorna o nó de item associado a uma operação, dependendo se é um material bruto ou não.
+     * Returns the item node associated with an operation, depending on whether it is a raw material or not.
      *
-     * @param selectedOperationID O ID da operação.
-     * @param rawMaterial Se {@code true}, retorna o nó de material bruto; caso contrário, o nó de material.
-     * @return O nó de item correspondente à operação.
+     * @param selectedOperationID The ID of the operation.
+     * @param rawMaterial If {@code true}, returns the raw material node; otherwise, returns the material node.
+     * @return The item node corresponding to the operation.
      */
     public Node getItemNode(ID selectedOperationID, boolean rawMaterial) {
         if (rawMaterial) {
@@ -137,20 +137,20 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retorna o nó de operação correspondente ao ID da operação fornecido.
+     * Returns the operation node corresponding to the given operation ID.
      *
-     * @param selectedOperationID O ID da operação.
-     * @return O nó de operação correspondente.
+     * @param selectedOperationID The ID of the operation.
+     * @return The operation node corresponding to the ID.
      */
     public Node getOperationNode(ID selectedOperationID) {
         return getProductionTree().getOperationNodeID().get(selectedOperationID);
     }
 
     /**
-     * Encontra o nome da operação pai de um nó na árvore de produção, se existir.
+     * Finds the parent operation name of a node in the production tree, if it exists.
      *
-     * @param node O nó para o qual se deseja encontrar a operação pai.
-     * @return O nome da operação pai ou {@code null} se não houver.
+     * @param node The node for which the parent operation is to be found.
+     * @return The name of the parent operation or {@code null} if there is none.
      */
     public String findParentOperation(Node node) {
         int height = node.getHeigthInTree();
@@ -166,23 +166,23 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retorna o nome de uma operação com base no ID da operação.
+     * Returns the name of an operation based on the operation ID.
      *
-     * @param operationID O ID da operação.
-     * @return O nome da operação correspondente ao ID.
+     * @param operationID The ID of the operation.
+     * @return The name of the operation corresponding to the ID.
      */
     public String findNameOperation(ID operationID) {
         return getOperationRepository().getIdToOperation().get(operationID).getOperationName();
     }
 
     /**
-     * Encontra o item pai e a quantidade correspondente de um nó na árvore de produção,
-     * dependendo se é um material bruto ou não.
+     * Finds the parent item and corresponding quantity of a node in the production tree,
+     * depending on whether it is a raw material or not.
      *
-     * @param node O nó para o qual se deseja encontrar o item pai.
-     * @param rawMaterial Se {@code true}, procura no repositório de materiais brutos; caso contrário, em materiais.
-     * @param selectedOperationID O ID da operação selecionada.
-     * @return Um array com o nome do item pai e a quantidade correspondente.
+     * @param node The node for which the parent item is to be found.
+     * @param rawMaterial If {@code true}, searches in the raw materials repository; otherwise, in materials.
+     * @param selectedOperationID The ID of the selected operation.
+     * @return An array containing the parent item name and the corresponding quantity.
      */
     public String[] findParentItem(Node node, boolean rawMaterial, ID selectedOperationID) {
         String[] parentAndQtd = new String[2];
@@ -208,20 +208,20 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retorna o nome de um item com base no seu ID.
+     * Returns the name of an item based on its ID.
      *
-     * @param itemID O ID do item.
-     * @return O nome do item correspondente ao ID.
+     * @param itemID The ID of the item.
+     * @return The name of the item corresponding to the ID.
      */
     public String findNameItem(ID itemID) {
         return getItemRepository().getMapItemList().get(itemID).getName();
     }
 
     /**
-     * Retorna o nó de operação correspondente ao ID da operação fornecido.
+     * Returns the operation node corresponding to the given operation ID.
      *
-     * @param operationID O ID da operação.
-     * @return O nó de operação correspondente.
+     * @param operationID The ID of the operation.
+     * @return The operation node corresponding to the ID.
      */
     public Node getNodeByOperationID(ID operationID) {
         return getProductionTree().getOperationNodeID().get(operationID);
@@ -230,8 +230,8 @@ public class ProductionTreeController {
     /**
      * Delegates the retrieval of an item name by its ID to the repository layer.
      *
-     * @param itemID the ID of the item
-     * @return the name of the item
+     * @param itemID The ID of the item.
+     * @return The name of the item.
      *
      * Time Complexity: Dependent on the implementation of {@code getItemRepository().getItemNameByID(itemID)}.
      * If it involves a map lookup, it is O(1).
