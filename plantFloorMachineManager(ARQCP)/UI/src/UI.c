@@ -64,16 +64,16 @@ int us_ui(){
     while (1) {
         printf("\n════════════════════════════\n");
         printf("            US_UI\n\n");
-        printf(" 1.  USAC01\n");
-        printf(" 2.  USAC02\n");
-        printf(" 3.  USAC03\n");
-        printf(" 4.  USAC04\n");
-        printf(" 5.  USAC05\n");
-        printf(" 6.  USAC06\n");
-        printf(" 7.  USAC07\n");
-        printf(" 8.  USAC08\n");
-        printf(" 9.  USAC09\n");
-        printf(" 10. USAC10\n");
+        printf(" 1.  USAC01 (extract_data)\n");
+        printf(" 2.  USAC02 (get_number_binary)\n");
+        printf(" 3.  USAC03 (get_number)\n");
+        printf(" 4.  USAC04 (format_command)\n");
+        printf(" 5.  USAC05 (enqueue_value)\n");
+        printf(" 6.  USAC06 (dequeue_value)\n");
+        printf(" 7.  USAC07 (get_n_element)\n");
+        printf(" 8.  USAC08 (move_n_to_array)\n");
+        printf(" 9.  USAC09 (sort_array)\n");
+        printf(" 10. USAC10 (median)\n");
         printf(" 0. Exit  \n");
         printf("Select a option: ");
 
@@ -165,6 +165,10 @@ int login(char *username, char *password) {
 
 void usac_01() {
 
+    printf("╔══════════════════════════╗");
+    printf("\n║       extract_data       ║\n");
+    printf("╚══════════════════════════╝\n");
+
     char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
     char token [] = "temp";
     char unit[20];
@@ -205,6 +209,10 @@ void usac_01() {
 }
 
 void usac_02() {
+
+    printf("╔══════════════════════════╗");
+    printf("\n║     get_number_binary    ║\n");
+    printf("╚══════════════════════════╝\n");
 
     int value = 26;
     char bits [5];
@@ -248,6 +256,10 @@ void usac_02() {
 
 void usac_03() {
 
+    printf("╔══════════════════════════╗");
+    printf("\n║       get_number         ║\n");
+    printf("╚══════════════════════════╝\n");
+
     int value;
     char str[] = "  89  ";
 
@@ -268,6 +280,10 @@ void usac_03() {
 
 void usac_04() {
 
+    printf("╔══════════════════════════╗");
+    printf("\n║       format_command     ║\n");
+    printf("╚══════════════════════════╝\n");
+
 	int value = 26;
 	char str[] = " oN ";
 	char cmd[20];
@@ -282,28 +298,22 @@ void usac_04() {
 
 void usac_05() {
 
+    printf("╔══════════════════════════╗");
+    printf("\n║       enqueue_value      ║\n");
+    printf("╚══════════════════════════╝\n");
+
 int buffer[] = {0,1,2,3,4,5,6,7,8,9};
 int length = sizeof(buffer) / sizeof(int);
 int head;
 int tail;
 int value;
 
-printf("\nFull buffer: [ ");
+printf("\nBuffer: [ ");
 for (int* i = buffer; i < buffer + length; i++) {
     printf("%d ", *i);
 }
 printf(" ]\n");
 printf("Length: %d\n", length);
-
-do {
-    printf("Choose head: ");
-    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
-        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
-        while (getchar() != '\n');
-        continue;
-    }
-    break;
-} while (1);
 
 do {
     printf("Choose tail: ");
@@ -315,9 +325,17 @@ do {
     break;
 } while (1);
 
-    printf("\n--- Before Insertion ---\n");
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
 
-    print_buffer_before(buffer,length,tail,head);
+
 
 do {
     printf("Choose value to insert: ");
@@ -332,17 +350,23 @@ do {
 
     int ret = enqueue_value(buffer, length, &tail, &head, value);
 
-
-    printf("\n--- After Insertion ---\n");
-
-    print_buffer_after(buffer,length,tail,head);
-
-    printf("Output: %d\n", ret);
+    printf("\nTail: %d\n", tail);
+    printf("Head: %d\n", head);
+    printf("After addition: [ ");
+    for(int i = 0; i < length; i++) {
+        printf("%d ", buffer[i]);
+    }
+    printf("]\n");
+    printf("Result: %d\n", ret);
 
 
 }
 
 void usac_06() {
+
+    printf("╔══════════════════════════╗");
+    printf("\n║       dequeue_value      ║\n");
+    printf("╚══════════════════════════╝\n");
 
 int buffer[] = {0,1,2,3,4,5,6,7,8,9};
 int length = sizeof(buffer) / sizeof(int);
@@ -350,22 +374,12 @@ int head;
 int tail;
 int value;
 
-printf("\nFull buffer: [ ");
+printf("\nBuffer : [ ");
 for (int* i = buffer; i < buffer + length; i++) {
     printf("%d ", *i);
 }
 printf(" ]\n");
 printf("Length: %d\n", length);
-
-do {
-    printf("Choose head: ");
-    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
-        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
-        while (getchar() != '\n');
-        continue;
-    }
-    break;
-} while (1);
 
 do {
     printf("Choose tail: ");
@@ -377,23 +391,32 @@ do {
     break;
 } while (1);
 
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
 
-    printf("\n--- Before Dequeue ---\n");
 
-    print_buffer_before(buffer,length,tail,head);
 
     int ret = dequeue_value(buffer, length, &tail, &head, &value);
 
-
-    printf("\n--- After Dequeue ---\n");
-
-    print_buffer_after(buffer,length,tail,head);
-
-    printf("Output: %d\n", ret);
+    printf("\nTail: %d\n", tail);
+    printf("Head: %d\n", head);
+    printf("Value removed: %d\n", value);
+    printf("Result: %d\n", ret);
 
 }
 
 void usac_07() {
+
+    printf("╔══════════════════════════╗");
+    printf("\n║       get_n_element      ║\n");
+    printf("╚══════════════════════════╝\n");
 
     int buffer[] = {0,1,2,3,4,5,6,7,8,9};
 	int length = sizeof(buffer) / sizeof(int);
@@ -408,16 +431,6 @@ void usac_07() {
     printf("Length: %d\n", length);
 
     do {
-        printf("Choose head: ");
-        if(scanf("%d", &head) != 1 || head < 0 || head >= length) {
-            printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
-            while (getchar() != '\n');
-            continue;
-        }
-        break;
-    } while (1);
-
-    do {
         printf("Choose tail: ");
         if(scanf("%d", &tail) != 1 || tail < 0 || tail >= length) {
             printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
@@ -427,34 +440,27 @@ void usac_07() {
         break;
     } while (1);
 
-    if (head < tail) {
+    do {
+        printf("Choose head: ");
+        if(scanf("%d", &head) != 1 || head < 0 || head >= length) {
+            printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+            while (getchar() != '\n');
+            continue;
+        }
+        break;
+    } while (1);
 
-    printf("New buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    }
-
-      if (head > tail) {
-
-    printf("New buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    }
-
-
-	int n = get_n_element(buffer, length, &tail, &head);
+    int n = get_n_element(buffer, length, &tail, &head);
 	printf("Number of elements: %d\n", n);
+
 }
 
 
 void usac_08() {
+
+    printf("╔══════════════════════════╗");
+    printf("\n║      move_n_to_array     ║\n");
+    printf("╚══════════════════════════╝\n");
 
 int buffer[] = {0,1,2,3,4,5,6,7,8,9};
 int length = sizeof(buffer) / sizeof(int);
@@ -463,22 +469,12 @@ int tail;
 int n;
 int arr[length];
 
-printf("\nFull buffer: [ ");
+printf("\nBuffer: [ ");
 for (int* i = buffer; i < buffer + length; i++) {
     printf("%d ", *i);
 }
 printf(" ]\n");
 printf("Length: %d\n", length);
-
-do {
-    printf("Choose head: ");
-    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
-        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
-        while (getchar() != '\n');
-        continue;
-    }
-    break;
-} while (1);
 
 do {
     printf("Choose tail: ");
@@ -490,10 +486,15 @@ do {
     break;
 } while (1);
 
-
-    printf("\n--- Before Move ---\n");
-
-    print_buffer_before(buffer,length,tail,head);
+do {
+    printf("Choose head: ");
+    if (scanf("%d", &head) != 1 || head < 0 || head >= length) {
+        printf("Invalid input. Please enter a valid number between 0 and %d.\n", length - 1);
+        while (getchar() != '\n');
+        continue;
+    }
+    break;
+} while (1);
 
     do {
     printf("Choose number of elements to move: ");
@@ -507,19 +508,14 @@ do {
 
     int ret = move_n_to_array(buffer, length, &tail, &head, n, arr);
 
-    if (ret != 0) {
-
-    printf("\n--- After Move ---\n");
-    printf("Array: [ ");
+    printf("\nTail: %d\n", tail);
+    printf("Head: %d\n", head);
+    printf("Values removed: [");
     for(int* i = arr; i < arr + n; i++) {
         printf("%d ", *i);
     }
     printf("]\n");
-
-    }
-
-    printf("Output: %d\n", ret);
-
+    printf("Result: %d\n", ret);
 
 
 }
@@ -528,9 +524,10 @@ do {
 
 void usac_09() {
 
-    printf("\n\n╔══════════════════════════╗");
-    printf("\n║          Sort            ║  \n");
+    printf("╔══════════════════════════╗");
+    printf("\n║        sort_array        ║\n");
     printf("╚══════════════════════════╝\n");
+
     int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18};
     int lenght = sizeof(buffer) / sizeof(int);
     char c;
@@ -548,7 +545,7 @@ void usac_09() {
 
     int res = sort_array(buffer, lenght, c);
 
-    printf("Sorted Buffer (descending): [ ");
+    printf("Sorted Buffer : [ ");
         for(int* i = buffer; i < buffer + lenght; i++) {
                 printf("%d ", *i);
         }
@@ -558,6 +555,10 @@ void usac_09() {
 
 
 void usac_10() {
+
+    printf("╔══════════════════════════╗");
+    printf("\n║          median          ║\n");
+    printf("╚══════════════════════════╝\n");
 
     int vec1[] = {6,3,2,5,1,4,7,8}; // 1 2 3 4 5 6
     int length1 = sizeof(vec1)/sizeof(int);
@@ -596,81 +597,10 @@ void usac_10() {
 }
 
 
-void print_buffer_before(int* buffer, int length, int tail, int head) {
-
-    //Head before tail
-    if (head < tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
-
-    //Head equals tail
-    if (head == tail) {
-    printf("Buffer: [ ]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
-
-    //Head after tail
-    if (head > tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
-
-}
 
 
-void print_buffer_after(int* buffer, int length, int tail, int head) {
-
- if (head != tail && head < tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-    }
-
-    if (head == tail) {
-	printf("Buffer: [ ]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-	}
-
-    if (head > tail) {
-    printf("Buffer: [ ");
-    for(int i = head; i < length; i++) {
-        printf("%d ", buffer[i]);
-    }
-    for(int i = 0; i <= tail; i++) {
-        printf("%d ", buffer[i]);
-    }
-    printf("]\n");
-    printf("Head: %d\n", buffer[head]);
-    printf("Tail: %d\n", buffer[tail]);
-
-    }
 
 
-}
 
 
 

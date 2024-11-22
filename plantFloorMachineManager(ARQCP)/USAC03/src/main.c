@@ -5,7 +5,7 @@
 int main () {
 		
 	int value;
-	char str[] = "	";
+	char str[] = "	89  ";
 	int res = get_number(str,&value);
 	printf("%d: %d\n", res, value);
 	
