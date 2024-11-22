@@ -169,6 +169,7 @@ void usac_01() {
     printf("\n║       extract_data       ║\n");
     printf("╚══════════════════════════╝\n");
 
+    char str3[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:25480";
     char str[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:80";
     char token [] = "temp";
     char unit[20];
@@ -176,7 +177,7 @@ void usac_01() {
     printf("\nString: %s\n", str);
     printf("Token: %s\n", token);
     int res = extract_data (str,token,unit,&value) ;
-    printf ("%d:%s ,%d\n",res,unit,value ); // 1: celsius ,20
+    printf ("%d:%s ,%d\n",res,unit,value );
 
 
     char str2[] = "HUM&unit:percentage&value:80#TEMP&unit:celsius&value:20";
@@ -185,18 +186,14 @@ void usac_01() {
     printf("\nString: %s\n", str2);
     printf("Token: %s\n", token2);
     res = extract_data (str2,token2,unit2,&value) ;
-    printf ("%d:%s ,%d\n",res,unit2,value); // 1: celsius ,20
+    printf ("%d:%s ,%d\n",res,unit2,value);
 
 
-    char str1[] = "TEMP&unit:celsius&value:20#HUM&unit:percentage&value:23";
     char unit3[20];
-    char token3 [] = "hum";
-
-    printf("\nString: %s\n", str1);
-    printf("Token: %s\n", token3);
-    res = extract_data (str1,token3,unit3,&value) ;
-    printf ("%d:%s ,%d\n",res,unit3,value); // 1: celsius ,20
-
+    printf("\nString: %s\n", str3);
+    printf("Token: %s\n", token2);
+    res = extract_data (str3,token2,unit3,&value) ;
+    printf ("%d:%s ,%d\n",res,unit3,value);
 
 
     char unit4[20] = {};
@@ -204,8 +201,20 @@ void usac_01() {
     printf("\nString: %s\n", str);
     printf("Token: %s\n", token4);
     res = extract_data (str,token4,unit4,&value) ;
-    printf ("%d:%s ,%d\n",res,unit4,value); // 0: ,0
+    printf ("%d:%s ,%d\n",res,unit4,value);
 
+}
+
+
+
+
+void print(int value,int res, char* bits){
+    printf("\nValue: %d\n",value);
+    if(res == 1){
+        printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); 
+    }else{
+        printf ("%d : [ ]\n",res); 
+    }
 }
 
 void usac_02() {
@@ -214,42 +223,42 @@ void usac_02() {
     printf("\n║     get_number_binary    ║\n");
     printf("╚══════════════════════════╝\n");
 
-    int value = 26;
+    int value = 26; 
     char bits [5];
-
-    printf("\nDecimal value: %d\n", value);
+    
     int res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    print(value,res,bits);
 
+    char bits2[5];
     value = 0;
-    printf("Decimal value: %d\n", value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    res = get_number_binary (value,bits2);
+    print(value,res,bits2);
 
+    char bits3[5];
     value = 1;
-    printf("Decimal value: %d\n" ,value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
-
+    res = get_number_binary (value,bits3);
+    print(value,res,bits3);
+    
+    char bits4[5];
     value = 15;
-    printf("Decimal value: %d\n", value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    res = get_number_binary (value,bits4);
+    print(value,res,bits4);
 
+    char bits5[5];
     value = 31;
-    printf("Decimal value: %d\n", value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    res = get_number_binary (value,bits5);
+    print(value,res,bits5);
 
+    char bits6[5];
     value = 32;
-    printf("Decimal value: %d\n", value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    res = get_number_binary (value,bits6);
+    print(value,res,bits6);
 
+    char bits7[5];  
     value = -1;
-    printf("Decimal value: %d\n", value);
-    res = get_number_binary (value,bits);
-    printf ("%d : [%d,%d,%d,%d,%d]\n",res,bits[4],bits[3],bits[2],bits[1],bits[0]); // 1: 1 ,1 ,0 ,1 ,0
+    res = get_number_binary (value,bits7);
+    print(value,res,bits7);
+    
 
 }
 

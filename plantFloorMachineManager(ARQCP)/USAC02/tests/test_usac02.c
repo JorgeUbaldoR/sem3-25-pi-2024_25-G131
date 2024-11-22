@@ -59,11 +59,8 @@ void test_get_number_binary_out_of_range_high(void) {
     char bits[5];
     int value = 32;
     int res = get_number_binary(value, bits);
-    char expected[] ={0,0,0,0,0};
-
 
     TEST_ASSERT_EQUAL(0, res);
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 // Teste com valor fora do limite inferior
@@ -71,10 +68,8 @@ void test_get_number_binary_out_of_range_low(void) {
     char bits[5];
     int value = -1;
     int res = get_number_binary(value, bits);
-    char expected[] ={0,0,0,0,0};
 
     TEST_ASSERT_EQUAL(0, res);
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 // Teste com valor de um bit ativo
@@ -142,10 +137,8 @@ void test_get_number_binary_large_value(void) {
     char bits[5];
     int value = 1000000; // Valor extremamente grande
     int res = get_number_binary(value, bits);
-    char expected[] = {0, 0, 0, 0, 0};
 
     TEST_ASSERT_EQUAL(0, res); // Função deve retornar erro
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 // Teste com valor próximo ao limite inferior de um inteiro (INT_MIN)
@@ -153,10 +146,8 @@ void test_get_number_binary_int_min(void) {
     char bits[5];
     int value = INT_MIN; // Limite inferior de int
     int res = get_number_binary(value, bits);
-    char expected[] = {0, 0, 0, 0, 0};
 
     TEST_ASSERT_EQUAL(0, res); // Função deve retornar erro
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 // Teste com valor próximo ao limite superior de um inteiro (INT_MAX)
@@ -164,10 +155,8 @@ void test_get_number_binary_int_max(void) {
     char bits[5];
     int value = INT_MAX; // Limite superior de int
     int res = get_number_binary(value, bits);
-    char expected[] = {0, 0, 0, 0, 0};
 
     TEST_ASSERT_EQUAL(0, res); // Função deve retornar erro
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 
@@ -189,10 +178,8 @@ void test_null(void) {
     char bits[5]; 
     int value = -1; 
     int res = get_number_binary(value, bits);
-    char expected[] = {0,0,0,0,0};
 
     TEST_ASSERT_EQUAL(0, res); 
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 }
 
 void test_One(void) {
@@ -252,30 +239,24 @@ void test_MinusOne(void) {
     char bits[5]; 
     int value = -1; 
     int res = get_number_binary(value, bits);
-    char expected[] = "";
 
     TEST_ASSERT_EQUAL(0, res); 
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 } 
 
 void test_SixtyFour(void) {
     char bits[5]; 
     int value = 64; 
     int res = get_number_binary(value, bits);
-    char expected[] = "";
 
     TEST_ASSERT_EQUAL(0, res); 
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 } 
 
 void test_Forty(void) {
     char bits[5]; 
     int value = 40; 
     int res = get_number_binary(value, bits);
-    char expected[] = "";
 
     TEST_ASSERT_EQUAL(0, res); 
-    TEST_ASSERT_EQUAL_CHAR_ARRAY(expected, bits, 5);
 } 
 
 

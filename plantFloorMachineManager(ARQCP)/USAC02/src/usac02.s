@@ -11,18 +11,17 @@ get_number_binary:
     # prologue
     pushq %rbp                      # save the original value of RBP
     movq %rsp,%rbp                  # copy the current stack pointer to RBP
-    
-    cmpq $0, %rsi                   # check if the pointer passed by parameter is NULL
-    je null_pointer_error           # if TRUE then jump into pointer ERROR
 
-    movq $0, %r8                    # Initialize index register to 0
-    call initialize_zeros           # Call a function to initialize the array to zeros
-    
-    movq $0, %r8                    # Initialize index register to 0
     cmpl $MIN_NUM, %edi             # Compare the input number with the minimum allowed value
     jl error                        # Jump to error if the number is less than MIN_NUM
     cmpl $MAX_NUM, %edi             # Compare the input number with the maximum allowed value
     jg error                        # Jump to error if the number is greater than MAX_NUM
+    cmpq $0, %rsi                   # check if the pointer passed by parameter is NULL
+    je error                        # if TRUE then jump into pointer ERROR
+
+    movq $0, %r8                    # Initialize index register to 0
+    call initialize_zeros           # Call a function to initialize the array to zeros
+    
 
     movl %edi, %eax                 # Move the input number into %eax
     movl $2, %ebx                   # Set divisor (2) in %ebx for binary division
@@ -38,13 +37,15 @@ initialize_zeros:
     jmp initialize_zeros            # Repeat the loop
     
 exit_zeros:
-    movq $SIZE-1, %r8               # Set the index to SIZE-1
+    movq $0, %r8                    # Initialize index register to 0
     ret                             # Return from the function
-
  
 get_binary:
-    cmp $0, %eax                    # Compare %eax with zero
+    cmpl $0, %eax                    # Compare %eax with zero
     je end_binary                   # If zero, jump to end_binary (number is fully converted)
+
+    cmpq $SIZE, %r8
+    jge error
 
     cdq                             # Sign-extend %eax into %edx for division
     divl %ebx                       # Divide %eax by 2, result in %eax, remainder in %edx
@@ -58,18 +59,16 @@ skip:
     incq %r8                        # Decrement the index
     jmp get_binary                  # Repeat the binary conversion loop
 
+
+
 end_binary:
     movl $1, %eax                   # Set %eax to 1 to indicate successful conversion 
     jmp epilogue                             
 
 error:
-    movb $0, (%rsi)
     movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
     jmp epilogue                             
 
-null_pointer_error:
-    movl $0, %eax                   # Set %eax to 0 to indicate an error (invalid number)
-    jmp epilogue  
 
 epilogue:
     movq %rbp, %rsp                    # retrieve the original RSP value
