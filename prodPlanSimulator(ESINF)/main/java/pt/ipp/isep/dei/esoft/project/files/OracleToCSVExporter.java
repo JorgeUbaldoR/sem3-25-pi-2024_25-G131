@@ -3,6 +3,8 @@ package pt.ipp.isep.dei.esoft.project.files;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OracleToCSVExporter {
 
@@ -11,65 +13,79 @@ public class OracleToCSVExporter {
     private static final String USER = "C##manager";
     private static final String PASSWORD = "manager123";
 
-    // Query to fetch data
-    private static final String BOO = "SELECT * FROM BOO";
-    private static final String BOO_INPUT = "SELECT * FROM BOO_INPUT";
-    private static final String BOO_OUTPUT = "SELECT * FROM BOO_OUTPUT";
-    private static final String BOO_TEMPLATE = "SELECT * FROM BOO_TEMPLATE";
-    private static final String COMPONENT = "SELECT * FROM COMPONENT";
-    private static final String DEACTIVATED_COSTUMERS = "SELECT * FROM DEACTIVATED_COSTUMERS";
-    private static final String INTERMEDIATE_PRODUCT = "SELECT * FROM INTERMEDIATE_PRODUCT";
-    private static final String OPERATION = "SELECT * FROM OPERATION";
-    private static final String OPERATION_TYPE = "SELECT * FROM OPERATION_TYPE";
-    private static final String ORDER = "SELECT * FROM ORDER";
-    private static final String ORDER_PRODUCTS = "SELECT * FROM ORDER_PRODUCTS";
-    private static final String PART = "SELECT * FROM PART";
-    private static final String PROD_FAMILY = "SELECT * FROM PROD_FAMILY";
-    private static final String PRODUCT = "SELECT * FROM PRODUCT";
-    private static final String PRODUCTION_ORDER = "SELECT * FROM PRODUCTION_ORDER";
-    private static final String PRODUCTION_ORDER_WORKSTATION = "SELECT * FROM PRODUCTION_ORDER_WORKSTATION";
-    private static final String RAW_MATERIAL = "SELECT * FROM \"Raw Material\"";
-    private static final String WORK_STATION = "SELECT * FROM WORK_STATION";
-    private static final String WORKSTATION_TYPE = "SELECT * FROM WORKSTATION_TYPE";
-    private static final String WORKSTATION_TYPE_OPERATION_TYPE = "SELECT * FROM WORKSTATION_TYPE_OPERATION_TYPE";
+    // Map of queries and their corresponding output file paths
+    private static final Map<String, String> QUERIES_AND_FILES = new HashMap<>();
 
-    // Output file
-    private static final String OUTPUT_FILE_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/BOO.csv";
+    static {
+        // Add all queries and their output file paths
+        QUERIES_AND_FILES.put("SELECT * FROM BOO", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/BOO.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM BOO_INPUT", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/BOO_INPUT.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM BOO_OUTPUT", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/BOO_OUTPUT.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM BOO_TEMPLATE", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/BOO_TEMPLATE.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM COMPONENT", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/COMPONENT.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM \"Deactivated Costumers\"", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/Deactivated Costumers.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM \"Intermediate Product\"", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/Intermediate Product.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM OPERATION", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/OPERATION.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM OPERATION_TYPE", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/OPERATION_TYPE.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM \"Order\"", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/Order.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM PART", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/PART.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM PROD_FAMILY", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/PART.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM PRODUCT", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/PRODUCT.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM PRODUCTION_ORDER", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/PRODUCTION_ORDER.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM PRODUCTION_ORDER_WORKSTATION", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/PRODUCTION_ORDER_WORKSTATION.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM \"Raw Material\"", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/RAW_MATERIAL.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM WORK_STATION", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/WORK_STATION.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM WORKSTATION_TYPE", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/WORKSTATION_TYPE.csv");
+        QUERIES_AND_FILES.put("SELECT * FROM WORKSTATION_TYPE_OPERATION_TYPE", "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/WORKSTATION_TYPE_OPERATION_TYPE.csv");
+    }
 
     public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-             Statement statement = connection.createStatement();
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+            System.out.println("Connected to the Oracle database.");
 
-             ResultSet resultSet = statement.executeQuery(BOO);
-             FileWriter csvWriter = new FileWriter(OUTPUT_FILE_BOO)) {
+            // Loop through each query and export its result to a CSV
+            for (Map.Entry<String, String> entry : QUERIES_AND_FILES.entrySet()) {
+                exportQueryToCSV(connection, entry.getKey(), entry.getValue());
+            }
 
-                 System.out.println("Connected to the Oracle database.");
+            System.out.println("All data exported successfully!");
 
-                 // Write header row
-                 ResultSetMetaData metaData = resultSet.getMetaData();
-                 int columnCount = metaData.getColumnCount();
-                 for (int i = 1; i <= columnCount; i++) {
-                     csvWriter.append(metaData.getColumnName(i));
-                     if (i < columnCount) csvWriter.append(",");
-                 }
-                 csvWriter.append("\n");
+        } catch (SQLException e) {
+            System.err.println("Database connection error: " + e.getMessage());
+        }
+    }
 
-                 // Write data rows
-                 while (resultSet.next()) {
-                     for (int i = 1; i <= columnCount; i++) {
-                         csvWriter.append(resultSet.getString(i));
-                         if (i < columnCount) csvWriter.append(",");
-                     }
-                     csvWriter.append("\n");
-                 }
+    private static void exportQueryToCSV(Connection connection, String query, String outputPath) {
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query);
+             FileWriter csvWriter = new FileWriter(outputPath)) {
 
-                System.out.println("Data exported successfully to " + OUTPUT_FILE_BOO);
+            System.out.println("Exporting data for query: " + query);
 
-             } catch (SQLException e) {
-                 System.err.println("Database connection error: " + e.getMessage());
-             } catch (IOException e) {
-                 System.err.println("File writing error: " + e.getMessage());
-             }
+            // Write header row
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                csvWriter.append(metaData.getColumnName(i));
+                if (i < columnCount) csvWriter.append(",");
+            }
+            csvWriter.append("\n");
+
+            // Write data rows
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    csvWriter.append(resultSet.getString(i) != null ? resultSet.getString(i) : "");
+                    if (i < columnCount) csvWriter.append(",");
+                }
+                csvWriter.append("\n");
+            }
+
+            System.out.println("Data exported successfully to " + outputPath);
+
+        } catch (SQLException e) {
+            System.err.println("Error executing query: " + query + ". Error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("File writing error for query: " + query + ". Error: " + e.getMessage());
+        }
     }
 }
-
