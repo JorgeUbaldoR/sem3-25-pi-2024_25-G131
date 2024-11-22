@@ -261,19 +261,22 @@ void usac_03() {
     printf("╚══════════════════════════╝\n");
 
     int value;
-    char str[] = "  89  ";
+    char str[100];
 
-    printf("\n\nValid string before method: %s\n", str);
+    printf("Write something: ");
+    scanf("%99s", str);
+
+
+    while (getchar() != '\n');
 
     int res = get_number(str, &value);
-    printf("Return value: %d\n", res);
-    printf("Number: %d\n", value);
+    printf("\nReturn value: %d\n", res);
+    if (res == 1) {
+        printf("Number: %d\n", value);
+    }
 
-    char str1[] = "	8--9 ";
-    printf("\nInvalid string before method: %s\n", str1);
 
-    res = get_number(str1, &value);
-    printf("Return value: %d\n", res);
+
 
 }
 
@@ -284,15 +287,17 @@ void usac_04() {
     printf("\n║       format_command     ║\n");
     printf("╚══════════════════════════╝\n");
 
-	int value = 26;
-	char str[] = " oN ";
+    int value;
+	char str[100];
+    printf("Insert value: ");
+    scanf("%d", &value);
+    printf("Operation: ");
+    scanf("%99s", str);
+
 	char cmd[20];
 	int res = format_command(str, value, cmd) ;
-	printf("%d: %s\n", res, cmd); // 1: ON ,1 ,1 ,0 ,1 ,0
+	printf("%d: %s\n", res, cmd);
 
-	char str2[] = " aaa ";
-	int result = format_command(str2, value, cmd) ;
-	printf("%d: %s\n", result, cmd); // 0:
 
 }
 
