@@ -21,7 +21,7 @@ public class SimulatorController {
     private ItemRepository itemRepository;
     private MachineRepository machineRepository;
     private OperationRepository operationRepository;
-    private Simulator simulator;
+    private static Simulator simulator;
     private BOO boo;
 
     /**
@@ -163,5 +163,7 @@ public class SimulatorController {
         return getMachineRepository().getMachineList();
     }
 
-
+    public static Simulator getSharedSimulator() {
+        return simulator;
+    }
 }

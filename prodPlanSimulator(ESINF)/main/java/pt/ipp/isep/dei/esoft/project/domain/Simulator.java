@@ -22,6 +22,7 @@ public class Simulator {
     private final Map<Operation, OperationQueue> operationQueueMap;
     private final ArrayList<Machine> machineList;
     private TreeMap<Integer, Queue<Map<Item, Float>>> itemsByHeight;
+    private boolean wasActivated = false;
 
 
 
@@ -166,6 +167,7 @@ public class Simulator {
                 System.out.printf("%n%s===========================================================%s%n%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
                 time++;
             }
+            wasActivated = true;
         }
 
         System.out.printf("%s✅ All operations completed! %s%n", ANSI_GREEN, ANSI_RESET);
@@ -751,4 +753,7 @@ public class Simulator {
         return transitionMap;
     }
 
+    public boolean wasActivated() {
+        return wasActivated;
+    }
 }

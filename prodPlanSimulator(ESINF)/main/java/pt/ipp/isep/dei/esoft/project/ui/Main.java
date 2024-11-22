@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
-import pt.ipp.isep.dei.esoft.project.domain.BOO;
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.MainMenuUI;
 
 import java.io.IOException;

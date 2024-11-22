@@ -26,7 +26,6 @@ public class QualityChecks {
         Map<Integer, List<Node>> heightMap = pdt.getHeightMap();
 
 
-
         for (Map.Entry<Integer, List<Node>> entry : heightMap.entrySet()) {
             int height = entry.getKey();
             List<Node> nodesAtHeight = entry.getValue();
@@ -59,58 +58,64 @@ public class QualityChecks {
     }
 
 
-    public void performQualityChecks(String confirmation) {
+    public void performQualityChecks(String confirmation, boolean simulatorActivated) {
         Map<Map<Integer, List<ID>>, Boolean> checksMap = prepareQualityChecks();
 
-        if (confirmation.equalsIgnoreCase("y")) {
+        if (simulatorActivated) {
 
-            for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry : checksMap.entrySet()) {
-                Map<Integer, List<ID>> operationsMap = entry.getKey();
-                Boolean isChecked = entry.getValue();
-                int p = operationsMap.keySet().iterator().next();
-                List<ID> operations = operationsMap.get(p);
-                System.out.println("=======================================================");
-                System.out.println(ANSI_BRIGHT_WHITE + "Performing checks: " + ANSI_RESET);
-                if (!isChecked) {
-                    entry.setValue(true);
-                    System.out.printf("[%d] %s%s were checked%s%n", p, operations, ANSI_BRIGHT_GREEN, ANSI_RESET);
+
+            if (confirmation.equalsIgnoreCase("y")) {
+
+                for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry : checksMap.entrySet()) {
+                    Map<Integer, List<ID>> operationsMap = entry.getKey();
+                    Boolean isChecked = entry.getValue();
+                    int p = operationsMap.keySet().iterator().next();
+                    List<ID> operations = operationsMap.get(p);
                     System.out.println("=======================================================");
-                    System.out.println(ANSI_BRIGHT_WHITE + "Checks to be performed: " + ANSI_RESET);
-                }
-
-                for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry2 : checksMap.entrySet()) {
-                    operationsMap = entry2.getKey();
-                    Boolean isChecked2 = entry2.getValue();
-                    int p2 = operationsMap.keySet().iterator().next();
-                    List<ID> operations2 = operationsMap.get(p2);
-
-                    if (!isChecked2) {
-                        System.out.printf("[%d] %s%s were not check yet%s%n", p2, operations2, ANSI_BRIGHT_YELLOW, ANSI_RESET);
+                    System.out.println(ANSI_BRIGHT_WHITE + "Performing checks: " + ANSI_RESET);
+                    if (!isChecked) {
+                        entry.setValue(true);
+                        System.out.printf("[%d] %s%s were checked%s%n", p, operations, ANSI_BRIGHT_GREEN, ANSI_RESET);
+                        System.out.println("=======================================================");
+                        System.out.println(ANSI_BRIGHT_WHITE + "Checks to be performed: " + ANSI_RESET);
                     }
-                }
-                System.out.println("=======================================================");
 
-                System.out.println("Operations that have already been checked:");
-                for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry3 : checksMap.entrySet()) {
-                    operationsMap = entry3.getKey();
-                    Boolean isChecked3 = entry3.getValue();
-                    int p3 = operationsMap.keySet().iterator().next();
-                    List<ID> operations3 = operationsMap.get(p3);
+                    for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry2 : checksMap.entrySet()) {
+                        operationsMap = entry2.getKey();
+                        Boolean isChecked2 = entry2.getValue();
+                        int p2 = operationsMap.keySet().iterator().next();
+                        List<ID> operations2 = operationsMap.get(p2);
 
-                    if (isChecked3) {
-                        System.out.printf("[%d] %s%s were checked%s%n", p3, operations3, ANSI_BRIGHT_GREEN, ANSI_RESET);
+                        if (!isChecked2) {
+                            System.out.printf("[%d] %s%s were not check yet%s%n", p2, operations2, ANSI_BRIGHT_YELLOW, ANSI_RESET);
+                        }
                     }
+                    System.out.println("=======================================================");
+
+                    System.out.println("Operations that have already been checked:");
+                    for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry3 : checksMap.entrySet()) {
+                        operationsMap = entry3.getKey();
+                        Boolean isChecked3 = entry3.getValue();
+                        int p3 = operationsMap.keySet().iterator().next();
+                        List<ID> operations3 = operationsMap.get(p3);
+
+                        if (isChecked3) {
+                            System.out.printf("[%d] %s%s were checked%s%n", p3, operations3, ANSI_BRIGHT_GREEN, ANSI_RESET);
+                        }
+                    }
+                    System.out.printf("%n%n");
+
+                    sleep(1000);
+
                 }
-                System.out.printf("%n%n");
+                checkedOperations = checksMap;
+                System.out.printf("%n%sAll operations have been checked!%s%n", ANSI_BRIGHT_GREEN, ANSI_RESET);
 
-                sleep(1000);
-
+            } else {
+                System.out.println(ANSI_LIGHT_RED + "Quality check not performed!" + ANSI_RESET);
             }
-            checkedOperations = checksMap;
-            System.out.printf("%n%sAll operations have been checked!%s%n", ANSI_BRIGHT_GREEN, ANSI_RESET);
-
         } else {
-            System.out.println(ANSI_LIGHT_RED + "Quality check not performed!" + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "Activate simulator first!" + ANSI_RESET);
         }
 
     }
