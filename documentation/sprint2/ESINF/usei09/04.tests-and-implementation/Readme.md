@@ -1,7 +1,7 @@
 
 ---
 
-# USEI08 - Production Tree
+# USEI09 - Efficient Search
 
 ## 4. Tests
 
@@ -155,92 +155,6 @@ The tree structure is correctly populated with the data from the file, including
 
 ---
 
-
-## 5. Construction (Implementation)
-
-### Class SimulatorController
-
-###### 1. Constructor
-```java
- public SimulatorController() {
-    getItemRepository();
-    getMachineRepository();
-    getOperationRepository();
-}
-```
-###### 2.1. Get Item Repository
-
-```java
-private ItemRepository getItemRepository() {
-    if(itemRepository == null) {
-        Repositories repositories = Repositories.getInstance();
-        itemRepository = repositories.getItemRepository();
-    }
-    return itemRepository;
-
-}
-```
-###### 2.2. Get Machine Repository
-
-```java
-    private MachineRepository getMachineRepository() {
-        if(machineRepository == null) {
-            Repositories repositories = Repositories.getInstance();
-            machineRepository = repositories.getMachineRepository();
-        }
-        return machineRepository;
-}
-```
-###### 2.3. Get Operation Repository
-
-```java
-    private OperationRepository getOperationRepository() {
-        if(operationRepository == null) {
-            Repositories repositories = Repositories.getInstance();
-            operationRepository = repositories.getOperationRepository();
-        }
-        return operationRepository;
-}
-```
-###### 3. Start Simulation With Priority
-
-```java
-    public void startSimulationWithPriority(){
-        this.simulator = new Simulator(getMachinesMap(), getItemList(),getOperationList(),true);
-        this.simulator.startSimulation();
-}
-```
-###### 4. Get Machines Map
-
-```java
-    public Map<Operation, Queue<Machine>> getMachinesMap() {
-        Map<Operation, Queue<Machine>> machinesMap = new HashMap<>();
-        for (Machine machine : getMachineRepository().getMachineList()) {
-            if(!machinesMap.containsKey(machine.getOperation())) {
-                machinesMap.put(machine.getOperation(), new PriorityQueue<>());
-                machinesMap.get(machine.getOperation()).add(machine);
-            }else {
-                machinesMap.get(machine.getOperation()).add(machine);
-            }
-        }
-        return machinesMap;
-}
-```
-###### 5. Get Item List
-
-```java
-    public List<Item> getItemList(){
-        return getItemRepository().getItemList();
-    }
-```
-###### 6. Get Operation List
-
-```java
-    public List<Operation> getOperationList(){
-        return getOperationRepository().getOperations();
-}
-```
-
 ### Class Production Tree
 
 ```java
@@ -381,3 +295,329 @@ private Node findNodeByOperation(ID id) {
 }
 ```
 
+### Class Search Production Tree UI
+
+#### Constructor
+```java
+    public SearchProductionTreeUI() {
+    controller = new ProductionTreeController();
+}
+```
+#### Get Controller
+```java
+    private ProductionTreeController getProductionTreeController() {
+    return controller;
+}
+```
+
+#### Get Controller
+```java
+@Override
+public void run() {
+    System.out.println("\n\n══════════════════════════════════════════");
+    System.out.println(ANSI_BRIGHT_WHITE + "        SEARCH OPERATION/MATERIAL                 " + ANSI_RESET + "\n");
+
+    System.out.printf("Select type of search:%n");
+    System.out.printf(" %s(1)%s - Search Material%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    System.out.printf(" %s(2)%s - Search Operation%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    System.out.printf(" %s(3)%s - Search by ID%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    System.out.printf(" %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+    int searchChoice = getChoice(3);
+
+    if(searchChoice != 0) {
+        System.out.printf("%n%s!IMPORTANT!%s Select your preference:%n",ANSI_BRIGHT_YELLOW,ANSI_RESET);
+        System.out.printf(" %s(1)%s - Use Default File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf(" %s(2)%s - Insert Path File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        int preferenceChoice = getChoice(2);
+        if(preferenceChoice == 1) {
+            doChoice(searchChoice, "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+        }else {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter path: ");
+            String path = scanner.nextLine();
+            doChoice(searchChoice,path );
+        }
+    }
+}
+```
+
+#### Get Choice
+```java
+    private int getChoice(int max) {
+        int choice = 0;
+        boolean valid = false;
+        do {
+            System.out.printf(" %sType your choice:%s ", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            try {
+                choice = in.nextInt();
+
+                if (choice < 0 || choice > max) {
+                    System.out.println(ANSI_LIGHT_RED + "Select a valid number: " + ANSI_RESET);
+                } else {
+                    valid = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(ANSI_LIGHT_RED + "Invalid choice. Please try again: " + ANSI_RESET);
+                in.next();
+
+            }
+        } while (!valid);
+        return choice;
+    }
+```
+
+#### Do Choice
+```java
+    private void doChoice(int choice, String path) {
+        try {
+            if (getProductionTreeController().getInformations(path)) {
+                switch (choice) {
+                    case 1:
+                        ID selectedItemID = showAndSelectMaterial();
+                        searchInfItem(selectedItemID);
+                        break;
+                    case 2:
+                        ID selectedOperationID = showAndSelectOperation();
+                        searchInfOperation(selectedOperationID);
+                        break;
+                    case 3:
+                        System.out.printf("%n%s• SEARCH BY ID:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
+                        System.out.printf("%s-----------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+                        System.out.printf("%sExample of Input ->%s %sI-102%s %s|%s %sO-232%s%n%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET);
+                        ID id = getInputID();
+                        if (id != null) {
+                            if(id.getTypeID() == TypeID.ITEM){
+                                searchInfItem(id);
+                            }else{
+                                searchInfOperation(id);
+                            }
+                        }
+                        break;
+
+                    default:
+                        System.out.println(ANSI_BRIGHT_RED + "\nLEAVING..." + ANSI_RESET);
+                        break;
+                }
+                System.out.println("\n" + ANSI_BRIGHT_GREEN + "Information Successfully Shown!" + ANSI_RESET);
+            } else {
+                System.out.println("\n" + ANSI_BRIGHT_RED + "Operation canceled - File doesn't have information to be read" + ANSI_RESET);
+            }
+        } catch (Exception e) {
+            System.out.println("\n" + ANSI_BRIGHT_RED + e.getMessage() + ANSI_RESET);
+        }
+    }
+```
+
+#### Search Information Item
+```java
+private void searchInfItem(ID selectedItemID) {
+    boolean rawMaterial = getProductionTreeController().isRawMaterial(selectedItemID);
+    Node node = getProductionTreeController().getItemNode(selectedItemID,rawMaterial);
+    String[] parentAndQtd = getProductionTreeController().findParentItem(node,rawMaterial,selectedItemID);
+    printNodeItemInf(node,parentAndQtd[0],selectedItemID,parentAndQtd[1]);
+}
+```
+
+#### Print Item Information
+```java
+    private void printNodeItemInf(Node node, String parentName,ID selectedItemID,String qtd) {
+        System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("     %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "MATERIAL", ANSI_RESET);
+        System.out.printf("%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s•%s Name Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE,getProductionTreeController().findNameItem(selectedItemID), ANSI_RESET);
+        System.out.printf("%s•%s ID Material: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, selectedItemID, ANSI_RESET);
+        System.out.printf("%s•%s Quantity: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE,qtd ,ANSI_RESET);
+        if (parentName == null) {
+            System.out.printf("%s•%s Parent Operation: %sNone%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_RED, ANSI_RESET);
+        } else {
+            System.out.printf("%s•%s Parent Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, parentName, ANSI_RESET);
+        }
+    }
+```
+
+#### Search Information Operation
+```java
+    private void searchInfOperation(ID selectedOperationID) {
+    Node node = getProductionTreeController().getOperationNode(selectedOperationID);
+    String parentName = getProductionTreeController().findParentOperation(node);
+    printNodeOperationInf(node, parentName,selectedOperationID);
+}
+```
+
+
+#### Get Input ID
+```java
+    private ID getInputID() {
+    Scanner scanner = new Scanner(System.in);
+    String inputID;
+    System.out.print("Enter an ID: ");
+    inputID = scanner.nextLine();
+
+    if (!checkInputID(inputID)) {
+        do {
+            System.out.print("Enter an ID (follow the example): ");
+            inputID = scanner.nextLine();
+        } while (!checkInputID(inputID));
+    }
+    char type = inputID.charAt(0);
+    int serial = Integer.parseInt(inputID.split("-")[1]);
+    switch (Character.toUpperCase(type)) {
+        case 'I':
+            return new ID(serial, TypeID.ITEM);
+        case 'O':
+            return new ID(serial, TypeID.OPERATION);
+        default:
+            return null;
+    }
+}
+```
+
+#### Check Input ID
+```java
+    private boolean checkInputID(String inputID) {
+    char reference = inputID.charAt(0);
+    reference = Character.toUpperCase(reference);
+    return (reference == 'I' || reference == 'O') &&
+            inputID.charAt(1) == '-' && Character.isDigit(inputID.charAt(2));
+}
+```
+
+#### Print Node Operation Information
+```java
+    private void printNodeOperationInf(Node node, String parentName,ID selectedOperationID) {
+        System.out.printf("%n%n%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("   %sNODE INFORMATION | %s NODE%s%n", ANSI_BRIGHT_WHITE, "OPERATION", ANSI_RESET);
+        System.out.printf("%s========================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s•%s Name Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, getProductionTreeController().findNameOperation(node.getOperationID()), ANSI_RESET);
+        System.out.printf("%s•%s ID Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, selectedOperationID, ANSI_RESET);
+        System.out.printf("%s•%s Quantity: %sN/A%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, ANSI_RESET);
+        if (parentName == null) {
+            System.out.printf("%s•%s Parent Operation: %sNone%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_RED, ANSI_RESET);
+        } else {
+            System.out.printf("%s•%s Parent Operation: %s%s%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_WHITE, parentName, ANSI_RESET);
+        }
+}
+```
+
+### Class Production Tree Controller
+
+
+#### Get Information
+```java
+    public boolean getInformations(String path) {
+    productionTree = new ProductionTree();
+    return productionTree.getInformations(path);
+}
+```
+
+#### Get List To Show
+```java
+    public Map<ID, String> getListToShow(int flag) {
+    Map<ID, String> map = new HashMap<>();
+    if (flag == 1) {
+        for (Item material : getItemRepository().getItemList()) {
+            map.put(material.getItemID(), material.getName());
+        }
+        return map;
+    }
+
+    for (Operation operation : getOperationRepository().getOperations()) {
+        map.put(operation.getOperationId(), operation.getOperationName());
+    }
+    return map;
+}
+```
+
+#### Is Raw Material
+```java
+    public boolean isRawMaterial(ID selectedOperationID) {
+        return getProductionTree().getRawMaterials().containsKey(selectedOperationID);
+    }
+```
+
+#### Get Item Node
+```java
+    public Node getItemNode(ID selectedOperationID, boolean rawMaterial) {
+    if (rawMaterial) {
+        return getProductionTree().getRawMaterials().get(selectedOperationID);
+    }
+    return getProductionTree().getMaterials().get(selectedOperationID);
+}
+```
+
+#### Get Operation Node
+```java
+    public Node getOperationNode(ID selectedOperationID) {
+        return getProductionTree().getOperationNodeID().get(selectedOperationID);
+}
+```
+
+#### Find Parent Operation
+```java
+    public String findParentOperation(Node node) {
+    int height = node.getHeigthInTree();
+    if (height != 0) {
+        List<Node> nodesByHeight = getProductionTree().getHeightMap().get(node.getHeigthInTree() - 1);
+        for (Node nodeInList : nodesByHeight) {
+            if (nodeInList.getOperationMap().containsKey(node.getOperationID())) {
+                return findNameOperation(nodeInList.getOperationID());
+            }
+        }
+    }
+    return null;
+}
+```
+
+#### Find Name Operation
+```java
+    public String findNameOperation(ID operationID) {
+        return getOperationRepository().getIdToOperation().get(operationID).getOperationName();
+}
+```
+
+#### Find Parent Item
+```java
+    public String[] findParentItem(Node node, boolean rawMaterial, ID selectedOperationID) {
+    String[] parentAndQtd = new String[2];
+    if (rawMaterial) {
+        parentAndQtd[0] = findNameItem(node.getItemID());
+        parentAndQtd[1] = String.valueOf(node.getMaterialMap().get(selectedOperationID));
+        return parentAndQtd;
+    }
+    int height = node.getHeigthInTree();
+    if (height != 0) {
+        List<Node> nodesByHeight = getProductionTree().getHeightMap().get(node.getHeigthInTree() - 1);
+        for (Node nodeInList : nodesByHeight) {
+            if (nodeInList.getOperationMap().containsKey(node.getOperationID())) {
+                parentAndQtd[0] = findNameItem(nodeInList.getItemID());
+                parentAndQtd[1] = String.valueOf(nodeInList.getItem_qtd());
+                return parentAndQtd;
+            }
+        }
+    }
+    parentAndQtd[0] = null;
+    parentAndQtd[1] = String.valueOf(node.getItem_qtd());
+    return parentAndQtd;
+}
+```
+
+#### Find Name Item
+```java
+public String findNameItem(ID itemID) {
+    return getItemRepository().getMapItemList().get(itemID).getName();
+}
+```
+
+#### Get Operation ID
+```java
+public Node getNodeByOperationID(ID operationID) {
+    return getProductionTree().getOperationNodeID().get(operationID);
+}
+```
+
+#### Get Item Name By ID
+```java
+public String getItemNameByID(ID itemID) {
+    return getItemRepository().getItemNameByID(itemID);
+}
+```

@@ -26,7 +26,9 @@ public class ProductionTreeController {
     private OperationRepository operationRepository;  // Operation repository
 
     /**
-     * Constructor that initializes the production tree and the item and operation repositories.
+     * Constructor that initializes the production tree and the repositories.
+     *
+     * Time Complexity: O(1) - Constructor initializes objects, which takes constant time.
      */
     public ProductionTreeController() {
         productionTree = new ProductionTree();
@@ -38,6 +40,8 @@ public class ProductionTreeController {
      * Returns the operation repository.
      *
      * @return The operation repository.
+     *
+     * Time Complexity: O(1) - Repositories are accessed and initialized once in constant time.
      */
     private OperationRepository getOperationRepository() {
         if (operationRepository == null) {
@@ -51,6 +55,8 @@ public class ProductionTreeController {
      * Returns the item repository.
      *
      * @return The item repository.
+     *
+     * Time Complexity: O(1) - Repositories are accessed and initialized once in constant time.
      */
     private ItemRepository getItemRepository() {
         if (itemRepository == null) {
@@ -63,7 +69,9 @@ public class ProductionTreeController {
     /**
      * Sets the name of the production tree.
      *
-     * @param name The name of the production tree.
+     * @param name The name to set.
+     *
+     * Time Complexity: O(1) - Setting a field value is a constant-time operation.
      */
     public void setName(String name) {
         productionTree.setPdtTreeName(name);
@@ -73,16 +81,20 @@ public class ProductionTreeController {
      * Returns the current production tree.
      *
      * @return The production tree.
+     *
+     * Time Complexity: O(1) - Returning an object reference takes constant time.
      */
     public ProductionTree getProductionTree() {
         return productionTree;
     }
 
     /**
-     * Loads information about the production tree from a file path.
+     * Loads production tree information from a file path.
      *
-     * @param path The file path containing the information.
-     * @return {@code true} if the information is successfully loaded, {@code false} otherwise.
+     * @param path The file path.
+     * @return {@code true} if loading was successful, {@code false} otherwise.
+     *
+     * Time Complexity: O(n) - Depends on the size of the file and the number of items or operations in it.
      */
     public boolean getInformations(String path) {
         productionTree = new ProductionTree();
@@ -90,12 +102,12 @@ public class ProductionTreeController {
     }
 
     /**
-     * Retrieves a list of items or operations to be displayed, depending on the flag value.
+     * Retrieves a list of items or operations to display based on a flag.
      *
-     * @param flag An integer value determining what will be returned:
-     *             - {@code 1} for items.
-     *             - Any other value for operations.
-     * @return A map of IDs to item or operation names.
+     * @param flag {@code 1} for items, any other value for operations.
+     * @return A map of IDs to names (items or operations).
+     *
+     * Time Complexity: O(n) - Iterates over all items or operations; `n` is the number of entries.
      */
     public Map<ID, String> getListToShow(int flag) {
         Map<ID, String> map = new HashMap<>();
@@ -115,19 +127,23 @@ public class ProductionTreeController {
     /**
      * Checks if an operation is a raw material.
      *
-     * @param selectedOperationID The ID of the operation to check.
-     * @return {@code true} if the operation is a raw material, {@code false} otherwise.
+     * @param selectedOperationID The ID of the operation.
+     * @return {@code true} if it is a raw material, {@code false} otherwise.
+     *
+     * Time Complexity: O(1) - Lookup in a `Map` is constant time on average.
      */
     public boolean isRawMaterial(ID selectedOperationID) {
         return getProductionTree().getRawMaterials().containsKey(selectedOperationID);
     }
 
     /**
-     * Returns the item node associated with an operation, depending on whether it is a raw material or not.
+     * Retrieves the item node associated with an operation.
      *
-     * @param selectedOperationID The ID of the operation.
-     * @param rawMaterial If {@code true}, returns the raw material node; otherwise, returns the material node.
-     * @return The item node corresponding to the operation.
+     * @param selectedOperationID The operation ID.
+     * @param rawMaterial If {@code true}, fetches the raw material node; otherwise, the material node.
+     * @return The corresponding item node.
+     *
+     * Time Complexity: O(1) - Lookup in a `Map` is constant time on average.
      */
     public Node getItemNode(ID selectedOperationID, boolean rawMaterial) {
         if (rawMaterial) {
@@ -137,20 +153,24 @@ public class ProductionTreeController {
     }
 
     /**
-     * Returns the operation node corresponding to the given operation ID.
+     * Retrieves the operation node associated with an operation ID.
      *
-     * @param selectedOperationID The ID of the operation.
-     * @return The operation node corresponding to the ID.
+     * @param selectedOperationID The operation ID.
+     * @return The corresponding operation node.
+     *
+     * Time Complexity: O(1) - Lookup in a `Map` is constant time on average.
      */
     public Node getOperationNode(ID selectedOperationID) {
         return getProductionTree().getOperationNodeID().get(selectedOperationID);
     }
 
     /**
-     * Finds the parent operation name of a node in the production tree, if it exists.
+     * Finds the parent operation name of a given node.
      *
-     * @param node The node for which the parent operation is to be found.
-     * @return The name of the parent operation or {@code null} if there is none.
+     * @param node The node to find the parent for.
+     * @return The parent operation name, or {@code null} if none exists.
+     *
+     * Time Complexity: O(n) - Iterates through nodes of the parent level, where `n` is the number of nodes at that level.
      */
     public String findParentOperation(Node node) {
         int height = node.getHeigthInTree();
@@ -166,23 +186,26 @@ public class ProductionTreeController {
     }
 
     /**
-     * Returns the name of an operation based on the operation ID.
+     * Retrieves the name of an operation by ID.
      *
      * @param operationID The ID of the operation.
-     * @return The name of the operation corresponding to the ID.
+     * @return The name of the operation.
+     *
+     * Time Complexity: O(1) - Lookup in a `Map` is constant time on average.
      */
     public String findNameOperation(ID operationID) {
         return getOperationRepository().getIdToOperation().get(operationID).getOperationName();
     }
 
     /**
-     * Finds the parent item and corresponding quantity of a node in the production tree,
-     * depending on whether it is a raw material or not.
+     * Finds the parent item and quantity of a node in the tree.
      *
-     * @param node The node for which the parent item is to be found.
-     * @param rawMaterial If {@code true}, searches in the raw materials repository; otherwise, in materials.
-     * @param selectedOperationID The ID of the selected operation.
-     * @return An array containing the parent item name and the corresponding quantity.
+     * @param node The node to search.
+     * @param rawMaterial {@code true} for raw materials, {@code false} for materials.
+     * @param selectedOperationID The ID of the operation.
+     * @return An array with the parent item name and quantity.
+     *
+     * Time Complexity: O(n) - Depends on the number of nodes at the parent level.
      */
     public String[] findParentItem(Node node, boolean rawMaterial, ID selectedOperationID) {
         String[] parentAndQtd = new String[2];
@@ -208,10 +231,12 @@ public class ProductionTreeController {
     }
 
     /**
-     * Returns the name of an item based on its ID.
+     * Retrieves the name of an item by ID.
      *
      * @param itemID The ID of the item.
-     * @return The name of the item corresponding to the ID.
+     * @return The name of the item.
+     *
+     * Time Complexity: O(1) - Lookup in a `Map` is constant time on average.
      */
     public String findNameItem(ID itemID) {
         return getItemRepository().getMapItemList().get(itemID).getName();
@@ -221,7 +246,9 @@ public class ProductionTreeController {
      * Returns the operation node corresponding to the given operation ID.
      *
      * @param operationID The ID of the operation.
-     * @return The operation node corresponding to the ID.
+     * @return The operation node corresponding to the ID, or {@code null} if no such node exists.
+     *
+     * Time Complexity: O(1) - The operation involves a lookup in a `Map`, which has average constant-time complexity.
      */
     public Node getNodeByOperationID(ID operationID) {
         return getProductionTree().getOperationNodeID().get(operationID);

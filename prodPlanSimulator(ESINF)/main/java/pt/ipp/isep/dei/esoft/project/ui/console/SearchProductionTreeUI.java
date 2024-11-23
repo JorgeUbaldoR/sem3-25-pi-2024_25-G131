@@ -14,14 +14,17 @@ import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESE
  * The {@code SearchProductionTreeUI} class provides a user interface for searching and displaying
  * information about materials and operations in the production tree.
  * It interacts with the {@link ProductionTreeController} to retrieve the data and display it to the user.
- * <p>
- * The user can search for materials, operations, or by ID, view the selected item's or operation's information,
- * and choose between a default or custom input file.
- * </p>
  *
- * <p>
+ * Features:
+ * - Search for materials, operations, or by ID.
+ * - View information of selected items or operations.
+ * - Choose between default or custom input files.
+ *
  * This class implements the {@link Runnable} interface, allowing it to be executed as part of a larger system.
- * </p>
+ *
+ * Complexity:
+ * The overall complexity of this class depends on the user interaction and size of the data. Most methods involve
+ * linear-time operations (e.g., iterating over lists or validating inputs).
  */
 public class SearchProductionTreeUI implements Runnable {
     private final Scanner in = new Scanner(System.in);
@@ -45,7 +48,9 @@ public class SearchProductionTreeUI implements Runnable {
 
     /**
      * Starts the user interface for searching the production tree.
-     * It displays the search options and processes the user's choices.
+     * Displays the search options and processes the user's choices.
+     *
+     * Complexity: O(n), where n depends on the complexity of `doChoice`.
      */
     @Override
     public void run() {
@@ -78,6 +83,9 @@ public class SearchProductionTreeUI implements Runnable {
 
     /**
      * Prompts the user for a choice and validates the input.
+     * Ensures the choice is within the range of 0 to the specified maximum value.
+     *
+     * Complexity: O(1) for each input validation.
      *
      * @param max the maximum number of valid options
      * @return the user's choice
@@ -106,9 +114,15 @@ public class SearchProductionTreeUI implements Runnable {
 
     /**
      * Processes the user's choice and performs the corresponding search operation.
+     * Delegates to specific methods based on the selected option.
+     *
+     * Complexity:
+     * - Case 1 (search material): O(m), where m is the size of the materials list.
+     * - Case 2 (search operation): O(o), where o is the size of the operations list.
+     * - Case 3 (search by ID): O(1), as it involves constant-time checks and retrievals.
      *
      * @param choice the user's search choice
-     * @param path the path to the data file
+     * @param path   the path to the data file
      */
     private void doChoice(int choice, String path) {
         try {
@@ -199,7 +213,12 @@ public class SearchProductionTreeUI implements Runnable {
     /**
      * Prompts the user to enter an ID (either item or operation) and validates the input.
      *
-     * @return the ID entered by the user, or null if invalid input is provided
+     * @return the ID entered by the user, or null if invalid input is provided.
+     *
+     * Complexity:
+     * - Validation loop: O(n), where n is the number of attempts until valid input is provided.
+     * - String parsing and ID creation: O(1).
+     * Overall: O(n), dominated by the input validation loop.
      */
     private ID getInputID() {
         Scanner scanner = new Scanner(System.in);
@@ -225,6 +244,14 @@ public class SearchProductionTreeUI implements Runnable {
         }
     }
 
+    /**
+     * Checks if the provided input ID follows the expected format (e.g., "I-123" or "O-456").
+     *
+     * @param inputID the input string to validate.
+     * @return true if the input is valid; false otherwise.
+     *
+     * Complexity: O(1) as it performs a constant number of character checks.
+     */
     private boolean checkInputID(String inputID) {
         char reference = inputID.charAt(0);
         reference = Character.toUpperCase(reference);
