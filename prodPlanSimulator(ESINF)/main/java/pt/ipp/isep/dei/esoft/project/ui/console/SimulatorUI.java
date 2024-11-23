@@ -39,11 +39,12 @@ public class SimulatorUI implements Runnable {
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "               Simulation                 " + ANSI_RESET + "\n");
-        System.out.printf("Select the processing order to be used:%n");
-        System.out.printf("     %s(1)%s - Without Priority%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("     %s(2)%s - Using Priority%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("     %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        doChoice(getChoice());
+        getSimulationController().startSimulationWithOutPriority();
+//        System.out.printf("Select the processing order to be used:%n");
+//        System.out.printf("     %s(1)%s - Without Priority%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+//        System.out.printf("     %s(2)%s - Using Priority%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+//        System.out.printf("     %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+//        doChoice(getChoice());
     }
 
     /**
