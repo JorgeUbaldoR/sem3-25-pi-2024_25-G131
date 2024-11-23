@@ -80,7 +80,7 @@ public class SimulatorController {
     public void startSimulationWithOutPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try {
-            simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), false);
+            simulator = new Simulator(getMachinesMap(), getTree(), getOperationList(), (ArrayList<Machine>) getMachineList(), false);
             simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
@@ -98,7 +98,7 @@ public class SimulatorController {
     public void startSimulationWithPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try {
-            simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), true);
+            simulator = new Simulator(getMachinesMap(), getTree(), getOperationList(), (ArrayList<Machine>) getMachineList(), true);
             simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
@@ -138,7 +138,7 @@ public class SimulatorController {
         return getItemRepository().getItemList();
     }
 
-    public TreeMap<Integer, Queue<Map<Item, Float>>> getBoo() {
+    public TreeMap<Integer, Queue<Map<Item, Float>>> getTree() {
         this.boo = new ItemLevelProcessor();
         return boo.getTree();
     }
