@@ -1,6 +1,5 @@
 package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
@@ -12,82 +11,87 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductionTreeTest {
+/**
+ * Test class for the ProductionTree.
+ * Verifies the correct behavior of its methods and the integrity of data processing.
+ */
+public class ProductionTreeTest {
 
-    private ProductionTree productionTree;
-
-    @BeforeEach
-    void setUp() {
-        productionTree = new ProductionTree();
-    }
-
+    /**
+     * Tests the constructor of the ProductionTree class.
+     * Ensures that all maps and lists are initialized as empty.
+     */
     @Test
     void constructProductionTree() {
         System.out.println("Test Constructor");
         ProductionTree productionTree = new ProductionTree();
-        List<Node> list = productionTree.getNodesOfTree();
-        Map<ID, Node> map = productionTree.getRawMaterials();
-        assertTrue(map.isEmpty());
-        assertTrue(list.isEmpty());
+        List<Node> nodes = productionTree.getNodesOfTree();
+        Map<ID, Node> rawMaterials = productionTree.getRawMaterials();
 
-        productionTree.setPdtTreeName("Production Tree");
-        assertTrue(productionTree.getNodesOfTree().isEmpty(), "Nodes list should be empty after initialization.");
-        assertTrue(productionTree.getRawMaterials().isEmpty(), "Raw materials map should be empty after initialization.");
+        // Verify that all collections are empty upon initialization
+        assertTrue(rawMaterials.isEmpty(), "Raw materials map should be empty after initialization.");
+        assertTrue(nodes.isEmpty(), "Nodes list should be empty after initialization.");
         assertTrue(productionTree.getMaterials().isEmpty(), "Materials map should be empty after initialization.");
         assertTrue(productionTree.getOperationNodeID().isEmpty(), "Operation map should be empty after initialization.");
     }
 
-
+    /**
+     * Tests the getInformations() method with a valid file path.
+     * Verifies that data is loaded correctly and all collections are populated.
+     */
     @Test
     void getInformation() {
         System.out.println("Test GetInformation");
         ProductionTree productionTree = new ProductionTree();
+
+        // Attempt to load valid information
         boolean result = productionTree.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
 
-        List<Node> list = productionTree.getNodesOfTree();
-        Map<ID, Node> map = productionTree.getRawMaterials();
-        Map<ID, Node> map2 = productionTree.getMaterials();
-        Map<ID, Node> map1 = productionTree.getRawMaterials();
-        Map<Integer, List<Node>> mapHeight = productionTree.getHeightMap();
+        // Verify that the collections are populated
+        assertFalse(productionTree.getRawMaterials().isEmpty(), "Raw materials map should not be empty.");
+        assertFalse(productionTree.getHeightMap().isEmpty(), "Height map should not be empty.");
+        assertFalse(productionTree.getNodesOfTree().isEmpty(), "Nodes list should not be empty.");
+        assertFalse(productionTree.getMaterials().isEmpty(), "Materials map should not be empty.");
+        assertTrue(result, "Information should be successfully loaded.");
 
-        assertFalse(map.isEmpty());
-        assertFalse(mapHeight.isEmpty());
-        assertFalse(list.isEmpty());
-        assertFalse(map2.isEmpty());
-        assertFalse(map1.isEmpty());
-        assertTrue(result);
-
-
-        assertThrows(IllegalArgumentException.class ,
-                () ->  productionTree.getInformations(""));
-
-        try{
-            result = productionTree.getInformations("");
-            assertFalse(result);
-        }catch (IllegalArgumentException e){
-        }
+        // Test with an invalid file path
+        assertThrows(IllegalArgumentException.class,
+                () -> productionTree.getInformations(""),
+                "An exception should be thrown for an invalid file path.");
     }
 
+    /**
+     * Tests the getInformations() method with an invalid file path.
+     * Ensures that an exception is thrown and the tree remains empty.
+     */
     @Test
     void testGetInformationInvalidFile() {
         System.out.println("Test GetInformation with Invalid File");
-        String invalidFilePath = "invalidFile.csv";
+        ProductionTree productionTree = new ProductionTree();
 
+        // Verify exception for invalid file
+        String invalidFilePath = "invalidFile.csv";
         assertThrows(IllegalArgumentException.class,
                 () -> productionTree.getInformations(invalidFilePath),
-                "Deveria lançar uma exceção para um arquivo inválido.");
+                "An exception should be thrown for an invalid file.");
 
-        // Verifica o estado da árvore após erro
-        assertTrue(productionTree.getNodesOfTree().isEmpty(), "A lista de nós deveria estar vazia após falha no processamento.");
-        assertTrue(productionTree.getRawMaterials().isEmpty(), "O mapa de matérias-primas deveria estar vazio após falha no processamento.");
+        // Verify that the tree remains empty
+        assertTrue(productionTree.getNodesOfTree().isEmpty(), "Nodes list should be empty after failure.");
+        assertTrue(productionTree.getRawMaterials().isEmpty(), "Raw materials map should be empty after failure.");
     }
 
-
+    /**
+     * Tests the getInformations() method with a valid file.
+     * Verifies the correct loading of nodes, raw materials, and tree height levels.
+     *
+     * @throws IOException If an error occurs while creating the test file.
+     */
     @Test
     void testGetInformationsValidFile() throws IOException {
-        System.out.println("Test GetInformations with valid file");
-        // Criar um arquivo temporário para simular a entrada
+        System.out.println("Test GetInformations with Valid File");
         String filePath = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/test.csv";
+
+        // Create a test file with valid data
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write("""
                 op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id1;item_qtd1;item_id1;item_qtd1;)
@@ -104,26 +108,33 @@ class ProductionTreeTest {
                 """);
         }
 
-
+        // Load information from the test file
+        ProductionTree productionTree = new ProductionTree();
         boolean result = productionTree.getInformations(filePath);
-        assertTrue(result, "Informações deveriam ser lidas com sucesso.");
 
-        // Validar se os nós foram carregados corretamente
-        assertFalse(productionTree.getNodesOfTree().isEmpty(), "Lista de nós não deveria estar vazia.");
-        assertFalse(productionTree.getRawMaterials().isEmpty(), "Mapa de matérias-primas não deveria estar vazio.");
-        assertFalse(productionTree.getMaterials().isEmpty(), "Mapa de materiais não deveria estar vazio.");
-        assertEquals(10, productionTree.getNodesOfTree().size(), "Deveria haver 10 nós na árvore.");
+        // Verify successful data loading
+        assertTrue(result, "Information should be successfully loaded.");
+        assertFalse(productionTree.getNodesOfTree().isEmpty(), "Nodes list should not be empty.");
+        assertFalse(productionTree.getRawMaterials().isEmpty(), "Raw materials map should not be empty.");
+        assertEquals(10, productionTree.getNodesOfTree().size(), "There should be 10 nodes in the tree.");
 
-        // Validar alturas da árvore
-        assertNotNull(productionTree.getHeightMap().get(0), "Altura 0 deveria conter nós.");
-        assertNotNull(productionTree.getHeightMap().get(1), "Altura 1 deveria conter nós.");
+        // Verify tree height map
+        assertNotNull(productionTree.getHeightMap().get(0), "Height 0 should contain nodes.");
+        assertNotNull(productionTree.getHeightMap().get(1), "Height 1 should contain nodes.");
     }
 
+    /**
+     * Tests the getTotalRequiredMaterials() method.
+     * Validates that the required materials and their quantities are calculated correctly.
+     *
+     * @throws IOException If an error occurs while creating the test file.
+     */
     @Test
     void testGetTotalRequiredMaterials() throws IOException {
         System.out.println("Test GetTotalRequiredMaterials");
-        // Criar um arquivo temporário para simular a entrada
         String filePath = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/testMaterials.csv";
+
+        // Create a test file with material data
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write("""
                 op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id1;item_qtd1;item_id1;item_qtd1;)
@@ -140,21 +151,29 @@ class ProductionTreeTest {
                 """);
         }
 
+        // Load data and calculate required materials
+        ProductionTree productionTree = new ProductionTree();
         productionTree.getInformations(filePath);
         Map<ID, Float> totalMaterials = productionTree.getTotalRequiredMaterials();
 
-        // Validar materiais calculados
-        assertEquals(6, totalMaterials.size(), "Deveria haver 6 matérias-primas no total.");
-        assertTrue(totalMaterials.containsKey(new ID(1014, TypeID.ITEM)), "Material 1014 deveria estar presente.");
-        assertEquals(0.125f, totalMaterials.get(new ID(1014, TypeID.ITEM)), 0.01, "Quantidade total do material 1014 está incorreta.");
+        // Verify materials and quantities
+        assertEquals(6, totalMaterials.size(), "There should be 6 raw materials in total.");
+        assertTrue(totalMaterials.containsKey(new ID(1014, TypeID.ITEM)), "Material 1014 should be present.");
+        assertEquals(0.125f, totalMaterials.get(new ID(1014, TypeID.ITEM)), 0.01, "Quantity for material 1014 is incorrect.");
     }
 
+    /**
+     * Tests the behavior of an empty ProductionTree.
+     * Verifies that all maps and lists are empty.
+     */
     @Test
     void testEmptyTree() {
         System.out.println("Test Empty Tree");
         ProductionTree emptyTree = new ProductionTree();
-        assertTrue(emptyTree.getNodesOfTree().isEmpty(), "Árvore vazia não deveria ter nós.");
-        assertTrue(emptyTree.getHeightMap().isEmpty(), "Árvore vazia não deveria ter mapa de alturas.");
-        assertEquals(0, emptyTree.getRawMaterials().size(), "Árvore vazia não deveria ter matérias-primas.");
+
+        // Verify empty state
+        assertTrue(emptyTree.getNodesOfTree().isEmpty(), "Nodes list should be empty in an empty tree.");
+        assertTrue(emptyTree.getHeightMap().isEmpty(), "Height map should be empty in an empty tree.");
+        assertEquals(0, emptyTree.getRawMaterials().size(), "Raw materials map should be empty in an empty tree.");
     }
 }

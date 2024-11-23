@@ -11,30 +11,26 @@ dequeue_value:
     cmpl $0, %eax
     jle fail
     
-    movl (%rcx), %ebx
-	incl %ebx
-    cmpl %esi, %ebx
-    je head_at_end
-	
+    movl (%rdx), %ebx
+    cmpl (%rcx), %ebx
+    jl tail_before_head
 
-
-move_head:
-	decl %ebx
-	movslq %ebx, %rbx
-	movl (%rdi, %rbx, 4), %r9d
-	movl %r9d, (%r8)
-	incl (%rcx)
-	movl $1, %eax
-	ret
-
-head_at_end:
-	decl %ebx
+tail_at_end:
 	movslq %ebx, %rbx
 	movl (%rdi, %rbx, 4), %r9d
 	movl %r9d, (%r8)
 	movq $0, %rbx
+	movl (%rdi, %rdx, 4), %r9d
+	movl %r9d, (%rdx)
+	movl $1, %eax
+	ret
+
+
+tail_before_head:
+	movslq %ebx, %rbx
 	movl (%rdi, %rbx, 4), %r9d
-	movl %r9d, (%rcx)
+	movl %r9d, (%r8)
+	incl (%rdx)
 	movl $1, %eax
 	ret
 	

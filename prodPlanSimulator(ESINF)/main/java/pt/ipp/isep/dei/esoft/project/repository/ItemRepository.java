@@ -1,14 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.repository;
 
-import pt.ipp.isep.dei.esoft.project.domain.BOO;
-import pt.ipp.isep.dei.esoft.project.domain.data.FileDataReader;
-import pt.ipp.isep.dei.esoft.project.domain.enumclasses.Priority;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.Item;
 import pt.ipp.isep.dei.esoft.project.domain.Operation;
 
-import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 import static pt.ipp.isep.dei.esoft.project.domain.data.ReadTreeInfo.getOpOrItem;
 import static pt.ipp.isep.dei.esoft.project.domain.data.ReadTreeInfo.readBoo;
 

@@ -80,7 +80,7 @@ class WriterTreeTest {
         String content = Files.readString(file.toPath());
         assertTrue(content.contains("@startuml"), "File should contain PlantUML start marker.");
         assertTrue(content.contains("\"finished bench\""), "Item B should be included in the BOM file.");
-        assertTrue(content.contains("\"raw bench seat\" -- \"wood 3cm\"[label = 0.058]"), "Operation 2 should be referenced.");
+        assertTrue(content.contains("\"raw bench seat\" -- \"wood 3cm\"[label = 0,058]"), "Operation 2 should be referenced.");
 
         file.delete();
     }

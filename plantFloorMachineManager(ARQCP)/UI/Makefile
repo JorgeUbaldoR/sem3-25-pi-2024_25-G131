@@ -61,6 +61,5 @@ run: $(TARGET)
 	files/./$(TARGET)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f files/*.o files/$(TARGET)
 
-.PHONY: all run clean

@@ -54,6 +54,8 @@ get_int:
 	decq %r11
 	cmpq $1, %r11 
 	je one_expo
+	cmpq $0, %r11
+	je zero_expo
 power:
 	imull %r9d, %r8d
 	decq %r11

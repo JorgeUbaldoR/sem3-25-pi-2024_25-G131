@@ -59,17 +59,19 @@ public class SearchProductionTreeUI implements Runnable {
         System.out.printf(" %s(0)%s - Cancel%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         int searchChoice = getChoice(3);
 
-        System.out.printf("%n%s!IMPORTANT!%s Select your preference:%n",ANSI_BRIGHT_YELLOW,ANSI_RESET);
-        System.out.printf(" %s(1)%s - Use Default File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf(" %s(2)%s - Insert Path File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        int preferenceChoice = getChoice(2);
-        if(preferenceChoice == 1) {
-            doChoice(searchChoice, "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
-        }else {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter path: ");
-            String path = scanner.nextLine();
-            doChoice(searchChoice,path );
+        if(searchChoice != 0) {
+            System.out.printf("%n%s!IMPORTANT!%s Select your preference:%n",ANSI_BRIGHT_YELLOW,ANSI_RESET);
+            System.out.printf(" %s(1)%s - Use Default File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf(" %s(2)%s - Insert Path File%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            int preferenceChoice = getChoice(2);
+            if(preferenceChoice == 1) {
+                doChoice(searchChoice, "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
+            }else {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter path: ");
+                String path = scanner.nextLine();
+                doChoice(searchChoice,path );
+            }
         }
     }
 

@@ -4,14 +4,23 @@
 
 int main () {
 		
-		int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18};   
-		int lenght = sizeof(buffer) / sizeof(int);
-		
-		int head = 1;
-		int tail = 22;
-		
-		
-		int n = get_n_element(buffer, lenght, &tail, &head);
+		int buffer[] = {0,1,2,3};
+		int length = sizeof(buffer) / sizeof(int);
+		int head;
+		int tail;
+
+		printf("Buffer: [ ");
+		for(int* i = buffer; i < buffer + length; i++) {
+			printf("%d ", *i);
+		}
+		printf("]\n");
+
+		printf("Choose tail: ");
+		scanf("%d", &tail);
+		printf("Choose head: ");
+		scanf("%d", &head);
+
+		int n = get_n_element(buffer, length, &tail, &head);
 		printf("Number of elements: %d\n", n);
 		
 	
