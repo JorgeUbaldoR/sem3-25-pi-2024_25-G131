@@ -25,40 +25,44 @@ should be included. For each operation, the inputs and outputs should be include
         operation_worstationTypes_cursor SYS_REFCURSOR;
     BEGIN
         OPEN operation_worstationTypes_cursor FOR
+            -- First part of the query: Operations and Workstation Types
             SELECT O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID
             FROM Operation O
             JOIN Workstation_Type_Operation_TYPE WtOp
-            ON WtOp.Operation_TYPEOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
+            ON WtOp.Operation_typeOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
             WHERE O.BOOProductPRODUCT_ID = product_id
             GROUP BY O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID
     
             UNION ALL
             
+            -- Second part of the query: BOO_OUTPUT and Workstation Types
             SELECT O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID
             FROM Operation O
             JOIN BOO_OUTPUT BO ON O.OPERATION_ID = BO.OperationOPERATION_ID
-            JOIN Workstation_Type_Operation_TYPE WtOp ON WtOp.Operation_typeOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
+            JOIN Workstation_Type_Operation_TYPE WtOp 
+                ON WtOp.Operation_typeOPTYPE_ID = O.Operation_TYPEOPTYPE_ID
             WHERE BO.PartPARTNUMBER IN (
                 SELECT PartPARTNUMBER 
                 FROM BOO_INPUT
-                WHERE OperationOPERATION_ID = (
+                WHERE OperationOPERATION_ID IN (
                     SELECT OPERATION_ID 
                     FROM Operation 
                     WHERE BOOProductPRODUCT_ID = product_id
                 )
             )
             GROUP BY O.OPERATION_ID, WtOp.Workstation_TypeWS_TYPE_ID;
+    
         RETURN operation_worstationTypes_cursor;
     END;
     /
-
 
     DECLARE
         operation_workstationTypes_cursor SYS_REFCURSOR;
         op Operation.OPERATION_ID%TYPE;
         wT Workstation_Type_Operation_TYPE.Workstation_TypeWS_TYPE_ID%TYPE;
     BEGIN
-        operation_workstationTypes_cursor := list_operations_and_workstationTypes('AS12945S22');
+        -- A99999S99, AS12945S22
+        operation_workstationTypes_cursor := list_operations_and_workstationTypes('A99999S99');
     
         LOOP
             FETCH operation_workstationTypes_cursor INTO op, wT;
