@@ -9,74 +9,62 @@
 Each test case evaluates the `get_number` function under different conditions to ensure it behaves correctly across a
 variety of input scenarios:
 
-1. **`test_trimmed_str_only_numbers`**:
-    - **Description**: 
-    - **Expected Outcome**: 
-    - **Explanation**: 
+Each test case evaluates the get_number function under different conditions to ensure it behaves correctly across a
+variety of input scenarios:
 
+1. **`test_Null`**:
 
+- **Description**: Tests the case of an empty string (no characters).
+- **Expected Outcome**: Should return 0 and the number 0 because there is no valid number to parse.
+- **Explanation**: An empty string cannot be converted to a number, so the function should return 0 and set the number to 0.
 
-Each test case evaluates the get_number function under different conditions to ensure it behaves correctly across a variety of input scenarios:
-1.	**`test_trimmed_str_only_numbers`**:
- -  **Description**: Tests if the function correctly parses a trimmed string containing only numeric characters.
- - **Expected Outcome**: Returns 1, with value set to 89.
- - **Explanation**: The input string “89” has no extra whitespace or special characters, so the function should interpret it as a valid number and set value to 89.
+2. **`test_One`**:
 
-2.	**`test_not_trimmed_str_only_numbers`**:
- - **Description**: Tests if the function can parse a number surrounded by whitespace.
- - **Expected Outcome**: Returns 1, with value set to 89.
- - **Explanation**: The function should ignore the whitespace around the number and parse it as 89.
+- **Description**: Tests the conversion of a string containing only the number “1”.
+- **Expected Outcome**: Should return 1 and the number 1.
+- **Explanation**: The string “1” is a valid number and should be parsed correctly.
 
-3.	**`test_trimmed_separated_str_only_numbers`**:
-- *Description**: Tests if the function can handle separated numeric characters in a trimmed string.
-- **Expected Outcome**: Returns 1, with value set to 8992.
-- **Explanation**: The function should combine separated numeric characters “8 9 9 2” into a single integer, resulting in 8992.
+3. **`test_Zero`**:
 
-4.	**`test_not_trimmed_separated_str_only_numbers`**:
--	**Description**: Tests if the function correctly parses separated numeric characters with surrounding whitespace.
--	**Expected Outcome**: Returns 1, with value set to 8992.
--	**Explanation**: The function should ignore surrounding whitespace and concatenate the numeric characters to form 8992.
+- *Description**: Tests a string containing only “0”, with extra spaces around it.
+- **Expected Outcome**: Should return 1 and the number 0.
+- **Explanation**: The function should ignore leading and trailing spaces and correctly parse the number “0”.
 
-5.	**`test_invalid_str_with_numbers`**:
--   **Description**: Tests if the function rejects a string with invalid characters between numbers.
--	**Expected Outcome**: Returns 0.
--	**Explanation**: The input “8–9” contains invalid characters (--), so the function should not recognize it as a valid integer.
+4. **`test_Three`**:
 
-6.	**`test_invalid_str_without_numbers`**:
--	**Description**: Tests if the function rejects a string that lacks numeric characters entirely.
--	**Expected Outcome**: Returns 0.
--	**Explanation**: The input “####–##” has no numeric characters, so it should be deemed invalid.
+- **Description**: Tests the conversion of a string containing “333” with extra spaces around it.
+- **Expected Outcome**: Tests the conversion of a string containing “333” with extra spaces around it.
+- **Explanation**: The string “333” should be correctly parsed, even with spaces.
 
-7.	**`test_empty_str`**:
-- **Description**: Tests if the function can handle an empty string.
-- **Expected Outcome**: Returns 0.
-- **Explanation**: An empty string cannot be parsed as a number, so the function should return 0.
+5. **`test_Four`**:
 
-8.	**`test_null_str`**:
--	**Description**: Tests if the function can handle a null or zero-length string.
--	**Expected Outcome**: Returns 0.
--   **Explanation**: A null or zero-length string is considered invalid, so the function should return 0.
+- **Description**: Tests the conversion of a string containing the number “4444”, with extra spaces.
+- **Expected Outcome**: Should return 1 and the number 4444.
+- **Explanation**: The string “4444” should be parsed correctly.
 
-9.	**`test_neg_value_str`**:
--	**Description**: Tests if the function can handle a negative number.
--	**Expected Outcome**: Returns 0.
--	**Explanation**: The function does not support negative values, so it should return 0 for an input like “-89”.
+6. **`test_Five`**:
 
-10.	**`test_single_value_str:`**
--	**Description**: Tests if the function correctly parses a single-digit number surrounded by whitespace.
--	**Expected Outcome**: Returns 1, with value set to 8.
--	**Explanation**: The function should ignore the surrounding whitespace and interpret “8” as the integer 8.
+- **Description**: Tests the conversion of a string containing “55555”, with extra spaces around it.
+- **Expected Outcome**: Should return 1 and the number 55555.
+- **Explanation**: The string “55555” should be parsed correctly, with spaces ignored.
 
-11.	**`test_decimal_value_str:`**
--	**Description**: Tests if the function rejects strings containing decimal values.
--	**Expected Outcome**: Returns 0.
--	**Explanation**: Decimal points are not valid in the expected input format, so the function should return 0 for “8.9”.
+7. **`test_MinusOne`**:
 
-12.	**`test_mixed_valid_and_invalid_values_str:`**
--	**Description**: Tests if the function rejects strings that mix numeric and invalid characters.
--	**Expected Outcome**: Returns 0.
--	**Explanation**: A string like “8a9” includes letters and thus should be considered invalid, resulting in a return value of 0.
+- **Description**: Tests a string with the negative number “-1”.
+- **Expected Outcome**: Should return 0, as negative numbers are not allowed.
+- **Explanation**: The function should reject negative numbers and return 0 and -1 as the number.
 
+8. **`test_SixtyFour`**:
+
+- **Description**: Tests a string with mixed characters and the number “64”.
+- **Expected Outcome**: Should return 0 because the string contains non-numeric characters.
+- **Explanation**: The string contains invalid characters (letters and symbols), so the function should reject it and return 0.
+
+9. **`test_Forty`**:
+
+- **Description**:  Tests a string with “40” followed by non-numeric characters.
+- **Expected Outcome**: Should return 0 because of the presence of non-numeric characters after the number.
+- **Explanation**: The function should return 0 when a string contains numbers followed by invalid characters.
 
 ### **Main Function**
 
@@ -87,8 +75,6 @@ Each test case evaluates the get_number function under different conditions to e
 
 ### **Key Assumptions**
 
-- The get_number function returns 1 if the input string is successfully parsed into a number and stored in the provided value variable, and returns 0 if parsing fails due to invalid characters, format issues, or empty/null input.
-- Leading and trailing whitespace is ignored, allowing the function to interpret a valid number regardless of surrounding spaces.
-- Non-numeric characters (e.g., letters, symbols, punctuation) within or surrounding numeric characters in the input string invalidate parsing, and the function should return 0.
-- The function only accepts positive integers without decimal points or negative signs. Negative values and decimal formats are considered invalid, and parsing will fail if encountered.
-- When parsing strings with separated numbers (like “8 9 9 2”), the function is expected to concatenate the numbers into a single integer, e.g., “8992”.
+- The get_number function is expected to return 1 when a valid number is successfully parsed from the input string and return 0 if parsing fails (due to invalid characters, format issues, or empty input).
+- Leading and trailing whitespace is ignored in the string input.
+- The function only accepts positive integers without decimal points or negative signs. Negative values and decimals are considered invalid, so parsing should fail for such inputs.

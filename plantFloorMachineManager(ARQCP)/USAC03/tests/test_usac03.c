@@ -1,175 +1,93 @@
+#include <string.h>
 #include "../../unity_folder/unity.h"
-#include "../include/asm.h"  
+#include "../include/asm.h"
+
+
+// int get_number(char * str, int * n );
+
+int call_func ( int (*f)(char* str, int * p),  char *str , int *p);
 
 void setUp(void) {
+    // set stuff up here
 }
-
 void tearDown(void) {
+    // clean stuff up here
 }
 
 
-void test_trimmed_str_only_numbers() {
-    char str[] = "89";
-    int value;
 
-    int res = get_number(str, &value);
+void run_test( char * input,  int exp_res, int exp_num )
+{
+	int  res;
+	int vec_out[3]={-1,-1,-1};
+	res = get_number(input,&vec_out[1]);
+	TEST_ASSERT_EQUAL_INT(exp_res,res);
+	if (exp_res==1)
+		TEST_ASSERT_EQUAL_INT(exp_num,vec_out[1]);
+	else
+		TEST_ASSERT_EQUAL_INT(-1,vec_out[1]);
+	TEST_ASSERT_EQUAL_INT(-1,vec_out[0]);      //sentinels
+	TEST_ASSERT_EQUAL_INT(-1,vec_out[2]);
 
-    int expected_res = 1;
-    int expected_value = 89;
 
-    TEST_ASSERT_EQUAL_INT(res, expected_res);
-    TEST_ASSERT_EQUAL_INT(expected_value, value);
 }
 
-void test_not_trimmed_str_only_numbers() {
-    char str[] = "	89	";
-    int value;
+void test_Null()
+{
+    run_test("",0,0);
+}
+void test_One()
+{
+    run_test("1",1,1);
 
-    int res = get_number(str, &value);
-
-    int expected_res = 1;
-    int expected_value = 89;
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-    TEST_ASSERT_EQUAL_INT(expected_value, value);
+}
+void test_Zero()
+{
+    run_test(" 0   ",1,0);
+}
+void test_Three()
+{
+    run_test(" 333    ",1,333);
+}
+void test_Four()
+{
+    run_test(" 4444",1,4444);
+}
+void test_Five()
+{
+    run_test(" 55555          ",1,55555);
+}
+void test_MinusOne()
+{
+    run_test(" -1",0,0);
+}
+void test_SixtyFour()
+{
+    run_test(" shdhsdh %444 sdjshd 64" ,0,0);
+}
+void test_Forty()
+{
+    run_test("40  adsads",0,0);
 }
 
-void test_trimmed_separated_str_only_numbers() {
-    char str[] = "8 9 9 2";
-    int value;
+int main()
+  {
 
-    int res = get_number(str, &value);
-    
-    int expected_res = 1;
-    int expected_value = 8992;
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-    TEST_ASSERT_EQUAL_INT(expected_value, value);
-}
-
-void test_not_trimmed_separated_str_only_numbers() {
-    char str[] = "	8	9	9	2	";
-    int value;
-
-    int res = get_number(str, &value);
-
-    int expected_res = 1;
-    int expected_value = 8992;
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-    TEST_ASSERT_EQUAL_INT(expected_value, value);
-}
-
-void test_invalid_str_with_numbers() {
-    char str[] = "8--9";
-    int value;
-
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_invalid_str_without_numbers() {
-    char str[] = "####--##";
-    int value;
-
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_empty_str() {
-    char str[] = {};
-    int value;
-    
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_null_str() {
-    char str[] = {0};
-    int value;
-    
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_neg_value_str() {
-    char str[] = "-89";
-    int value;
-    
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_single_value_str() {
-    char str[] = " 8 ";
-    int value;
-    
-    int res = get_number(str, &value);
-	int expected_value = 8;
-    int expected_res = 0;
-    
-	TEST_ASSERT_EQUAL_INT(expected_value, value);
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_decimal_value_str() {
-    char str[] = "	8.9		";
-    int value;
-    
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-void test_mixed_valid_and_invalid_values_str() {
-    char str[] = "	8a9		";
-    int value;
-    
-    int res = get_number(str, &value);
-
-    int expected_res = 0;
-    
-
-    TEST_ASSERT_EQUAL_INT(expected_res, res);
-}
-
-
-int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_trimmed_str_only_numbers);
-    RUN_TEST(test_not_trimmed_str_only_numbers);
-    RUN_TEST(test_trimmed_separated_str_only_numbers);
-    RUN_TEST(test_not_trimmed_separated_str_only_numbers);
-    RUN_TEST(test_invalid_str_with_numbers);
-    RUN_TEST(test_invalid_str_without_numbers);
-    RUN_TEST(test_empty_str);
-    RUN_TEST(test_null_str);
-    RUN_TEST(test_neg_value_str);
-    RUN_TEST(test_decimal_value_str);
-    RUN_TEST(test_mixed_valid_and_invalid_values_str);
-
+    RUN_TEST(test_Null);
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Four);
+    RUN_TEST(test_Five);
+    RUN_TEST(test_MinusOne);
+    RUN_TEST(test_SixtyFour);
+    RUN_TEST(test_Forty);
     return UNITY_END();
-}
+
+  }
+
+
+
+
+
