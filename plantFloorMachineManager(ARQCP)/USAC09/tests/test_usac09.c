@@ -1,243 +1,105 @@
+#include <string.h>
 #include "../../unity_folder/unity.h"
-#include "../include/asm.h"  
+#include "../include/asm.h"
+
+
+int call_func ( int (*f)(int* ptr, int num, char order),int* ptr, int num, char order);
 
 void setUp(void) {
+    // set stuff up here
 }
 
 void tearDown(void) {
+    // clean stuff up here
 }
 
 
-void test_ascending_order_positive_vec(void) {
-    int arr[] = {4,65,9,2,25,6};
-    int lenght = 6;
-    char order = 1;
 
-    int result = sort_array(arr,lenght,order);
+void run_test(int * vec, int in_num, char order, int exp_res, int * exp_vec)
+{
+    int vec1[100];
+    int res;
 
-    int expected_array[] = {2,4,6,9,25,65};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
 
-}
+    // setup
+        memset(vec1, 0x55, sizeof vec1);
 
-void test_descending_order_positive_vec(void) {
-    int arr[] = {4,65,9,2,25,6};
-    int lenght = 6;
-    char order = 0;
+	memcpy(vec1+1,vec,in_num*sizeof(int));  //
+	//res=call_func(sort_array,vec1+1,in_num,order);
+	res = sort_array (vec1+1, in_num, order);
 
-    int result = sort_array(arr,lenght,order);
-
-    int expected_array[] = {65,25,9,6,4,2};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
+    TEST_ASSERT_EQUAL_INT(exp_res,res);    // check result
+    TEST_ASSERT_EQUAL_INT(0x55555555, vec1[in_num+1]);    // check sentinel
+    TEST_ASSERT_EQUAL_INT(0x55555555, vec1[0]);    // check sentinel
+    if ( in_num != 0 )
+    TEST_ASSERT_EQUAL_INT_ARRAY(exp_vec, vec1+1, in_num);    // check vec
 
 }
 
-void test_ascending_order_negative_vec(void) {
-    int arr[] = {-4,-65,-9,-2,-25,-6};
-    int lenght = 6;
-    char order = 1;
 
-    int result = sort_array(arr,lenght,order);
-
-    int expected_array[] = {-65,-25,-9,-6,-4,-2};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_NullVector()
+{
+    run_test((int[]){0},0,1,0,(int[]){0});
+}
+void test_One()
+{
+    run_test((int[]){1000},1,1,1,(int[]){1000});
+}
+void test_Zero()
+{
+    run_test((int[]){10,0,1},3,1,1,(int[]){0,1,10});
+}
+void test_Three()
+{
+    run_test((int[]){-1,-3,-2},3,1,1,(int[]){-3,-2,-1});
+}
+void test_Five()
+{
+    run_test((int[]){1,1,1,1,2},5,1,1,(int[]){1,1,1,1,2});
 }
 
-void test_descending_order_negative_vec(void) {
-    int arr[] = {-4,-65,-9,-2,-25,-6};
-    int lenght = 6;
-    char order = 0;
-
-    int result = sort_array(arr,lenght,order);
-
-    int expected_array[] = {-2,-4,-6,-9,-25,-65};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_NullVectorD()
+{
+    run_test((int[]){0},0,0,0,(int[]){0});
 }
-
-void test_descending_order_negative_and_positive_vec(void) {
-    int arr[] = {-4,-65,9,-2,25,-6};
-    int lenght = 6;
-    char order = 0;
-
-    int result = sort_array(arr,lenght,order);
-
-    int expected_array[] = {25,9,-2,-4,-6,-65};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_OneD()
+{
+    run_test((int[]){1000},1,0,1,(int[]){1000});
 }
-
-void test_ascending_order_negative_and_positive_vec(void) {
-    int arr[] = {-4,-65,9,-2,25,-6};
-    int lenght = 6;
-    char order = 1;
-
-    int result = sort_array(arr,lenght,order);
-
-    int expected_array[] = {-65,-6,-4,-2,9,25};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(arr, expected_array, lenght);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_ZeroD()
+{
+    run_test((int[]){10,0,1},3,0,1,(int[]){10,1,0});
 }
-
-void test_ascending_order_empty_array(void) {
-    int arr[] = {};
-    int lenght = 0;
-    char order = 1;
-
-    int result = sort_array(arr,lenght,order);
-
-    int expected_output = 0;
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_ThreeD()
+{
+    run_test((int[]){-1,-3,-2},3,0,1,(int[]){-1,-2,-3});
 }
-
-void test_descending_order_empty_array(void) {
-    int arr[] = {};
-    int lenght = 0;
-    char order = 0;
-
-    int result = sort_array(arr,lenght,order);
-
-    int expected_output = 0;
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
-}
-
-void test_single_element_array_ascending(void) {
-    int arr[] = {42};
-    int length = 1;
-    char order = 1;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {42};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_single_element_array_descending(void) {
-    int arr[] = {42};
-    int length = 1;
-    char order = 0;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {42};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_duplicate_elements_array_ascending(void) {
-    int arr[] = {3, 3, 3, 3, 3};
-    int length = 5;
-    char order = 1;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {3, 3, 3, 3, 3};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_duplicate_elements_array_descending(void) {
-    int arr[] = {3, 3, 3, 3, 3};
-    int length = 5;
-    char order = 0;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {3, 3, 3, 3, 3};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_already_sorted_array_ascending(void) {
-    int arr[] = {1, 2, 3, 4, 5};
-    int length = 5;
-    char order = 1;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {1, 2, 3, 4, 5};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_already_sorted_array_descending(void) {
-    int arr[] = {5,4,3,2,1};
-    int length = 5;
-    char order = 0;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {5,4,3,2,1};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
+void test_FiveD()
+{
+    run_test((int[]){1,1,1,1,2},5,0,1,(int[]){2,1,1,1,1});
 }
 
 
-void test_reverse_sorted_array_ascending(void) {
-    int arr[] = {5, 4, 3, 2, 1};
-    int length = 5;
-    char order = 1;
+int main()
+  {
 
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {1, 2, 3, 4, 5};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_reverse_sorted_array_descending(void) {
-    int arr[] = {1,2,3,4,5};
-    int length = 5;
-    char order = 0;
-
-    int result = sort_array(arr, length, order);
-
-    int expected_array[] = {5,4,3,2,1};
-    int expected_output = 1;
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected_array, arr, length);
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_ascending_order_positive_vec);
-    RUN_TEST(test_descending_order_positive_vec);
-    RUN_TEST(test_ascending_order_negative_vec);
-    RUN_TEST(test_descending_order_negative_vec);
-    RUN_TEST(test_descending_order_negative_and_positive_vec);
-    RUN_TEST(test_ascending_order_negative_and_positive_vec);
-    RUN_TEST(test_ascending_order_empty_array);
-    RUN_TEST(test_descending_order_empty_array);
-    RUN_TEST(test_single_element_array_ascending);
-    RUN_TEST(test_single_element_array_descending);
-    RUN_TEST(test_duplicate_elements_array_ascending);
-    RUN_TEST(test_duplicate_elements_array_descending);
-    RUN_TEST(test_already_sorted_array_ascending);
-    RUN_TEST(test_already_sorted_array_descending);
-    RUN_TEST(test_reverse_sorted_array_ascending);
-    RUN_TEST(test_reverse_sorted_array_descending);
+    RUN_TEST(test_NullVector);
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Five);
+    RUN_TEST(test_NullVectorD);
+    RUN_TEST(test_OneD);
+    RUN_TEST(test_ZeroD);
+    RUN_TEST(test_ThreeD);
+    RUN_TEST(test_FiveD);
     return UNITY_END();
-}
+
+  }
+
+
+
+
+
+

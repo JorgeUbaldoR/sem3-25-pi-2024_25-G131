@@ -9,98 +9,59 @@
 Each test case evaluates the `sort_array` function under different conditions to ensure it behaves correctly across a
 variety of input scenarios:
 
-1. **`test_ascending_order_positive_vec`**:
-    - **Description**: Tests the sorting of an array with positive values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [2, 4, 6, 9, 25, 65], and the return value should be 1.
-    - **Explanation**: This verifies that the function correctly sorts a typical positive integer array when order = 1 (
-      ascending).
+1. **`test_NullVector`**:
+    - **Description**: Tests the case where the input array is empty (size = 0).
+    - **Expected Outcome**: The function should return 0 indicating failure for an empty array.
+    - **Explanation**:  Sorting an empty array should result in no change, and the function should return 0 indicating failure or no operation.
 
-2. **`test_descending_order_positive_vec`**:
-    - **Description**: Tests the sorting of an array with positive values in descending order.
-    - **Expected Outcome**: The array should be sorted as [65, 25, 9, 6, 4, 2], and the return value should be 1.
-    - **Explanation**: Confirms that the function sorts a positive integer array in descending order with order = 0 (
-      descending).
+2. **`test_One`**:
+    - **Description**: Tests the case where the array contains only one element.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should remain unchanged.
+    - **Explanation**: An array with one element is trivially sorted, and the function should return success (1) with no change in the array.
 
-3. **`test_ascending_order_negative_vec`**:
-    - **Description**: Tests sorting an array with only negative values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [-65, -25, -9, -6, -4, -2], with a return value of 1.
-    - **Explanation**: Ensures the function handles negative numbers properly in ascending order.
+3. **`test_Zero`**:
+    - **Description**: Tests the case where the array contains multiple elements, and the order is ascending.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in ascending order.
+    - **Explanation**:  Sorting the array [10, 0, 1] in ascending order should result in [0, 1, 10].
 
-4. **`test_descending_order_negative_vec`**:
-    - **Description**: Tests sorting an array with only negative values in descending order.
-    - **Expected Outcome**: The sorted array should be [-2, -4, -6, -9, -25, -65], with a return value of 1.
-    - **Explanation**: Confirms that the function correctly sorts an array with negative numbers in descending order.
+4. **`test_Three`**:
+    - **Description**: Tests the case with negative values, sorting in ascending order.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in ascending order.
+    - **Explanation**:  Sorting the array [-1, -3, -2] in ascending order should result in [-3, -2, -1].
 
-5. **`test_descending_order_negative_and_positive_vec`**:
-    - **Description**: Tests sorting an array with a mix of positive and negative values in descending order.
-    - **Expected Outcome**: The array should be sorted as [25, 9, -2, -4, -6, -65], with a return value of 1.
-    - **Explanation**: Validates sorting in descending order with mixed positive and negative values.
+5. **`test_Five`**:
+    - **Description**: Tests the case where the array contains duplicates, sorting in ascending order.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in ascending order.
+    - **Explanation**:  Sorting the array [1, 1, 1, 1, 2] in ascending order should result in [1, 1, 1, 1, 2].
 
-6. **`test_ascending_order_negative_and_positive_vec`**:
-    - **Description**: Tests sorting an array with mixed negative and positive values in ascending order.
-    - **Expected Outcome**: The array should be sorted as [-65, -6, -4, -2, 9, 25], with a return value of 1.
-    - **Explanation**: Confirms proper sorting in ascending order for an array with mixed sign values.
+6. **`test_NullVectorD`**:
+    - **Description**: Similar to test_NullVector but tests the case where the sorting is in descending order.
+    - **Expected Outcome**: The function should return 0 for failure with an empty array.
+    - **Explanation**: An empty array should return 0, indicating no sorting was done.
 
-7. **`test_ascending_order_empty_array`**:
-   - **Description**: Tests sorting an empty array in ascending order.
-   - **Expected Outcome**: The return value should be 0.
-   - **Explanation**: Ensures that the function recognizes an empty array and returns 0, indicating no sorting is needed.
+7. **`test_OneD`**:
+    - **Description**:  Similar to test_One, but tests descending order sorting.
+    - **Expected Outcome**:  The function should return 1, indicating success, and the array should remain unchanged.
+    - **Explanation**: An array with one element in descending order should still return 1 as success, with no changes in the array.
 
-8. **`test_descending_order_empty_array`**:
+8. **`test_ZeroD`**:
 
-   - **Description**: Tests sorting an empty array in descending order.
-   - **Expected Outcome**: The return value should be 0.
-   - **Explanation**: Ensures that the function recognizes an empty array and returns 0, indicating no sorting is needed.
+    - **Description**:  Tests the sorting of multiple elements in descending order.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in descending order.
+    - **Explanation**: Sorting the array [10, 0, 1] in descending order should result in [10, 1, 0].
+      
 
-9. **`test_single_element_array_ascending`**:
+9. **`test_ThreeD`**:
 
-   - **Description**: Tests sorting an array with a single element in ascending order.
-   - **Expected Outcome**: The array remains [42], and the return value is 1.
-   - **Explanation**: Verifies that an array with one element is handled correctly and that the function returns 1.
+    - **Description**:  Tests the sorting of an array with negative values in descending order.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in descending order.
+    - **Explanation**: Sorting the array [-1, -3, -2] in descending order should result in [-1, -2, -3].
 
-10. **`test_single_element_array_descending`**:
+10. **`test_FiveD`**:
 
-    - **Description**: Tests sorting an array with a single element in descending order.
-    - **Expected Outcome**: The array remains [42], and the return value is 1.
-    - **Explanation**: Confirms that a single-element array is handled appropriately in descending order.
-
-11. **`test_duplicate_elements_array_ascending`**:
-
-    - **Description**: Tests sorting an array with duplicate elements in ascending order.
-    - **Expected Outcome**: The array should be [3, 3, 3, 3, 3], with a return value of 1.
-    - **Explanation**: Ensures the function correctly sorts an array with identical elements without modifying their order.
-
-12. **`test_duplicate_elements_array_descending`**:
-
-    - **Description**: Tests sorting an array with duplicate elements in descending order.
-    - **Expected Outcome**: The array should be [3, 3, 3, 3, 3], with a return value of 1.
-    - **Explanation**: Checks that the function handles duplicate elements correctly in descending order.
-
-13. **`test_already_sorted_array_ascending`**:
-
-    - **Description**: Tests sorting an array already sorted in ascending order.
-    - **Expected Outcome**: The array remains [1, 2, 3, 4, 5], with a return value of 1.
-    - **Explanation**: Confirms that the function recognizes an already sorted array in ascending order and doesn’t alter it
-      unnecessarily.
-
-14. **`test_already_sorted_array_descending`**:
-
-    - **Description**: Tests sorting an array already sorted in descending order.
-    - **Expected Outcome**: The array remains [5, 4, 3, 2, 1], with a return value of 1.
-    - **Explanation**: Similar to the ascending test, it ensures that the function identifies a sorted array in descending
-      order.
-
-15. **`test_reverse_sorted_array_ascending`**:
-
-    - **Description**: Tests sorting an array that is reverse-ordered (in descending order) to ascending order.
-    - **Expected Outcome**: The sorted array should be [1, 2, 3, 4, 5], with a return value of 1.
-    - **Explanation**: Confirms that the function can correctly sort a descending-ordered array into ascending order.
-
-16. **`test_reverse_sorted_array_descending:`**:
-
-    - **Description**: Tests sorting an array that is reverse-ordered (in ascending order) to descending order.
-    - **Expected Outcome**: The sorted array should be [5, 4, 3, 2, 1], with a return value of 1.
-    - **Explanation**: Ensures that the function can reverse a sorted ascending array into descending order.
+    - **Description**:  Tests the sorting of an array with duplicates in descending order.
+    - **Expected Outcome**: The function should return 1, indicating success, and the array should be sorted in descending order.
+    - **Explanation**: Sorting the array [1, 1, 1, 1, 2] in descending order should result in [2, 1, 1, 1, 1].
 
 ### **Main Function**
 
