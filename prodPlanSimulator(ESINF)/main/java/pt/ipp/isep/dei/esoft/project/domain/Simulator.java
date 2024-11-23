@@ -394,26 +394,26 @@ public class Simulator {
         List<Map.Entry<Operation, Float>> list = ascendingOrderOperationTimes();
         float totalTime = sumTotalTime();
 
-        System.out.printf("%n%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s%s%s%s %-13s %6s %15s %s%s%3s%s%n",
+        System.out.printf("%n%s====================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%s%s%s %-20s %6s%15s%s%s%3s%s%n",
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                 ANSI_BRIGHT_WHITE,
                 "Operation",
                 " Time(sec)",
                 "Percentages", ANSI_RESET,
                 ANSI_BRIGHT_BLACK, "||", ANSI_RESET);
-        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s====================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Map.Entry<Operation, Float> entry : list) {
             float percentage = (entry.getValue() / totalTime) * 100;
-            System.out.printf("%s%s%s  %-14s %-13.2f %.2f %s%n",
+            System.out.printf("%s%s%s  %-22s %-11.2f %.2f %s%n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                     entry.getKey().getOperationName(),
                     entry.getValue(),
                     percentage, "%");
         }
 
-        System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s====================================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
     }
 
     /**
@@ -583,7 +583,7 @@ public class Simulator {
         for (Map.Entry<Item, LinkedList<ID>> entry : itemLinkedListMap.entrySet()) {
             for (Item it : itemLinkedList) {
                 if (entry.getKey().equals(it)) {
-                    System.out.printf("%s%s%s  %-17s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, entry.getKey().getItemID(), entry.getValue());
+                    System.out.printf("%s%s%s  %-20s %s %n", ANSI_BRIGHT_BLACK, "||", ANSI_RESET, entry.getKey().getItemID(), entry.getValue());
                 }
             }
         }
@@ -641,7 +641,7 @@ public class Simulator {
         System.out.printf("%s===============================================%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Map.Entry<Operation, Float> entry : sortedListAvgExecutionTime) {
-            System.out.printf("%s%s%s  %-14s %17.2f %n",
+            System.out.printf("%s%s%s  %-25s %.2f %n",
                     ANSI_BRIGHT_BLACK, "||", ANSI_RESET,
                     entry.getKey().getOperationName(),
                     entry.getValue());
