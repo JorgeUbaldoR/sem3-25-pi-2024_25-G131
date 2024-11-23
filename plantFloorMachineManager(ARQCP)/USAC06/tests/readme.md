@@ -9,37 +9,25 @@
 Each test case evaluates the `dequeue_value` function under different conditions to ensure it behaves correctly across a
 variety of input scenarios:
 
-1. **`test_dequeue_from_full_buffer`**:
-    - **Description**: Tests dequeuing from a full buffer with head at the first element and tail at the last.
-    - **Expected Outcome**: Dequeues the first element, updates head, and returns 1.
-    - **Explanation**: Validates basic dequeuing functionality from a full buffer.
+1. **`test_One`**:
+    - **Description**: Tests the case where the buffer has no valid values to dequeue.
+    - **Expected Outcome**: The function should return 0 (failure) because no values are in the buffer to dequeue.
+    - **Explanation**: The buffer is empty (no valid data to dequeue), so the dequeue operation should fail.
 
-2. **`test_dequeue_from_partial_buffer`**:
-    - **Description**: Tests dequeuing from a partially filled buffer with head at position 3 and tail at position 9.
-    - **Expected Outcome**: Dequeues the element at head, updates head, and returns 1.
-    - **Explanation**: Ensures dequeuing works correctly for a partially filled buffer.
+2. **`test_Zero`**:
+    - **Description**: Tests the case where there is a valid value at the front of the buffer.
+    - **Expected Outcome**: The function should return 1 (success), and the value 6 should be dequeued from the buffer.
+    - **Explanation**: Since the read pointer points to a valid value in the buffer (6), it should be dequeued and returned successfully.
 
-3. **`test_dequeue_head_to_equal_tail`**:
-    - **Description**: Tests dequeuing when only two elements remain (head just before tail).
-    - **Expected Outcome**: Dequeues the element at head, sets head = tail, and returns 1.
-    - **Explanation**: Confirms proper transition from partially filled to empty buffer.
+3. **`test_Three`**:
+    - **Description**: Tests a scenario where the read pointer is at the end of the buffer, and no valid value can be dequeued.
+    - **Expected Outcome**: The function should return 0 (failure) because the read pointer points to an empty slot.
+    - **Explanation**: The read pointer is positioned at the end of the buffer, and no valid value can be dequeued, resulting in a failure.
 
-4. **`test_dequeue_head_at_buffer_end`**:
-    - **Description**: Tests wrap-around behavior when head points to the last buffer element.
-    - **Expected Outcome**: Dequeues the element at head, wraps head to 0, and returns 1.
-    - **Explanation**: Confirms proper transition from partially filled to empty buffer.
-
-5. **`test_dequeue_empty_buffer`**:
-    - **Description**: Tests dequeuing from an empty buffer where head == tail.
-    - **Expected Outcome**: Returns 0 indicating the buffer is empty.
-    - **Explanation**: Ensures the function correctly handles an empty buffer.
-
-6. **`test_dequeue_from_partial_buffer_tail_first`**:
-    - **Description**: Tests a circular buffer where head > tail.
-    - **Expected Outcome**: Dequeues the element at head, updates head, and returns 1.
-    - **Explanation**: Confirms correct handling of circular buffer cases with wrap-around.
-
-
+4. **`test_Five`**:
+    - **Description**: Tests the scenario where there is a valid value to dequeue, and the buffer has more items.
+    - **Expected Outcome**: The function should return 1 (success), and the value 6 should be dequeued from the buffer.
+    - **Explanation**: The read pointer is at the start of the buffer and points to a valid value (6), which should be dequeued and returned.
 
 
 ### **Main Function**
@@ -51,7 +39,8 @@ variety of input scenarios:
 
 ### **Key Assumptions**
 
-- The `dequeue_value` function:
-  - Implements circular buffer behavior with wrap-around for head and tail.
-  - Handles edge cases like an empty buffer (head == tail) and full buffers appropriately.
-  - Returns 1 for successful dequeue and 0 for failure.
+- The dequeue_value function simulates a circular buffer and returns:
+   - 1 for successful dequeue (i.e., when a valid value is dequeued).
+   -	0 if the buffer is empty or if there is no valid value to dequeue at the current read pointer.
+- The buffer is modeled with a read pointer and a write pointer, and the function behaves according to these pointers’ positions.
+- The function should correctly handle edge cases like empty buffers, full buffers, and wrap-around behavior.
