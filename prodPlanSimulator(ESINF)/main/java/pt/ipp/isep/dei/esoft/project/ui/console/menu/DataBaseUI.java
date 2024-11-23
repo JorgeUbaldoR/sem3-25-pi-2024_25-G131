@@ -26,6 +26,7 @@ public class DataBaseUI implements Runnable {
         options.add(new MenuItem("Show Quality Checks", new QualityChecksUI()));
         options.add(new MenuItem("Quantity BY Material", new BSTUI()));
         options.add(new MenuItem("Show Quantity of Required Materials", new ViewTotalMaterialUI()));
+        options.add(new MenuItem("Show Critical Path(s)", new ViewCriticalPathUI()));
 
         int option = 0;
         do {

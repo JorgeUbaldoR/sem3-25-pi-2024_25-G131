@@ -7,10 +7,7 @@ import pt.ipp.isep.dei.esoft.project.repository.ItemRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents a production tree containing nodes that define operations, items, and dependencies.
@@ -250,4 +247,73 @@ public class ProductionTree {
 
         return totalRequiredMaterials;
     }
+
+    public List<List<String>> getCriticalPath() {
+        ProductionTree pdt = new ProductionTree();
+        pdt.getInformations(BOO_PATH);
+
+        Map<Integer, List<Node>> heightMap = pdt.getHeightMap();
+        Map<ID, Node> operationNodeID = pdt.getOperationNodeID();
+
+        List<List<String>> criticalPaths = new ArrayList<>();
+
+        // Identificar os nós raízes (os de menor altura)
+        int minHeight = heightMap.keySet().stream().min(Integer::compareTo).orElse(0);
+        List<Node> rootNodes = heightMap.get(minHeight);
+
+
+        if (rootNodes == null || rootNodes.isEmpty()) {
+            throw new IllegalStateException("Tree does not have root nodes.");
+        }
+
+        PriorityQueue<QueueNode> pq = new PriorityQueue<>(Comparator.comparingInt(QueueNode::getDepth));
+
+        for (Node rootNode : rootNodes) {
+            pq.offer(new QueueNode(rootNode, new ArrayList<>(), 0));
+        }
+
+        while (!pq.isEmpty()) {
+            QueueNode current = pq.poll();
+            Node currentNode = current.node;
+            List<String> currentPath = new ArrayList<>(current.path);
+
+            currentPath.add(currentNode.getOperationNameByID());
+
+            Map<ID, Float> operationMap = currentNode.getOperationMap();
+            if (operationMap.isEmpty()) {
+
+                criticalPaths.add(currentPath); // É um nó folha, adicionar o caminho crítico
+
+            } else {
+
+                for (Map.Entry<ID, Float> entry : operationMap.entrySet()) { // Adicionar os filhos à fila de prioridade
+                    ID childId = entry.getKey();
+                    Node childNode = operationNodeID.get(childId);
+
+                    if (childNode != null) {
+                        pq.offer(new QueueNode(childNode, currentPath, current.depth + 1));
+                    }
+                }
+            }
+        }
+
+        return criticalPaths ;
+    }
+
+    private static class QueueNode {
+        private final Node node;
+        private final List<String> path;
+        private final int depth;
+
+        public QueueNode(Node node, List<String> path, int depth) {
+            this.node = node;
+            this.path = path;
+            this.depth = depth;
+        }
+
+        public int getDepth() {
+            return depth;
+        }
+    }
+
 }

@@ -1,6 +1,8 @@
 package pt.ipp.isep.dei.esoft.project.domain.TreeClasses;
 
 import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.repository.OperationRepository;
+import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
 import java.util.Map;
 
@@ -18,6 +20,7 @@ public class Node {
     private final float item_qtd;  // The quantity of the item produced by this operation.
     private Map<ID, Float> operationMap; // Map of dependent operations and their quantities.
     private Map<ID, Float> materialMap;  // Map of required materials and their quantities.
+    private OperationRepository operationRepository;
 
     /**
      * Constructs a new Node with the given details.
@@ -37,7 +40,17 @@ public class Node {
         this.item_qtd = item_qtd;
         this.itemID = itemID;
         this.heigthInTree = 0;
+        getOperationRepository();
     }
+
+    private OperationRepository getOperationRepository() {
+        if(operationRepository == null) {
+            Repositories repositories = Repositories.getInstance();
+            operationRepository = repositories.getOperationRepository();
+        }
+        return operationRepository;
+    }
+
 
     /**
      * @return the unique ID of the operation.
@@ -165,4 +178,11 @@ public class Node {
 
         return sb.toString();
     }
+
+    public String getOperationNameByID () {
+        return getOperationRepository().getNameByID(this.operationID);
+    }
+
+
+
 }
