@@ -35,15 +35,19 @@ public class Simulator {
     private final Map<Operation, Integer> executionPerOperation;
 
     /**
-     * Constructs a Simulator instance with the provided machines, items, and operations.
-     * Initializes the machine list, operation queue list, and operation time map.
+     * Constructor for the Simulator class, which initializes various fields and sets up the simulation
+     * environment. This includes the machine list, operation queue map, and item queues based on the provided
+     * parameters. The constructor also calls the checkInformation method to ensure that all provided data is
+     * valid before proceeding with the setup.
      *
-     * @param machines     A map of operations to queues of machines available for processing.
-     * @param items        A list of items to be processed in the simulation.
-     * @param operations   A list of operations to be executed during the simulation.
-     * @param machList     A list of machines that will be part of the simulation.
-     * @param priorityFlag A flag indicating whether priority should be considered in queue processing.
-     * @throws IllegalArgumentException if any of the provided lists are null or empty.
+     * @param machines      A map of operations to queues of machines, representing which machines are
+     *                      available for each operation.
+     * @param items         A TreeMap containing items categorized by height. Each item is mapped to its
+     *                      associated float values in a queue.
+     * @param operations    A list of operations to be simulated.
+     * @param machList      A list of machines that will be used in the simulation.
+     * @param priorityFlag  A boolean flag indicating whether priority-based processing should be used in
+     *                      the simulation.
      */
     public Simulator(Map<Operation, Queue<Machine>> machines, TreeMap<Integer, Queue<Map<Item, Float>>> items, List<Operation> operations, ArrayList<Machine> machList, boolean priorityFlag) {
         checkInformation(machines, operations, items);
@@ -95,10 +99,13 @@ public class Simulator {
 
 
     /**
-     * Creates operation queues for the given items based on their current operation.
-     * Items are assigned to the appropriate operation queue according to their current operation.
+     * This method processes the items in the given TreeMap and organizes them into operation queues.
+     * It checks if each item has a current operation, and if so, it adds the item to the appropriate
+     * operation queue in the operationQueueMap.
      *
-     * @param items A list of items to be added to the operation queues.
+     * @param items A TreeMap where each key represents the height of an item, and the value is a queue
+     *              of maps containing items and their associated float values.
+     * @return A boolean indicating whether any items were added to the operation queues.
      */
     private boolean createQueues(TreeMap<Integer, Queue<Map<Item, Float>>> items) {
         boolean haveItems = false;
@@ -125,8 +132,9 @@ public class Simulator {
 
 
     /**
-     * Starts the simulation process, incrementing time and processing items
-     * until all operations and machine processes are completed.
+     * This method starts the simulation process. It processes each height in the items list and runs a loop
+     * that updates machine statuses, processes items, assigns new items to machines, and prints simulation
+     * progress and statistics.
      */
     public void startSimulation() {
         int time = 0;
@@ -753,6 +761,10 @@ public class Simulator {
         return transitionMap;
     }
 
+    /**
+     *
+     * @return a boolean indicating if the simulator was activated
+     */
     public boolean wasActivated() {
         return wasActivated;
     }

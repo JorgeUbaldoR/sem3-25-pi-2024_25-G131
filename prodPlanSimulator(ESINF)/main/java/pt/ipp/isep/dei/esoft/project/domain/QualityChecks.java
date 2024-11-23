@@ -13,13 +13,20 @@ public class QualityChecks {
     private final PriorityQueue<Map<Integer, List<ID>>> priorityQueue;
     protected Map<Map<Integer, List<ID>>, Boolean> checkedOperations;
 
-
+    /**
+     * Constructor initializes the priority queue and the checked operations map.
+     */
     public QualityChecks() {
         priorityQueue = new PriorityQueue<>(Comparator.comparingInt(map -> map.keySet().iterator().next()));
         checkedOperations = new HashMap<>();
 
     }
 
+    /**
+     * Fills the priority queue with data from the height map of the production tree.
+     *
+     * @return The populated priority queue.
+     */
     public PriorityQueue<Map<Integer, List<ID>>> fillOperationsPriorityQueue() {
         ProductionTree pdt = new ProductionTree();
         pdt.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
@@ -45,6 +52,11 @@ public class QualityChecks {
         return priorityQueue;
     }
 
+    /**
+     * Prepares a map for quality checks, initially marking all operations as unchecked.
+     *
+     * @return The populated quality check map.
+     */
     public Map<Map<Integer, List<ID>>, Boolean> prepareQualityChecks() {
         Map<Map<Integer, List<ID>>, Boolean> checksMap = new LinkedHashMap<>();
         PriorityQueue<Map<Integer, List<ID>>> pq = fillOperationsPriorityQueue();
@@ -58,6 +70,12 @@ public class QualityChecks {
     }
 
 
+    /**
+     * Performs quality checks on operations based on user confirmation and simulator activation.
+     *
+     * @param confirmation User confirmation ("y" to perform checks).
+     * @param simulatorActivated Indicates whether the simulator is activated.
+     */
     public void performQualityChecks(String confirmation, boolean simulatorActivated) {
         Map<Map<Integer, List<ID>>, Boolean> checksMap = prepareQualityChecks();
 
@@ -120,6 +138,11 @@ public class QualityChecks {
 
     }
 
+    /**
+     * Utility method to pause execution for a given time.
+     *
+     * @param time Time in milliseconds to sleep.
+     */
     private void sleep(int time) {
         try {
             Thread.sleep(time);

@@ -156,6 +156,12 @@
             return optionalValue;
         }
 
+        /**
+         * Retrieves the name of an operation by its ID.
+         *
+         * @param id The ID of the operation.
+         * @return The name of the operation if found, or null if not found.
+         */
         public String getNameByID(ID id) {
             for (Operation operation : operations) {
                 if (operation.getOperationId().equals(id)) {
@@ -165,6 +171,11 @@
             return null;
         }
 
+        /**
+         * Retrieves the map of operation IDs to operations.
+         *
+         * @return The map containing operation IDs as keys and operations as values.
+         */
         public Map<ID, Operation> getIdToOperation() {
             return idToOperation;
         }

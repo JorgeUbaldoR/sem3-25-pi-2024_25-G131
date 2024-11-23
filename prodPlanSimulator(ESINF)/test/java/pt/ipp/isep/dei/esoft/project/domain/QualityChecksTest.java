@@ -46,7 +46,7 @@ class QualityChecksTest {
         boolean simulatorActivated = true;
         String confirmation = "y";
 
-        //qualityChecks.performQualityChecks(confirmation, simulatorActivated);
+        qualityChecks.performQualityChecks(confirmation, simulatorActivated);
 
         Map<Map<Integer, List<ID>>, Boolean> checkedOperations = qualityChecks.checkedOperations;
         for (Boolean value : checkedOperations.values()) {

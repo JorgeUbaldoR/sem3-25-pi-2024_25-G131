@@ -8,14 +8,20 @@ public class ItemLevelProcessor {
 
     private final TreeMap<Integer, Queue<Map<Item, Float>>> tree;
 
-
+    /**
+     * Constructor initializes the structure and associates items with the tree.
+     */
     public ItemLevelProcessor() {
         tree = new TreeMap<>(Collections.reverseOrder());
         associateItemsWithTree();
 
     }
 
-
+    /**
+     * Initializes a TreeMap containing IDs organized by priority levels (heights).
+     *
+     * @return A TreeMap with IDs associated with their priority levels.
+     */
     private TreeMap<Integer, List<ID>> initializeTreeMap() {
         TreeMap<Integer, List<ID>> treeMap = new TreeMap<>(Collections.reverseOrder());
         QualityChecks qc = new QualityChecks();
@@ -32,6 +38,9 @@ public class ItemLevelProcessor {
         return treeMap;
     }
 
+    /**
+     * Associates items with the tree structure based on heights and IDs.
+     */
     public void associateItemsWithTree() {
         ItemController itemController = new ItemController();
         TreeMap<Integer, List<ID>> treeMap = initializeTreeMap();
@@ -62,6 +71,11 @@ public class ItemLevelProcessor {
     }
 
 
+    /**
+     * Getter for the tree structure.
+     *
+     * @return The TreeMap with items organized by height.
+     */
     public TreeMap<Integer, Queue<Map<Item, Float>>> getTree() {
         return tree;
     }

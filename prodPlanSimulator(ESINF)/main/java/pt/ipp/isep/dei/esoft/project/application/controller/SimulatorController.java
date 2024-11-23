@@ -80,8 +80,8 @@ public class SimulatorController {
     public void startSimulationWithOutPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try {
-            this.simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), false);
-            this.simulator.startSimulation();
+            simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), false);
+            simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
@@ -98,8 +98,8 @@ public class SimulatorController {
     public void startSimulationWithPriority() {
         long startTime = System.nanoTime(); // Ou System.currentTimeMillis()
         try {
-            this.simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), true);
-            this.simulator.startSimulation();
+            simulator = new Simulator(getMachinesMap(), getBoo(), getOperationList(), (ArrayList<Machine>) getMachineList(), true);
+            simulator.startSimulation();
 
             long endTime = System.nanoTime(); // Ou System.currentTimeMillis()
             double durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
@@ -163,6 +163,11 @@ public class SimulatorController {
         return getMachineRepository().getMachineList();
     }
 
+    /**
+     * Provides access to the shared Simulator instance.
+     *
+     * @return The current Simulator instance.
+     */
     public static Simulator getSharedSimulator() {
         return simulator;
     }
