@@ -1,159 +1,80 @@
+#include <string.h>
 #include "../../unity_folder/unity.h"
-#include "../include/asm.h"  
+#include "../include/asm.h"
+
+
+
+// int get_n_element(int* array, int length, int* read, int* write);
+
+int call_func ( int (*f)(int* array, int len, int* read, int *write), int* array, int len, int* read, int *write );
 
 void setUp(void) {
+    // set stuff up here
 }
-
 void tearDown(void) {
+    // clean stuff up here
 }
 
 
-void test_full_buffer_v1(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 0;
-	int tail = 23;
-		
-	int expected_output = 24;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
 
+void run_test(int length , int read, int write , int  exp_res )
+{
+	int  res;
+	int vec[5]={-1,-1,-1,-1,-1};
+	vec[1]=read;
+	vec[3]=write;
+    res = get_n_element(NULL,length, &vec[1], &vec[3]);
+	TEST_ASSERT_EQUAL_INT(exp_res,res);
+	TEST_ASSERT_EQUAL_INT(read,vec[1]);
+	TEST_ASSERT_EQUAL_INT(write,vec[3]);
+	TEST_ASSERT_EQUAL_INT(-1,vec[0]);
+	TEST_ASSERT_EQUAL_INT(-1,vec[2]);      //sentinels
+	TEST_ASSERT_EQUAL_INT(-1,vec[4]);
 }
 
-void test_full_buffer_v2(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 12;
-	int tail = 11;
-		
-	int expected_output = 24;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
+void test_Null()
+{
+    run_test(5,0,0,0);
+}
+void test_One()
+{
+    run_test(5,0,1,1);
 
 }
-
-void test_empty_buffer(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 12;
-	int tail = 12;
-		
-	int expected_output = 0;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
+void test_Zero()
+{
+    run_test(5,3,3,0);
 
 }
-
-void test_not_full_buffer(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 10;
-	int tail = 12;
-		
-	int expected_output = 3;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
+void test_Three()
+{
+    run_test(5,4,2,3);
+}
+void test_Four()
+{
+    run_test(500,200,300,100);
+}
+void test_Five()
+{
+    run_test(500,300,200,400);
 }
 
-void test_invalid_tail_buffer(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 10;
-	int tail = 25;
-		
-	int expected_output = -1;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
+int main()
+  {
 
-}
-
-void test_invalid_head_buffer(void) {
-    int buffer[] = {2,32,5,23,4,6,19,29,43,27,7,43,55,32,3,12,2,5,7,9,12,16,18,21};   
-	int lenght = sizeof(buffer) / sizeof(int);
-		
-    int head = 25;
-	int tail = 12;
-		
-	int expected_output = -1;
-	int result = get_n_element(buffer, lenght, &tail, &head);
-	
-		
-    
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-
-}
-
-void test_zero_length_buffer(void) {
-    int buffer[] = {};
-    int lenght = 0;
-    int head = 0;
-    int tail = 0;
-
-    int expected_output = 0; 
-    int result = get_n_element(buffer, lenght, &tail, &head);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_single_element_buffer(void) {
-    int buffer[] = {42};
-    int lenght = 1;
-    int head = 0;
-    int tail = 0;
-
-    int expected_output = 1; 
-    int result = get_n_element(buffer, lenght, &tail, &head);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-void test_negative_head_tail(void) {
-    int buffer[] = {10, 20, 30, 40};
-    int lenght = sizeof(buffer) / sizeof(int);
-
-    int head = -1; 
-    int tail = -2;
-
-    int expected_output = -1; 
-    int result = get_n_element(buffer, lenght, &tail, &head);
-
-    TEST_ASSERT_EQUAL_INT(expected_output, result);
-}
-
-
-int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_full_buffer_v1);
-    RUN_TEST(test_full_buffer_v2);
-    RUN_TEST(test_empty_buffer);   
-    RUN_TEST(test_not_full_buffer); 
-    RUN_TEST(test_invalid_head_buffer);
-    RUN_TEST(test_invalid_tail_buffer);
-    RUN_TEST(test_zero_length_buffer);
-    RUN_TEST(test_single_element_buffer);
-    RUN_TEST(test_negative_head_tail);
-    
-    
+    RUN_TEST(test_Null);
+    RUN_TEST(test_One);
+    RUN_TEST(test_Zero);
+    RUN_TEST(test_Three);
+    RUN_TEST(test_Four);
+    RUN_TEST(test_Five);
     return UNITY_END();
-}
+
+  }
+
+
+
+
+
+
