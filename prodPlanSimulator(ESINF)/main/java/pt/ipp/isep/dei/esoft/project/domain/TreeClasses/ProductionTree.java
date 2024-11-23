@@ -163,7 +163,7 @@ public class ProductionTree {
      * <p>
      * Complexity: O(n) - Searches through the list of nodes.
      */
-    private Node findNodeByOperation(ID id) {
+    public Node findNodeByOperation(ID id) {
         for (Node node : nodesOfTree) {
             if (node.getOperationID().equals(id)) {
                 return node;
@@ -323,5 +323,4 @@ public class ProductionTree {
             return depth;
         }
     }
-
 }

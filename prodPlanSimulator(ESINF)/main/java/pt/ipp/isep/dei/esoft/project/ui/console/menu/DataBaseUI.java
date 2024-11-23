@@ -18,7 +18,7 @@ public class DataBaseUI implements Runnable {
 
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
+        //options.add(new MenuItem("List [Operation->Machines]", new ViewOperationsUI()));
         options.add(new MenuItem("Show Information", new ShowInformationUI()));
         options.add(new MenuItem("Show Production Tree", new ProductionTreeUI()));
         options.add(new MenuItem("Search Operation/Material", new SearchProductionTreeUI()));
@@ -27,6 +27,7 @@ public class DataBaseUI implements Runnable {
         options.add(new MenuItem("Quantity BY Material", new BSTUI()));
         options.add(new MenuItem("Show Quantity of Required Materials", new ViewTotalMaterialUI()));
         options.add(new MenuItem("Show Critical Path(s)", new ViewCriticalPathUI()));
+        options.add(new MenuItem("Update Material Quantity", new UpdateQuantityUI()));
 
         int option = 0;
         do {

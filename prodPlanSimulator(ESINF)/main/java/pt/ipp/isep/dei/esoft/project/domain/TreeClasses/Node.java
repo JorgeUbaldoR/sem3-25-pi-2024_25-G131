@@ -17,7 +17,7 @@ public class Node {
     private final ID operationID; // Represents the operation's unique identifier.
     private final ID itemID;      // Represents the item's unique identifier.
     private int heigthInTree; // Represents the depth or height of this node in the tree.
-    private final float item_qtd;  // The quantity of the item produced by this operation.
+    private float item_qtd;  // The quantity of the item produced by this operation.
     private Map<ID, Float> operationMap; // Map of dependent operations and their quantities.
     private Map<ID, Float> materialMap;  // Map of required materials and their quantities.
     private OperationRepository operationRepository;
@@ -99,6 +99,10 @@ public class Node {
 
     public float getItemQtdByID (ID id) {
         return materialMap.get(id);
+    }
+
+    public void setItem_qtd(float item_qtd) {
+        this.item_qtd = item_qtd;
     }
 
     /**
