@@ -107,9 +107,9 @@ public class Utils {
         for (Object o : list) {
             index++;
 
-            System.out.printf("║    %s(%d)%s -  %-37s %-2s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
+            System.out.printf("║    %s(%-3s%s -  %-36s %-2s%n",COLOR_OPTIONS, index + ")",ANSI_RESET,o.toString(),"║");
         }
-        System.out.printf("║    %s(0)%s -  %-29s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.printf("║    %s(0)%s  -  %-28s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
         System.out.println("╚═════════════════════════════════════════════════╝");
     }
 
