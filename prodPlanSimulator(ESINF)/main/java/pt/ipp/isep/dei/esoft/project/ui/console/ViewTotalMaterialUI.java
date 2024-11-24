@@ -52,22 +52,22 @@ public class ViewTotalMaterialUI implements Runnable {
         List<Map.Entry<ID, Float>> totalMaterial = ascendingOrderQuantity();
 
         System.out.println();
-        System.out.printf("%s---------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s%-14s %-21s %-7s %s%n", ANSI_BRIGHT_WHITE, "ID", "Name", "Total Quantity", ANSI_RESET);
-        System.out.printf("%s---------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s-----------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%-14s %-45s %-10s    %s%n", ANSI_BRIGHT_WHITE, "ID", "Name", "Total Quantity", ANSI_RESET);
+        System.out.printf("%s-----------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Map.Entry<ID, Float> entry : totalMaterial) {
             ID itemID = entry.getKey();
             String itemName = controller.getItemNameByID(itemID);
 
             if (itemID.getSerial() == 1015) {
-                System.out.printf("%-13s %-22s %-7s m² %n", itemID, itemName, entry.getValue());
+                System.out.printf("%-13s %-45s %-10s m² %n", itemID, itemName, entry.getValue());
             } else if (itemID.getSerial() == 1016) {
-                System.out.printf("%-13s %-22s %-7s m %n", itemID, itemName, entry.getValue());
+                System.out.printf("%-13s %-45s %-10s m %n", itemID, itemName, entry.getValue());
             } else if (itemID.getSerial() == 1014) {
-                System.out.printf("%-13s %-22s %-7s L %n", itemID, itemName, entry.getValue());
+                System.out.printf("%-13s %-45s %-10s L %n", itemID, itemName, entry.getValue());
             } else {
-                System.out.printf("%-13s %-22s %-7s unit(s) %n", itemID, itemName, entry.getValue());
+                System.out.printf("%-13s %-45s %-10s unit(s) %n", itemID, itemName, entry.getValue());
             }
         }
     }

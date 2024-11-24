@@ -59,7 +59,7 @@ class WriterTreeTest {
     }
 
     /**
-     * Test the {@link WriterTree#writeBOOToUmlFile()} method to ensure it writes the BOO UML file correctly.
+     * Test the {@link WriterTree#writeBOOToUmlFile(String fileName)} method to ensure it writes the BOO UML file correctly.
      * <p>
      * Verifies that the BOO UML file is created and contains the necessary elements, such as operation and item nodes.
      * </p>
@@ -72,7 +72,7 @@ class WriterTreeTest {
         WriterTree writer = new WriterTree(mockTree);
 
         // Write BOO to UML file
-        WriterTree.writeBOOToUmlFile();
+        WriterTree.writeBOOToUmlFile("ProductionTree_BOO.puml");
 
         // Check File Content
         File file = new File("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOO.puml");

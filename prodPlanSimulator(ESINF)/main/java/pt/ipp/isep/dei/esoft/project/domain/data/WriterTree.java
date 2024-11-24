@@ -42,10 +42,10 @@ public class WriterTree {
      * Time Complexity: O(P * (O + M)), where P is the number of nodes,
      * O is the maximum size of the operation map, and M is the maximum size of the material map for a node.
      */
-    public static void writeBOOToUmlFile() {
+    public static void writeBOOToUmlFile(String fileName) {
         List<Node> boo = productionTree.getNodesOfTree(); // O(P)
         try {
-            treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/ProductionTree_BOO.puml");
+            treePrintWriter = new PrintWriter("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/output/"+fileName);
             treePrintWriter.println("@startuml");
             treePrintWriter.println("graph TreeDiagram {");
 

@@ -27,7 +27,7 @@ public class ReadTreeInfo {
         Scanner scanner = new Scanner(new File(path));
         List<String[]> itemsDetails = new ArrayList<>();
 
-        // Skip the header line if it exists.
+//         Skip the header line if it exists.
         if (scanner.hasNextLine()) {
             scanner.nextLine();
         }

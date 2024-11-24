@@ -1,0 +1,23 @@
+workstation;name_oper;time
+ws1110;Pot handles riveting;21
+ws1210;Pot base finishing;25
+ws1310;Final pot base pressing;25
+ws2110;Initial pot base pressing;36
+ws2210;Disc cutting;26
+ws3110;Handle welding;50
+ws3210;Pot test and packaging;74
+ws4110;Lid handle screw;77
+ws4210;Lid finishing;84
+ws4310;Lid pressing;81
+ws4410;Pan test and packaging;76
+ws5110;Initial assembly of product;316
+ws5210;Pan base welding;107
+ws5310;Lid fitting;342
+ws5410;Handle attachment;101
+ws5510;Final quality check and packaging;326
+ws5610;Handle fitting;177
+ws6110;Base welding;195
+ws6210;Lid creation and welding;162
+ws7210;Final product assembly;100
+ws7220;Product quality check and packaging;19
+ws7230;Initial assembly of product;120

@@ -38,6 +38,11 @@ public class ProductionTreeUI implements Runnable {
         doChoice(getChoice());
 
     }
+
+    /**
+     * Executes actions based on the user's choice.
+     * @param choice User's choice from the menu.
+     */
     private void doChoice(int choice) {
         Scanner in = new Scanner(System.in);
         String name;
@@ -64,6 +69,10 @@ public class ProductionTreeUI implements Runnable {
         }
     }
 
+    /**
+     * Prompts the user to input their choice and validates it.
+     * @return A valid choice between 0 and 2.
+     */
     private int getChoice () {
         int choice = 0;
         boolean valid = false;
@@ -86,19 +95,23 @@ public class ProductionTreeUI implements Runnable {
         return choice;
     }
 
-
-
-
-
-
-
+    /**
+     * Displays the production tree.
+     * @param productionTree The tree to be displayed.
+     * @param name The name of the tree.
+     */
     public void showTree(ProductionTree productionTree, String name) {
         System.out.printf("%n%n══════════|PRODUCTION TREE: %s%s%s|══════════%n%n",ANSI_BRIGHT_WHITE,name,ANSI_RESET);
         printNode(productionTree.getNodesOfTree().get(0), 0, "");  // Inicia a árvore com o primeiro nó, nível 1, e indentação vazia
 
     }
 
-
+    /**
+     * Recursively prints the nodes and their dependencies in a structured format.
+     * @param node The current node.
+     * @param level The depth of the current node.
+     * @param indent The indentation to display for the current node.
+     */
     private void printNode(Node node, int level, String indent) {
         // Define a indentação do nível atual e cria a linha de conexão para dependências
         String currentIndent = indent + (level > 1 ? "├─ " : "");
@@ -150,7 +163,11 @@ public class ProductionTreeUI implements Runnable {
         }
     }
 
-
+    /**
+     * Confirms and processes data for the production tree.
+     * @param name The name of the tree.
+     * @param path The path to the input file.
+     */
     private void confirmationData(String name, String path) {
         displayOption(name,0);
         displayOption(path,1);
@@ -196,10 +213,17 @@ public class ProductionTreeUI implements Runnable {
         return answer;
     }
 
-    public void auxilary(ID materailID, float quantity) {
+    /**
+     * Updates the material quantity in the production tree.
+     * @param materailID The ID of the material to update.
+     * @param quantity The new quantity.
+     * @return The updated production tree.
+     */
+    public ProductionTree auxilary(ID materailID, float quantity) {
         getProductionTreeController().getInformations(DEFAULT_PATH);
         UpdateMaterial updateMaterial = new UpdateMaterial(getProductionTreeController().getProductionTree());
         updateMaterial.updateMaterial(materailID, quantity);
         showTree(getProductionTreeController().getProductionTree(), "Updated Materials");
+        return getProductionTreeController().getProductionTree();
     }
 }
