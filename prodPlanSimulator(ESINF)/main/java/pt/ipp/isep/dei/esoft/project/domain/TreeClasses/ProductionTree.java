@@ -27,7 +27,7 @@ public class ProductionTree {
     private final Map<ID, Node> rawMaterials; // Map of raw material IDs to corresponding nodes.
     private final Map<ID, Node> operationNodeID; // Map of operation IDs to corresponding nodes.
 
-    private final String BOO_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+    private final String BOO_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv";
 
     /**
      * Constructs an empty production tree with default values.

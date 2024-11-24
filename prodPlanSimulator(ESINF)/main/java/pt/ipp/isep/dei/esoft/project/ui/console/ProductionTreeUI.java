@@ -14,7 +14,7 @@ import java.util.Scanner;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class ProductionTreeUI implements Runnable {
-    private final String DEFAULT_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+    private final String DEFAULT_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv";
     private final Scanner in = new Scanner(System.in);
     private ProductionTreeController controller;
 

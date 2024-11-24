@@ -67,7 +67,7 @@
          */
         public void fillOperations(List<Item> items) {
             try {
-                String PATH_OPERATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/operations.csv";
+                String PATH_OPERATIONS = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/OPERATION.csv";
                 List<String[]> operationDetails = getOpOrItem(PATH_OPERATIONS);
 
 

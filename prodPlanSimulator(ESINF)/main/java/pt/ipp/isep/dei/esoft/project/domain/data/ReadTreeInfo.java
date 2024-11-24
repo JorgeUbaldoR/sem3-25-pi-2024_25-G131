@@ -28,9 +28,9 @@ public class ReadTreeInfo {
         List<String[]> itemsDetails = new ArrayList<>();
 
 //         Skip the header line if it exists.
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
+//        if (scanner.hasNextLine()) {
+//            scanner.nextLine();
+//        }
 
         // Read each line, split by semicolon, and validate the length before adding to the list.
         while (scanner.hasNextLine()) {
@@ -65,9 +65,9 @@ public class ReadTreeInfo {
         List<String[]> leituras = new ArrayList<>();
 
         // Skip the header line if it exists.
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
+//        if (scanner.hasNextLine()) {
+//            scanner.nextLine();
+//        }
 
         // Read each line and process its structure.
         while (scanner.hasNextLine()) {

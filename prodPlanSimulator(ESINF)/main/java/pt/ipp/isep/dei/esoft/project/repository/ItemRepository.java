@@ -36,10 +36,11 @@ public class ItemRepository {
 
     public void fillItems() {
         try {
-            String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
-            String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+            String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/ITEMS_LAPR.csv";
+            String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv";
 
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
+
             for (String[] importedItem : itemsDetails) {
                 ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
                 String itemName = importedItem[1].trim();
@@ -73,7 +74,6 @@ public class ItemRepository {
 
 
             }
-
 
         } catch (IOException e) {
             System.out.println("Error reading operations from file");

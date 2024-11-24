@@ -16,7 +16,7 @@ import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
  * detailed information about operations, items, and machines involved in the simulation process.
  * This class interacts with the ShowInfController to fetch relevant data and displays it
  * in a structured and formatted manner using ANSI escape codes for color output.
- *
+ * <p>
  * Key Responsibilities:
  * - Fetch and display operations with their names and descriptions.
  * - Fetch and display items with details such as ID, name, quantity, priority, and associated operations.
@@ -69,12 +69,12 @@ public class ShowInformationUI implements Runnable {
      */
     private void showOperations() {
         System.out.printf("%n%s• OPERATIONS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
-        System.out.printf("%s-----------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         List<Operation> operationList = getShowInfController().getOperationList();
-        System.out.printf("%s%-26s %s%s%n", ANSI_BRIGHT_WHITE, "Name", "Description", ANSI_RESET);
-        System.out.printf("%s-----------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s%-50s %s%s%n", ANSI_BRIGHT_WHITE, "Name", "Description", ANSI_RESET);
+        System.out.printf("%s------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
         for (Operation operation : operationList) {
-            System.out.printf("%-20s %s%n", operation.getOperationName(), operation.getOperationDescription());
+            System.out.printf("%-45s %s%n", operation.getOperationName(), operation.getOperationDescription());
         }
     }
 
@@ -91,30 +91,44 @@ public class ShowInformationUI implements Runnable {
     private void showItems() {
         boolean flag = true; // Tracks whether all items without operations have been displayed
         System.out.printf("%n%s• ITEMS:%s%n", ANSI_BRIGHT_WHITE, ANSI_RESET);
-        System.out.printf("%s-------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s------------------------------------------------------------------------------------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
         List<Item> listItem = getShowInfController().getItemList();
-        System.out.printf("%s%-14s %-17s %-17s %-17s %s%s%n", ANSI_BRIGHT_WHITE, "ID", "Name", "Quantity", "Priority", "Operation", ANSI_RESET);
-        System.out.printf("%s-------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+        // Adjust column widths
+        System.out.printf("%s%-14s    %-50s %-15s %-15s    %s%s%n", ANSI_BRIGHT_WHITE,
+                "ID", "Name", "Quantity", "Priority", "Operation", ANSI_RESET);
+        System.out.printf("%s------------------------------------------------------------------------------------------------------------------------------------------------------------------%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
         for (Item item : listItem) {
             flag = true;
-            if (!item.getOperationList().isEmpty()) {
+            if (item.getOperationList() != null && !item.getOperationList().isEmpty()) {
                 flag = false;
-                System.out.printf("%-10s %-23s %-17s %-13s [", item.getItemID(), item.getName(), item.getQuantity(), item.getPriority());
-                for (Operation operation : item.getOperationList()) {
-                    if (item.getOperationList().indexOf(operation) != item.getOperationList().size() - 1) {
-                        System.out.printf("%s, ", operation.getOperationName());
-                    } else {
-                        System.out.printf("%s]%n", operation.getOperationName());
+                System.out.printf("%-14s    %-50s %-15s %-15s [",
+                        item.getItemID(),
+                        item.getName(),
+                        item.getQuantity(),
+                        item.getPriority()
+                );
+                for (int i = 0; i < item.getOperationList().size(); i++) {
+                    Operation operation = item.getOperationList().get(i);
+                    System.out.printf("%s", operation.getOperationName());
+                    if (i != item.getOperationList().size() - 1) {
+                        System.out.print(", ");
                     }
                 }
+                System.out.printf("]%n");
             }
         }
-        if (flag) {
-            for (Item item : listItem) {
-                if (item.getOperationList().isEmpty()) {
-                    System.out.printf("%-10s %-23s %-17s %-17s [__]%n", item.getItemID(), item.getName(), item.getQuantity(), item.getPriority());
-                }
+
+        for (Item item : listItem) {
+            if (item.getOperationList() == null || item.getOperationList().isEmpty()) {
+                System.out.printf("%-14s    %-50s %-15s %-15s            [__]%n",
+                        item.getItemID(),
+                        item.getName(),
+                        item.getQuantity(),
+                        item.getPriority()
+                );
             }
         }
     }
