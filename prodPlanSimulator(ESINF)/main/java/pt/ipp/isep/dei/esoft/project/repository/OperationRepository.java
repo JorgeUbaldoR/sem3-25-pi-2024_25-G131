@@ -73,7 +73,6 @@
 
                 for (Item item : items) {
                     List<Operation> queue = item.getOperationList();
-
                     for (Operation operation : queue) {
 
                         for (String[] operationDetail : operationDetails) {
@@ -92,6 +91,7 @@
 
             } catch (IOException e) {
                 System.out.println("Error reading operations from file");
+
             }
         }
 

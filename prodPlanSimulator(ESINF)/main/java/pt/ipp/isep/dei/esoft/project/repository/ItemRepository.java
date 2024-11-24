@@ -41,17 +41,16 @@ public class ItemRepository {
 
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
             for (String[] importedItem : itemsDetails) {
-
                 ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
                 String itemName = importedItem[1].trim();
 
                 addItem(new Item(itemID, itemName, new LinkedList<>()));
             }
 
+
             List<String[]> booItems = readBoo(PATH_BOO);
             for (int i = 0; i < booItems.size(); i += 3) {
                 String[] firstThreeValues = booItems.get(i);
-
                 ID idOp = new ID(Integer.parseInt(firstThreeValues[0]), TypeID.OPERATION);
                 ID idItem = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
                 float quantity = Float.parseFloat(firstThreeValues[2].trim());
@@ -64,7 +63,6 @@ public class ItemRepository {
                 }
 
                 String[] rawMaterials = booItems.get(i + 2);
-
                 for (int j = 1; j < rawMaterials.length; j += 2) {
                     ID rawMaterial = new ID(Integer.parseInt(rawMaterials[j]), TypeID.ITEM);
                     if (getMapItemList().containsKey(rawMaterial)) {
@@ -79,6 +77,7 @@ public class ItemRepository {
 
         } catch (IOException e) {
             System.out.println("Error reading operations from file");
+
         }
     }
 
