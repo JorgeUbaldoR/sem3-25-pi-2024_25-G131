@@ -25,7 +25,7 @@ public class UpdateQuantityUI implements Runnable {
     @Override
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
-        System.out.println(ANSI_BRIGHT_WHITE + "            Update material quantity                 " + ANSI_RESET + "\n");
+        System.out.println(ANSI_BRIGHT_WHITE + "         UPDATE MATERIAL QUANTITY                " + ANSI_RESET + "\n");
 
         System.out.print("Put ID: ");
         int id = in.nextInt();
