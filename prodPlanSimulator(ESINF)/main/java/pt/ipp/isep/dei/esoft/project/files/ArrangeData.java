@@ -1,4 +1,4 @@
-package pt.ipp.isep.dei.esoft.project.domain.data;
+package pt.ipp.isep.dei.esoft.project.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;

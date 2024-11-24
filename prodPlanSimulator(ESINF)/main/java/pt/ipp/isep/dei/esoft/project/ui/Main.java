@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui;
 
-import pt.ipp.isep.dei.esoft.project.domain.data.ArrangeData;
+import pt.ipp.isep.dei.esoft.project.files.ArrangeData;
 import pt.ipp.isep.dei.esoft.project.ui.console.menu.MainMenuUI;
 
 import java.io.IOException;

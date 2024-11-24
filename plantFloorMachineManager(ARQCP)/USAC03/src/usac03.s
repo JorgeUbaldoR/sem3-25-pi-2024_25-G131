@@ -11,7 +11,6 @@
 .global get_number
 
 get_number:
-	movl $0, (%rsi)
 	movq $0, %rbx
 	leaq aux(%rip), %rcx
 	movq $0, %rdx
