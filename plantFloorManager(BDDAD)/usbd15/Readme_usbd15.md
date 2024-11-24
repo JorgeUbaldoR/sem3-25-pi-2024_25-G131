@@ -9,7 +9,7 @@
 >**AC1:** Minimum expected requirement: demonstrated with data imported from the
    legacy system.
 > 
->**AC2:** Acceptance criteria: A function should be used to create the workstation and
+>**AC2:** A function should be used to create the workstation and
 to return success or an error.
 
 >This script defines a PL/SQL function called register_workstation, which registers a new workstation in the Work_Station table. The function accepts four parameters: workstation ID, workstation type ID, name, and description.
