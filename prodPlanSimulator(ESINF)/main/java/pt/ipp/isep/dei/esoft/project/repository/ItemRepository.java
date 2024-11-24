@@ -36,18 +36,18 @@ public class ItemRepository {
 
     public void fillItems() {
         try {
+
             String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
             String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
+            String PATH_ITEM_LAPR = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/ITEMS_LAPR.csv";
+            String PATH_BOO_LAPR = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv";
 
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
-
             for (String[] importedItem : itemsDetails) {
                 ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
                 String itemName = importedItem[1].trim();
-
                 addItem(new Item(itemID, itemName, new LinkedList<>()));
             }
-
 
             List<String[]> booItems = readBoo(PATH_BOO);
             for (int i = 0; i < booItems.size(); i += 3) {
@@ -71,13 +71,41 @@ public class ItemRepository {
                         item.setQuantity(Float.parseFloat(rawMaterials[j + 1].replace(",", ".")));
                     }
                 }
+            }
 
+            List<String[]> itemsLaprDetails = getOpOrItem(PATH_ITEM_LAPR);
+            for (String[] importedItem : itemsLaprDetails) {
+                ID itemID = new ID(Integer.parseInt(importedItem[0]), TypeID.ITEM);
+                String itemName = importedItem[1].trim();
+                addItem(new Item(itemID, itemName, new LinkedList<>()));
+            }
 
+            List<String[]> booLaprItems = readBoo(PATH_BOO_LAPR);
+            for (int i = 0; i < booLaprItems.size(); i += 3) {
+                String[] firstThreeValues = booLaprItems.get(i);
+                ID idOp = new ID(Integer.parseInt(firstThreeValues[0]), TypeID.OPERATION);
+                ID idItem = new ID(Integer.parseInt(firstThreeValues[1]), TypeID.ITEM);
+                float quantity = Float.parseFloat(firstThreeValues[2].trim());
+
+                if (getMapItemList().containsKey(idItem)) {
+                    Item item = getMapItemList().get(idItem);
+                    item.setQuantity(quantity);
+                    item.setRawMaterial(false);
+                    item.addOpToItem(new Operation(idOp));
+                }
+
+                String[] rawMaterials = booLaprItems.get(i + 2);
+                for (int j = 1; j < rawMaterials.length; j += 2) {
+                    ID rawMaterial = new ID(Integer.parseInt(rawMaterials[j]), TypeID.ITEM);
+                    if (getMapItemList().containsKey(rawMaterial)) {
+                        Item item = getMapItemList().get(rawMaterial);
+                        item.setQuantity(Float.parseFloat(rawMaterials[j + 1].replace(",", ".")));
+                    }
+                }
             }
 
         } catch (IOException e) {
             System.out.println("Error reading operations from file");
-
         }
     }
 

@@ -58,7 +58,7 @@ public class Operation {
         this.operationDescription = NO_DESCRIPTION;
     }
     public Operation(ID operationId) {
-        this.operationName = "Not provided yet";
+        this.operationName = "Not provided";
         this.operationId = operationId;
         this.operationDescription = NO_DESCRIPTION;
     }

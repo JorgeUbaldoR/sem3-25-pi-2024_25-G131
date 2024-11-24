@@ -120,15 +120,17 @@ public class ShowInformationUI implements Runnable {
                 System.out.printf("]%n");
             }
         }
+        if (flag) {
 
-        for (Item item : listItem) {
-            if (item.getOperationList() == null || item.getOperationList().isEmpty()) {
-                System.out.printf("%-14s    %-50s %-15s %-15s            [__]%n",
-                        item.getItemID(),
-                        item.getName(),
-                        item.getQuantity(),
-                        item.getPriority()
-                );
+            for (Item item : listItem) {
+                if (item.getOperationList() == null || item.getOperationList().isEmpty()) {
+                    System.out.printf("%-14s    %-50s %-15s %-15s            [__]%n",
+                            item.getItemID(),
+                            item.getName(),
+                            item.getQuantity(),
+                            item.getPriority()
+                    );
+                }
             }
         }
     }
