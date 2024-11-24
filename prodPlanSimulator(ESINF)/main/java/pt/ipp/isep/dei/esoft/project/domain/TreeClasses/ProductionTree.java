@@ -256,6 +256,26 @@ public class ProductionTree {
         return totalRequiredMaterials;
     }
 
+    /**
+     * Computes and returns the critical paths of a production tree.
+     * A critical path is defined as the sequence of operations from a root node to a leaf node in the production tree.
+     *
+     * The method processes the production tree by:
+     * 1. Building a height map and an operation-to-node mapping using {@link ProductionTree}.
+     * 2. Identifying root nodes (nodes at the minimum height).
+     * 3. Traversing the tree using a priority queue, ensuring that paths are explored in increasing order of depth.
+     * 4. Collecting paths that end at leaf nodes.
+     *
+     * @return A {@link List} of critical paths, where each critical path is represented as a {@link List} of {@link String} operation names.
+     * @throws IllegalStateException If the tree does not contain any root nodes.
+     *
+     * Complexity:
+     * - Traversing the priority queue:
+     *   O(m * log(m)), where m is the number of nodes with outgoing edges (internal nodes).
+     * - Overall complexity:
+     *   O(n + m * log(m)), which simplifies to O(n * log(n)) assuming most nodes have at least one child.
+     */
+
     public List<List<String>> getCriticalPath() {
         ProductionTree pdt = new ProductionTree();
         pdt.getInformations(BOO_PATH);
@@ -265,10 +285,9 @@ public class ProductionTree {
 
         List<List<String>> criticalPaths = new ArrayList<>();
 
-        // Identificar os nós raízes (os de menor altura)
+        // Identify root nodes (those at the minimum height)
         int minHeight = heightMap.keySet().stream().min(Integer::compareTo).orElse(0);
         List<Node> rootNodes = heightMap.get(minHeight);
-
 
         if (rootNodes == null || rootNodes.isEmpty()) {
             throw new IllegalStateException("Tree does not have root nodes.");
@@ -289,12 +308,11 @@ public class ProductionTree {
 
             Map<ID, Float> operationMap = currentNode.getOperationMap();
             if (operationMap.isEmpty()) {
-
-                criticalPaths.add(currentPath); // É um nó folha, adicionar o caminho crítico
-
+                // Leaf node: Add the critical path
+                criticalPaths.add(currentPath);
             } else {
-
-                for (Map.Entry<ID, Float> entry : operationMap.entrySet()) { // Adicionar os filhos à fila de prioridade
+                // Add child nodes to the priority queue
+                for (Map.Entry<ID, Float> entry : operationMap.entrySet()) {
                     ID childId = entry.getKey();
                     Node childNode = operationNodeID.get(childId);
 
@@ -305,22 +323,38 @@ public class ProductionTree {
             }
         }
 
-        return criticalPaths ;
+        return criticalPaths;
     }
 
+    /**
+     * Helper class representing a node in the priority queue for traversing the production tree.
+     */
     private static class QueueNode {
         private final Node node;
         private final List<String> path;
         private final int depth;
 
+        /**
+         * Constructs a QueueNode with the specified parameters.
+         *
+         * @param node  The {@link Node} this queue element represents.
+         * @param path  The current path leading to this node.
+         * @param depth The depth of this node in the production tree.
+         */
         public QueueNode(Node node, List<String> path, int depth) {
             this.node = node;
             this.path = path;
             this.depth = depth;
         }
 
+        /**
+         * Retrieves the depth of this node.
+         *
+         * @return An integer representing the depth of this node.
+         */
         public int getDepth() {
             return depth;
         }
     }
+
 }

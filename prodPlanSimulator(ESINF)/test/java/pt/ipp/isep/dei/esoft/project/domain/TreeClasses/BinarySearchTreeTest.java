@@ -21,7 +21,10 @@ class BinarySearchTreeTest {
     private BinarySearchTree binarySearchTreeEmpty;
     private BSTController controller;
 
-
+    /**
+     * Initializes the test environment before each test case.
+     * It sets up the BinarySearchTree instances for both a populated and an empty tree.
+     */
     @BeforeEach
     void setUp() {
         controller = new BSTController();
@@ -29,6 +32,11 @@ class BinarySearchTreeTest {
         binarySearchTreeEmpty = new BinarySearchTree();
     }
 
+    /**
+     * Test for checking the root of the BinarySearchTree.
+     * Verifies that the root of a populated tree is not null,
+     * and the root of an empty tree is null.
+     */
     @Test
     void root() {
         System.out.println("Test root");
@@ -37,6 +45,11 @@ class BinarySearchTreeTest {
         assertEquals(null, binarySearchTreeEmpty.getRoot());
     }
 
+    /**
+     * Test to check if the BinarySearchTree is empty.
+     * Verifies that the isEmpty method returns the correct value
+     * depending on whether the tree is empty or not.
+     */
     @Test
     void isEmpty() {
         System.out.println("Test isEmpty");
@@ -44,7 +57,11 @@ class BinarySearchTreeTest {
         assertTrue(binarySearchTreeEmpty.isEmpty());
     }
 
-
+    /**
+     * Test for inserting items into the BinarySearchTree and finding them.
+     * Verifies that inserted items can be found in the tree,
+     * and non-inserted items cannot.
+     */
     @Test
     void insertAndFind() {
         System.out.println("Test insert and find");
@@ -66,10 +83,12 @@ class BinarySearchTreeTest {
         assertNull(binarySearchTree.find(binarySearchTree.root(),itemNotFound));
     }
 
-    @Test
-    void remove() {
-    }
 
+    /**
+     * Test for checking the size of the BinarySearchTree.
+     * Verifies that the size method correctly tracks the number of elements in the tree,
+     * including handling duplicates and inserts of the same item with different quantities.
+     */
     @Test
     void size() {
         System.out.println("Test size");
@@ -90,6 +109,11 @@ class BinarySearchTreeTest {
         assertEquals(2, binarySearchTreeNew.size());
     }
 
+    /**
+     * Test for checking the height of the BinarySearchTree.
+     * Verifies that the height method correctly calculates the height of the tree
+     * after inserting nodes at different levels, including handling balanced trees.
+     */
     @Test
     void height() {
         System.out.println("Test height");
@@ -115,25 +139,32 @@ class BinarySearchTreeTest {
         assertEquals(2, binarySearchTreeNew.height());
     }
 
-//    @Test
-//    void smallestElement() {
-//        System.out.println("Test smallest element");
-//
-//        ObjectBST samllests = binarySearchTree.smallestElement();
-//        System.out.println(samllests);
-//
-//        ObjectBST smallestObj = new ObjectBST(new HashMap<>(),0.0576F);
-//        ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
-//        ID search = new ID(1015, TypeID.ITEM);
-//        Item item = itemRepository.getMapItemList().get(search);
-//        smallestObj.getItemsWithQuantity().put(item.getItemID(),item);
-//        System.out.println();
-//
-//        assertNotNull(samllests);
-//        assertEquals(smallestObj,samllests);
-//    }
+    /**
+     * Test for retrieving the smallest element from the BinarySearchTree.
+     * Verifies that the smallest element is correctly identified based on the item’s quantity.
+     */
+    @Test
+    void smallestElement() {
+        System.out.println("Test smallest element");
 
+        ObjectBST samllests = binarySearchTree.smallestElement();
+        System.out.println(samllests);
 
+        ObjectBST smallestObj = new ObjectBST(new HashMap<>(),0.0576F);
+        ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
+        ID search = new ID(1015, TypeID.ITEM);
+        Item item = itemRepository.getMapItemList().get(search);
+        smallestObj.getItemsWithQuantity().put(item.getItemID(),item);
+        System.out.println();
+
+        assertNotNull(samllests);
+        assertEquals(smallestObj,samllests);
+    }
+
+    /**
+     * Test for in-order traversal of the BinarySearchTree.
+     * Verifies that the elements are traversed in ascending order of their quantity.
+     */
     @Test
     void inOrder() {
         System.out.println("Test inOrder");
@@ -143,6 +174,10 @@ class BinarySearchTreeTest {
         }
     }
 
+    /**
+     * Test for in-order traversal of the BinarySearchTree.
+     * Verifies that the elements are traversed in ascending order of their quantity.
+     */
     @Test
     void inOrderReverse() {
         List<ObjectBST> list = (List<ObjectBST>) binarySearchTree.inOrderReverse();
@@ -151,6 +186,10 @@ class BinarySearchTreeTest {
         }
     }
 
+    /**
+     * Test for checking the nodes at each level of the BinarySearchTree.
+     * Verifies that the method returns the correct nodes by level.
+     */
     @Test
     void nodesByLevel() {
         System.out.println("Test nodesByLevel");
@@ -163,6 +202,11 @@ class BinarySearchTreeTest {
         }
     }
 
+    /**
+     * Test for the toString method of the BinarySearchTree.
+     * Verifies that the string representation of the tree is not null
+     * for a populated tree and is an empty string for an empty tree.
+     */
     @Test
     void testToString() {
         System.out.println("Test toString");
@@ -172,7 +216,14 @@ class BinarySearchTreeTest {
         assertEquals("", string1);
     }
 
-
+    /**
+     * Test for the extended remove functionality.
+     * Verifies different removal cases, including:
+     * - Removing a leaf node
+     * - Removing a node with one child
+     * - Removing a node with two children
+     * - Trying to remove a non-existent node
+     */
     @Test
     void testRemoveExtended() {
         System.out.println("Test remove extended");

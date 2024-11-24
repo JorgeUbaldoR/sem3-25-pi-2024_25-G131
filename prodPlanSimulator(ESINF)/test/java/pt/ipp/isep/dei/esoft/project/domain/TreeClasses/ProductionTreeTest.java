@@ -6,6 +6,7 @@ import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -175,5 +176,45 @@ public class ProductionTreeTest {
         assertTrue(emptyTree.getNodesOfTree().isEmpty(), "Nodes list should be empty in an empty tree.");
         assertTrue(emptyTree.getHeightMap().isEmpty(), "Height map should be empty in an empty tree.");
         assertEquals(0, emptyTree.getRawMaterials().size(), "Raw materials map should be empty in an empty tree.");
+    }
+
+    /**
+     * Tests the getCriticalPath() method for a valid tree structure.
+     * Verifies that the critical paths are correctly identified.
+     */
+    @Test
+    void testGetCriticalPathValidTree() throws IOException {
+        System.out.println("Test GetCriticalPath with Valid Tree");
+
+        // Load tree data
+        ProductionTree productionTree = new ProductionTree();
+
+        // Call the method and verify the critical paths
+        List<List<String>> criticalPaths = productionTree.getCriticalPath();
+        assertNotNull(criticalPaths, "Critical paths should not be null.");
+        assertEquals(2, criticalPaths.size(), "There should be two critical paths.");
+
+        // Verify the specific paths
+        List<String> expectedPath1 = List.of(
+                "varnish bench",
+                "assemble bench",
+                "fix bolt M16 22",
+                "drill bench leg",
+                "polish bench leg",
+                "cut bench leg"
+        );
+
+        List<String> expectedPath2 = List.of(
+                "varnish bench",
+                "assemble bench",
+                "fix nut M16 21",
+                "drill bench seat",
+                "polish bench seat",
+                "cut bench seat"
+        );
+
+
+        assertTrue(criticalPaths.contains(expectedPath1), "Expected critical path 1 is missing.");
+        assertTrue(criticalPaths.contains(expectedPath2), "Expected critical path 2 is missing.");
     }
 }

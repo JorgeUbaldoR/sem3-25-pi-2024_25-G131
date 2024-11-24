@@ -43,8 +43,17 @@ public class Node {
         getOperationRepository();
     }
 
+    /**
+     * Retrieves the OperationRepository instance.
+     * If the repository is not already initialized, it fetches it from the Repositories singleton.
+     *
+     * @return An instance of {@link OperationRepository}.
+     *
+     * Complexity:
+     * - Worst case: O(1) for fetching the repository from the singleton.
+     */
     private OperationRepository getOperationRepository() {
-        if(operationRepository == null) {
+        if (operationRepository == null) {
             Repositories repositories = Repositories.getInstance();
             operationRepository = repositories.getOperationRepository();
         }
@@ -183,7 +192,13 @@ public class Node {
         return sb.toString();
     }
 
-    public String getOperationNameByID () {
+    /**
+     * Retrieves the name of the operation corresponding to the stored operation ID.
+     * This method uses the {@link OperationRepository} to fetch the name.
+     *
+     * @return A {@link String} representing the name of the operation.
+     */
+    public String getOperationNameByID() {
         return getOperationRepository().getNameByID(this.operationID);
     }
 
