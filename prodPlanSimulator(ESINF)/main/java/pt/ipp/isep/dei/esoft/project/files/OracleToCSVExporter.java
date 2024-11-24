@@ -3,8 +3,7 @@ package pt.ipp.isep.dei.esoft.project.files;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class OracleToCSVExporter {
 
@@ -64,7 +63,8 @@ public class OracleToCSVExporter {
                         + "MAX(CASE WHEN BI.ROW_NUM = 3 THEN BI.PartPARTNUMBER END) AS \"item_id3\", "
                         + "MAX(CASE WHEN BI.ROW_NUM = 3 THEN BI.QUANTITY END) AS \"item_qtd3\", "
                         + "MAX(CASE WHEN BI.ROW_NUM = 4 THEN BI.PartPARTNUMBER END) AS \"item_id4\", "
-                        + "MAX(CASE WHEN BI.ROW_NUM = 4 THEN BI.QUANTITY END) AS \"item_qtd4\" "
+                        + "MAX(CASE WHEN BI.ROW_NUM = 4 THEN BI.QUANTITY END) AS \"item_qtd4\", "
+                        + "O.BOOProductPRODUCT_ID AS \"product_id\" "
                         + "FROM Operation O "
                         + "JOIN BOO_OUTPUT BO ON O.OPERATION_ID = BO.OperationOPERATION_ID "
                         + "LEFT JOIN Operation O_NEXT ON O.NEXTSTEP = O_NEXT.OPERATION_ID "
@@ -72,9 +72,9 @@ public class OracleToCSVExporter {
                         + "LEFT JOIN (SELECT BI.OperationOPERATION_ID, BI.PartPARTNUMBER, BI.QUANTITY, "
                         + "ROW_NUMBER() OVER (PARTITION BY BI.OperationOPERATION_ID ORDER BY BI.PartPARTNUMBER) AS ROW_NUM "
                         + "FROM BOO_INPUT BI) BI ON O.OPERATION_ID = BI.OperationOPERATION_ID "
-                        + "GROUP BY BO.OperationOPERATION_ID, BO.PartPARTNUMBER, O.NEXTSTEP "
-                        + "ORDER BY BO.OperationOPERATION_ID, O.NEXTSTEP",
-                "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO.csv");
+                        + "GROUP BY BO.OperationOPERATION_ID, BO.PartPARTNUMBER, O.NEXTSTEP, O.BOOProductPRODUCT_ID "
+                        + "ORDER BY BO.OperationOPERATION_ID, O.NEXTSTEP, O.BOOProductPRODUCT_ID",
+                "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/");
     }
 
     public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class OracleToCSVExporter {
             }
 
             for (Map.Entry<String, String> entry : QUERIE_BOO_TESTE.entrySet()) {
-                exportQueryToCSVBOO_TESTE(connection, entry.getKey(), entry.getValue());
+                exportQueryToCSVBOO(connection, entry.getKey(), entry.getValue());
             }
 
             System.out.println("All data exported successfully!");
@@ -131,52 +131,63 @@ public class OracleToCSVExporter {
         }
     }
 
-    private static void exportQueryToCSVBOO_TESTE(Connection connection, String query, String outputPath) {
+    private static void exportQueryToCSVBOO(Connection connection, String query, String outputPath) {
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query);
-             FileWriter csvWriter = new FileWriter(outputPath)) {
+             ResultSet resultSet = statement.executeQuery(query)) {
 
             System.out.println("Exporting data for query: " + query);
 
-            // Write header row with semicolons instead of commas
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int columnCount = metaData.getColumnCount();
+            // Create a map to hold the groups, using product_id as the key
+            Map<String, List<String>> groups = new LinkedHashMap<>();
+            String currentGroup = null;
 
-            // Write custom header as per the required format
-            csvWriter.append("op_id;item_id;item_qtd;");
-            csvWriter.append("(;op1;op_qtd1;);");
-            csvWriter.append("(;item_id1;item_qtd1;item_id2;item_qtd2;item_id3;item_qtd3;item_id4;item_qtd4;);");
-            csvWriter.append("\n");
-
-            // Write data rows
+            // Read and group data rows by product_id
             while (resultSet.next()) {
-                // Write op_id, item_id, and item_qtd
-                csvWriter.append(resultSet.getString("op_id") != null ? resultSet.getString("op_id") : "").append(";");
-                csvWriter.append(resultSet.getString("item_id") != null ? resultSet.getString("item_id") : "").append(";");
-                csvWriter.append(resultSet.getString("item_qtd") != null ? resultSet.getString("item_qtd") : "").append(";");
+                String productId = resultSet.getString("product_id");
 
-                // Write operations and quantities (op1, op_qtd1, ..., opN, op_qtdN)
-                csvWriter.append("(");
-                csvWriter.append(resultSet.getString("op1") != null ? resultSet.getString("op1") : "").append(";");
-                csvWriter.append(resultSet.getString("op_qtd1") != null ? resultSet.getString("op_qtd1") : "").append(";");
-                csvWriter.append(");");
+                if (currentGroup == null || !currentGroup.equals(productId)) {
+                    // Start a new group when product_id changes
+                    currentGroup = productId;
+                    groups.put(currentGroup, new ArrayList<>());
+                }
 
-                // Write item IDs and quantities (item_id1, item_qtd1, ...)
-                csvWriter.append("(");
-                csvWriter.append(resultSet.getString("item_id1") != null ? resultSet.getString("item_id1") : "").append(";");
-                csvWriter.append(resultSet.getString("item_qtd1") != null ? resultSet.getString("item_qtd1") : "").append(";");
-                csvWriter.append(resultSet.getString("item_id2") != null ? resultSet.getString("item_id2") : "").append(";");
-                csvWriter.append(resultSet.getString("item_qtd2") != null ? resultSet.getString("item_qtd2") : "").append(";");
-                csvWriter.append(resultSet.getString("item_id3") != null ? resultSet.getString("item_id3") : "").append(";");
-                csvWriter.append(resultSet.getString("item_qtd3") != null ? resultSet.getString("item_qtd3") : "").append(";");
-                csvWriter.append(resultSet.getString("item_id4") != null ? resultSet.getString("item_id4") : "").append(";");
-                csvWriter.append(resultSet.getString("item_qtd4") != null ? resultSet.getString("item_qtd4") : "").append(";");
-                csvWriter.append(");");
+                // Build the row
+                StringBuilder row = new StringBuilder();
+                row.append(resultSet.getString("op_id")).append(";")
+                        .append(resultSet.getString("item_id")).append(";")
+                        .append(resultSet.getString("item_qtd")).append(";")
+                        .append("(;").append(resultSet.getString("op1") != null ? resultSet.getString("op1") : "").append(";")
+                        .append(resultSet.getString("op_qtd1") != null ? resultSet.getString("op_qtd1") : "").append(";);")
+                        .append("(;").append(resultSet.getString("item_id1") != null ? resultSet.getString("item_id1") : "").append(";")
+                        .append(resultSet.getString("item_qtd1") != null ? resultSet.getString("item_qtd1") : "").append(";")
+                        .append(resultSet.getString("item_id2") != null ? resultSet.getString("item_id2") : "").append(";")
+                        .append(resultSet.getString("item_qtd2") != null ? resultSet.getString("item_qtd2") : "").append(";")
+                        .append(resultSet.getString("item_id3") != null ? resultSet.getString("item_id3") : "").append(";")
+                        .append(resultSet.getString("item_qtd3") != null ? resultSet.getString("item_qtd3") : "").append(";")
+                        .append(resultSet.getString("item_id4") != null ? resultSet.getString("item_id4") : "").append(";")
+                        .append(resultSet.getString("item_qtd4") != null ? resultSet.getString("item_qtd4") : "").append(";);");
 
-                csvWriter.append("\n");
+                // Add the row to the corresponding group
+                groups.get(currentGroup).add(row.toString());
             }
 
-            System.out.println("Data exported successfully to " + outputPath);
+            // Write each group to a separate file
+            int fileCounter = 1;
+            for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
+                String fileName = outputPath + "/BOO_" + entry.getKey() + ".csv";
+                try (FileWriter csvWriter = new FileWriter(fileName)) {
+                    // Write header
+                    csvWriter.append("op_id;item_id;item_qtd;(;op1;op_qtd1;);(;item_id1;item_qtd1;item_id2;item_qtd2;item_id3;item_qtd3;item_id4;item_qtd4;);\n");
+
+                    // Write rows for the current group
+                    for (String row : entry.getValue()) {
+                        csvWriter.append(row).append("\n");
+                    }
+
+                    System.out.println("Data for product " + entry.getKey() + " exported to " + fileName);
+                    fileCounter++;
+                }
+            }
 
         } catch (SQLException e) {
             System.err.println("Error executing query: " + query + ". Error: " + e.getMessage());
@@ -184,6 +195,5 @@ public class OracleToCSVExporter {
             System.err.println("File writing error for query: " + query + ". Error: " + e.getMessage());
         }
     }
-
 
 }

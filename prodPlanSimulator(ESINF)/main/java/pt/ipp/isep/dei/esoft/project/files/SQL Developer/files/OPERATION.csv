@@ -1,22 +1,23 @@
-115;Pot handles riveting
-114;Pot base finishing
-112;Final pot base pressing
-103;Initial pot base pressing
-100;Disc cutting
-124;Handle welding
-123;Pot test and packaging
-122;Lid handle screw
-121;Lid finishing
-120;Lid pressing
-130;Pan test and packaging
-150;Initial assembly of product
-151;Pan base welding
-152;Lid fitting
-153;Handle attachment
-154;Final quality check and packaging
-160;Handle fitting
-161;Base welding
-162;Lid creation and welding
-163;Final product assembly
-164;Product quality check and packaging
-170;Initial assembly of product
+op_id,name
+115,Pot handles riveting
+114,Pot base finishing
+112,Final pot base pressing
+103,Initial pot base pressing
+100,Disc cutting
+124,Handle welding
+123,Pot test and packaging
+122,Lid handle screw
+121,Lid finishing
+120,Lid pressing
+130,Pan test and packaging
+150,Initial assembly of product
+151,Pan base welding
+152,Lid fitting
+153,Handle attachment
+154,Final quality check and packaging
+160,Handle fitting
+161,Base welding
+162,Lid creation and welding
+163,Final product assembly
+164,Product quality check and packaging
+170,Initial assembly of product
