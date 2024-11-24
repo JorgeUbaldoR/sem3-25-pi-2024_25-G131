@@ -66,9 +66,6 @@ class BinarySearchTreeTest {
         assertNull(binarySearchTree.find(binarySearchTree.root(),itemNotFound));
     }
 
-    @Test
-    void remove() {
-    }
 
     @Test
     void size() {
@@ -115,23 +112,23 @@ class BinarySearchTreeTest {
         assertEquals(2, binarySearchTreeNew.height());
     }
 
-//    @Test
-//    void smallestElement() {
-//        System.out.println("Test smallest element");
-//
-//        ObjectBST samllests = binarySearchTree.smallestElement();
-//        System.out.println(samllests);
-//
-//        ObjectBST smallestObj = new ObjectBST(new HashMap<>(),0.0576F);
-//        ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
-//        ID search = new ID(1015, TypeID.ITEM);
-//        Item item = itemRepository.getMapItemList().get(search);
-//        smallestObj.getItemsWithQuantity().put(item.getItemID(),item);
-//        System.out.println();
-//
-//        assertNotNull(samllests);
-//        assertEquals(smallestObj,samllests);
-//    }
+    @Test
+    void smallestElement() {
+        System.out.println("Test smallest element");
+
+        ObjectBST samllests = binarySearchTree.smallestElement();
+        System.out.println(samllests);
+
+        ObjectBST smallestObj = new ObjectBST(new HashMap<>(),0.0576F);
+        ItemRepository itemRepository = Repositories.getInstance().getItemRepository();
+        ID search = new ID(1015, TypeID.ITEM);
+        Item item = itemRepository.getMapItemList().get(search);
+        smallestObj.getItemsWithQuantity().put(item.getItemID(),item);
+        System.out.println();
+
+        assertNotNull(samllests);
+        assertEquals(smallestObj,samllests);
+    }
 
 
     @Test

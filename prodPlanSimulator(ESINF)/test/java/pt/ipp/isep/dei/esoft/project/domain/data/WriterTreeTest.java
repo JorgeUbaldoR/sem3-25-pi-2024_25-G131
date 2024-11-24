@@ -61,7 +61,7 @@ class WriterTreeTest {
         assertTrue(content.contains("@startuml"), "File should contain PlantUML start marker.");
         assertTrue(content.contains("varnish bench"), "Operation 1 should be included in the BOO file.");
         assertTrue(content.contains("\"fix nut M16 21\" [shape=rectangle]"), "Item A should be included in the BOO file.");
-        file.delete();
+
 
     }
 
@@ -82,7 +82,6 @@ class WriterTreeTest {
         assertTrue(content.contains("\"finished bench\""), "Item B should be included in the BOM file.");
         assertTrue(content.contains("\"raw bench seat\" -- \"wood 3cm\"[label = 0,058]"), "Operation 2 should be referenced.");
 
-        file.delete();
     }
 
 }
