@@ -43,7 +43,7 @@ class ItemRepositoryTest {
         itemRepository.addItem(item3);
 
         List<Item> itemList = itemRepository.getItemList();
-        assertEquals(19, itemList.size());
+        assertEquals(27, itemList.size());
         assertTrue(itemList.contains(item1));
         assertTrue(itemList.contains(item2));
         assertTrue(itemList.contains(item3));
@@ -101,7 +101,7 @@ class ItemRepositoryTest {
         Optional<Item> duplicateItem = itemRepository.addItem(item);
 
         assertFalse(duplicateItem.isPresent());
-        assertEquals(17, itemRepository.getItemList().size());
+        assertEquals(25, itemRepository.getItemList().size());
     }
 
     @Test
