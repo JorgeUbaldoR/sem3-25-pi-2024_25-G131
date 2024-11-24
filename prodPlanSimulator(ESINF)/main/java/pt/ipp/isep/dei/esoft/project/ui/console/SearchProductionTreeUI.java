@@ -172,6 +172,9 @@ public class SearchProductionTreeUI implements Runnable {
     private void searchInfItem(ID selectedItemID) {
         boolean rawMaterial = getProductionTreeController().isRawMaterial(selectedItemID);
         Node node = getProductionTreeController().getItemNode(selectedItemID,rawMaterial);
+        if(node == null) {
+            throw new IllegalArgumentException("Make sure ITEM belongs to the inserted path BOO");
+        }
         String[] parentAndQtd = getProductionTreeController().findParentItem(node,rawMaterial,selectedItemID);
         printNodeItemInf(node,parentAndQtd[0],selectedItemID,parentAndQtd[1]);
     }
@@ -206,6 +209,9 @@ public class SearchProductionTreeUI implements Runnable {
      */
     private void searchInfOperation(ID selectedOperationID) {
         Node node = getProductionTreeController().getOperationNode(selectedOperationID);
+        if(node == null) {
+            throw new IllegalArgumentException("Make sure operation belongs to the inserted path BOO");
+        }
         String parentName = getProductionTreeController().findParentOperation(node);
         printNodeOperationInf(node, parentName,selectedOperationID);
     }
