@@ -29,7 +29,7 @@ public class QualityChecks {
      */
     public PriorityQueue<Map<Integer, List<ID>>> fillOperationsPriorityQueue() {
         ProductionTree pdt = new ProductionTree();
-        pdt.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv");
+        pdt.getInformations("prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv");
         Map<Integer, List<Node>> heightMap = pdt.getHeightMap();
 
 

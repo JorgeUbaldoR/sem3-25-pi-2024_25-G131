@@ -103,6 +103,7 @@ public class ArrangeData {
         List<String> lines = getChangedBoo(booFile, itemFile);
         try {
             PrintWriter writer = new PrintWriter(new File(newBoo));
+            writer.println("op_id;item_id;item_qtd;(;op1;op_qtd1;op2;op_qtd2;opN;op_qtdN;);(;item_id1;item_qtd1;item_id1;item_qtd1;item_id1;item_qtd1;)");
             for (String line : lines) {
                 writer.println(line);
             }
@@ -134,6 +135,7 @@ public class ArrangeData {
 
         try {
             PrintWriter writer = new PrintWriter(newItem);
+            writer.println("id_item;item_name");
             for (Map.Entry<Integer, String> entry : items.entrySet()) {
                 writer.println(entry.getKey() + ";" + entry.getValue());
             }

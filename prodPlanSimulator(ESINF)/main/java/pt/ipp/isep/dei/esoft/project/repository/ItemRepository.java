@@ -36,8 +36,8 @@ public class ItemRepository {
 
     public void fillItems() {
         try {
-            String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/ITEMS_LAPR.csv";
-            String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/BOO_LAPR.csv";
+            String PATH_ITEM = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/items.csv";
+            String PATH_BOO = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/boo.csv";
 
             List<String[]> itemsDetails = getOpOrItem(PATH_ITEM);
 
