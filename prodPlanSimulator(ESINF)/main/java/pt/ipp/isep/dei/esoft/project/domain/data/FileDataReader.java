@@ -18,7 +18,7 @@ public class FileDataReader {
 
     public static Boolean AUTO_READER = true;
 
-    private static final String MACHINE_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/SQL Developer/files/Workstations.csv";
+    private static final String MACHINE_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/workstations_sp2.csv";
     public static String ITEM_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/articles.csv";
     private static final String BOM_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/productStructure.csv";
     private static final String RAW_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/";
