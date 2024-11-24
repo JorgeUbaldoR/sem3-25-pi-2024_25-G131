@@ -67,11 +67,11 @@ public class UpdateQuantityUI implements Runnable {
     private void generateDiagram(ProductionTree productionTree) {
         System.out.print("\nDo you wish to generate a diagram? (y/n): ");
         String answer = yesNoConfirmation();
-        System.out.print("Enter a name for the file: ");
-        String fileName = in.nextLine();
 
         if (answer.equalsIgnoreCase("y")) {
             try {
+                System.out.print("Enter a name for the file: ");
+                String fileName = in.nextLine();
                 System.out.println(ANSI_BRIGHT_GREEN + "\n\nGENERATING BOO DIAGRAM..." + ANSI_RESET);
                 getDiagramController().writeBooToUmlFile(productionTree,fileName);
 
