@@ -37,7 +37,16 @@ public class DiagramGenerationController {
      */
     public void writeBooToUmlFile(){
         writerTree = new WriterTree(productionTree);  // Criação de um novo escritor para a árvore de produção
-        WriterTree.writeBOOToUmlFile();  // Geração e escrita do arquivo UML para o modelo BOO
+        WriterTree.writeBOOToUmlFile("ProductionTree_BOO.puml");  // Geração e escrita do arquivo UML para o modelo BOO
+    }
+
+    /**
+     * Gera um arquivo UML com base no modelo BOO (Bill of Operations) e o escreve no formato adequado.
+     * A função interage com a classe {@link WriterTree} para realizar a escrita do arquivo.
+     */
+    public void writeBooToUmlFile(ProductionTree paramProductionTree,String fileName){
+        writerTree = new WriterTree(paramProductionTree);  // Criação de um novo escritor para a árvore de produção
+        WriterTree.writeBOOToUmlFile(fileName+".puml");  // Geração e escrita do arquivo UML para o modelo BOO
     }
 
     /**

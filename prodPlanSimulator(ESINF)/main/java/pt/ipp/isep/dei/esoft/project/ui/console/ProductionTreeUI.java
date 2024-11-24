@@ -88,10 +88,6 @@ public class ProductionTreeUI implements Runnable {
 
 
 
-
-
-
-
     public void showTree(ProductionTree productionTree, String name) {
         System.out.printf("%n%n══════════|PRODUCTION TREE: %s%s%s|══════════%n%n",ANSI_BRIGHT_WHITE,name,ANSI_RESET);
         printNode(productionTree.getNodesOfTree().get(0), 0, "");  // Inicia a árvore com o primeiro nó, nível 1, e indentação vazia
@@ -196,10 +192,11 @@ public class ProductionTreeUI implements Runnable {
         return answer;
     }
 
-    public void auxilary(ID materailID, float quantity) {
+    public ProductionTree auxilary(ID materailID, float quantity) {
         getProductionTreeController().getInformations(DEFAULT_PATH);
         UpdateMaterial updateMaterial = new UpdateMaterial(getProductionTreeController().getProductionTree());
         updateMaterial.updateMaterial(materailID, quantity);
         showTree(getProductionTreeController().getProductionTree(), "Updated Materials");
+        return getProductionTreeController().getProductionTree();
     }
 }
