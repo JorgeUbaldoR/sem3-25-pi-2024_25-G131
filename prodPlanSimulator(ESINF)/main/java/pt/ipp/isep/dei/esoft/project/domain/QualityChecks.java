@@ -73,16 +73,15 @@ public class QualityChecks {
     /**
      * Performs quality checks on operations based on user confirmation and simulator activation.
      *
-     * @param confirmation User confirmation ("y" to perform checks).
+     * @param confirmation       User confirmation ("y" to perform checks).
      * @param simulatorActivated Indicates whether the simulator is activated.
      */
     public void performQualityChecks(String confirmation, boolean simulatorActivated) {
         Map<Map<Integer, List<ID>>, Boolean> checksMap = prepareQualityChecks();
 
-        if (simulatorActivated) {
 
-
-            if (confirmation.equalsIgnoreCase("y")) {
+        if (confirmation.equalsIgnoreCase("y")) {
+            if (simulatorActivated) {
 
                 for (Map.Entry<Map<Integer, List<ID>>, Boolean> entry : checksMap.entrySet()) {
                     Map<Integer, List<ID>> operationsMap = entry.getKey();
@@ -130,10 +129,12 @@ public class QualityChecks {
                 System.out.printf("%n%sAll operations have been checked!%s%n", ANSI_BRIGHT_GREEN, ANSI_RESET);
 
             } else {
-                System.out.println(ANSI_LIGHT_RED + "Quality check not performed!" + ANSI_RESET);
+                System.out.println(ANSI_LIGHT_RED + "Activate simulator first!" + ANSI_RESET);
+
             }
         } else {
-            System.out.println(ANSI_LIGHT_RED + "Activate simulator first!" + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "Quality check not performed!" + ANSI_RESET);
+
         }
 
     }
