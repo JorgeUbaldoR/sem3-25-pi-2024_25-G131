@@ -37,24 +37,38 @@ class ProductFamily {
     Family_ID
 }
 
-class BOM {
-    BOM_ID
-    Product_ID
-    Quantity
+class Part {
+    Part_ID
+    Type
+}
+
+class "Intermediate Material" {
+    Part_ID
+    Description
+}
+
+class "Raw Material" {
+    Part_ID
+    Description
 }
 
 class Component {
-    Component_ID
-    Name
-    Stock
-    StockMin
+    Part_ID
     Description
 }
 
+
+class BOM_Template {
+   BOM_ID
+    Product_ID
+    Quantity
+}
 class Operation {
     Operation_ID
     Description
-    Duration
+    OPTYPE_ID
+    Product_ID
+    NextStep
 }
 
 class Workstation {
@@ -70,8 +84,7 @@ class Sector {
 }
 
 class BOO {
-    BOO_ID
-    sequence
+    Product_ID
 }
 
 class Company {
@@ -79,23 +92,61 @@ class Company {
     Name
 }
 
-Class Factory {
+class Factory {
     Factory_ID
     Company_ID
     Address
 }
 
+class BOO_Input{
+    Operation_ID
+    Part_ID
+    Quantity
+    Unit
+}
+
+class BOO_Output{
+    Operation_ID
+    Part_ID
+    Quantity
+    Unit
+}
+
+class Operation_Type{
+    OPTYPE_ID
+    Description
+}
+
+class Workstation_Type{
+    WS_TYPE_ID
+    Name
+}
+
 Company "1" - "1..*" Factory : posses >
 Factory "1" - "1..*" Sector: has >
 Sector "1" - "1..*" Workstation: includes >
-Workstation "1" - "1" Operation: does >
-Operation "1" ---- "1" BOO: belongs >
-ProductFamily "1" - "1" BOO: has >
-Product "1" --- "1" ProductFamily : belongs to >
-Product "1" - "1" BOM : has >
+Product "1" -- "1" BOO: has >
+Product "1" ------ "1" ProductFamily : belongs to >
+Product "1" -- "1..*" Part : are >
+
 ListOfProduct "1" - "1..*" Product : contains >
 ProductionOrder "1" - "1" ListOfProduct : contains >
 Workstation "1" -- "*" ProductionOrder: has >
-BOM "1" - "1..*" Component : contains >
 
+Workstation "1" -- "1..*" Workstation_Type: has >
+Workstation_Type "1" - "1..*" Operation_Type: has >
+Operation_Type "1" -- "1..*" Operation: belong >
+
+Part "1" -- "1..*" Component : contains >
+Part "1" --- "1..*" "Raw Material" : contains >
+Part "1" --- "1..*" "Intermediate Material" : contains >
+
+Operation "1..*" --- "1" BOO: has <
+Operation "1" -- "1..*" BOO_Input: has >
+Operation "1" -- "1..*" BOO_Output: has >
+
+BOO_Input "1" ---- "1" Part: receive >
+BOO_Output "1" ---- "1" Part: output >
+
+BOM_Template "1" --- "1" ProductFamily : has <
 @enduml
