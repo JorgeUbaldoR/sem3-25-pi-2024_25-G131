@@ -17,5 +17,8 @@ public enum TypeID {
     },
     OPERATION{
         public String toString() {return "O";}
+    },
+    ACTIVITY{
+        public String toString(){return "A";}
     }
 }
