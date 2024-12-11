@@ -35,5 +35,9 @@ public class PETRGraphRepository {
         return this.mapGraphReposiotry.get(graphID);
     }
 
+    public boolean idGraphExistInRepository(ID id){
+        return this.mapGraphReposiotry.containsKey(id);
+    }
+
 
 }
