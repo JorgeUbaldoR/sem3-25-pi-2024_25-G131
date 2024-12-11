@@ -20,5 +20,10 @@ public enum TypeID {
     },
     ACTIVITY{
         public String toString(){return "A";}
+    },
+    GRAPH{
+        public String toString(){
+            return "G";
+        }
     }
 }

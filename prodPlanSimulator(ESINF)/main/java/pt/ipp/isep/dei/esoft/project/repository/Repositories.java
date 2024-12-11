@@ -14,6 +14,7 @@ public class Repositories {
     private final ItemRepository itemRepository;
     private final IDRepository idRepository;
     private final OperationRepository operationRepository;
+    private final PETRGraphRepository petrGraphRepository;
 
     /**
      * Private constructor for Repositories.
@@ -25,6 +26,7 @@ public class Repositories {
         itemRepository = new ItemRepository();
         idRepository = new IDRepository();
         operationRepository = new OperationRepository(itemRepository.getItemList());
+        petrGraphRepository = new PETRGraphRepository();
     }
 
     /**
@@ -85,4 +87,15 @@ public class Repositories {
     public OperationRepository getOperationRepository() {
         return operationRepository;
     }
+
+    /**
+     * Gets the OperationRepository instance.
+     *
+     * @return the OperationRepository instance
+     */
+    public PETRGraphRepository getPetrGraphRepository() {
+        return petrGraphRepository;
+    }
+
+
 }
