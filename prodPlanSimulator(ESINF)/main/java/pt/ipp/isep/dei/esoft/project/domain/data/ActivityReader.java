@@ -70,7 +70,9 @@ public class ActivityReader {
                 }
             }
 
-
+            if(Algorithms.hasCircularDependencies(graph)){
+                throw new IllegalArgumentException("ERROR IN FILE: Graph has Circular Dependencies.");
+            }
 
             return graph;
 
