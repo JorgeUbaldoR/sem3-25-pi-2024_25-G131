@@ -1,6 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.ui.console;
 
-import pt.ipp.isep.dei.esoft.project.application.controller.PTRGraphController;
+import pt.ipp.isep.dei.esoft.project.application.controller.PETRGraphController;
 import pt.ipp.isep.dei.esoft.project.domain.Activity;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
@@ -12,17 +12,17 @@ import java.util.Scanner;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.ANSI_RESET;
 
-public class CreatePTRGraphUI implements Runnable {
+public class CreatePETRGraphUI implements Runnable {
 
-    private final PTRGraphController controller;
+    private final PETRGraphController controller;
     private final String DEFAULT_PATH = "prodPlanSimulator(ESINF)/main/java/pt/ipp/isep/dei/esoft/project/files/input/activities.csv";
     private final Scanner in = new Scanner(System.in);
 
-    public CreatePTRGraphUI() {
-        controller = new PTRGraphController();
+    public CreatePETRGraphUI() {
+        controller = new PETRGraphController();
     }
 
-    private PTRGraphController getController(){return this.controller;}
+    private PETRGraphController getController(){return this.controller;}
 
     @Override
     public void run() {
@@ -148,6 +148,11 @@ public class CreatePTRGraphUI implements Runnable {
     }
 
         private void confirmationData(ID idGraph, String path) {
+        System.out.print("\nDo you wish to create a directed Graph? (y/n): ");
+        String directed = yesNoConfirmation();
+        boolean directedGraph = directed.equalsIgnoreCase("y");
+        System.out.println(directedGraph);
+
         displayOption(idGraph.toString(),0);
         displayOption(path,1);
 
@@ -158,8 +163,9 @@ public class CreatePTRGraphUI implements Runnable {
 
             try{
                 if(getController().idGraphExist(idGraph)){
-                    MapGraph<Activity, Double> createdMap = getController().createMapGraph(path);
+                    MapGraph<Activity, Double> createdMap = getController().createMapGraph(path,directedGraph);
                     System.out.println(createdMap.toString(idGraph));
+                    getController().writeGraph(createdMap,idGraph);
                     if(getController().saveGraph(createdMap,idGraph)){
                         System.out.println("\n"+ANSI_BRIGHT_GREEN + "Graph successfully generated!" + ANSI_RESET);
                     }else{

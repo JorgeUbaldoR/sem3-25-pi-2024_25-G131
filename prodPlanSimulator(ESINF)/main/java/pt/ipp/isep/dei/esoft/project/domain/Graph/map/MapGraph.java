@@ -142,6 +142,10 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         return true;
     }
 
+    public Map<V, MapVertex<V, E>> getMapVertices() {
+        return mapVertices;
+    }
+
     @Override
     public boolean addEdge(V vOrig, V vDest, E weight) {
 

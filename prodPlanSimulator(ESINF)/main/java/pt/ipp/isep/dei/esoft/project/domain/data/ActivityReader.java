@@ -14,8 +14,8 @@ import java.util.*;
 public class ActivityReader {
     private static final int START_OF_PREDECESSORS = 6;
 
-    public static MapGraph<Activity, Double> readCSV(String filePath) {
-        MapGraph<Activity, Double> graph = new MapGraph<>(true);
+    public static MapGraph<Activity, Double> readCSV(String filePath,boolean isDirected) {
+        MapGraph<Activity, Double> graph = new MapGraph<>(isDirected);
         Set<String> uniqueIds = new HashSet<>();
 
         try (Reader reader = new FileReader(filePath)){

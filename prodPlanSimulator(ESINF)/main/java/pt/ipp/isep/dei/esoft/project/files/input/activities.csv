@@ -1,5 +1,5 @@
 act_id,act_descr,duration,duration_unit,cost,cost_unit,prev_act_id1,prev_act_id2
-1,Preparar materiais,5,dias,1000,USD,1,
+1,Preparar materiais,5,dias,1000,USD,,
 2,Montar estrutura,10,dias,2000,USD,1,
 3,Instalar sistemas,7,dias,1500,USD,2,
 4,Testar o sistema,3,dias,500,USD,3,

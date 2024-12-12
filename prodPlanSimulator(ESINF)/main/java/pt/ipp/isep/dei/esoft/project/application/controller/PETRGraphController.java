@@ -4,15 +4,16 @@ import pt.ipp.isep.dei.esoft.project.domain.Activity;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.data.ActivityReader;
+import pt.ipp.isep.dei.esoft.project.domain.data.WriterGraph;
 import pt.ipp.isep.dei.esoft.project.repository.IDRepository;
 import pt.ipp.isep.dei.esoft.project.repository.PETRGraphRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
 
-public class PTRGraphController {
+public class PETRGraphController {
     private PETRGraphRepository graphRepository;
     private IDRepository idRepository;
 
-    public PTRGraphController() {
+    public PETRGraphController() {
         this.graphRepository = getGraphRepository();
         this.idRepository = getIDRepository();
     }
@@ -42,12 +43,16 @@ public class PTRGraphController {
         return getIDRepository().addID(id).isPresent();
     }
 
-    public MapGraph<Activity,Double> createMapGraph(String path){
-        return ActivityReader.readCSV(path);
+    public MapGraph<Activity,Double> createMapGraph(String path,boolean isDirected){
+        return ActivityReader.readCSV(path,isDirected);
     }
 
 
     public boolean saveGraph(MapGraph<Activity, Double> createdMap,ID id) {
         return getGraphRepository().addGraph(createdMap, id).isPresent();
+    }
+
+    public void writeGraph(MapGraph<Activity, Double> graph, ID id) {
+        WriterGraph.writePETRGraph(id.toString(),graph);
     }
 }
