@@ -151,7 +151,6 @@ public class CreatePETRGraphUI implements Runnable {
         System.out.print("\nDo you wish to create a directed Graph? (y/n): ");
         String directed = yesNoConfirmation();
         boolean directedGraph = directed.equalsIgnoreCase("y");
-        System.out.println(directedGraph);
 
         displayOption(idGraph.toString(),0);
         displayOption(path,1);

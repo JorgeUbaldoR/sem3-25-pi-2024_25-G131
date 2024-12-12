@@ -3,6 +3,7 @@ package pt.ipp.isep.dei.esoft.project.domain.data;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import pt.ipp.isep.dei.esoft.project.domain.Activity;
+import pt.ipp.isep.dei.esoft.project.domain.Graph.Algorithms;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
 import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
@@ -68,11 +69,29 @@ public class ActivityReader {
 
                 }
             }
+
+
+
             return graph;
 
         } catch (Exception e) {
             throw new IllegalArgumentException("Error processing CSV file: " + e.getMessage());
         }
+    }
+
+
+
+
+    //-------------------------- Validations Input ---------------------------------------------
+
+    /**
+     * Validates if a string is not null or empty.
+     *
+     * @param string The string to be validated.
+     * @return true if the string is not null or empty, false otherwise.
+     */
+    public static boolean validateString(String string) {
+        return (string != null && !string.trim().isEmpty());
     }
 
     private static void validateParametersUnits(String id, String duration, String cost,long row) {
@@ -118,15 +137,6 @@ public class ActivityReader {
         throw new IllegalArgumentException("Invalid "+token+" -> [" + param + "]  cannot be negative.");
     }
 
-    //-------------------------- String Validations ---------------------------------------------
 
-    /**
-     * Validates if a string is not null or empty.
-     *
-     * @param string The string to be validated.
-     * @return true if the string is not null or empty, false otherwise.
-     */
-    public static boolean validateString(String string) {
-        return (string != null && !string.trim().isEmpty());
-    }
+
 }

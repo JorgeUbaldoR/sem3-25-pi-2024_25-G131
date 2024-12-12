@@ -6,20 +6,19 @@ import java.util.*;
 import java.util.function.BinaryOperator;
 
 /**
- *
  * @author DEI-ISEP
- *
  */
 public class Algorithms {
 
-    /** Performs breadth-first search of a Graph starting in a vertex
+    /**
+     * Performs breadth-first search of a Graph starting in a vertex
      *
-     * @param g Graph instance
+     * @param g    Graph instance
      * @param vert vertex that will be the source of the search
      * @return a LinkedList with the vertices of breadth-first search
      */
     public static <V, E> LinkedList<V> BreadthFirstSearch(Graph<V, E> g, V vert) {
-        if(!g.validVertex(vert)) {
+        if (!g.validVertex(vert)) {
             return null;
         }
 
@@ -30,11 +29,11 @@ public class Algorithms {
         queue.add(vert);
         visited.add(vert);
 
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             V currentVertex = queue.poll();
             result.add(currentVertex);
-            for(V adjVert : g.adjVertices(currentVertex)) {
-                if(!visited.contains(adjVert)) {
+            for (V adjVert : g.adjVertices(currentVertex)) {
+                if (!visited.contains(adjVert)) {
                     queue.add(adjVert);
                     visited.add(adjVert);
                 }
@@ -43,34 +42,37 @@ public class Algorithms {
         return result;
     }
 
-    /** Performs depth-first search starting in a vertex
+    /**
+     * Performs depth-first search starting in a vertex
      *
-     * @param g Graph instance
-     * @param vOrig vertex of graph g that will be the source of the search
+     * @param g       Graph instance
+     * @param vOrig   vertex of graph g that will be the source of the search
      * @param visited set of previously visited vertices
-     * @param qdfs return LinkedList with vertices of depth-first search
+     * @param qdfs    return LinkedList with vertices of depth-first search
      */
     private static <V, E> void DepthFirstSearch(Graph<V, E> g, V vOrig, boolean[] visited, LinkedList<V> qdfs) {
         qdfs.add(vOrig);
         visited[g.key(vOrig)] = true;
 
-        for(V adjVert : g.adjVertices(vOrig)) {
-            if(!visited[g.key(adjVert)]) {
+        for (V adjVert : g.adjVertices(vOrig)) {
+            if (!visited[g.key(adjVert)]) {
                 DepthFirstSearch(g, adjVert, visited, qdfs);
             }
         }
     }
 
-    /** Performs depth-first search starting in a vertex
+    /**
+     * Performs depth-first search starting in a vertex
      *
-     * @param g Graph instance
+     * @param g    Graph instance
      * @param vert vertex of graph g that will be the source of the search
-
      * @return a LinkedList with the vertices of depth-first search
      */
     public static <V, E> LinkedList<V> DepthFirstSearch(Graph<V, E> g, V vert) {
 
-        if(!g.validVertex(vert)) {return null;}
+        if (!g.validVertex(vert)) {
+            return null;
+        }
 
         boolean[] visited = new boolean[g.numVertices()];
         LinkedList<V> qdfs = new LinkedList<>();
@@ -80,7 +82,47 @@ public class Algorithms {
         return qdfs;
     }
 
-    /** Returns all paths from vOrig to vDest
+
+    public static <V, E> boolean hasCircularDependencies(Graph<V, E> g) {
+
+        boolean[] visited = new boolean[g.numVertices()];
+        boolean[] recStack = new boolean[g.numVertices()];
+
+        for (V vertex : g.vertices()) {
+            if (!visited[g.key(vertex)]) {
+                if (hasCycleUtil(g, vertex, visited, recStack)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static <V, E> boolean hasCycleUtil(Graph<V, E> g, V v, boolean[] visited, boolean[] recStack) {
+        int vKey = g.key(v);
+
+        visited[vKey] = true;
+        recStack[vKey] = true;
+
+        for (V adjVert : g.adjVertices(v)) {
+            int adjKey = g.key(adjVert);
+
+            if (recStack[adjKey]) {
+                return true;
+            }
+
+            if (!visited[adjKey] && hasCycleUtil(g, adjVert, visited, recStack)) {
+                return true;
+            }
+        }
+
+        recStack[vKey] = false;
+        return false;
+    }
+
+
+    /**
+     * Returns all paths from vOrig to vDest
      *
      * @param g       Graph instance
      * @param vOrig   Vertex that will be the source of the path
@@ -95,12 +137,12 @@ public class Algorithms {
         path.add(vOrig);
         visited[g.key(vOrig)] = true;
 
-        if(vOrig.equals(vDest)) {
+        if (vOrig.equals(vDest)) {
             paths.add(new LinkedList<>(path));
-        }else{
+        } else {
             for (V adjVert : g.adjVertices(vOrig)) {
-                if(!visited[g.key(adjVert)]) {
-                    allPaths(g,adjVert,vDest,visited,path,paths);
+                if (!visited[g.key(adjVert)]) {
+                    allPaths(g, adjVert, vDest, visited, path, paths);
                 }
             }
         }
@@ -109,7 +151,8 @@ public class Algorithms {
         visited[g.key(vDest)] = false;
     }
 
-    /** Returns all paths from vOrig to vDest
+    /**
+     * Returns all paths from vOrig to vDest
      *
      * @param g     Graph instance
      * @param vOrig information of the Vertex origin
@@ -117,7 +160,7 @@ public class Algorithms {
      * @return paths ArrayList with all paths from vOrig to vDest
      */
     public static <V, E> ArrayList<LinkedList<V>> allPaths(Graph<V, E> g, V vOrig, V vDest) {
-        if(!g.validVertex(vOrig) || !g.validVertex(vDest)) {
+        if (!g.validVertex(vOrig) || !g.validVertex(vDest)) {
             return null;
         }
 
@@ -151,15 +194,15 @@ public class Algorithms {
 
         queue.add(vOrig);
 
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             V currentVert = queue.poll();
             visited[g.key(currentVert)] = true;
 
-            for(V adjVert : g.adjVertices(currentVert)){
-                Edge<V,E> edge = g.edge(currentVert,adjVert);
+            for (V adjVert : g.adjVertices(currentVert)) {
+                Edge<V, E> edge = g.edge(currentVert, adjVert);
                 E newDist = sum.apply(dist[g.key(currentVert)], edge.getWeight());
 
-                if(!visited[g.key(adjVert)] && ce.compare(dist[g.key(adjVert)], newDist) > 0 ){
+                if (!visited[g.key(adjVert)] && ce.compare(dist[g.key(adjVert)], newDist) > 0) {
                     dist[g.key(adjVert)] = newDist;
                     pathKeys[g.key(adjVert)] = currentVert;
 
@@ -172,15 +215,15 @@ public class Algorithms {
     }
 
 
-
-    /** Shortest-path between two vertices
+    /**
+     * Shortest-path between two vertices
      *
-     * @param g graph
-     * @param vOrig origin vertex
-     * @param vDest destination vertex
-     * @param ce comparator between elements of type E
-     * @param sum sum two elements of type E
-     * @param zero neutral element of the sum in elements of type E
+     * @param g         graph
+     * @param vOrig     origin vertex
+     * @param vDest     destination vertex
+     * @param ce        comparator between elements of type E
+     * @param sum       sum two elements of type E
+     * @param zero      neutral element of the sum in elements of type E
      * @param shortPath returns the vertices which make the shortest path
      * @return if vertices exist in the graph and are connected, true, false otherwise
      */
@@ -258,13 +301,14 @@ public class Algorithms {
     }
 
 
-    /** Shortest-path between a vertex and all other vertices
+    /**
+     * Shortest-path between a vertex and all other vertices
      *
-     * @param g graph
+     * @param g     graph
      * @param vOrig start vertex
-     * @param ce comparator between elements of type E
-     * @param sum sum two elements of type E
-     * @param zero neutral element of the sum in elements of type E
+     * @param ce    comparator between elements of type E
+     * @param sum   sum two elements of type E
+     * @param zero  neutral element of the sum in elements of type E
      * @param paths returns all the minimum paths
      * @param dists returns the corresponding minimum distances
      * @return if vOrig exists in the graph true, false otherwise
@@ -287,22 +331,23 @@ public class Algorithms {
      * @param path     stack with the minimum path (correct order)
      */
     private static <V, E> void getPath(Graph<V, E> g, V vOrig, V vDest,
-                                       V [] pathKeys, LinkedList<V> path) {
+                                       V[] pathKeys, LinkedList<V> path) {
 
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /** Calculates the minimum distance graph using Floyd-Warshall
+    /**
+     * Calculates the minimum distance graph using Floyd-Warshall
      *
-     * @param g initial graph
-     * @param ce comparator between elements of type E
+     * @param g   initial graph
+     * @param ce  comparator between elements of type E
      * @param sum sum two elements of type E
      * @return the minimum distance graph
      */
     @SuppressWarnings("unchecked")
-    public static <V,E> MatrixGraph <V,E> minDistGraph(Graph <V,E> g, Comparator<E> ce, BinaryOperator<E> sum) {
+    public static <V, E> MatrixGraph<V, E> minDistGraph(Graph<V, E> g, Comparator<E> ce, BinaryOperator<E> sum) {
 
-        MatrixGraph<V,E> minGraph = new MatrixGraph<>(g.isDirected(),g.numVertices());
+        MatrixGraph<V, E> minGraph = new MatrixGraph<>(g.isDirected(), g.numVertices());
         List<V> vertices = g.vertices();
 
         for (V vOrig : vertices) {
@@ -312,10 +357,10 @@ public class Algorithms {
         E[][] dist = (E[][]) new Object[g.numVertices()][g.numVertices()];
         for (int i = 0; i < g.numVertices(); i++) {
             for (int j = 0; j < g.numVertices(); j++) {
-                if(i == j){
+                if (i == j) {
                     dist[i][j] = null;
-                }else{
-                    Edge<V,E> edge = g.edge(vertices.get(i), vertices.get(j));
+                } else {
+                    Edge<V, E> edge = g.edge(vertices.get(i), vertices.get(j));
                     dist[i][j] = edge != null ? edge.getWeight() : null;
                 }
             }
@@ -326,11 +371,11 @@ public class Algorithms {
 
         for (int k = 0; k < g.numVertices(); k++) {
             for (int i = 0; i < g.numVertices(); i++) {
-                if(k != i && dist[i][k] != null){
+                if (k != i && dist[i][k] != null) {
                     for (int j = 0; j < g.numVertices(); j++) {
-                        if(i != j && k != j && dist[k][j] != null){
+                        if (i != j && k != j && dist[k][j] != null) {
                             E newDist = sum.apply(dist[i][k], dist[k][j]);
-                            if(dist[i][j] == null || ce.compare(newDist, dist[i][j]) < 0){
+                            if (dist[i][j] == null || ce.compare(newDist, dist[i][j]) < 0) {
                                 dist[i][j] = newDist;
                             }
                         }
@@ -341,7 +386,7 @@ public class Algorithms {
 
         for (int i = 0; i < g.numVertices(); i++) {
             for (int j = 0; j < g.numVertices(); j++) {
-                if(dist[i][j] != null){
+                if (dist[i][j] != null) {
                     minGraph.addEdge(vertices.get(i), vertices.get(j), dist[i][j]);
                 }
             }
