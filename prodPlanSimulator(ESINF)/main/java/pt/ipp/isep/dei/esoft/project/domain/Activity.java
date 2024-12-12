@@ -1,7 +1,10 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class Activity {
 
@@ -136,5 +139,13 @@ public class Activity {
     @Override
     public int hashCode() {
         return Objects.hash(id, description, duration, durationUnit, cost, costUnit, predecessors);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        string.append("["+ANSI_BRIGHT_WHITE).append(id.toString()).append(ANSI_RESET+"] \"Duration: ").append(duration +" ("+durationUnit+") ");
+        string.append("| Cost: ").append(cost+ " ("+costUnit+")\"");
+        return string.toString();
     }
 }

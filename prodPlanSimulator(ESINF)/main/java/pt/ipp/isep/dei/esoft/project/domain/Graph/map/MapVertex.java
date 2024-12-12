@@ -53,11 +53,23 @@ public class MapVertex<V, E> {
 
     @Override
     public String toString() {
-        String st = element + ": \n";
-        if (!outVerts.isEmpty())
-            for (V vert : outVerts.keySet())
-                st += outVerts.get(vert);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Vertex: ").append(element).append("\n");
+        sb.append("Adjacent Vertices and Edges:\n");
 
-        return st;
+        if (!outVerts.isEmpty()) {
+            for (Map.Entry<V, Edge<V, E>> entry : outVerts.entrySet()) {
+                V adjacentVertex = entry.getKey();
+                Edge<V, E> edge = entry.getValue();
+                sb.append("  - To Vertex: ").append(adjacentVertex)
+                        .append(" | Edge Details: ").append(edge)
+                        .append("\n");
+            }
+        } else {
+            sb.append("  No adjacent vertices.\n");
+        }
+
+        return sb.toString();
     }
+
 }

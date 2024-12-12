@@ -159,11 +159,11 @@ public class CreatePTRGraphUI implements Runnable {
             try{
                 if(getController().idGraphExist(idGraph)){
                     MapGraph<Activity, Double> createdMap = getController().createMapGraph(path);
-                    System.out.println(createdMap);
+                    System.out.println(createdMap.toString(idGraph));
                     if(getController().saveGraph(createdMap,idGraph)){
-                        System.out.println("\n"+ANSI_BRIGHT_GREEN + "Production Tree successfully generated!" + ANSI_RESET);
+                        System.out.println("\n"+ANSI_BRIGHT_GREEN + "Graph successfully generated!" + ANSI_RESET);
                     }else{
-                        System.out.println("\n"+ANSI_BRIGHT_YELLOW + "Production Tree successfully generated! - But ERROR saving MapGraph" + ANSI_RESET);
+                        System.out.println("\n"+ANSI_BRIGHT_YELLOW + "Graph successfully generated! - But ERROR saving MapGraph" + ANSI_RESET);
                     }
                 }else{
                     System.out.println("\n"+ANSI_BRIGHT_RED + "Operation canceled - The ID chosen already exist" + ANSI_RESET);

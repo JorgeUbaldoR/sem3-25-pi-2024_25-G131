@@ -1,13 +1,17 @@
 package pt.ipp.isep.dei.esoft.project.domain.Graph.map;
 
+import pt.ipp.isep.dei.esoft.project.domain.Activity;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.CommonGraph;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.Edge;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.Graph;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 
 /**
@@ -234,17 +238,54 @@ public class MapGraph<V, E> extends CommonGraph<V, E> {
         return g;
     }
 
-    //string representation
-    @Override
-    public String toString() {
-        String s;
+
+    public String toString(ID id) {
+        StringBuilder sb = new StringBuilder();
+
         if (numVerts == 0) {
-            s = "\nGraph not defined!!";
+            sb.append("\nGraph not defined!!");
         } else {
-            s = "Graph: " + numVerts + " vertices, " + numEdges + " edges\n";
-            for (MapVertex<V, E> mv : mapVertices.values())
-                s += mv + "\n";
+            sb.append(ANSI_BRIGHT_BLACK+"\n╔═══════════════════════════╗\n"+ANSI_RESET);
+            sb.append(ANSI_BRIGHT_WHITE+"     Graph Details: #").append(id).append(ANSI_RESET+ANSI_BRIGHT_BLACK+"\n╚═══════════════════════════╝\n"+ANSI_RESET)
+                    .append(ANSI_BRIGHT_BLACK+" •"+ANSI_RESET+ " Directed: "+ANSI_BRIGHT_WHITE).append(isDirected).append(ANSI_RESET+"\n")
+                    .append(ANSI_BRIGHT_BLACK+" •"+ANSI_RESET+ " Number of vertices: "+ANSI_BRIGHT_WHITE).append(numVerts).append(ANSI_RESET+"\n")
+                    .append(ANSI_BRIGHT_BLACK+" •"+ANSI_RESET+ " Number of edges: "+ANSI_BRIGHT_WHITE).append(numEdges+ANSI_RESET).append(ANSI_BRIGHT_BLACK+"\n═════════════════════════════\n"+ANSI_RESET);
+
+            sb.append("  Vertices and their edges:\n\n");
+            int qtd = 1;
+            for (MapVertex<V, E> mv : mapVertices.values()) {
+                sb.append(ANSI_BRIGHT_BLACK+"(#").append(qtd).append(")"+ANSI_RESET).append(" 🔵 "+"Vertex ").append(mv.getElement()).append("\n");
+                qtd++;
+
+                if (mv.numAdjVerts() > 0) {
+                    int len = mv.getAllAdjVerts().size();
+                    for (Edge<V, E> edge : mv.getAllOutEdges()) {
+                        if(edge.getVDest() instanceof Activity){
+                            if(len == 1){
+                                sb.append(ANSI_BRIGHT_BLACK+"                 └─>"+ANSI_RESET+" To: Vertex ["+ANSI_BRIGHT_WHITE).append(((Activity) edge.getVDest()).getId())
+                                        .append(ANSI_RESET+"] | ⚖️"+" Edge Weight: ").append(edge.getWeight())
+                                        .append("\n");
+                            }else{
+                                sb.append(ANSI_BRIGHT_BLACK+"                 ├─>"+ANSI_RESET+" To: Vertex ["+ANSI_BRIGHT_WHITE).append(((Activity) edge.getVDest()).getId())
+                                        .append(ANSI_RESET+"] | ⚖️"+" Edge Weight: ").append(edge.getWeight())
+                                        .append("\n");
+                            }
+                        }else{
+                            sb.append(ANSI_BRIGHT_BLACK+"                 ├─>"+ANSI_RESET+" To: Vertex ["+ANSI_BRIGHT_WHITE).append(edge.getVDest())
+                                    .append(ANSI_RESET+"] | ⚖️"+" Edge Weight: ").append(edge.getWeight())
+                                    .append("\n");
+                        }
+
+                        len --;
+                    }
+                    sb.append("\n");
+                } else {
+                    sb.append(ANSI_BRIGHT_BLACK+"                 └─>"+ANSI_RESET+" To:"+ANSI_BRIGHT_YELLOW+" None outgoing edges.\n\n"+ANSI_RESET);
+                }
+            }
         }
-        return s;
+
+        return sb.toString();
     }
+
 }

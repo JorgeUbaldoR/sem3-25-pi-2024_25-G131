@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.*;
 
-public class CSVReader {
+public class ActivityReader {
     private static final int START_OF_PREDECESSORS = 6;
 
     public static MapGraph<Activity, Double> readCSV(String filePath) {

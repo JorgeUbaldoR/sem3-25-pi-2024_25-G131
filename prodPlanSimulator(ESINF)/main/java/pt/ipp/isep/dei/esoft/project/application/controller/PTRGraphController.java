@@ -3,7 +3,7 @@ package pt.ipp.isep.dei.esoft.project.application.controller;
 import pt.ipp.isep.dei.esoft.project.domain.Activity;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
 import pt.ipp.isep.dei.esoft.project.domain.ID;
-import pt.ipp.isep.dei.esoft.project.domain.data.CSVReader;
+import pt.ipp.isep.dei.esoft.project.domain.data.ActivityReader;
 import pt.ipp.isep.dei.esoft.project.repository.IDRepository;
 import pt.ipp.isep.dei.esoft.project.repository.PETRGraphRepository;
 import pt.ipp.isep.dei.esoft.project.repository.Repositories;
@@ -43,7 +43,7 @@ public class PTRGraphController {
     }
 
     public MapGraph<Activity,Double> createMapGraph(String path){
-        return CSVReader.readCSV(path);
+        return ActivityReader.readCSV(path);
     }
 
 
