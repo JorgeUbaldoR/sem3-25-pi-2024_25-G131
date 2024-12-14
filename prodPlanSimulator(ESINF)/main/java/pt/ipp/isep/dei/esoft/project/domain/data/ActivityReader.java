@@ -12,9 +12,23 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.*;
 
+/**
+ * The ActivityReader class is responsible for reading and processing an Activity CSV file.
+ * It creates a graph of activities with dependencies, validates input data, and checks for circular dependencies in the graph.
+ */
 public class ActivityReader {
     private static final int START_OF_PREDECESSORS = 5;  // Index for the 'predecessors' column in the new format
 
+    /**
+     * Reads an activity CSV file and creates a graph of activities with their dependencies.
+     *
+     * @param filePath The path to the CSV file containing activity data.
+     * @param isDirected Whether the graph should be directed or undirected.
+     * @return A MapGraph containing the activities as vertices and their dependencies as edges.
+     * @throws IllegalArgumentException If there is an error processing the CSV file, such as invalid data or circular dependencies.
+     *
+     * Time Complexity: O(n + m), where n is the number of records (activities) in the CSV file and m is the number of edges (dependencies).
+     */
     public static MapGraph<Activity, Double> readCSV(String filePath, boolean isDirected) {
         MapGraph<Activity, Double> graph = new MapGraph<>(isDirected);
         Set<String> uniqueIds = new HashSet<>();
@@ -93,6 +107,14 @@ public class ActivityReader {
         }
     }
 
+    /**
+     * Extracts and returns the numeric part of a string ID.
+     *
+     * @param id The string ID to extract the numeric part from.
+     * @return The numeric part of the string as a string.
+     *
+     * Time Complexity: O(n), where n is the length of the string id.
+     */
     private static String getFinalID(String id) {
         StringBuilder num = new StringBuilder();
         id.chars().forEach(c -> {
@@ -105,10 +127,30 @@ public class ActivityReader {
 
     //-------------------------- Validations Input ---------------------------------------------
 
+    /**
+     * Validates if the provided string is not null or empty.
+     *
+     * @param string The string to validate.
+     * @return true if the string is not null or empty, false otherwise.
+     *
+     * Time Complexity: O(1)
+     */
     public static boolean validateString(String string) {
         return (string != null && !string.trim().isEmpty());
     }
 
+    /**
+     * Validates the parameters for ID, duration, and cost. Checks for empty strings and converts the values to integers and doubles.
+     *
+     * @param id The ID of the activity.
+     * @param duration The duration of the activity.
+     * @param cost The cost of the activity.
+     * @param row The row number of the CSV record.
+     * @return The valid ID as an integer.
+     * @throws IllegalArgumentException If any of the parameters are invalid.
+     *
+     * Time Complexity: O(1), constant time for the validations and conversions.
+     */
     private static int validateParametersUnits(String id, String duration, String cost, long row) {
         checkString(id, "ID", row);
         checkString(duration, "DURATION", row);
@@ -116,12 +158,35 @@ public class ActivityReader {
         return checkConversion(id, duration, cost, row);
     }
 
+    /**
+     * Checks that the given string parameter is not null or empty.
+     *
+     * @param param The parameter to check.
+     * @param token The name of the parameter (for error messages).
+     * @param row The row number of the CSV record.
+     * @throws IllegalArgumentException If the parameter is null or empty.
+     *
+     * Time Complexity: O(1)
+     */
     private static void checkString(String param, String token, long row) {
         if (!validateString(param)) {
             throw new IllegalArgumentException("Error in row " + row + ": Invalid " + token + " - make sure it is not empty or null");
         }
     }
 
+    /**
+     * Converts and checks the validity of the ID, duration, and cost parameters.
+     * Ensures that they are valid numbers and not negative.
+     *
+     * @param id The ID of the activity.
+     * @param duration The duration of the activity.
+     * @param cost The cost of the activity.
+     * @param row The row number of the CSV record.
+     * @return The valid ID as an integer.
+     * @throws IllegalArgumentException If the parameters are not valid or negative.
+     *
+     * Time Complexity: O(1), constant time for the conversions and checks.
+     */
     private static int checkConversion(String id, String duration, String cost, long row) {
         String num = getFinalID(id);
         checkConversionAndNegativeInt(num.toString(), "ID", row);
@@ -130,6 +195,16 @@ public class ActivityReader {
         return Integer.parseInt(num.toString());
     }
 
+    /**
+     * Checks if the given integer parameter is a valid number and not negative.
+     *
+     * @param param The parameter to check.
+     * @param token The name of the parameter (for error messages).
+     * @param row The row number of the CSV record.
+     * @throws IllegalArgumentException If the parameter is not a valid number or is negative.
+     *
+     * Time Complexity: O(1)
+     */
     private static void checkConversionAndNegativeInt(String param, String token, long row) {
         try {
             if (Integer.parseInt(param) < 0) {
@@ -140,6 +215,16 @@ public class ActivityReader {
         }
     }
 
+    /**
+     * Checks if the given double parameter is a valid number and not negative.
+     *
+     * @param param The parameter to check.
+     * @param token The name of the parameter (for error messages).
+     * @param row The row number of the CSV record.
+     * @throws IllegalArgumentException If the parameter is not a valid number or is negative.
+     *
+     * Time Complexity: O(1)
+     */
     private static void checkConversionAndNegativeDouble(String param, String token, long row) {
         try {
             if (Double.parseDouble(param) < 0) {
@@ -150,6 +235,15 @@ public class ActivityReader {
         }
     }
 
+    /**
+     * Throws an exception if a parameter is negative.
+     *
+     * @param token The name of the parameter (for error messages).
+     * @param param The parameter value.
+     * @throws IllegalArgumentException If the parameter is negative.
+     *
+     * Time Complexity: O(1)
+     */
     private static void sendNegativeError(String token, String param) {
         throw new IllegalArgumentException("Invalid " + token + " -> [" + param + "] cannot be negative.");
     }
