@@ -5,17 +5,20 @@ import pt.ipp.isep.dei.esoft.project.domain.Graph.matrix.MatrixGraph;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
-/**
- * @author DEI-ISEP
- */
+
 public class Algorithms {
 
     /**
-     * Performs breadth-first search of a Graph starting in a vertex
+     * Performs a breadth-first search (BFS) on a graph starting from a specified vertex.
      *
-     * @param g    Graph instance
-     * @param vert vertex that will be the source of the search
-     * @return a LinkedList with the vertices of breadth-first search
+     * @param <V> the type of vertices in the graph
+     * @param <E> the type of edges in the graph
+     * @param g   the graph instance
+     * @param vert the starting vertex for the BFS
+     * @return a LinkedList containing the vertices visited in BFS order, or null if the vertex is invalid
+     *
+     * Big O Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+     * BFS visits each vertex and edge exactly once.
      */
     public static <V, E> LinkedList<V> BreadthFirstSearch(Graph<V, E> g, V vert) {
         if (!g.validVertex(vert)) {
@@ -62,11 +65,16 @@ public class Algorithms {
     }
 
     /**
-     * Performs depth-first search starting in a vertex
+     * Performs a depth-first search (DFS) on a graph starting from a specified vertex.
      *
-     * @param g    Graph instance
-     * @param vert vertex of graph g that will be the source of the search
-     * @return a LinkedList with the vertices of depth-first search
+     * @param <V> the type of vertices in the graph
+     * @param <E> the type of edges in the graph
+     * @param g   the graph instance
+     * @param vert the starting vertex for the DFS
+     * @return a LinkedList containing the vertices visited in DFS order, or null if the vertex is invalid
+     *
+     * Big O Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+     * DFS visits each vertex and edge exactly once.
      */
     public static <V, E> LinkedList<V> DepthFirstSearch(Graph<V, E> g, V vert) {
 
@@ -83,6 +91,17 @@ public class Algorithms {
     }
 
 
+    /**
+     * Detects whether a graph contains circular dependencies (cycles).
+     *
+     * @param <V> the type of vertices in the graph
+     * @param <E> the type of edges in the graph
+     * @param g   the graph instance
+     * @return true if the graph contains cycles, false otherwise
+     *
+     * Big O Complexity: O(V + E), where V is the number of vertices and E is the number of edges.
+     * The method performs DFS to check for back edges, indicating cycles.
+     */
     public static <V, E> boolean hasCircularDependencies(Graph<V, E> g) {
 
         boolean[] visited = new boolean[g.numVertices()];
@@ -98,6 +117,17 @@ public class Algorithms {
         return false;
     }
 
+    /**
+     * Helper function for detecting cycles in a graph.
+     *
+     * @param <V>    the type of vertices in the graph
+     * @param <E>    the type of edges in the graph
+     * @param g      the graph instance
+     * @param v      the current vertex being explored
+     * @param visited a boolean array tracking visited vertices
+     * @param recStack a boolean array tracking the recursion stack
+     * @return true if a cycle is detected, false otherwise
+     */
     private static <V, E> boolean hasCycleUtil(Graph<V, E> g, V v, boolean[] visited, boolean[] recStack) {
         int vKey = g.key(v);
 
@@ -122,14 +152,16 @@ public class Algorithms {
 
 
     /**
-     * Returns all paths from vOrig to vDest
+     * Helper function for finding all paths between two vertices in a graph.
      *
-     * @param g       Graph instance
-     * @param vOrig   Vertex that will be the source of the path
-     * @param vDest   Vertex that will be the end of the path
-     * @param visited set of discovered vertices
-     * @param path    stack with vertices of the current path (the path is in reverse order)
-     * @param paths   ArrayList with all the paths (in correct order)
+     * @param <V>    the type of vertices in the graph
+     * @param <E>    the type of edges in the graph
+     * @param g      the graph instance
+     * @param vOrig  the current vertex being explored
+     * @param vDest  the destination vertex
+     * @param visited a boolean array tracking visited vertices
+     * @param path   a LinkedList containing the current path (in reverse order)
+     * @param paths  an ArrayList containing all discovered paths
      */
     private static <V, E> void allPaths(Graph<V, E> g, V vOrig, V vDest, boolean[] visited,
                                         LinkedList<V> path, ArrayList<LinkedList<V>> paths) {
@@ -152,12 +184,17 @@ public class Algorithms {
     }
 
     /**
-     * Returns all paths from vOrig to vDest
+     * Finds all paths between two vertices in a graph.
      *
-     * @param g     Graph instance
-     * @param vOrig information of the Vertex origin
-     * @param vDest information of the Vertex destination
-     * @return paths ArrayList with all paths from vOrig to vDest
+     * @param <V> the type of vertices in the graph
+     * @param <E> the type of edges in the graph
+     * @param g   the graph instance
+     * @param vOrig the starting vertex
+     * @param vDest the ending vertex
+     * @return an ArrayList containing all paths from vOrig to vDest, or null if vertices are invalid
+     *
+     * Big O Complexity: O(V!), where V is the number of vertices.
+     * This is due to the combinatorial nature of generating all possible paths.
      */
     public static <V, E> ArrayList<LinkedList<V>> allPaths(Graph<V, E> g, V vOrig, V vDest) {
         if (!g.validVertex(vOrig) || !g.validVertex(vDest)) {
@@ -174,14 +211,21 @@ public class Algorithms {
 
     /**
      * Computes shortest-path distance from a source vertex to all reachable
-     * vertices of a graph g with non-negative edge weights
-     * This implementation uses Dijkstra's algorithm
+     * vertices of a graph g with non-negative edge weights using Dijkstra's algorithm.
      *
      * @param g        Graph instance
      * @param vOrig    Vertex that will be the source of the path
-     * @param visited  set of previously visited vertices
-     * @param pathKeys minimum path vertices keys
-     * @param dist     minimum distances
+     * @param ce       Comparator to compare edge weights
+     * @param sum      Function to sum two edge weights
+     * @param zero     Neutral element of the sum
+     * @param visited  Array tracking visited vertices
+     * @param pathKeys Array storing predecessors for shortest paths
+     * @param dist     Array storing shortest distances to each vertex
+     *
+     * Time Complexity: O((V + E) * log(V)), where V is the number of vertices and E is the number of edges.
+     *   - Each vertex is processed once (O(V) operations).
+     *   - For each vertex, all its adjacent edges are processed (O(E) operations in total).
+     *   - PriorityQueue operations (add/poll) take O(log(V)).
      */
     private static <V, E> void shortestPathDijkstra(Graph<V, E> g, V vOrig,
                                                     Comparator<E> ce, BinaryOperator<E> sum, E zero,
@@ -216,16 +260,18 @@ public class Algorithms {
 
 
     /**
-     * Shortest-path between two vertices
+     * Finds the shortest path between two vertices using Dijkstra's algorithm.
      *
-     * @param g         graph
-     * @param vOrig     origin vertex
-     * @param vDest     destination vertex
-     * @param ce        comparator between elements of type E
-     * @param sum       sum two elements of type E
-     * @param zero      neutral element of the sum in elements of type E
-     * @param shortPath returns the vertices which make the shortest path
-     * @return if vertices exist in the graph and are connected, true, false otherwise
+     * @param g         Graph instance
+     * @param vOrig     Origin vertex
+     * @param vDest     Destination vertex
+     * @param ce        Comparator to compare edge weights
+     * @param sum       Function to sum two edge weights
+     * @param zero      Neutral element of the sum
+     * @param shortPath List to store the vertices that make up the shortest path
+     * @return The total weight of the shortest path, or null if no path exists
+     *
+     * Time Complexity: O((V + E) * log(V)), dominated by the call to Dijkstra's algorithm.
      */
     @SuppressWarnings("unchecked")
     public static <V, E> E shortestPath(Graph<V, E> g, V vOrig, V vDest,
@@ -284,6 +330,17 @@ public class Algorithms {
     }
 
 
+    /**
+     * Reconstructs the shortest path from the predecessor array.
+     *
+     * @param g        Graph instance
+     * @param vOrig    Origin vertex
+     * @param vDest    Destination vertex
+     * @param pathKeys Array storing predecessors for shortest paths
+     * @return A linked list representing the shortest path from vOrig to vDest
+     *
+     * Time Complexity: O(V), where V is the number of vertices on the path.
+     */
     private static <V> LinkedList<V> reconstructPath(Graph<V, ?> g, V vOrig, V vDest, V[] pathKeys) {
         LinkedList<V> path = new LinkedList<>();
         V current = vDest;
@@ -302,16 +359,15 @@ public class Algorithms {
 
 
     /**
-     * Shortest-path between a vertex and all other vertices
+     * Computes the minimum distance graph using the Floyd-Warshall algorithm.
      *
-     * @param g     graph
-     * @param vOrig start vertex
-     * @param ce    comparator between elements of type E
-     * @param sum   sum two elements of type E
-     * @param zero  neutral element of the sum in elements of type E
-     * @param paths returns all the minimum paths
-     * @param dists returns the corresponding minimum distances
-     * @return if vOrig exists in the graph true, false otherwise
+     * @param g   Initial graph
+     * @param ce  Comparator to compare edge weights
+     * @param sum Function to sum two edge weights
+     * @return A new graph representing the minimum distances between all pairs of vertices
+     *
+     * Time Complexity: O(V^3), where V is the number of vertices.
+     *   - Three nested loops iterate over all vertex pairs and intermediaries.
      */
     public static <V, E> boolean shortestPaths(Graph<V, E> g, V vOrig,
                                                Comparator<E> ce, BinaryOperator<E> sum, E zero,
