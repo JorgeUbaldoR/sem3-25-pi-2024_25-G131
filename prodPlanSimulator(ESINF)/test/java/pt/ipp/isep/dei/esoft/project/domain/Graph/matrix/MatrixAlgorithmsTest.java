@@ -1,24 +1,22 @@
-package pt.ipp.isep.dei.esoft.project.domain.Graph;
+package pt.ipp.isep.dei.esoft.project.domain.Graph.matrix;
 
-
-import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
-import pt.ipp.isep.dei.esoft.project.domain.Graph.matrix.MatrixGraph;
+import pt.ipp.isep.dei.esoft.project.domain.Graph.Algorithms;
+import pt.ipp.isep.dei.esoft.project.domain.Graph.Graph;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 import java.util.*;
 import java.util.function.BinaryOperator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapAlgorithmsTest {
+class MatrixAlgorithmsTest {
 
-    final Graph<String, Integer> completeMap = new MapGraph<>(false);
-    Graph<String, Integer> incompleteMap = new MapGraph<>(false);
+    final Graph<String,Integer> completeMap = new MatrixGraph<>(false);
+    Graph<String,Integer> incompleteMap = new MatrixGraph<>(false);
 
-    public MapAlgorithmsTest() {
+    public MatrixAlgorithmsTest() {
     }
 
     @BeforeEach
@@ -120,12 +118,12 @@ class MapAlgorithmsTest {
         assertEquals(expected, path, "DepthFirst Viseu");
     }
 
+
     /**
      * Test minimum distance graph using Floyd-Warshall.
      */
     @Test
-    public void testminDistGraph() {
-
+    public void testMinDistGraph() {
         System.out.println("Test minimum distance graph using Floyd-Warshall");
 
         Comparator<Integer> comparator = Integer::compare;
@@ -148,4 +146,8 @@ class MapAlgorithmsTest {
         assertNotNull(minDistGraph.edge("Porto", "Faro"), "There should be no path between Porto and Faro in incomplete graph");
 
     }
+
+
+    
+    
 }
