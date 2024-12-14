@@ -1,5 +1,4 @@
 ActivKey,descr,duration,duration-unit,tot-cost,predecessors
-act_id,act_descr,duration,duration_unit,cost,cost_unit,prev_act_id1,prev_act_id2
 A1,Start project,1,days,0,
 A2,Task A2,2,days,5536,A1
 A3,Task A3,9,days,6600,"A1,A2"

@@ -37,7 +37,7 @@ public class WriterGraph {
                 treePrintWriter.println("digraph Diagram {");
                 for (MapVertex<Activity, Double> mv : graph.getMapVertices().values()) {
                     for (Edge<Activity, Double> edge : mv.getAllOutEdges()) {
-                        treePrintWriter.printf("\"%s\" -> \"%s\" [label = \"%.1f (%s)\"]%n",
+                        treePrintWriter.printf("\"%s\" -> \"%s\" [label = \"%.1f (%s)    \"]%n",
                                 edge.getVOrig().getId(),
                                 edge.getVDest().getId(),
                                 edge.getWeight(),
@@ -53,7 +53,7 @@ public class WriterGraph {
                         String edgeKey = createEdgeKey(edge.getVOrig().getId().toString(), edge.getVDest().getId().toString());
                         if (!processedEdges.contains(edgeKey)) {
                             processedEdges.add(edgeKey);
-                            treePrintWriter.printf("\"%s\" -- \"%s\" [label = \"%.1f (%s)\"]%n",
+                            treePrintWriter.printf("\"%s\" -- \"%s\" [label = \"%.1f (%s)    \"]%n",
                                     edge.getVOrig().getId(),
                                     edge.getVDest().getId(),
                                     edge.getWeight(),

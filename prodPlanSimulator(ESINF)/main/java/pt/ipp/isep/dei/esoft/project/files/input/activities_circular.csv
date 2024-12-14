@@ -1,6 +1,6 @@
 ActivKey,descr,duration,duration-unit,tot-cost,predecessors
-A1,Preparar materiais,5,dias,1000,
+A1,Preparar materiais,5,dias,1000,4
 AS2,Montar estrutura,10,dias,2000,fbb1
 ASS3,Instalar sistemas,7,dias,1500,bfbf2
 SDSF4,Testar o sistema,3,dias,500,bffb3
-FDF5,Documentar o projeto,4,dias,300,fbbf2
+FDF5,Documentar o projeto,4,dias,300,"fbbf2,1"

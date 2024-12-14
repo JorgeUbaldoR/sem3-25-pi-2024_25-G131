@@ -148,7 +148,7 @@ public class CreatePETRGraphUI implements Runnable {
     }
 
         private void confirmationData(ID idGraph, String path) {
-        System.out.print("\nDo you wish to create a directed Graph? (y/n): ");
+        System.out.print("Type (y) for a DGraph or (n) for NotDGraph: ");
         String directed = yesNoConfirmation();
         boolean directedGraph = directed.equalsIgnoreCase("y");
 
