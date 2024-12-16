@@ -1,4 +1,4 @@
-# USBD12 - List of parts used in a product
+# USBD23 - Thoroughly test of the code
 
 ### 1. User Story Description
 
@@ -79,8 +79,8 @@ part is a subproduct made at the factory
 
 ### 3. Resolution
 
->![Results](img/USBD12.png)
+>![Results](img/USBD22.png)
 
->[See results in a CSV file](csv_result/USBD12.csv)
+>[See results in a CSV file](csv_result/USBD22.csv)
 
 

@@ -1,4 +1,4 @@
-# USBD10 - Update Relational model (logical level).
+# USBD20 - Update Relational model (logical level).
 
 ### 1. User Story Description
 
@@ -27,13 +27,13 @@
    script to be automatically generated.
 
 >#### Relational Model - (Logical Model)
->![System Sequence Diagram - Alternative One](svg/USBD10-relational-model.png)
+>![System Sequence Diagram - Alternative One](svg/USBD20-relational-model.png)
 
 
 >* **AC3:** Minimum requirement above the expected: the presentation of a conceptual
    model developed in Visual Paradigm in addition to the expected level.
 
 >#### Relational Model - (Conceptual Model)
->![System Sequence Diagram - Alternative One](svg/USBD10-conceptual-model.png)
+>![System Sequence Diagram - Alternative One](svg/USBD20-conceptual-model.png)
 
 

@@ -1,4 +1,4 @@
-# USBD12 - List of parts used in a product
+# USBD29 - Workstation types not used in any BOO
 
 ### 1. User Story Description
 
@@ -79,8 +79,8 @@ part is a subproduct made at the factory
 
 ### 3. Resolution
 
->![Results](img/USBD12.png)
+>![Results](img/USBD29.png)
 
->[See results in a CSV file](csv_result/USBD12.csv)
+>[See results in a CSV file](csv_result/USBD29.csv)
 
 
