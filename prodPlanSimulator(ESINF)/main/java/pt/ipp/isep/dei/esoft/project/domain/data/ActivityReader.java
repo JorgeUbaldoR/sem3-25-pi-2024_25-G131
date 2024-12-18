@@ -18,7 +18,8 @@ import java.util.*;
  */
 public class ActivityReader {
     private static final int START_OF_PREDECESSORS = 5;  // Index for the 'predecessors' column in the new format
-
+    private static final int START_ID_DEFAULT = 7777;
+    private static final int FINISH_ID_DEFAULT = 7778;
     /**
      * Reads an activity CSV file and creates a graph of activities with their dependencies.
      *
@@ -40,6 +41,18 @@ public class ActivityReader {
                     .parse(reader);
 
             Map<ID, Activity> activityMap = new HashMap<>();
+            Set<ID> predecessorsSet = new HashSet<>();
+
+            ID startActivityID = new ID(START_ID_DEFAULT, TypeID.ACTIVITY);
+            ID finishID = new ID(FINISH_ID_DEFAULT, TypeID.ACTIVITY);
+
+            Activity startActivity = new Activity(startActivityID, "Start");
+            Activity finishActivity = new Activity(finishID, "Finish");
+
+            graph.addVertex(startActivity);
+            graph.addVertex(finishActivity);
+
+            activityMap.put(startActivityID, startActivity);
 
             for (CSVRecord record : records) {
                 String id = record.get("ActivKey");
@@ -64,8 +77,12 @@ public class ActivityReader {
                         String validID = getFinalID(pred);
                         checkString(validID, "PREDECESSOR", row);
                         checkConversionAndNegativeInt(validID, "PREDECESSOR", row);
-                        predecessorIds.add(new ID(Integer.parseInt(validID), TypeID.ACTIVITY));
+                        ID predecessorID = new ID(Integer.parseInt(validID), TypeID.ACTIVITY);
+                        predecessorIds.add(predecessorID);
+                        predecessorsSet.add(predecessorID);
                     }
+                } else {
+                    predecessorIds.add(startActivityID);
                 }
 
                 // Create the Activity object
@@ -75,13 +92,16 @@ public class ActivityReader {
                         Double.parseDouble(duration.trim()),
                         durationUnit,
                         Double.parseDouble(cost.trim()),
-                        "unit", // Assuming cost doesn't have a unit; adjust as necessary
+                        "unit",
                         predecessorIds
                 );
 
                 activityMap.put(activity.getId(), activity);
                 graph.addVertex(activity);
             }
+
+            addFinishPredecessors(activityMap,predecessorsSet,graph,finishActivity);
+
 
             // Add edges for dependencies
             for (Activity activity : graph.vertices()) {
@@ -105,6 +125,17 @@ public class ActivityReader {
         } catch (Exception e) {
             throw new IllegalArgumentException("Error processing CSV file: " + e.getMessage());
         }
+    }
+
+    private static void addFinishPredecessors(Map<ID, Activity> activityMap, Set<ID> predecessorsSet, MapGraph<Activity, Double> graph,Activity finishActivity) {
+        List<ID> predecessorIds = new LinkedList<>();
+        for(ID activity : activityMap.keySet()) {
+            if (!predecessorsSet.contains(activity) && activity.getSerial() != START_ID_DEFAULT) {
+                predecessorIds.add(activity);
+            }
+        }
+        finishActivity.setPredecessors(predecessorIds);
+        activityMap.put(finishActivity.getId(), finishActivity);
     }
 
     /**

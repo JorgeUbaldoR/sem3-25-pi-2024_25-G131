@@ -1,5 +1,6 @@
 package pt.ipp.isep.dei.esoft.project.domain;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -7,6 +8,11 @@ import java.util.Objects;
 import static pt.ipp.isep.dei.esoft.project.domain.more.ColorfulOutput.*;
 
 public class Activity {
+
+    private static final double DEAFULT_DURATION = 0;
+    private static final double DEAFULT_COST = 0;
+    private static final String DEFUALT_DURATION_UNIT = "No duration unit";
+    private static final String DEFUALT_COST_UNIT = "No cost unit";
 
     private final ID id;
     private String description;
@@ -35,6 +41,15 @@ public class Activity {
         this.predecessors = predecessors;
     }
 
+    public Activity(ID id, String description) {
+        this.id = id;
+        this.description = description;
+        this.duration = DEAFULT_DURATION;
+        this.durationUnit = DEFUALT_DURATION_UNIT;
+        this.cost = DEAFULT_COST;
+        this.costUnit = DEFUALT_COST_UNIT;
+        this.predecessors = new ArrayList<>();
+    }
 
     public ID getId() {
         return id;

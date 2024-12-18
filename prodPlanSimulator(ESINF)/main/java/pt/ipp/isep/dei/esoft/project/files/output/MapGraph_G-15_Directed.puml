@@ -1,0 +1,11 @@
+@startuml
+digraph Diagram {
+"Start" -> "A-1"
+"A-1" -> "A-2" [label = "5.0 (dias)    "]
+"A-2" -> "A-3" [label = "10.0 (dias)    "]
+"A-2" -> "A-5" [label = "10.0 (dias)    "]
+"A-3" -> "A-4" [label = "7.0 (dias)    "]
+"A-4" -> "Finish"
+"A-5" -> "Finish"
+}
+@enduml

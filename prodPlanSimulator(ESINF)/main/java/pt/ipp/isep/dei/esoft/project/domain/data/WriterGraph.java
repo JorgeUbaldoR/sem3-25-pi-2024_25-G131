@@ -4,6 +4,8 @@ import pt.ipp.isep.dei.esoft.project.domain.Activity;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.Edge;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapGraph;
 import pt.ipp.isep.dei.esoft.project.domain.Graph.map.MapVertex;
+import pt.ipp.isep.dei.esoft.project.domain.ID;
+import pt.ipp.isep.dei.esoft.project.domain.enumclasses.TypeID;
 
 
 import java.io.FileNotFoundException;
@@ -19,6 +21,9 @@ import java.util.Set;
  */
 public class WriterGraph {
     static private PrintWriter treePrintWriter;
+    private static final int START_ID_DEFAULT = 7777;
+    private static final int FINISH_ID_DEFAULT = 7778;
+
 
     /**
      * Constructs a new instance of WriterGraph.
@@ -55,11 +60,23 @@ public class WriterGraph {
                 treePrintWriter.println("digraph Diagram {");
                 for (MapVertex<Activity, Double> mv : graph.getMapVertices().values()) {
                     for (Edge<Activity, Double> edge : mv.getAllOutEdges()) {
-                        treePrintWriter.printf("\"%s\" -> \"%s\" [label = \"%.1f (%s)    \"]%n",
-                                edge.getVOrig().getId(),
-                                edge.getVDest().getId(),
-                                edge.getWeight(),
-                                edge.getVOrig().getDurationUnit());
+                        if(edge.getVOrig().getId().getSerial() != START_ID_DEFAULT && edge.getVDest().getId().getSerial() != FINISH_ID_DEFAULT) {
+                            treePrintWriter.printf("\"%s\" -> \"%s\" [label = \"%.1f (%s)    \"]%n",
+                                    edge.getVOrig().getId(),
+                                    edge.getVDest().getId(),
+                                    edge.getWeight(),
+                                    edge.getVOrig().getDurationUnit());
+                        }else if(edge.getVOrig().getId().getSerial() != START_ID_DEFAULT){
+                            treePrintWriter.printf("\"%s\" -> \"%s\"%n",
+                                    edge.getVOrig().getId(),
+                                    edge.getVDest().getDescription());
+
+                        }else{
+                            treePrintWriter.printf("\"%s\" -> \"%s\"%n",
+                                    edge.getVOrig().getDescription(),
+                                    edge.getVDest().getId());
+                        }
+
                     }
                 }
             } else {
