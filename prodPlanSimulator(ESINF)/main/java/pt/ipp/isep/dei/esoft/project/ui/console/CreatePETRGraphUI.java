@@ -149,8 +149,6 @@ public class CreatePETRGraphUI implements Runnable {
 
         private void confirmationData(ID idGraph, String path) {
         System.out.print("Type (y) for a DGraph or (n) for NotDGraph: ");
-        String directed = yesNoConfirmation();
-        boolean directedGraph = directed.equalsIgnoreCase("y");
 
         displayOption(idGraph.toString(),0);
         displayOption(path,1);
@@ -162,7 +160,7 @@ public class CreatePETRGraphUI implements Runnable {
 
             try{
                 if(getController().idGraphExist(idGraph)){
-                    MapGraph<Activity, Double> createdMap = getController().createMapGraph(path,directedGraph);
+                    MapGraph<Activity, Double> createdMap = getController().createMapGraph(path,true);
                     System.out.println(createdMap.toString(idGraph));
                     getController().writeGraph(createdMap,idGraph);
                     if(getController().saveGraph(createdMap,idGraph)){

@@ -88,12 +88,23 @@ public class WriterGraph {
                         // Create a unique representation of the edge
                         String edgeKey = createEdgeKey(edge.getVOrig().getId().toString(), edge.getVDest().getId().toString());
                         if (!processedEdges.contains(edgeKey)) {
-                            processedEdges.add(edgeKey);
-                            treePrintWriter.printf("\"%s\" -- \"%s\" [label = \"%.1f (%s)    \"]%n",
-                                    edge.getVOrig().getId(),
-                                    edge.getVDest().getId(),
-                                    edge.getWeight(),
-                                    edge.getVOrig().getDurationUnit());
+                            if(edge.getVOrig().getId().getSerial() != START_ID_DEFAULT && edge.getVDest().getId().getSerial() != FINISH_ID_DEFAULT) {
+                                processedEdges.add(edgeKey);
+                                treePrintWriter.printf("\"%s\" -- \"%s\" [label = \"%.1f (%s)    \"]%n",
+                                        edge.getVOrig().getId(),
+                                        edge.getVDest().getId(),
+                                        edge.getWeight(),
+                                        edge.getVOrig().getDurationUnit());
+                            }else if(edge.getVOrig().getId().getSerial() != START_ID_DEFAULT){
+                                treePrintWriter.printf("\"%s\" -- \"%s\"%n",
+                                        edge.getVOrig().getId(),
+                                        edge.getVDest().getDescription());
+
+                            }else{
+                                treePrintWriter.printf("\"%s\" -- \"%s\"%n",
+                                        edge.getVOrig().getDescription(),
+                                        edge.getVDest().getId());
+                            }
                         }
                     }
                 }
